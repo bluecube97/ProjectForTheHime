@@ -6,25 +6,27 @@ using UnityEngine.UI;
 
 public class MainLevel_TestFunc : MonoBehaviour
 {
-    public GameObject popupPanel; // 팝업 창을 나타내는 패널
-
+    public GameObject statusPanel; // 스테이터스 패널
+    public GameObject communicationPanel; // 대화하기 패널
     private void Start()
     {
-      
         // 팝업 창을 비활성화합니다.
-        popupPanel.SetActive(false);
+        communicationPanel.SetActive(false);
+        statusPanel.SetActive(false);
     }
 
     // 팝업 창을 표시하는 메서드
     public void ShowPopup()
     {
-        popupPanel.SetActive(true);
+        communicationPanel.SetActive(true);
+        statusPanel.SetActive(true);
     }
 
     // 팝업 창을 닫는 메서드
     public void ClosePopup()
     {
-        popupPanel.SetActive(false);
+        communicationPanel.SetActive(false);
+        statusPanel.SetActive(false);
     }
 
     public void btn_GoOut()
