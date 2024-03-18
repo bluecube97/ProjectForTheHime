@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
 public class MainMenuManager : MonoBehaviour
 {
     // 새로 시작하기 버튼을 클릭하면 호출
