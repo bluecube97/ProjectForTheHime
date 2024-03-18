@@ -23,8 +23,12 @@ public class MainMenuManager : MonoBehaviour
     // }
 
     // 게임 종료 버튼을 클릭하면 호출
-    // public void OnClickExitGame()
-    // {
-    //     
-    // }
+    public void OnClickExitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
 }
