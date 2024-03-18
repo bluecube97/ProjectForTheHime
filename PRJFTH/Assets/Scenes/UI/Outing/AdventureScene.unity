@@ -377,7 +377,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 795633594}
         m_TargetAssemblyTypeName: ESCMenuScript, Assembly-CSharp
         m_MethodName: OnClickLoad
         m_Mode: 1
@@ -852,7 +852,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 795633594}
         m_TargetAssemblyTypeName: ESCMenuScript, Assembly-CSharp
         m_MethodName: OnClickConfig
         m_Mode: 1
@@ -912,6 +912,7 @@ GameObject:
   m_Component:
   - component: {fileID: 795633593}
   - component: {fileID: 795633592}
+  - component: {fileID: 795633594}
   m_Layer: 0
   m_Name: AdventureManager
   m_TagString: Untagged
@@ -946,6 +947,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &795633594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 795633591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0decc3f74bfa3a149beb961244107cd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ESCMenuBackGround: {fileID: 1361308733}
 --- !u!1 &1361308733
 GameObject:
   m_ObjectHideFlags: 0
@@ -1397,7 +1411,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 795633594}
         m_TargetAssemblyTypeName: ESCMenuScript, Assembly-CSharp
         m_MethodName: OnClickExitGame
         m_Mode: 1
