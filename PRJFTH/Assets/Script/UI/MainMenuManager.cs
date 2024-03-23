@@ -7,7 +7,7 @@ public class MainMenuManager : MonoBehaviour
     public void OnClickNewStart()
     {
         // 씬 불러오기 (씬 전환)
-        SceneManager.LoadScene("MainLevel_S");
+        SceneManager.LoadScene("InitUserScene");
     }
 
     // 게임 불러오기 버튼을 클릭하면 호출
