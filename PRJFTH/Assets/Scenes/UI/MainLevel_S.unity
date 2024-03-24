@@ -792,7 +792,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 44832432}
         m_TargetAssemblyTypeName: MainLevel_TestFunc, Assembly-CSharp
         m_MethodName: btn_GoOut
         m_Mode: 1

@@ -31,6 +31,7 @@ public class MainLevel_TestFunc : MonoBehaviour
 
     public void btn_GoOut()
     {
+        SceneManager.LoadScene("OutingScene");
         Debug.Log("외출하기()");
     }
 
