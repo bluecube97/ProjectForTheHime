@@ -123,6 +123,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+<<<<<<< HEAD
 --- !u!1 &39159974
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,6 +328,8 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 102004640}
   m_CullTransparentMesh: 1
+=======
+>>>>>>> main
 --- !u!1 &155485672
 GameObject:
   m_ObjectHideFlags: 0
@@ -366,8 +369,11 @@ RectTransform:
   - {fileID: 1850941643}
   - {fileID: 1127209406}
   - {fileID: 454206718}
+<<<<<<< HEAD
   - {fileID: 163149370}
   - {fileID: 1737153858}
+=======
+>>>>>>> main
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
