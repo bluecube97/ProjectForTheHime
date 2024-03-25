@@ -4,50 +4,5 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/UI/MainMenuScene.unity
-    guid: 144664b4ebfd2ed4682f3808b6027626
-  - enabled: 1
-    path: Assets/Scenes/UI/MainLevel_S.unity
-    guid: 8cfbb720134d8904d8db889a3c2bdb8b
-  - enabled: 1
-<<<<<<< HEAD
-=======
-    path: Assets/Scenes/UI/CheckStatis_S.unity
-    guid: c88bfe83082120e41aedfd0f79f8ff64
-  - enabled: 1
-    path: Assets/Scenes/UI/InitUserScene.unity
-    guid: a1289264c0ee443449967f8f06daa5d9
-  - enabled: 1
->>>>>>> main
-    path: Assets/Scenes/UI/OutingScene.unity
-    guid: 27b6a07c2907627468a29e5d53de4df6
-  - enabled: 1
-    path: Assets/Scenes/UI/Outing/AdventureScene.unity
-    guid: 68873c119c6b4914893b757e9ae78321
-  - enabled: 1
-    path: Assets/Scenes/UI/Outing/ClothingStoreScene.unity
-    guid: a1084f1d011e03d4fac8863f266082df
-  - enabled: 1
-    path: Assets/Scenes/UI/Outing/EducateScene.unity
-    guid: 0420f2aa1d823054d924548cf2ef3bee
-  - enabled: 1
-    path: Assets/Scenes/UI/MainLevel_sel/CheckStatis_S.unity
-    guid: c88bfe83082120e41aedfd0f79f8ff64
-  - enabled: 1
-    path: Assets/Scenes/UI/MainLevel_sel/Comunication_Scence.unity
-    guid: 8600d872285637940a2ca80190649e66
-  - enabled: 1
-    path: Assets/Scenes/UI/Outing/HospitalScene.unity
-    guid: d1c49a529c0c19e4688ad2c762eda651
-  - enabled: 1
-    path: Assets/Scenes/UI/Outing/RestaurantScene.unity
-    guid: aa251e29e307d4c48b8c22076b8bf02d
-  - enabled: 1
-    path: Assets/Scenes/UI/Outing/SmithyScene.unity
-    guid: 894a2072b03e68f4985843c58a90b1cc
-  - enabled: 1
-    path: Assets/Scenes/UI/Outing/VarietyStoreScene.unity
-    guid: 2793b5ec9c4e5d540914d3a807c6abaa
+  m_Scenes: []
   m_configObjects: {}
