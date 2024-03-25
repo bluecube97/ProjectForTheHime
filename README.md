@@ -86,7 +86,7 @@
 * * *
 
 ## 깃허브 데스크탑 추가 설명.
-    ![설명용](https://github.com/bluecube97/ProjectForTheHime/assets/83578340/1d510252-9dd8-40e2-b737-1ba7489d1c8c)
+  ![설명용](https://github.com/bluecube97/ProjectForTheHime/assets/83578340/1d510252-9dd8-40e2-b737-1ba7489d1c8c)
 
   1. Summary : 깃허브에 진행상황을 저장할때의 진행상황의 제목입니다.
   2. Description : 진행상황의 세부 설명정도를 적는 칸 입니다.
