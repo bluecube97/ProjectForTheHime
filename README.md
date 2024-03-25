@@ -42,3 +42,38 @@
       ![힘들다](https://github.com/bluecube97/ProjectForTheHime/assets/83578340/6d67d726-e2a0-401a-a894-e9b65036abc9)
 
   3. 더블클릭하여 프로젝트를 실행해줍니다.
+
+## 브랜치생성법
+  1. 위의 순서대로 따라하셨다면, 초창기의 브랜치는 main입니다.
+    ![메인브랜치](https://github.com/bluecube97/ProjectForTheHime/assets/83578340/370c6eea-22a0-4cda-8d04-f47b0f6064e7)
+
+  2. 중앙의 current branch를 눌러줍니다.
+    ![newbranch](https://github.com/bluecube97/ProjectForTheHime/assets/83578340/73ad708d-df9a-4eb5-90fd-b77e9310ace8)
+
+  3.  New Branch를 눌러 branch를 생성합니다.
+    ![브랜치 생성](https://github.com/bluecube97/ProjectForTheHime/assets/83578340/1e8e1cf6-b32e-4afe-93ee-3f1d98d87543)
+
+  4. Branch의 이름은 자신이 하고싶은대로 해주세요.
+      (예제를 위하여 Test_1브랜치를 생성했습니다.)
+     
+  5. 여기까지 되셨다면 Branch생성은 끝입니다. 마지막으로 프로젝트를 Fetch Origin하여 프로젝트를 패치 해줍니다.
+     ![브랜치생성완료~](https://github.com/bluecube97/ProjectForTheHime/assets/83578340/53e7e616-36cf-4d25-9d26-04eb79fbef36)
+
+## 브랜치 가져오기
+  1. 이제 자신 혹은 프로젝트 팀원이 했었던 진행상황을 패치하는 법 입니다.
+
+  2. 중앙의 Curren Branch를 클릭하여 브랜치 창들을 엽니다.
+    ![브랜치열기](https://github.com/bluecube97/ProjectForTheHime/assets/83578340/d79a35f9-7c6b-45c8-bbf5-c4d945298c2d)
+
+  3. 가져올 버전의 브랜치를 클릭하여줍니다.
+    ![브랜치 갖고오기!](https://github.com/bluecube97/ProjectForTheHime/assets/83578340/75190fb3-6a34-4415-9991-e01c9626e6d9)
+
+  4. 1번 선택지는 자신이 만든 진행상황을 저장하고 선택한 브랜치로 넘어갑니다.(자신의 작업물은 넘어가지 않습니다.)
+     2번 선택지는 자신이 만든 진행상황을 브랜치에 합칩니다.(자신의 작업물과 선택한 브랜치의 내용을 합칩니다.)
+     **진행상황 저장이라면 1번, 결과물을 보시러려면 새로운 브랜치를 만들어 2번을 선택해주세요.**
+    ![스위치](https://github.com/bluecube97/ProjectForTheHime/assets/83578340/b6d383c2-44bf-4c09-a835-1aa89765fd97)
+
+  5. 위 진행상황을 따라하셨다면 브랜치가 변경되었습니다. 생성때처럼 Fetch Origin을 하여 로컬저장소에 진행상황을 Load하여줍니다.
+
+## Main브랜치에 Merge하는법
+  1. 추가하겠습니다. ㅎ;
