@@ -37,4 +37,9 @@ public class OutingManager : MonoBehaviour
     {
         SceneManager.LoadScene("AdventureScene");
     }
+
+    public void OnClickMainLevel()
+    {
+        SceneManager.LoadScene("MainLevel_s");
+    }
 }
