@@ -11,6 +11,8 @@
   > 유니티 허브를 설치한 저장소를 공유하는것이 좋습니다
   > D드라이브에 유니티를 설치하셨다면 WORKSPACE도 D에 만들어주세요.
 
+* * *
+
 ## 깃허브 데스크탑 설치 및 클론.
   1. 깃허브 데스크탑을 설치 합니다.
    
@@ -34,6 +36,8 @@
   9. Pull Origin을 눌러 프로젝트를 생성하여 줍니다.
      ![pull](https://github.com/bluecube97/ProjectForTheHime/assets/83578340/baf021e1-8a01-444b-9011-f526a4d1d7ea)
 
+* * *
+
 ## 클론한 프로젝트를 실행하는법.
   1. **유니티허브**를 실행합니다.
    
@@ -42,6 +46,8 @@
       ![힘들다](https://github.com/bluecube97/ProjectForTheHime/assets/83578340/6d67d726-e2a0-401a-a894-e9b65036abc9)
 
   3. 더블클릭하여 프로젝트를 실행해줍니다.
+
+* * *
 
 ## 브랜치생성법
   1. 위의 순서대로 따라하셨다면, 초창기의 브랜치는 main입니다.
@@ -59,6 +65,8 @@
   5. 여기까지 되셨다면 Branch생성은 끝입니다. 마지막으로 프로젝트를 Fetch Origin하여 프로젝트를 패치 해줍니다.
      ![브랜치생성완료~](https://github.com/bluecube97/ProjectForTheHime/assets/83578340/53e7e616-36cf-4d25-9d26-04eb79fbef36)
 
+* * *
+
 ## 브랜치 가져오기
   1. 이제 자신 혹은 프로젝트 팀원이 했었던 진행상황을 패치하는 법 입니다.
 
@@ -75,5 +83,16 @@
 
   5. 위 진행상황을 따라하셨다면 브랜치가 변경되었습니다. 생성때처럼 Fetch Origin을 하여 로컬저장소에 진행상황을 Load하여줍니다.
 
-## Main브랜치에 Merge하는법
-  1. 추가하겠습니다. ㅎ;
+* * *
+
+## 깃허브 데스크탑 추가 설명.
+    ![설명용](https://github.com/bluecube97/ProjectForTheHime/assets/83578340/1d510252-9dd8-40e2-b737-1ba7489d1c8c)
+
+  1. Summary : 깃허브에 진행상황을 저장할때의 진행상황의 제목입니다.
+  2. Description : 진행상황의 세부 설명정도를 적는 칸 입니다.
+  3. Preview Pull Request : 자신이 한 작업물을 팀원에게 Pull 해달라고 요청하는 버튼입니다.
+     (완성됬다면 팀원에게 알려주고 해주세요. 확인후 Main Branch에 Merge하겠습니다.)
+  4. HIstory : 작업했었던 시간에 따른 Commit한 내용들입니다.
+     (**주의!commit하지않았다면 History에는 없습니다. 작성자 전준도 당했습니다. 조심하세요..**)
+
+
