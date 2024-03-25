@@ -1,37 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class MainLevel_TestFunc : MonoBehaviour
 {
-    public GameObject statusPanel; // 스테이터스 패널
-    public GameObject communicationPanel; // 대화하기 패널
+    // Start is called before the first frame update
     private void Start()
     {
-        // 팝업 창을 비활성화합니다.
-        communicationPanel.SetActive(false);
-        statusPanel.SetActive(false);
     }
 
-    // 팝업 창을 표시하는 메서드
-    public void ShowPopup()
+    // Update is called once per frame
+    private void Update()
     {
-        communicationPanel.SetActive(true);
-        statusPanel.SetActive(true);
-    }
-
-    // 팝업 창을 닫는 메서드
-    public void ClosePopup()
-    {
-        communicationPanel.SetActive(false);
-        statusPanel.SetActive(false);
     }
 
     public void btn_GoOut()
     {
         Debug.Log("외출하기()");
+        SceneManager.LoadScene("OutingScene");
     }
 
     public void btn_CheckSchedule()
@@ -39,18 +24,14 @@ public class MainLevel_TestFunc : MonoBehaviour
         Debug.Log("스케줄확인하기()");
     }
 
-    public void btn_CheckStatus()
+    public void btn_ChcekStatus()
     {
         Debug.Log("상태확인()");
-        // 팝업 창 표시
-        ShowPopup();
     }
 
     public void btn_Communication()
     {
         Debug.Log("대화하기()");
-        ShowPopup();
+        SceneManager.LoadScene("Comunication_Scence");
     }
-
 }
-
