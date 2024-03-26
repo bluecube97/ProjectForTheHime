@@ -1990,6 +1990,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17efcdc9faf692b4bae2ad0e2a13477a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InputUserNameField: {fileID: 409266301}
+  InputUserSexDropDown: {fileID: 965966441}
 --- !u!1 &1781837210
 GameObject:
   m_ObjectHideFlags: 0
