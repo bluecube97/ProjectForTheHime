@@ -45,6 +45,9 @@ EditorBuildSettings:
     path: Assets/Scenes/UI/Outing/RestaurantScene.unity
     guid: aa251e29e307d4c48b8c22076b8bf02d
   - enabled: 1
+    path: Assets/Scenes/UI/Outing/QuestBoardScene.unity
+    guid: df6f1f956cf7f54428322c6398aa08f7
+  - enabled: 1
     path: Assets/Scenes/UI/Outing/SmithyScene.unity
     guid: 894a2072b03e68f4985843c58a90b1cc
   - enabled: 1

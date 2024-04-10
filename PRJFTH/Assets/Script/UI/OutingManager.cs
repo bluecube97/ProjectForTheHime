@@ -32,6 +32,10 @@ public class OutingManager : MonoBehaviour
     {
         SceneManager.LoadScene("HospitalScene");
     }
+    public void OnClickQuestBoard()
+    {
+        SceneManager.LoadScene("QuestBoardScene");
+    }
 
     public void OnClickAdventure()
     {
