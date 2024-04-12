@@ -2107,8 +2107,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: InitUserManager, Assembly-CSharp
+      - m_Target: {fileID: 1777963704}
+        m_TargetAssemblyTypeName: initUserManager, Assembly-CSharp
         m_MethodName: OnClickEnterUserBtn
         m_Mode: 1
         m_Arguments:
