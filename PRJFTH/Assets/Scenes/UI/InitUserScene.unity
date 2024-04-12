@@ -2022,8 +2022,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17efcdc9faf692b4bae2ad0e2a13477a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InputUserNameField: {fileID: 409266301}
-  InputUserSexDropDown: {fileID: 965966441}
+  inputUserNameField: {fileID: 409266301}
+  inputUserSexDropDown: {fileID: 965966441}
 --- !u!1 &1781837210
 GameObject:
   m_ObjectHideFlags: 0
@@ -2107,7 +2107,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1777963704}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: InitUserManager, Assembly-CSharp
         m_MethodName: OnClickEnterUserBtn
         m_Mode: 1
