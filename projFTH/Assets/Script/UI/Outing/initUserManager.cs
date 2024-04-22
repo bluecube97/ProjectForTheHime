@@ -8,7 +8,7 @@ public class initUserManager : MonoBehaviour
     public InputField inputUserNameField;
     public Dropdown inputUserSexDropDown;
 
-    string con = "Server=localhost;Database=projfth;Uid=root;Pwd=1234;Charset=utf8mb4";
+    string con = "Server=localhost;Database=testdb;Uid=root;Pwd=1111;Charset=utf8mb4";
 
      public void OnClickEnterUserBtn()
      {
