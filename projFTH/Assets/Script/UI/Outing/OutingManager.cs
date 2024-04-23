@@ -1,49 +1,53 @@
-using UnityEngine;
-using UnityEngine.SceneManagement;
-
-public class OutingManager : MonoBehaviour
+namespace Script.UI.Outing
 {
-    public void OnClickEdu()
-    {
-        SceneManager.LoadScene("EducateScene");
-    }
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
 
-    public void OnClickRestaurant()
+    public class OutingManager : MonoBehaviour
     {
-        SceneManager.LoadScene("RestaurantScene");
-    }
+        public void OnClickEdu()
+        {
+            SceneManager.LoadScene("EducateScene");
+        }
 
-    public void OnClickSmithy()
-    {
-        SceneManager.LoadScene("SmithyScene");
-    }
+        public void OnClickRestaurant()
+        {
+            SceneManager.LoadScene("RestaurantScene");
+        }
 
-    public void OnClickClothingStore()
-    {
-        SceneManager.LoadScene("ClothingStoreScene");
-    }
+        public void OnClickSmithy()
+        {
+            SceneManager.LoadScene("SmithyScene");
+        }
 
-    public void OnClickVarietyStore()
-    {
-        SceneManager.LoadScene("VarietyStoreScene");
-    }
+        public void OnClickClothingStore()
+        {
+            SceneManager.LoadScene("ClothingStoreScene");
+        }
 
-    public void OnClickHospital()
-    {
-        SceneManager.LoadScene("HospitalScene");
-    }
-    public void OnClickQuestBoard()
-    {
-        SceneManager.LoadScene("QuestBoardScene");
-    }
+        public void OnClickVarietyStore()
+        {
+            SceneManager.LoadScene("VarietyStoreScene");
+        }
 
-    public void OnClickAdventure()
-    {
-        SceneManager.LoadScene("AdventureScene");
-    }
+        public void OnClickHospital()
+        {
+            SceneManager.LoadScene("HospitalScene");
+        }
 
-    public void OnClickMainLevel()
-    {
-        SceneManager.LoadScene("MainLevel_s");
+        public void OnClickQuestBoard()
+        {
+            SceneManager.LoadScene("QuestBoardScene");
+        }
+
+        public void OnClickAdventure()
+        {
+            SceneManager.LoadScene("AdventureScene");
+        }
+
+        public void OnClickMainLevel()
+        {
+            SceneManager.LoadScene("MainLevelScene");
+        }
     }
 }

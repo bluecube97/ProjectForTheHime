@@ -1,12 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-
-public class QuestBoardScene : MonoBehaviour
+namespace Script.UI.Outing
 {
-    public void OnClickReturn()
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
+
+    public class QuestBoardScene : MonoBehaviour
     {
-        SceneManager.LoadScene("OutingScene");
+        public void OnClickReturn()
+        {
+            SceneManager.LoadScene("OutingScene");
+        }
     }
 }
