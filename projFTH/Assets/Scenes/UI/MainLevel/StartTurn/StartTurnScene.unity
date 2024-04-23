@@ -995,9 +995,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: OutingManager, Assembly-CSharp
-        m_MethodName: OnClickMainLevel
+      - m_Target: {fileID: 392147352}
+        m_TargetAssemblyTypeName: Script.UI.MainLevel.StartTurn.StartTurnScene, Assembly-CSharp
+        m_MethodName: OnClickReturn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

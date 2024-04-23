@@ -1,10 +1,13 @@
-using UnityEngine;
-using UnityEngine.SceneManagement;
-
-public class SmithyManager : MonoBehaviour
+namespace Script.UI.Outing
 {
-    public void OnClickReturn()
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
+
+    public class SmithyManager : MonoBehaviour
     {
-        SceneManager.LoadScene("OutingScene");
+        public void OnClickReturn()
+        {
+            SceneManager.LoadScene("OutingScene");
+        }
     }
 }

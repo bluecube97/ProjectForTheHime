@@ -3,7 +3,7 @@ namespace Script.UI.Outing
     using UnityEngine;
     using UnityEngine.SceneManagement;
 
-    public class ClothingStoreManager : MonoBehaviour
+    public class AdventureManager : MonoBehaviour
     {
         public void OnClickReturn()
         {

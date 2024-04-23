@@ -296,7 +296,7 @@ GameObject:
   - component: {fileID: 337896634}
   - component: {fileID: 337896633}
   m_Layer: 5
-  m_Name: btn_GoOut
+  m_Name: GoOutBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -366,9 +366,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 100911474}
-        m_TargetAssemblyTypeName: MainLevel_TestFunc, Assembly-CSharp
-        m_MethodName: btn_GoOut
+      - m_Target: {fileID: 1552389962}
+        m_TargetAssemblyTypeName: Script.UI.MainLevel.MainLevelManager, Assembly-CSharp
+        m_MethodName: GoOutBtn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -429,7 +429,7 @@ GameObject:
   - component: {fileID: 454206720}
   - component: {fileID: 454206719}
   m_Layer: 5
-  m_Name: btn_Communication
+  m_Name: CommunicationBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -499,9 +499,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 100911474}
-        m_TargetAssemblyTypeName: MainLevel_TestFunc, Assembly-CSharp
-        m_MethodName: btn_Communication
+      - m_Target: {fileID: 1552389962}
+        m_TargetAssemblyTypeName: Script.UI.MainLevel.MainLevelManager, Assembly-CSharp
+        m_MethodName: CommunicationBtn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1066,8 +1066,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 337896632}
   - {fileID: 1591225018}
+  - {fileID: 337896632}
   - {fileID: 454206718}
   m_Father: {fileID: 155485673}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1111,6 +1111,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1105224658}
   m_CullTransparentMesh: 1
+--- !u!1 &1552389960
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1552389961}
+  - component: {fileID: 1552389962}
+  m_Layer: 0
+  m_Name: MainLevelManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1552389961
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552389960}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 485.9488, y: 286.59714, z: -10.26894}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1552389962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552389960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 113cc0b73f93c6e409acbecc176e1660, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1591225017
 GameObject:
   m_ObjectHideFlags: 0
@@ -1124,7 +1168,7 @@ GameObject:
   - component: {fileID: 1591225020}
   - component: {fileID: 1591225019}
   m_Layer: 5
-  m_Name: btn_StartTurn
+  m_Name: StartTurnBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1193,7 +1237,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1591225020}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1552389962}
+        m_TargetAssemblyTypeName: Script.UI.MainLevel.MainLevelManager, Assembly-CSharp
+        m_MethodName: StartTurnBtn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1591225020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1320,3 +1376,4 @@ SceneRoots:
   - {fileID: 155485673}
   - {fileID: 519323253}
   - {fileID: 100911473}
+  - {fileID: 1552389961}
