@@ -5,37 +5,22 @@ namespace Script.UI.MainLevel
 
     public class MainLevelManager : MonoBehaviour
     {
-        // Start is called before the first frame update
-        private void Start()
-        {
-        }
-
-        // Update is called once per frame
-        private void Update()
-        {
-        }
-
-        public void btn_GoOut()
+        public void GoOutBtn()
         {
             SceneManager.LoadScene("OutingScene");
             Debug.Log("외출하기()");
             SceneManager.LoadScene("OutingScene");
         }
 
-        public void btn_CheckSchedule()
+        public void StartTurnBtn()
         {
-            Debug.Log("스케줄확인하기()");
+            SceneManager.LoadScene("StartTurnScene");
         }
 
-        public void btn_ChcekStatus()
-        {
-            Debug.Log("상태확인()");
-        }
-
-        public void btn_Communication()
+        public void CommunicationBtn()
         {
             Debug.Log("대화하기()");
-            SceneManager.LoadScene("Comunication_Scence");
+            // SceneManager.LoadScene("CommunicationScene");
         }
     }
 }

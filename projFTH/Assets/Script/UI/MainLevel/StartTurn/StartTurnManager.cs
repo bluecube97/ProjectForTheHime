@@ -14,5 +14,10 @@ namespace Script.UI.MainLevel.StartTurn
         {
             SceneManager.LoadScene("LifeTimeScene");
         }
+
+        public void OnClickReturn()
+        {
+            SceneManager.LoadScene("MainLevelScene");
+        }
     }
 }
