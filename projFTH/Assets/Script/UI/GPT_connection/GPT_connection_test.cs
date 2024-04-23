@@ -2,50 +2,54 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
 
-public class OpenAIApiTest : MonoBehaviour
+public class GPTRequest : MonoBehaviour
 {
-    // OpenAI API Å°
-    string apiKey = "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";
+    // OpenAI API ì—”ë“œí¬ì¸íŠ¸ URL
+    private string gptEndpoint = "https://api.openai.com/v1/completions";
 
-    // Å×½ºÆ®¿ë »ç¿ëÀÚ ÀÔ·Â
-    string userInput = "Hello, GPT!";
+    // OpenAI API ì¸ì¦ í† í°
+    private string apiKey = "sk-proj-3ZLbBHwylhtASxE4BIaMT3BlbkFJh6cUB6QhPVKBieezTqSg";
 
-    // Start is called before the first frame update
+    // GPT ìš”ì²­ì— ì‚¬ìš©ë  í…ìŠ¤íŠ¸
+    private string prompt = "Once upon a time,";
+
     void Start()
     {
-        StartCoroutine(GenerateConversation(userInput));
+        // GPT ìš”ì²­ ë³´ë‚´ê¸°
+        StartCoroutine(SendGPTRequest());
     }
 
-    IEnumerator GenerateConversation(string prompt)
+    IEnumerator SendGPTRequest()
     {
-        // ´ëÈ­ »ı¼º ¿äÃ» º¸³»±â
-        string url = "https://api.openai.com/v1/engines/text-davinci-003/completions";
-        string jsonRequestBody = "{\"prompt\": \"" + prompt + "\", \"max_tokens\": 50, \"temperature\": 0.7}";
+        // GPTì— ë³´ë‚¼ JSON ë°ì´í„° ìƒì„±
+        string jsonData = "{\"model\":\"text-davinci-003\", \"prompt\":\"" + prompt + "\", \"max_tokens\":50}";
 
-        using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
+        // UnityWebRequest ìƒì„±
+        UnityWebRequest request = new UnityWebRequest(gptEndpoint, "POST");
+
+        // ìš”ì²­ í—¤ë” ì„¤ì •
+        request.SetRequestHeader("Content-Type", "application/json");
+        request.SetRequestHeader("Authorization", "Bearer " + apiKey);
+
+        // JSON ë°ì´í„°ë¥¼ ìš”ì²­ì— ì¶”ê°€
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonData);
+        request.uploadHandler = (UploadHandler)new UploadHandlerRaw(bodyRaw);
+        request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+
+        // ìš”ì²­ ë³´ë‚´ê¸°
+        yield return request.SendWebRequest();
+
+        // ìš”ì²­ì´ ì„±ê³µì ìœ¼ë¡œ ì™„ë£Œë˜ì—ˆëŠ”ì§€ í™•ì¸
+        if (request.result == UnityWebRequest.Result.Success)
         {
-            // API Çì´õ ¼³Á¤
-            request.SetRequestHeader("Content-Type", "application/json");
-            request.SetRequestHeader("Authorization", "Bearer " + apiKey);
-
-            // JSON ¿äÃ» º»¹® ¼³Á¤
-            byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonRequestBody);
-            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-            request.downloadHandler = new DownloadHandlerBuffer();
-
-            // ¿äÃ» º¸³»±â
-            yield return request.SendWebRequest();
-
-            // ¿äÃ» ¿Ï·á ÈÄ Ã³¸®
-            if (request.result == UnityWebRequest.Result.Success)
-            {
-                string responseText = request.downloadHandler.text;
-                Debug.Log("AI Response: " + responseText);
-            }
-            else
-            {
-                Debug.LogError("Error generating conversation: " + request.error);
-            }
+            // ì‘ë‹µ í…ìŠ¤íŠ¸ ë°›ê¸°
+            string responseText = request.downloadHandler.text;
+            Debug.Log("GPT ì‘ë‹µ: " + responseText);
+        }
+        else
+        {
+            // ìš”ì²­ì´ ì‹¤íŒ¨í•œ ê²½ìš° ì˜¤ë¥˜ ë©”ì‹œì§€ ì¶œë ¥
+            Debug.LogError("GPT ìš”ì²­ ì‹¤íŒ¨: " + request.error);
         }
     }
 }
