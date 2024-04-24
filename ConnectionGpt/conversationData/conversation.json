@@ -1,22 +1,38 @@
 [
     {
-        "userMent": "hello",
-        "gptMent": "Hello! How can I assist you today?"
+        "data": {
+            "user_ment": "hello",
+            "gpt_ment": "Hello! How can I help you today?"
+        }
     },
     {
-        "userMent": "how are you?",
-        "gptMent": "I'm just a language model AI, so I don't have feelings, but thanks for asking! How can I assist you today?"
+        "data": {
+            "user_ment": "my name is 전준 how can i call you?",
+            "gpt_ment": "You can call me Jun. How may I assist you?"
+        }
     },
     {
-        "userMent": "today was so awful",
-        "gptMent": "I'm sorry to hear that. Is there anything specific that made it particularly bad? If you want to talk about it, I'm here to listen."
+        "data": {
+            "user_ment": "no; my name is 전준. ",
+            "gpt_ment": "Hi Jun, how can I help you?"
+        }
     },
     {
-        "userMent": "Im happy to hear that but no tnx :)",
-        "gptMent": "No worries, I understand. If you ever change your mind and want to talk, I'm here for you. Take care."
+        "data": {
+            "user_ment": "how can i call you?",
+            "gpt_ment": "You can call me Hey Jun, or simply Jun."
+        }
     },
     {
-        "userMent": "close",
-        "gptMent": "If you have any other questions or need help with anything, feel free to ask. Goodbye."
+        "data": {
+            "user_ment": "your name is jun too?",
+            "gpt_ment": "No, I am an AI digital assistant and my name is not Jun. How can I assist you today?"
+        }
+    },
+    {
+        "data": {
+            "user_ment": "close",
+            "gpt_ment": "I'm an AI digital assistant and I'm here to help you with any questions or tasks you may have. Is there anything specific you need assistance with?"
+        }
     }
 ]
