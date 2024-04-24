@@ -1,22 +1,22 @@
 [
     {
-        "user_ment": "hello",
-        "gpt_ment": "Hello! How can I assist you today?"
+        "userMent": "hello",
+        "gptMent": "Hello! How can I assist you today?"
     },
     {
-        "user_ment": "how are you?",
-        "gpt_ment": "I'm just a language model AI, so I don't have feelings, but thanks for asking! How can I assist you today?"
+        "userMent": "how are you?",
+        "gptMent": "I'm just a language model AI, so I don't have feelings, but thanks for asking! How can I assist you today?"
     },
     {
-        "user_ment": "today was so awful",
-        "gpt_ment": "I'm sorry to hear that. Is there anything specific that made it particularly bad? If you want to talk about it, I'm here to listen."
+        "userMent": "today was so awful",
+        "gptMent": "I'm sorry to hear that. Is there anything specific that made it particularly bad? If you want to talk about it, I'm here to listen."
     },
     {
-        "user_ment": "Im happy to hear that but no tnx :)",
-        "gpt_ment": "No worries, I understand. If you ever change your mind and want to talk, I'm here for you. Take care."
+        "userMent": "Im happy to hear that but no tnx :)",
+        "gptMent": "No worries, I understand. If you ever change your mind and want to talk, I'm here for you. Take care."
     },
     {
-        "user_ment": "close",
-        "gpt_ment": "If you have any other questions or need help with anything, feel free to ask. Goodbye."
+        "userMent": "close",
+        "gptMent": "If you have any other questions or need help with anything, feel free to ask. Goodbye."
     }
 ]
