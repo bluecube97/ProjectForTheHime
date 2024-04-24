@@ -1,0 +1,32 @@
+{
+  "data": [
+    {
+      "userMent": "hello",
+      "gptMent": "Hello! How can I assist you today?"
+    },
+    {
+      "userMent": "how are you?",
+      "gptMent": "I'm just a language model AI, so I don't have feelings, but thanks for asking! How can I assist you today?"
+    },
+    {
+      "userMent": "today was so awful",
+      "gptMent": "I'm sorry to hear that. Is there anything specific that made it particularly bad? If you want to talk about it, I'm here to listen."
+    },
+    {
+      "userMent": "Im happy to hear that but no tnx :)",
+      "gptMent": "No worries, I understand. If you ever change your mind and want to talk, I'm here for you. Take care."
+    },
+    {
+      "userMent": "close",
+      "gptMent": "If you have any other questions or need help with anything, feel free to ask. Goodbye."
+    },
+    {
+      "userMent": "asdf",
+      "gptMent": ""
+    },
+    {
+      "userMent": "qwer",
+      "gptMent": ""
+    }
+  ]
+}
