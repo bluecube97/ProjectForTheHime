@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Script.UI.System
@@ -9,38 +10,38 @@ namespace Script.UI.System
     public class ConvJson : MonoBehaviour
     {
         public string filePath = "Assets/JSON/conversation.json";
-        public InputField InputDataField;
-        public Text OutputDataText;
+        public InputField inputDataField;
+        public Text outputDataText;
 
-        private RootObject rootObject;
+        private RootObject _rootObject;
 
         private void Start()
         {
-            OutputDataText.text = "abc";
+            outputDataText.text = "abc";
             LoadJsonData();
         }
 
         private void LoadJsonData()
         {
             string jsonContent = File.ReadAllText(filePath);
-            rootObject = JsonUtility.FromJson<RootObject>(jsonContent);
+            _rootObject = JsonUtility.FromJson<RootObject>(jsonContent);
 
-            for (int i = 0; i < rootObject.data.Count; i++)
+            for (int i = 0; i < _rootObject.data.Count; i++)
             {
-                string uMent = rootObject.data[i].userMent;
-                string gMent = rootObject.data[i].gptMent;
+                string uMent = _rootObject.data[i].userMent;
+                string gMent = _rootObject.data[i].gptMent;
                 Debug.Log("userMent " + (i + 1) + ": " + uMent);
                 Debug.Log("gptMent " + (i + 1) + ": " + gMent);
             }
-            OutputDataText.text = rootObject.data[0].gptMent;
+            outputDataText.text = _rootObject.data[0].gptMent;
         }
 
         public void OnButtonClick()
         {
-            string inputText = InputDataField.text;
-            rootObject.data.Add(new ObjectData { userMent = inputText});
+            string inputText = inputDataField.text;
+            _rootObject.data.Add(new ObjectData { userMent = inputText});
 
-            string jsonContent = JsonUtility.ToJson(rootObject);
+            string jsonContent = JsonUtility.ToJson(_rootObject);
             File.WriteAllText(filePath, jsonContent);
         }
 
