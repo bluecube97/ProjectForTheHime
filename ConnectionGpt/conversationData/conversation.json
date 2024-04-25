@@ -1,38 +1,248 @@
 [
     {
         "data": {
-            "user_ment": "hello",
-            "gpt_ment": "Hello! How can I help you today?"
+            "question": "안녕?",
+            "response": "반가워요"
         }
     },
     {
         "data": {
-            "user_ment": "my name is 전준 how can i call you?",
-            "gpt_ment": "You can call me Jun. How may I assist you?"
+            "question": "이름이 뭐에요?",
+            "response": "제 이름은 전준 이에요"
         }
     },
     {
         "data": {
-            "user_ment": "no; my name is 전준. ",
-            "gpt_ment": "Hi Jun, how can I help you?"
+            "question": "& E:/python.exe e:/prj/ConnectionGpt/jsonRe.py",
+            "response": "헬로우"
         }
     },
     {
         "data": {
-            "user_ment": "how can i call you?",
-            "gpt_ment": "You can call me Hey Jun, or simply Jun."
+            "question": "하이",
+            "response": "& E:/python.exe e:/prj/ConnectionGpt/jsonRe.py"
         }
     },
     {
         "data": {
-            "user_ment": "your name is jun too?",
-            "gpt_ment": "No, I am an AI digital assistant and my name is not Jun. How can I assist you today?"
+            "question": "안녕?",
+            "response": "안녕 ㅎㅎ"
         }
     },
     {
         "data": {
-            "user_ment": "close",
-            "gpt_ment": "I'm an AI digital assistant and I'm here to help you with any questions or tasks you may have. Is there anything specific you need assistance with?"
+            "question": "반가워",
+            "response": "반갑지않아"
+        }
+    },
+    {
+        "data": {
+            "question": "& E:/python.exe e:/prj/ConnectionGpt/jsonRe.py",
+            "response": "hi"
+        }
+    },
+    {
+        "data": {
+            "question": "hello",
+            "response": "hi?"
+        }
+    },
+    {
+        "data": {
+            "question": "helloe?",
+            "response": "nice to meet you"
+        }
+    },
+    {
+        "data": {
+            "question": "& E:/python.exe e:/prj/ConnectionGpt/jsonRe.py",
+            "response": "됏나?"
+        }
+    },
+    {
+        "data": {
+            "question": "모르겠는데",
+            "response": "왜 안되지?"
+        }
+    },
+    {
+        "data": {
+            "question": "& E:/python.exe e:/prj/ConnectionGpt/jsonRe.py",
+            "response": "ㅁㄴㅇ"
+        }
+    },
+    {
+        "data": {
+            "question": "ㅁㄴㅇ",
+            "response": "ㅁㄴㅇ"
+        }
+    },
+    {
+        "data": {
+            "question": "ㅁㄴㅇ",
+            "response": "ㅁㄴㅇ"
+        }
+    },
+    {
+        "data": {
+            "question": "ㅇㄴ",
+            "response": "ㅁ"
+        }
+    },
+    {
+        "data": {
+            "question": "& E:/python.exe e:/prj/ConnectionGpt/jsonRe.py",
+            "response": "ㅁㄴㅇ"
+        }
+    },
+    {
+        "data": {
+            "question": "ㅇㄴㅁ",
+            "response": "아야"
+        }
+    },
+    {
+        "data": {
+            "question": "니이",
+            "response": "가"
+        }
+    },
+    {
+        "data": {
+            "question": "& E:/python.exe e:/prj/ConnectionGpt/jsonRe.py",
+            "response": "ㅁㄴㅇㅁ"
+        }
+    },
+    {
+        "data": {
+            "question": "ㅇㄴㅁㅇㅁ",
+            "response": "ㅁㄴㅇㅁㄴㅇㅁㄴㅇ"
+        }
+    },
+    {
+        "data": {
+            "question": "ㅁㅇㄴㅇㅁㄴㅇ",
+            "response": "ㅁㄴㅇㅁㄴㅇ"
+        }
+    },
+    {
+        "data": {
+            "question": "ㅇㄴㅁㅇ",
+            "response": "ㅇㄴㅁㅇㄴ"
+        }
+    },
+    {
+        "data": {
+            "question": "ㅁㄴㅇ",
+            "response": "ㅇ"
+        }
+    },
+    {
+        "data": {
+            "question": "",
+            "response": "ㅁㅇ"
+        }
+    },
+    {
+        "data": {
+            "question": "ㅁㄴㅇ",
+            "response": "ㅁㄴㅇ"
+        }
+    },
+    {
+        "data": {
+            "question": "ㅁㄴㅇ",
+            "response": "ㅁㄴㅇ"
+        }
+    },
+    {
+        "data": {
+            "question": "ㅁ",
+            "response": "ㅁㄴ"
+        }
+    },
+    {
+        "data": {
+            "question": "ㅇ& E:/python.exe e:/prj/ConnectionGpt/jsonRe.py",
+            "response": "ㅁㄴㅇㅁㄴㅇ"
+        }
+    },
+    {
+        "data": {
+            "question": "ㅁㄴㅇㅁㄴㅇ",
+            "response": "ㅇㄴㄴㅁㄴㅇ"
+        }
+    },
+    {
+        "data": {
+            "question": "왜",
+            "response": "안돼"
+        }
+    },
+    {
+        "data": {
+            "question": "시@빨 짜증나네 슬슬",
+            "response": "ㅋㅋ"
+        }
+    },
+    {
+        "data": {
+            "question": "& E:/python.exe e:/prj/ConnectionGpt/jsonRe.py",
+            "response": "일이삼사"
+        }
+    },
+    {
+        "data": {
+            "question": "오육칠팔",
+            "response": "& E:/python.exe e:/prj/ConnectionGpt/jsonRe.py"
+        }
+    },
+    {
+        "data": {
+            "question": "& E:/python.exe e:/prj/ConnectionGpt/jsonRe.py",
+            "response": "ㅁㄴㅇㅁㄴㅇ"
+        }
+    },
+    {
+        "data": {
+            "question": "ㅁㄴㅇㅁㄴ",
+            "response": "ㅇㅁㄴㅇ"
+        }
+    },
+    {
+        "data": {
+            "question": "ㅁㄴㅇ",
+            "response": "ㅁ"
+        }
+    },
+    {
+        "data": {
+            "question": "ㅁㄴ",
+            "response": "close"
+        }
+    },
+    {
+        "data": {
+            "question": "아아",
+            "response": "마이크테스트"
+        }
+    },
+    {
+        "data": {
+            "question": "원투원투",
+            "response": "원투원투"
+        }
+    },
+    {
+        "data": {
+            "question": "안녕하세요?",
+            "response": "반갑습니다"
+        }
+    },
+    {
+        "data": {
+            "question": "마지막",
+            "response": "데이터"
         }
     }
 ]
