@@ -1,0 +1,38 @@
+[
+    {
+        "data": {
+            "user_ment": "hello",
+            "gpt_ment": "Hello! How can I help you today?"
+        }
+    },
+    {
+        "data": {
+            "user_ment": "my name is 전준 how can i call you?",
+            "gpt_ment": "You can call me Jun. How may I assist you?"
+        }
+    },
+    {
+        "data": {
+            "user_ment": "no; my name is 전준. ",
+            "gpt_ment": "Hi Jun, how can I help you?"
+        }
+    },
+    {
+        "data": {
+            "user_ment": "how can i call you?",
+            "gpt_ment": "You can call me Hey Jun, or simply Jun."
+        }
+    },
+    {
+        "data": {
+            "user_ment": "your name is jun too?",
+            "gpt_ment": "No, I am an AI digital assistant and my name is not Jun. How can I assist you today?"
+        }
+    },
+    {
+        "data": {
+            "user_ment": "close",
+            "gpt_ment": "I'm an AI digital assistant and I'm here to help you with any questions or tasks you may have. Is there anything specific you need assistance with?"
+        }
+    }
+]
