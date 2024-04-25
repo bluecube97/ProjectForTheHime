@@ -8,13 +8,13 @@ namespace Script.UI.Outing
     public class RestaurantManager : MonoBehaviour
     {
         private static RestaurantManager instance; // ESC메뉴의 인스턴스
-        public GameObject EatMenu; // 설정 패널 오브젝트
-        public GameObject SellMenu; // 설정 패널 오브젝트
-        public GameObject BuyMenu; // 설정 패널 오브젝트
+        public GameObject EatMenu; // 식사 패널 오브젝트
+        public GameObject SellMenu; // 판매 패널 오브젝트
+        public GameObject BuyMenu; // 구매 패널 오브젝트
 
-        private bool EatMenuActive; // 설정 화면 활성화 여부
-        private bool SellMenuActive; // 설정 화면 활성화 여부
-        private bool BuyMenuActive; // 설정 화면 활성화 여부
+        private bool EatMenuActive; // 식사 화면 활성화 여부
+        private bool SellMenuActive; // 판매 화면 활성화 여부
+        private bool BuyMenuActive; // 구매 화면 활성화 여부
 
         public static RestaurantManager Instance
         {
@@ -25,7 +25,7 @@ namespace Script.UI.Outing
                 {
                     instance = FindObjectOfType<RestaurantManager>();
 
-                    // 씬에 ESC메뉴가 없다면 새로 생성
+                    // 씬에 메뉴가 없다면 새로 생성
                     if (instance == null)
                     {
                         var obj = new GameObject();
@@ -58,7 +58,7 @@ namespace Script.UI.Outing
         public void OnClickSelling()
         {
 
-            // ESC메뉴가 활성화 되어있지 않다면
+            // 판매메뉴가 활성화 되어있지 않다면
           
                 ActivateSellMenu();
             }
@@ -72,7 +72,7 @@ namespace Script.UI.Outing
         public void OnClickBuying()
         {
 
-            // ESC메뉴가 활성화 되어있지 않다면
+            // 구매메뉴가 활성화 되어있지 않다면
            
            
                 ActivateBuyMenu();
