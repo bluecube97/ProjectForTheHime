@@ -89,7 +89,7 @@ def main():
         
         messages = [
             {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": f"Role-play a conversation between your father or user. Here's your status: {json.dumps(daughter_status, ensure_ascii=False)}. And also I want to get your key's and value's in last sentence"}
+            {"role": "user", "content": f"Role-play a conversation between your father or user. Here's your status: {json.dumps(daughter_status, ensure_ascii=False)}. And also I want to get your key's and value's in last sentence. Understand the feeling of the user's words yourself and fine-tune the key values."}
         ]
         father_chat(messages, daughter_status)  # daughter_status를 father_chat 함수에 전달
         print("전체 대화 히스토리:")
