@@ -17,7 +17,7 @@ namespace Script.UI.System
 
         private void Start()
         {
-            outputDataText.text = "abc";
+            // outputDataText.text = "abc";
             LoadJsonData();
         }
 
@@ -33,7 +33,9 @@ namespace Script.UI.System
                 Debug.Log("userMent " + (i + 1) + ": " + uMent);
                 Debug.Log("gptMent " + (i + 1) + ": " + gMent);
             }
-            outputDataText.text = _rootObject.data[0].gptMent;
+
+            // data의 마지막 인덱스 출력
+            outputDataText.text = _rootObject.data[_rootObject.data.Count - 1].gptMent;
         }
 
         public void OnButtonClick()
