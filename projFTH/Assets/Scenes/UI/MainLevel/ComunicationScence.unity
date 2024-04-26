@@ -1517,8 +1517,6 @@ GameObject:
   - component: {fileID: 2069051101}
   - component: {fileID: 2069051100}
   - component: {fileID: 2069051104}
-  - component: {fileID: 2069051106}
-  - component: {fileID: 2069051105}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1621,57 +1619,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9756f8908cb0d0848a06b1d24e001006, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2069051105
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2069051099}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bec29c0a230741bdac901dba8da47ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  yarnProject: {fileID: 7545569452688597077, guid: d441fd0301eab2b4fbea581af062b06c, type: 3}
-  _variableStorage: {fileID: 0}
-  dialogueViews:
-  - {fileID: 906359388}
-  - {fileID: 1391042790}
-  startNode: Start
-  startAutomatically: 1
-  runSelectedOptionAsLine: 0
-  lineProvider: {fileID: 0}
-  verboseLogging: 1
-  onNodeStart:
-    m_PersistentCalls:
-      m_Calls: []
-  onNodeComplete:
-    m_PersistentCalls:
-      m_Calls: []
-  onDialogueStart:
-    m_PersistentCalls:
-      m_Calls: []
-  onDialogueComplete:
-    m_PersistentCalls:
-      m_Calls: []
-  onCommand:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &2069051106
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2069051099}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 610c541718d694070a21327d1ae62e75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  showDebug: 0
-  debugTextView: {fileID: 0}
 --- !u!1 &2073013994
 GameObject:
   m_ObjectHideFlags: 0
