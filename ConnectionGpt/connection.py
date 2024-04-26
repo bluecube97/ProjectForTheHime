@@ -2,87 +2,61 @@ import json
 import openai
 import os
 
-# 현재 스크립트의 경로
-current_directory = os.path.dirname(__file__)
-
-# conversation.json 상대경로
-relative_path = "conversationData/conversation.json"
-# 절대경로 변환
-absolute_path = os.path.join(current_directory, relative_path)
-
 # OpenAI API 키 설정
 openai.api_key = "sk-proj-3ZLbBHwylhtASxE4BIaMT3BlbkFJh6cUB6QhPVKBieezTqSg"
-# 이전 대화 결과 초기화
-previous_completion = None
 
-# 전체 대화 내용 저장용 리스트
-conversation = []
+# communication.json 파일의 상대경로 설정
+current_directory = os.path.dirname(__file__)
+relative_path = "conversationData/communication.json"
+communication_path = os.path.join(current_directory, relative_path)
 
-# 현재 대화 내용 저장용 리스트 파일이 초기화 되도록 설계
-communication_ = []
-
-# communication.json 파일 읽고 덮어쓰기
+# communication.json 파일 초기화 및 데이터 적재 함수
 def read_comm_file(question, response):
-    commu = {"user_ment": question, "gpt_ment": response}
-    communication_path = os.path.join(current_directory, "conversationData", "communication.json")
-
-    # communication.json 파일을 저장할 폴더가 없을 경우 폴더를 생성합니다.
-    if not os.path.exists(os.path.dirname(communication_path)):
-        os.makedirs(os.path.dirname(communication_path))
-
-    # 파일이 존재하지 않는 경우 새로운 파일을 생성하여 데이터를 저장
+    # communication.json 파일이 존재하지 않을 경우 초기화
     if not os.path.exists(communication_path):
-        communication_.append(commu)
-        with open(communication_path, 'w') as f:
-            json.dump(communication_, f, indent=4)
+        communication_data = []
     else:
-        # 파일이 존재하는 경우 기존 파일을 열어서 데이터를 읽고 덮어쓰기
-        communication_.append(commu)
+        # 파일이 존재할 경우 기존 데이터 로드
         with open(communication_path, 'r') as f:
-            current_communication = json.load(f)
-        current_communication.append(commu)
-        with open(communication_path, 'w') as f:
-            json.dump(current_communication, f, indent=4)
+            communication_data = json.load(f)
 
-# gpt 대화
-while (True):
-    question = input("user: ")
+    # 새로운 대화 데이터 적재
+    new_entry = {"user_ment": question, "gpt_ment": response}
+    communication_data.append(new_entry)
 
-    # 이전 대화 결과를 다음 대화의 입력으로 사용
-    messages = [{"role": "user", "content": question}]
-    if previous_completion:
-        messages.append({"role": "assistant", "content": previous_completion.choices[0].message.content})
+    # communication.json 파일에 데이터 적재
+    with open(communication_path, 'w') as f:
+        json.dump(communication_data, f, ensure_ascii=False, indent=4)
 
-    # OpenAI API를 사용하여 대화 생성 요청 보내기
-    completion = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo-1106",  # 사용할 모델
-        messages=messages
-    )
-    response = completion.choices[0].message.content.strip()
-    print("gpt:", response)
+# 전체 대화 데이터 저장용 리스트
+data = []
 
-    previous_completion = completion
-
-    # 대화 내용을 전체파일로 저장할때 사용 parameter 값 추가될 예정.
-    message = {"data": 
-               {"user_ment": question,
-                 "gpt_ment": response}
-                 }
-
-    read_comm_file(question, response)
-    
-    conversation.append("{data}")
-    conversation.append(message)
-
-    # 대화 종료 이벤트
-    if question.lower() == "close":
+# 사용자와 GPT 대화 반복
+while True:
+    user_ment = input("사용자 질문을 입력하세요 (종료하려면 'close' 입력): ")
+    if user_ment.lower() == "close":
         break
+    gpt_ment = input("GPT 대답을 입력하세요: ")
 
-# 전체 대화 내용 json파일 저장
-with open(absolute_path, 'w', encoding='UTF-8') as file:
-    json.dump(conversation, file, ensure_ascii=False, indent=4)
+    # 사용자 질문과 GPT 대답을 data 형식으로 구성하여 data 리스트에 추가
+    message = {
+        "user_ment": user_ment,
+        "gpt_ment": gpt_ment
+    }
+    data.append(message)
 
+    # communication.json 파일에 데이터 적재
+    read_comm_file(user_ment, gpt_ment)
 
+# 데이터가 쌓인 후에는 "data" 키를 가진 딕셔너리로 구성
+data_dict = {"data": data}
+
+# conversation.json 파일에 데이터 저장
+file_path = os.path.join("conversationData", "conversation.json")
+with open(file_path, 'w', encoding='UTF-8') as file:
+    json.dump(data_dict, file, ensure_ascii=False, indent=4)
+
+print("대화 데이터가 저장되었습니다.")
 
 # 1. parameter값이 전체적으로 들어가는 : Parameter.json
 # 2. ques 와 resp만 들어가는 : Conversation.json

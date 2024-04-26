@@ -12,11 +12,11 @@
         "gpt_ment": "Hello! How can I help you today?"
     },
     {
-        "user_ment": "my name is \uc804\uc900 how can i call you?",
+        "user_ment": "my name is 전준 how can i call you?",
         "gpt_ment": "You can call me Jun. How may I assist you?"
     },
     {
-        "user_ment": "no; my name is \uc804\uc900. ",
+        "user_ment": "no; my name is 전준. ",
         "gpt_ment": "Hi Jun, how can I help you?"
     },
     {
@@ -44,19 +44,63 @@
         "gpt_ment": "It looks like you are trying to run a Python script called \"connection.py\" located in the directory \"c:/DevTool/workspace/UnityPJ/ProjectForTheHime/ConnectionGpt/\". The command is using Python version 3.12 to run the script.\n\nIf you are encountering any issues with running the script, make sure that the Python interpreter is installed correctly and that the path to the script is accurate. Additionally, check for any errors or exceptions that are being raised when running the script. If you need further assistance, please provide more specific details about the problem you are facing."
     },
     {
-        "user_ment": "\uc548\ub155?",
-        "gpt_ment": "\uc548\ub155\ud558\uc138\uc694! \ubb34\uc5c7\uc744 \ub3c4\uc640\ub4dc\ub9b4\uae4c\uc694?"
+        "user_ment": "안녕?",
+        "gpt_ment": "안녕하세요! 무엇을 도와드릴까요?"
     },
     {
         "user_ment": "& C:/DevTool/Python/Python312/python.exe c:/DevTool/workspace/UnityPJ/ProjectForTheHime/ConnectionGpt/inputCharStatus.py",
-        "gpt_ment": "\uc8c4\uc1a1\ud569\ub2c8\ub2e4. \ud574\ub2f9 \uba85\ub839\uc5b4\ub098 \uacbd\ub85c\uc5d0 \ub300\ud574\uc11c\ub294 \ub3c4\uc6c0\uc744 \ub4dc\ub9b4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4. \ub354 \ub3c4\uc640\ub4dc\ub9b4 \uc218 \uc788\ub294 \ub2e4\ub978 \ubb38\uc81c\uac00 \uc788\ub098\uc694?"
+        "gpt_ment": "죄송합니다. 해당 명령어나 경로에 대해서는 도움을 드릴 수 없습니다. 더 도와드릴 수 있는 다른 문제가 있나요?"
     },
     {
         "user_ment": "& C:/DevTool/Python/Python312/python.exe c:/DevTool/workspace/UnityPJ/ProjectForTheHime/ConnectionGpt/inputCharStatus.py",
-        "gpt_ment": "\uc774 \uba85\ub839\uc5b4\ub294 Python \uc778\ud130\ud504\ub9ac\ud130\ub97c \uc0ac\uc6a9\ud558\uc5ec \"inputCharStatus.py\"\ub77c\ub294 Python \uc2a4\ud06c\ub9bd\ud2b8\ub97c \uc2e4\ud589\ud558\ub294 \uac83\uc73c\ub85c \ubcf4\uc785\ub2c8\ub2e4. \uc2a4\ud06c\ub9bd\ud2b8\uc758 \uacbd\ub85c\uac00 \uc62c\ubc14\ub978\uc9c0 \ud655\uc778\ud558\uace0 \ud574\ub2f9 \uc2a4\ud06c\ub9bd\ud2b8\uac00 \uc788\ub294 \ub514\ub809\ud1a0\ub9ac\ub85c \uc774\ub3d9\ud55c \ud6c4 \uba85\ub839\uc5b4\ub97c \uc2e4\ud589\ud574 \ubcf4\uc138\uc694. \ud544\uc694\ud558\ub2e4\uba74 \uc2a4\ud06c\ub9bd\ud2b8 \ud30c\uc77c\uc774 \uc62c\ubc14\ub974\uac8c \uc791\uc131\ub418\uc5c8\ub294\uc9c0\ub3c4 \ud655\uc778\ud574\uc57c \ud569\ub2c8\ub2e4."
+        "gpt_ment": "이 명령어는 Python 인터프리터를 사용하여 \"inputCharStatus.py\"라는 Python 스크립트를 실행하는 것으로 보입니다. 스크립트의 경로가 올바른지 확인하고 해당 스크립트가 있는 디렉토리로 이동한 후 명령어를 실행해 보세요. 필요하다면 스크립트 파일이 올바르게 작성되었는지도 확인해야 합니다."
     },
     {
         "user_ment": "& C:/DevTool/Python/Python312/python.exe c:/DevTool/workspace/UnityPJ/ProjectForTheHime/ConnectionGpt/inputCharStatus.py",
-        "gpt_ment": "\uc774 \uba85\ub839\uc740 C:/DevTool/Python/Python312/python.exe \uacbd\ub85c\uc5d0 \uc788\ub294 Python \uc778\ud130\ud504\ub9ac\ud130\ub97c \uc0ac\uc6a9\ud558\uc5ec c:/DevTool/workspace/UnityPJ/ProjectForTheHime/ConnectionGpt/inputCharStatus.py \ud30c\uc77c\uc744 \uc2e4\ud589\ud558\ub294 \uac83\uc73c\ub85c \ubcf4\uc785\ub2c8\ub2e4. \uc774 \uba85\ub839\uc744 \uc2e4\ud589\ud558\uba74 inputCharStatus.py \ud30c\uc77c\uc774 python.exe\ub97c \ud1b5\ud574 \uc2e4\ud589\ub420 \uac83\uc785\ub2c8\ub2e4."
+        "gpt_ment": "이 명령은 C:/DevTool/Python/Python312/python.exe 경로에 있는 Python 인터프리터를 사용하여 c:/DevTool/workspace/UnityPJ/ProjectForTheHime/ConnectionGpt/inputCharStatus.py 파일을 실행하는 것으로 보입니다. 이 명령을 실행하면 inputCharStatus.py 파일이 python.exe를 통해 실행될 것입니다."
+    },
+    {
+        "user_ment": "안녕?",
+        "gpt_ment": "안녕하세요! 무엇을 도와드릴까요?"
+    },
+    {
+        "user_ment": "내 이름은 전 준이야",
+        "gpt_ment": "만나서 반가워요, 전 준님. 무엇을 도와드릴까요?"
+    },
+    {
+        "user_ment": "close",
+        "gpt_ment": "최고의 서비스를 경험하고 싶을 때 저희와 함께해보세요. 완벽한 결과물을 만들기 위해 최선을 다하겠습니다. 함께 할 수 있어 기쁩니다. 어떻게 시작할까요?"
+    },
+    {
+        "user_ment": "안녕?",
+        "gpt_ment": "안녕하세요! 무엇을 도와드릴까요?"
+    },
+    {
+        "user_ment": "반가워",
+        "gpt_ment": "안녕하세요! 만나서 반가워요. 무엇을 도와드릴까요?"
+    },
+    {
+        "user_ment": "close",
+        "gpt_ment": "정말 감사합니다! 그럼 이만큼 가겠습니다. 좋은 하루 되세요!"
+    },
+    {
+        "user_ment": "test",
+        "gpt_ment": "Welcome to the test environment! What would you like to test today?"
+    },
+    {
+        "user_ment": "test2",
+        "gpt_ment": "Hello! This is an example response for the input \"test2\". How can I assist you today?"
+    },
+    {
+        "user_ment": "close",
+        "gpt_ment": "Sorry about that - it seems there was a mistake. If you need any assistance, feel free to ask!"
+    },
+    {
+        "user_ment": "안녕?",
+        "gpt_ment": "헉"
+    },
+    {
+        "user_ment": "야이",
+        "gpt_ment": "새기야"
     }
 ]
