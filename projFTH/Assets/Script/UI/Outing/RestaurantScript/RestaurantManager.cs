@@ -3,7 +3,9 @@ namespace Script.UI.Outing
     using global::System;
     using System;
     using UnityEngine;
+    using UnityEngine.EventSystems;
     using UnityEngine.SceneManagement;
+    using UnityEngine.UIElements;
 
     public class RestaurantManager : MonoBehaviour
     {
@@ -11,6 +13,7 @@ namespace Script.UI.Outing
         public GameObject EatMenu; // 식사 패널 오브젝트
         public GameObject SellMenu; // 판매 패널 오브젝트
         public GameObject BuyMenu; // 구매 패널 오브젝트
+        public GameObject ChiceUi; // 구매 패널 오브젝트
 
         private bool EatMenuActive; // 식사 화면 활성화 여부
         private bool SellMenuActive; // 판매 화면 활성화 여부
@@ -32,7 +35,9 @@ namespace Script.UI.Outing
                         obj.name = "EatMenu";
                         obj.name = "SellMenu";
                         obj.name = "BuyMenu";
+                        obj.name = "ChiceUi";
 
+                        
                         instance = obj.AddComponent<RestaurantManager>();
                     }
                 }
@@ -83,7 +88,21 @@ namespace Script.UI.Outing
             DeactivateBuyMenu();
             }
 
-        
+        public void OnClickChiceUi()
+        {
+
+            // 구매메뉴가 활성화 되어있지 않다면
+            ActivateChiceUi();
+
+        }
+        public void OnClickChiceUiOut()
+
+        {
+            DeactivateChiceUi();
+        }
+
+       
+
 
 
 
@@ -114,6 +133,17 @@ namespace Script.UI.Outing
         {
             BuyMenu.SetActive(false);
         }
+
+        private void ActivateChiceUi()
+        {
+            ChiceUi.SetActive(true);
+        }
+
+        private void DeactivateChiceUi()
+        {
+            ChiceUi.SetActive(false);
+        }
+       
     }
 }
 
