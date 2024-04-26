@@ -1,12 +1,19 @@
 import json
 import os
 
-def conversation_script():
-    # 상대경로 안먹어서 일단 절대경로로
-    file_path = "E:/prj/ConnectionGpt/conversationData/conversation.json"
+# 현재 스크립트의 경로
+current_directory = os.path.dirname(__file__)
 
-    if os.path.exists(file_path):
-        with open(file_path, 'r', encoding='utf-8') as file:
+# conversation.json 상대경로
+relative_path = "conversationData/conversation.json"
+# 절대경로 변환
+absolute_path = os.path.join(current_directory, relative_path)
+
+def conversation_script():
+
+
+    if os.path.exists(relative_path):
+        with open(relative_path, 'r', encoding='utf-8') as file:
             conversation = json.load(file)
     else:
         conversation = []
@@ -25,7 +32,7 @@ def conversation_script():
         message = {"data": {"question": question, "response": response}}
         conversation.append(message)
 
-        with open(file_path, 'w', encoding='utf-8') as file:
+        with open(relative_path, 'w', encoding='utf-8') as file:
             json.dump(conversation, file, ensure_ascii=False, indent=4)
 
 # 마지막 데이터 읽기
