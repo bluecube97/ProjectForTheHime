@@ -14,7 +14,7 @@ namespace Script.UI.Outing
         public GameObject SellMenu; // 판매 패널 오브젝트
         public GameObject BuyMenu; // 구매 패널 오브젝트
         public GameObject ChiceUi; // 구매 패널 오브젝트
-
+     
         private bool EatMenuActive; // 식사 화면 활성화 여부
         private bool SellMenuActive; // 판매 화면 활성화 여부
         private bool BuyMenuActive; // 구매 화면 활성화 여부
@@ -76,10 +76,7 @@ namespace Script.UI.Outing
         
         public void OnClickBuying()
         {
-
             // 구매메뉴가 활성화 되어있지 않다면
-           
-           
                 ActivateBuyMenu();
             }
         public void OnClickBuyOuting()
@@ -102,6 +99,7 @@ namespace Script.UI.Outing
         }
 
        
+        
 
 
 
