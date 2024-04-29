@@ -541,6 +541,7 @@ GameObject:
   - component: {fileID: 201661184}
   - component: {fileID: 201661186}
   - component: {fileID: 201661185}
+  - component: {fileID: 201661187}
   m_Layer: 5
   m_Name: buycomple
   m_TagString: Untagged
@@ -562,11 +563,11 @@ RectTransform:
   m_Children:
   - {fileID: 1834859059}
   - {fileID: 1146058626}
-  m_Father: {fileID: 951774952}
+  m_Father: {fileID: 1958770258}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.000030517578}
+  m_AnchoredPosition: {x: 2.89656, y: 27.036121}
   m_SizeDelta: {x: 882.1183, y: 296.978}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &201661185
@@ -607,6 +608,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 201661183}
   m_CullTransparentMesh: 1
+--- !u!210 &201661187
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 201661183}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 99
+  m_SortAtRoot: 0
 --- !u!1 &229431925
 GameObject:
   m_ObjectHideFlags: 0
@@ -2060,6 +2073,7 @@ GameObject:
   - component: {fileID: 937686601}
   - component: {fileID: 937686603}
   - component: {fileID: 937686602}
+  - component: {fileID: 937686604}
   m_Layer: 5
   m_Name: buyfail
   m_TagString: Untagged
@@ -2081,11 +2095,11 @@ RectTransform:
   m_Children:
   - {fileID: 1953374962}
   - {fileID: 1305338268}
-  m_Father: {fileID: 951774952}
+  m_Father: {fileID: 1958770258}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.000030517578}
+  m_AnchoredPosition: {x: 2.89656, y: 27.036121}
   m_SizeDelta: {x: 882.1183, y: 296.978}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &937686602
@@ -2126,6 +2140,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 937686600}
   m_CullTransparentMesh: 1
+--- !u!210 &937686604
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 937686600}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 99
+  m_SortAtRoot: 0
 --- !u!1 &951774951
 GameObject:
   m_ObjectHideFlags: 0
@@ -2156,8 +2182,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 937686601}
-  - {fileID: 201661184}
   - {fileID: 1181271691}
   - {fileID: 1639196658}
   - {fileID: 1002247596}
@@ -2661,7 +2685,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1599511057}
         m_TargetAssemblyTypeName: Script.UI.Outing.RestaurantManager, Assembly-CSharp
-        m_MethodName: OnClickChiceUiOut
+        m_MethodName: OnClickBuyCompleOut
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2991,7 +3015,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1599511057}
         m_TargetAssemblyTypeName: Script.UI.Outing.RestaurantManager, Assembly-CSharp
-        m_MethodName: OnClickChiceUiOut
+        m_MethodName: OnClickBuyFailOut
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3898,18 +3922,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1599511060}
-        m_TargetAssemblyTypeName: RestaurantFoodList, Assembly-CSharp
-        m_MethodName: OnClickEatMeueBtn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &1589271002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3960,6 +3972,7 @@ GameObject:
   - component: {fileID: 1599511057}
   - component: {fileID: 1599511059}
   - component: {fileID: 1599511060}
+  - component: {fileID: 1599511061}
   m_Layer: 0
   m_Name: RestaurantManager
   m_TagString: Untagged
@@ -3983,6 +3996,8 @@ MonoBehaviour:
   SellMenu: {fileID: 450863648}
   BuyMenu: {fileID: 891230032}
   ChiceUi: {fileID: 951774951}
+  BuyComple: {fileID: 201661183}
+  BuyFail: {fileID: 937686600}
 --- !u!4 &1599511058
 Transform:
   m_ObjectHideFlags: 0
@@ -4021,6 +4036,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b548e2a5eae6f5b46b4f6723902905e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1599511061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1599511056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+<<<<<<< Updated upstream
+  m_Script: {fileID: 11500000, guid: d4b763b22f1ed124696cd36f48f369db, type: 3}
+=======
+  m_Script: {fileID: 11500000, guid: 2ab8753b1a06f874ea6567e995e67bfc, type: 3}
+>>>>>>> Stashed changes
   m_Name: 
   m_EditorClassIdentifier: 
   foodListPrefab: {fileID: 1711416373}
@@ -4109,9 +4140,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1599511060}
-        m_TargetAssemblyTypeName: RestaurantFoodList, Assembly-CSharp
-        m_MethodName: PaymentFood
+      - m_Target: {fileID: 1599511061}
+        m_TargetAssemblyTypeName: RestaurantController, Assembly-CSharp
+        m_MethodName: ProcessPayment
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4384,9 +4415,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1599511060}
-        m_TargetAssemblyTypeName: RestaurantFoodList, Assembly-CSharp
-        m_MethodName: GetclickFoodList
+      - m_Target: {fileID: 1599511057}
+        m_TargetAssemblyTypeName: Script.UI.Outing.RestaurantManager, Assembly-CSharp
+        m_MethodName: OnClickChiceUi
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4396,9 +4427,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1599511057}
-        m_TargetAssemblyTypeName: Script.UI.Outing.RestaurantManager, Assembly-CSharp
-        m_MethodName: OnClickChiceUi
+      - m_Target: {fileID: 1599511061}
+        m_TargetAssemblyTypeName: RestaurantController, Assembly-CSharp
+        m_MethodName: GetclickFoodList
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4866,6 +4897,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1958770258}
+  - component: {fileID: 1958770259}
   m_Layer: 5
   m_Name: MenuBackGround
   m_TagString: Untagged
@@ -4885,6 +4917,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 937686601}
+  - {fileID: 201661184}
   - {fileID: 143104843}
   - {fileID: 951774952}
   - {fileID: 891230033}
@@ -4896,6 +4930,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!210 &1958770259
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1958770257}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
 --- !u!1 &2008884995
 GameObject:
   m_ObjectHideFlags: 0
