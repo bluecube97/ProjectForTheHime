@@ -8,7 +8,7 @@
         "mp": 80,
         "mood": "happy",
         "stress": "10%",
-        "fatigue": "90%",
+        "fatigue": "0",
         "E": "30%",
         "I": "70%",
         "S": "65%",
@@ -16,6 +16,23 @@
         "T": "20%",
         "F": "80%",
         "J": "85%",
-        "P": "15%"
-    }
+        "P": "15%",
+        "moral_evaluation": "0"
+    },
+    "example_change": "example_value",
+    "fatigue": "100.0%",
+    "stress": "100.0%",
+    "moral_evaluation": 100,
+    "hp": "100",
+    "mp": "100",
+    "E": "41%",
+    "I": "60%",
+    "S": "70%",
+    "N": "30%",
+    "T": "50%",
+    "F": "60%",
+    "J": "40%",
+    "P": "50%",
+    "MBTI": "INFP",
+    "mood": "depression"
 }

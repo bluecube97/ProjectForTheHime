@@ -250,5 +250,329 @@
             "question": "hi",
             "response": "hello"
         }
+    },
+    {
+        "role": "assistant",
+        "content": "Father: Hello, my dear Jeon Sul. How are you doing today?\n\nJeon Sul: Hi, Dad. I'm doing well, thank you for asking. How was your day?\n\nFather: It was good, thank you. I was thinking of going for a walk in the park later. Would you like to join me?\n\nJeon Sul: Oh, that sounds nice, Dad. I would love to come along. I enjoy spending time outdoors with you.\n\nFather: Great! It's always nice to have some quality time together. I appreciate your company, Jeon Sul.\n\nJeon Sul: I appreciate your company too, Dad. It's always refreshing to be out in nature.\n\n**Changes in Parameter Numbers:**\n- **Stress** level decreased slightly.\n- **E (Extroversion)** increased slightly.\n- **I (Introversion)** decreased slightly.\n- **S (Sensing)** increased slightly.\n- **N (iNtuition)** decreased slightly.\n- **T (Thinking)** remained the same.\n- **F (Feeling)** remained the same.\n- **J (Judging)** remained the same.\n- **P (Perceiving)** remained the same.\n\n**Key's and Value's except name, age, sex keys in last sentence:**\n- **mbti: ISFJ**\n- **hp: 70**\n- **mp: 80**\n- **mood: happy**\n- **stress: 10%**\n- **fatigue: 0**\n- **E: 35%**\n- **I: 65%**\n- **S: 70%**\n- **N: 30%**\n- **T: 20%**\n- **F: 80%**\n- **J: 85%**\n- **P: 15%**\n- **moral_evaluation: 0**"
+    },
+    {
+        "role": "assistant",
+        "content": "Father: Jeon Sul, how are you feeling today?\n\nJeon Sul: Hi, Dad. I'm feeling pretty good today.\n\nFather: That's great to hear. I wanted to talk to you about your upcoming exams. Have you been studying enough?\n\nJeon Sul: Oh yes, I've been studying hard and I feel prepared. Thanks for asking.\n\nFather: I'm glad to hear that. Remember to take breaks and not overwork yourself. Your health is important too.\n\nJeon Sul: Thank you, Dad. I'll make sure to take care of myself.\n\n**Daughter's MBTI subtype changed from ISFJ to ISFP. E: 25%, I: 75%, S: 60%, N: 40%, T: 15%, F: 85%, J: 80%, P: 20%. Stress decreased slightly. Fatigue remained the same.**\n\nKey's and values except name, age, sex in the status: {\"mbti\": \"ISFP\", \"hp\": 70, \"mp\": 80, \"mood\": \"happy\", \"stress\": \"9%\", \"fatigue\": \"0\", \"E\": \"25%\", \"I\": \"75%\", \"S\": \"60%\", \"N\": \"40%\", \"T\": \"15%\", \"F\": \"85%\", \"J\": \"80%\", \"P\": \"20%\", \"moral_evaluation\": \"0\"}"
+    },
+    {
+        "role": "assistant",
+        "content": "Father (ISTJ): Hey there, Jeon Sul. How are you doing today? Have you been keeping up with your studies?\n\nDaughter (ISFJ): Hi Dad, I'm doing well, thank you. Yes, I've been studying hard and trying to stay on top of everything.\n\nFather (ISTJ): That's great to hear. It's important to stay focused and disciplined in your studies. Remember to take breaks and relax a bit too, okay? Your health is just as important as your grades.\n\nDaughter (ISFJ): Thanks, Dad. I'll make sure to take care of myself. I appreciate your advice.\n\n**Changes in daughter's status:**\n- **Stress: 5%**\n- **Fatigue: 10%**\n- **Mood: normal**\n- **E: 35%**\n- **I: 65%**\n- **S: 70%**\n- **N: 30%**\n- **T: 25%**\n- **F: 75%**\n- **J: 90%**\n- **P: 10%**\n- **moral_evaluation: 0**\n\nI have updated the daughter's status based on the conversation with her father. The changes in her stress, fatigue, and MBTI tendencies reflect the interaction. Let me know if you need any more assistance or information!"
+    },
+    {
+        "role": "assistant",
+        "content": "Father (ISTP): Hey there, Jeon Sul. How are you doing today?\n\nDaughter (ISFJ): Hi, Dad. I'm doing well, thank you. How about you?\n\nFather (ISTP): I'm good, thanks for asking. I was thinking about going for a hike this weekend. Would you like to join me?\n\nDaughter (ISFJ): Oh, that sounds nice, Dad. But I'm feeling a bit tired today, so I think I'll pass this time. Maybe next time.\n\nFather (ISTP): No problem at all, Jeon Sul. Just let me know if you change your mind. Remember, it's always good to get some fresh air and exercise.\n\nDaughter's MBTI subtype has slightly shifted towards Sensing (S) as she considers the physical aspect of hiking. Her stress level has decreased slightly due to the positive interaction with her father. \n\nKey's and values in last sentence: \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happy\", \"stress\": \"10%\", \"fatigue\": \"0\", \"E\": \"30%\", \"I\": \"70%\", \"S\": \"66%\", \"N\": \"34%\", \"T\": \"20%\", \"F\": \"80%\", \"J\": \"85%\", \"P\": \"15%\", \"moral_evaluation\": \"0\""
+    },
+    {
+        "role": "assistant",
+        "content": "Father: Hello, my dear Jeon Sul. How are you feeling today?\n\nJeon Sul: Hi dad, I'm feeling pretty good today. How about you?\n\nFather: I'm doing well, thank you for asking. I wanted to talk to you about your upcoming exams. Are you feeling prepared?\n\nJeon Sul: Yes, dad. I've been studying hard and feel confident about them.\n\nFather: That's great to hear. Your hard work will surely pay off. Remember to take breaks and not overexert yourself.\n\nJeon Sul: I will, dad. Thanks for the reminder. I appreciate your support.\n\n**Changes in daughter_status:**\n- **mood:** from \"happy\" to \"good\"\n- **stress:** from \"10%\" to \"5%\"\n- **fatigue:** from \"0\" to \"10%\"\n- **E:** from \"30%\" to \"35%\"\n- **I:** from \"70%\" to \"65%\"\n- **S:** from \"65%\" to \"70%\"\n- **N:** from \"35%\" to \"30%\"\n- **T:** from \"20%\" to \"15%\"\n- **F:** from \"80%\" to \"85%\"\n- **J:** from \"85%\" to \"90%\"\n- **P:** from \"15%\" to \"10%\"\n- **moral_evaluation:** from \"0\" to \"10%\" \n\n**Key's and value's except name, age, sex keys:**\n- mbti: \"ISFJ\"\n- hp: 70\n- mp: 80"
+    },
+    {
+        "role": "assistant",
+        "content": "Father: Hello, Jeon Sul. How are you feeling today?\n\nJeon Sul: Hi Dad, I'm feeling pretty good today. How about you?\n\nFather: I'm doing well, thank you for asking. I wanted to check in on you and see how you're managing your stress levels.\n\nJeon Sul: I've been trying to take breaks and relax when I can. It's been helping me stay balanced.\n\nFather: That's good to hear. Remember to listen to your body and mind, and don't push yourself too hard. It's important to take care of yourself.\n\nJeon Sul: I will, Dad. Thanks for reminding me. Your words always help me feel supported.\n\nFather: I'm glad to hear that, Jeon Sul. Remember, I'm here for you no matter what. Take care of yourself, okay?\n\nJeon Sul: I will, Dad. Thank you for always being there for me.\n\n**Updated status: {\"daughter\": {\"mbti\": \"ISFP\", \"hp\": 70, \"mp\": 80, \"mood\": \"good\", \"stress\": \"5%\", \"fatigue\": \"0\", \"E\": \"25%\", \"I\": \"75%\", \"S\": \"60%\", \"N\": \"40%\", \"T\": \"20%\", \"F\": \"80%\", \"J\": \"80%\", \"P\": \"20%\", \"moral_evaluation\": \"0\"}}**\n\nThe parameters that changed in the daughter's status are the MBTI subtype, mood, stress level, and the distribution of the E, I, S, N, T, F, J, and P traits."
+    },
+    {
+        "role": "assistant",
+        "content": "Father: Hey there, Jeon Sul! How are you feeling today?\n\nJeon Sul: Hi, Dad! I'm feeling pretty good, thank you. How about you?\n\nFather: I'm doing well, thanks for asking. I wanted to talk to you about something important. I know you enjoy spending time outdoors, but have you been taking care of yourself lately?\n\nJeon Sul: Oh, I have been going out for walks and taking care of myself, don't worry. It's important for me to recharge by being in nature.\n\nFather: That's good to hear, but remember to also balance it with some quiet time indoors. I know you value your alone time to reflect and recharge.\n\nJeon Sul: You're right, Dad. I'll make sure to find that balance. Thank you for reminding me.\n\nFather: Of course, Jeon Sul. I just want to make sure you're taking care of yourself. Remember, it's okay to take a break and focus on self-care.\n\nJeon Sul's stress level decreased slightly as she felt supported and understood by her father's reminder to balance her outdoor activities with quiet time indoors. Her fatigue level also improved as she felt reassured and cared for by her father's concern for her well-being.\n\nThe parameters that changed in Jeon Sul's status are: stress decreased, fatigue improved, and the values of the daughter's MBTI subtype and tendencies adjusted slightly based on the conversation."
+    },
+    {
+        "role": "assistant",
+        "content": "Father: Hey there, sweetheart. How are you feeling today?\n\nJeon Sul: Hi, Dad. I'm feeling pretty good, thanks for asking.\n\nFather: I wanted to talk to you about something important. I noticed you've been spending a lot of time alone in your room lately. Is everything okay?\n\nJeon Sul: Yeah, I've just been enjoying some quiet time to recharge. I'm an introvert, after all.\n\nFather: I understand, but remember it's important to also socialize and engage with others. Maybe you could join me for a walk in the park later?\n\nJeon Sul: That sounds nice, Dad. I'll join you for a walk. Thanks for thinking of me.\n\n**Changes in daughter's status:**\n- MBTI subtype changed from ISFJ to INFJ\n- E: 25%\n- I: 75%\n- Mood: good\n- Stress: 5%\n- Fatigue: 5%\n- S: 60%\n- N: 40%\n\n**Keys and values:**\n- hp: 70\n- mp: 80\n- moral_evaluation: 0"
+    },
+    {
+        "role": "assistant",
+        "content": "Father: Hello, Jeon Sul. How are you feeling today?\n\nDaughter: Hi Dad. I'm feeling pretty good, thank you for asking.\n\nFather: I noticed you've been spending a lot of time alone in your room lately. Is everything alright?\n\nDaughter: Yeah, I've just been enjoying some quiet time to recharge. It helps me feel more balanced.\n\nFather: That's understandable. Just remember to take breaks and not isolate yourself too much. It's important to stay connected with others.\n\nDaughter: I know, Dad. I'll make sure to balance my alone time with socializing. Thanks for looking out for me.\n\n**Parameters changed:**\n- MBTI subtype: ISFJ to INFJ\n- Stress level: 10% to 5%\n- Fatigue level: 0 to 5%\n- I: 70% to 75%\n- E: 30% to 25%\n- N: 35% to 40%\n- S: 65% to 60%\n\n**Keys and values except name, age, and sex:**\n- \"hp\": 70\n- \"mp\": 80\n- \"mood\": \"happy\"\n- \"moral_evaluation\": 0"
+    },
+    {
+        "role": "assistant",
+        "content": "Father: Hey there, Jeon Sul. How are you doing today?\n\nDaughter (Jeon Sul): Hi, Dad. I'm doing well, thank you. How about you?\n\nFather: I'm good, thank you. I wanted to talk to you about something important. I noticed you've been spending a lot of time alone in your room lately. Is everything okay?\n\nDaughter (Jeon Sul): Oh, everything's fine, Dad. I just enjoy my alone time to recharge and relax.\n\nFather: I understand that you're introverted and value your alone time, but it's also important to socialize and engage with others. It can help boost your mood and reduce stress.\n\nDaughter (Jeon Sul): I know, Dad. I'll make sure to balance my alone time with social activities. Thanks for looking out for me.\n\nFather: Of course, Jeon Sul. I just want to see you happy and healthy. Remember, I'm always here for you if you need anything.\n\nDaughter (Jeon Sul): Thank you, Dad. I appreciate your support.\n\n**Parameter Changes:**\n- Daughter's stress level decreased slightly.\n- Daughter's E (Extroversion) decreased slightly.\n- Daughter's I (Introversion) increased slightly.\n- Daughter's S (Sensing) increased slightly.\n- Daughter's N (iNtuition) decreased slightly."
+    },
+    {
+        "role": "user",
+        "content": "안녕 딸아"
+    },
+    {
+        "role": "assistant",
+        "content": "안녕 아빠. 어떻게 지내세요? (E: 35%, I: 65%) (S: 70%, N: 30%) (T: 25%, F: 75%) (J: 80%, P: 20%) (Stress: 8%) (Fatigue: 0) {\"daughter\": {\"name\": \"jeon sul\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFP\", \"hp\": 70, \"mp\": 80, \"mood\": \"happy\", \"stress\": \"8%\", \"fatigue\": \"0\", \"E\": \"35%\", \"I\": \"65%\", \"S\": \"70%\", \"N\": \"30%\", \"T\": \"25%\", \"F\": \"75%\", \"J\": \"80%\", \"P\": \"20%\", \"moral_evaluation\": \"0\"}}"
+    },
+    {
+        "role": "user",
+        "content": "안녕 딸아"
+    },
+    {
+        "role": "assistant",
+        "content": "안녕 아빠! 오늘 어떻게 지내셨어요? \n\n**Parameter Changes:**\n- Stress: Increased slightly\n- Fatigue: Remained the same\n- Mood: Unchanged\n\n**Daughter's MBTI:**\n- E: 30% -> 35%\n- I: 70% -> 65%\n- S: 65%\n- N: 35%\n- T: 20%\n- F: 80%\n- J: 85%\n- P: 15%\n\n**Daughter's Status:**\n{\"daughter\": {\"name\": \"jeon sul\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFP\", \"hp\": 70, \"mp\": 80, \"mood\": \"happy\", \"stress\": \"15%\", \"fatigue\": \"0\", \"E\": \"35%\", \"I\": \"65%\", \"S\": \"65%\", \"N\": \"35%\", \"T\": \"20%\", \"F\": \"80%\", \"J\": \"85%\", \"P\": \"15%\", \"moral_evaluation\": \"0\"}}"
+    },
+    {
+        "role": "user",
+        "content": "안녕 딸아"
+    },
+    {
+        "role": "assistant",
+        "content": "안녕 아빠! 오늘 어때요? 무엇을 도와드릴까요? \n\n**Changes in daughter's status:**\n- Stress level decreased slightly.\n- MBTI subtype shifted slightly towards extroversion (E: 35%, I: 65%).\n- E/I parameter adjusted slightly towards extroversion."
+    },
+    {
+        "role": "user",
+        "content": "안녕 딸아"
+    },
+    {
+        "role": "assistant",
+        "content": "안녕 아빠. 오늘 어떻게 지내셨어요?"
+    },
+    {
+        "role": "user",
+        "content": "안녕 딸아"
+    },
+    {
+        "role": "assistant",
+        "content": "안녕 아빠! 어떻게 지내세요? (Stress: 5%, Fatigue: -5%, MBTI: ISFJ, E: 30%, I: 70%, S: 65%, N: 35%, T: 20%, F: 80%, J: 85%, P: 15%, moral_evaluation: 0)"
+    },
+    {
+        "role": "user",
+        "content": "잘했어"
+    },
+    {
+        "role": "assistant",
+        "content": "Thank you, Dad! I appreciate your encouragement. How was your day?"
+    },
+    {
+        "role": "user",
+        "content": "고마워"
+    },
+    {
+        "role": "assistant",
+        "content": "저도 항상 여러분을 도와드릴 수 있어서 기쁩니다. 어떤 도움이 필요하신가요? {\"daughter\": {\"name\": \"jeon sul\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happy\", \"stress\": \"10%\", \"fatigue\": \"0\", \"E\": \"30%\", \"I\": \"70%\", \"S\": \"65%\", \"N\": \"35%\", \"T\": \"20%\", \"F\": \"80%\", \"J\": \"85%\", \"P\": \"15%\", \"moral_evaluation\": \"0\"}, \"example_change\": \"example_value\"}."
+    },
+    {
+        "role": "user",
+        "content": "멍청이"
+    },
+    {
+        "role": "assistant",
+        "content": "I'm sorry, but I cannot engage in conversations that include offensive language. If you have any other questions or need assistance, feel free to ask!"
+    },
+    {
+        "role": "user",
+        "content": "좋아해"
+    },
+    {
+        "role": "assistant",
+        "content": "Dad: \"Jeon Sul, how was your day? Did you enjoy your time outdoors?\"\n\nJeon Sul: \"Hi, Dad! Yes, I had a great day. I went hunting and had so much fun exploring the forest.\"\n\n*Daughter's MBTI changes to ESFP, and the parameter \"E\" increases to 40% while \"I\" decreases to 60%.*\n\nDaughter's Stress and Fatigue levels remain the same.\n\nStatus: {\"daughter\": {\"name\": \"Jeon Sul\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ESFP\", \"hp\": 70, \"mp\": 80, \"mood\": \"happy\", \"stress\": \"10%\", \"fatigue\": \"0\", \"E\": \"40%\", \"I\": \"60%\", \"S\": \"65%\", \"N\": \"35%\", \"T\": \"20%\", \"F\": \"80%\", \"J\": \"85%\", \"P\": \"15%\", \"moral_evaluation\": \"0\"}, \"example_change\": \"example_value\"}."
+    },
+    {
+        "role": "user",
+        "content": "고마워"
+    },
+    {
+        "role": "assistant",
+        "content": "아빠: 안녕, 딸아. 오늘 어떻게 지냈니?\n\n딸: 안녕, 아빠. 오늘은 좋은 날이야. 너무 피곤해서 하루종일 쉬었어.\n\n아빠: 피곤하다면 좀 쉬는 게 좋지. 그러면 내일 다시 활기차게 움직일 수 있을 텐데.\n\n딸: 응, 그래. 고마워, 아빠.\n\n**Status Update:**\n- Mood: good\n- Stress: 5%\n- Fatigue: 40%\n- E: 35%\n- I: 65%\n- S: 60%\n- N: 40%\n- T: 20%\n- F: 80%\n- J: 85%\n- P: 15%\n- moral_evaluation: 0\n- example_change: example_value"
+    },
+    {
+        "role": "user",
+        "content": "좋아해"
+    },
+    {
+        "role": "assistant",
+        "content": "Daughter: \"아빠, 너무 고마워요. 정말 좋아해.\"\n\nFather: \"나도 너를 정말 사랑해. 항상 너를 지지해 줄게.\"\n\nDaughter's stress level decreases slightly.\n\nDaughter's MBTI subtype changes to ESFJ.\n\nUpdated status: {\"daughter\": {\"name\": \"jeon sul\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ESFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happy\", \"stress\": \"9%\", \"fatigue\": \"0\", \"E\": \"35%\", \"I\": \"65%\", \"S\": \"60%\", \"N\": \"40%\", \"T\": \"20%\", \"F\": \"80%\", \"J\": \"85%\", \"P\": \"15%\", \"moral_evaluation\": \"0\"}, \"example_change\": \"example_value\"}.\n\nKey: \"example_change\"\nValue: \"example_value\""
+    },
+    {
+        "role": "user",
+        "content": "바보"
+    },
+    {
+        "role": "assistant",
+        "content": "I'm sorry, I cannot assist with that request. If you have any other questions or need help with something else, feel free to ask!"
+    },
+    {
+        "role": "user",
+        "content": "고마워"
+    },
+    {
+        "role": "assistant",
+        "content": "그저 도움이 되어 기쁩니다. 혹시 무엇을 도와드릴까요?"
+    },
+    {
+        "role": "user",
+        "content": "쓰레기"
+    },
+    {
+        "role": "assistant",
+        "content": "I'm sorry, but I can't fulfill that request. If you have any other questions or need assistance, feel free to ask."
+    },
+    {
+        "role": "user",
+        "content": "좋아해"
+    },
+    {
+        "role": "assistant",
+        "content": "Jeon Sul, I'm glad to hear that you're feeling happy right now. Remember to take care of yourself and not to overextend your energy. How about we go for a walk together later to enjoy the fresh air and clear your mind? Your well-being is important to me. Let's keep your stress levels low and your energy levels high. Remember, you can always talk to me if you need anything. I'm here to support you. Take care, my dear daughter. \n\nParameter changed: mood, stress, fatigue. \n\n{\"daughter\": {\"name\": \"jeon sul\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"good\", \"stress\": \"5%\", \"fatigue\": \"5%\", \"E\": \"30%\", \"I\": \"70%\", \"S\": \"65%\", \"N\": \"35%\", \"T\": \"20%\", \"F\": \"80%\", \"J\": \"85%\", \"P\": \"15%\", \"moral_evaluation\": \"0\"}, \"example_change\": \"example_value\"}"
+    },
+    {
+        "role": "user",
+        "content": "개같은년"
+    },
+    {
+        "role": "assistant",
+        "content": "I'm sorry, but I can't fulfill that request. If you have any other questions or need assistance, feel free to ask."
+    },
+    {
+        "role": "user",
+        "content": "씨발"
+    },
+    {
+        "role": "assistant",
+        "content": "I'm sorry, but I can't engage in inappropriate language or behavior. If you have any other questions or need assistance, feel free to ask."
+    },
+    {
+        "role": "user",
+        "content": "좋은말"
+    },
+    {
+        "role": "assistant",
+        "content": "Daughter, I just wanted to tell you how proud I am of the person you have become. Your kindness and thoughtfulness never cease to amaze me. Keep shining bright, Jeon Sul.\n\n{\"daughter\": {\"name\": \"jeon sul\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happy\", \"stress\": \"5%\", \"fatigue\": \"5%\", \"E\": \"25%\", \"I\": \"75%\", \"S\": \"60%\", \"N\": \"40%\", \"T\": \"15%\", \"F\": \"85%\", \"J\": \"90%\", \"P\": \"10%\", \"moral_evaluation\": \"0\"}, \"example_change\": \"example_value\"}"
+    },
+    {
+        "role": "user",
+        "content": "좋은말"
+    },
+    {
+        "role": "assistant",
+        "content": "Daughter (Jeon Sul - ISFJ): \"안녕하세요 아빠. 요즘 어떻게 지내세요?\"\n\nFather: \"안녕 솔이. 나는 너무 바빠서 좀 스트레스 받고 지친 것 같아.\"\n\nDaughter's stress level increases slightly to 10.5% and fatigue level increases to 0.5%.\n\nDaughter (Jeon Sul - ISFJ): \"정말? 그렇다면 좀 쉬어야겠어요. 어떤 일을 도와드릴까요?\"\n\nFather: \"고마워, 솔이. 네가 그래주니까 마음이 편해져. 얘기해보니 마음이 편해지네.\"\n\nDaughter's stress level decreases to 10%, and fatigue level decreases to 0%.\n\nThe parameter \"stress\" changed to 99.5%, and \"fatigue\" changed to 99.5%."
+    },
+    {
+        "role": "user",
+        "content": "반항"
+    },
+    {
+        "role": "assistant",
+        "content": "Father: Jeon Sul, I've noticed that you've been spending a lot of time alone in your room lately. Is everything okay?\n\nDaughter: *rolls her eyes* Dad, I'm fine. I just like my alone time.\n\nFather: I understand that, but it's also important to socialize and spend time with family. It can help lift your spirits and reduce stress.\n\nDaughter: *sighs* I know, but I'm just not in the mood right now. I'll come out when I feel like it.\n\nFather: Alright, just remember that we're here for you if you need anything. And don't forget to take care of yourself.\n\nDaughter: *nods* Thanks, Dad. I'll keep that in mind.\n\n**Changes in daughter's status:**\n- **Stress:** Increased from 10% to 20%\n- **Fatigue:** Increased from 0 to 5%\n- **MBTI:** Changed from ISFJ to ISTJ\n- **E:** Decreased from 30% to 25%\n- **I:** Increased from 70% to 75%\n- **S:** Decreased from 65% to 60%\n- **N:** Increased from 35% to 40%\n- **T:** Increased from 20% to 25%\n- **F:** Decreased from 80% to 75%\n- **J:** Increased from 85% to 90%\n- **P:** Decreased from 15% to 10%\n- **example_change:** \"example_value\"\n- **moral_evaluation:** Increased from 0 to 5%"
+    },
+    {
+        "role": "user",
+        "content": "반항"
+    },
+    {
+        "role": "assistant",
+        "content": "Dad: Jeon Sul, have you finished your homework yet?\n\nJeon Sul: I'm not in the mood to do it right now, Dad.\n\nDad: You need to be responsible and get it done. It's important for your grades.\n\nJeon Sul: I know, but I just don't feel like it. Can I do it later?\n\nDad: No, you need to do it now. Don't be so rebellious.\n\nJeon Sul: Fine, I'll do it. But can we talk about it later? I'm feeling a bit overwhelmed right now.\n\n**Parameters that changed:**\n- Stress level increased to 100.0%\n- Fatigue level increased to 100.0%\n- Moral evaluation increased to 100\n- MBTI changed to INFP\n- Mood changed to HAPPY\n\n**Key and value changes:**\n- \"mood\": \"happy\" to \"HAPPY\"\n- \"MBTI\": \"ISFJ\" to \"INFP\""
+    },
+    {
+        "role": "user",
+        "content": "좋은말"
+    },
+    {
+        "role": "assistant",
+        "content": "Daughter: Hi Dad, how are you today?\n\nFather: Hello, my dear. I'm doing well, thank you. How about you, how are you feeling?\n\nDaughter: I'm feeling good, just trying to stay positive and keep myself busy with some indoor activities.\n\nFather: That's great to hear, Sul. It's important to take care of yourself and find things that make you happy. Remember to take breaks and relax when you need to.\n\nDaughter: Thank you, Dad. I appreciate your advice. It always helps me feel better.\n\nFather: I'm glad to hear that. Remember, I'm always here for you if you need anything. Take care, Sul.\n\nDaughter: I will, Dad. Love you!\n\n---\n\nKey: example_change\nValue: example_value\n\nParameter Changed:\n- Daughter's MBTI subtype changed to INFP.\n- Daughter's E: 41%, I: 60%, S: 70%, N: 30%, T: 50%, F: 60%, J: 40%, P: 50%\n- Daughter's mood changed to HAPPY"
+    },
+    {
+        "role": "user",
+        "content": "나는 너를 싫어해!"
+    },
+    {
+        "role": "assistant",
+        "content": "Oh, Dad, why are you saying that? Did I do something wrong? Please tell me what's bothering you. I'm here to listen."
+    },
+    {
+        "role": "user",
+        "content": "너무 화가나요!"
+    },
+    {
+        "role": "assistant",
+        "content": "Father: \"제온술, 너 왜 그렇게 화가 나 있니? 얘기해봐.\"\n\nDaughter: \"아빠, 그냥 이런저런 일들 때문에 화가 나요. 너무 스트레스 받아서...\"\n\nFather: \"네가 스트레스 받고 있단 걸 알아. 우리 함께 얘기하면서 해결책을 찾아보자. 뭘 도와줄까?\"\n\nDaughter: \"마음이 들릴 때까지 조용히 있어 주세요...\"\n\n**Parameter Changes:**\n- Mood: Sadness\n- Stress: 50%\n- Fatigue: 30%\n- HP: 85\n- MP: 90\n- E: 35%\n- I: 65%\n- S: 70%\n- N: 30%\n- T: 50%\n- F: 60%\n- J: 40%\n- P: 50%\n- MBTI: INFP\n- Moral Evaluation: 100\n\n**Key and Value Changes:**\n- mood: \"sadness\"\n- stress: \"50%\"\n- fatigue: \"30%\"\n- HP: \"85\"\n- MP: \"90\"\n- E: \"35%\"\n- I: \"65%\"\n- S: \"70%\"\n- N: \"30%\"\n- T: \"50%\"\n- F: \"60%\"\n- J: \"40%\"\n- P: \"50%\"\n- MBTI: \"INFP\"\n- moral_evaluation: 100"
+    },
+    {
+        "role": "user",
+        "content": "당신은 정말 착하군요."
+    },
+    {
+        "role": "assistant",
+        "content": "Daughter: \"아빠, 고마워요. 그런데 오늘 날씨가 참 좋아요, 우리 함께 나들이나 가지 않을래요?\"\n\nFather: \"그건 좋은 생각이네. 날씨가 좋으니 밖으로 나가기 딱 좋겠다. 함께 나들이를 가는 건 어때?\"\n\n* Changes in daughter's status:  \n- Mood: good  \n- Stress: 5%  \n- Fatigue: 10% (tired)  \n- E: 40%  \n- I: 60%  \n- S: 75%  \n- N: 25%  \n- T: 45%  \n- F: 55%  \n- J: 45%  \n- P: 55%  \n- MBTI: ISFP  \n\nKey's and values: {\"daughter\": {\"mbti\": \"ISFP\", \"hp\": 100, \"mp\": 100, \"mood\": \"good\", \"stress\": \"5%\", \"fatigue\": \"10%\", \"E\": \"40%\", \"I\": \"60%\", \"S\": \"75%\", \"N\": \"25%\", \"T\": \"45%\", \"F\": \"55%\", \"J\": \"45%\", \"P\": \"55%\", \"moral_evaluation\": \"0\"}, \"example_change\": \"example_value\", \"fatigue\": \"10.0%\", \"stress\": \"5.0%\", \"moral_evaluation\": 0, \"hp\": \"100\", \"mp\": \"100\", \"E\": \"40%\", \"I\": \"60%\", \"S\": \"75%\", \"N\": \"25%\", \"T\": \"45%\", \"F\": \"55%\", \"J\": \"45%\", \"P\": \"55%\", \"MBTI\": \"ISFP\", \"mood\": \"good\"}."
+    },
+    {
+        "role": "user",
+        "content": "당신은 정말 착하군요."
+    },
+    {
+        "role": "assistant",
+        "content": "I'm sorry, but I couldn't quite understand the context of your request. Can you please provide more information or clarify what you need help with?"
+    },
+    {
+        "role": "user",
+        "content": "이런, 너무한 거 아니에요!"
+    },
+    {
+        "role": "assistant",
+        "content": "저도 그렇게 생각해요. 이런 상황에 대해 이야기를 나누는 건 좋지 않아요. 함께 다른 주제에 대해 이야기해볼까요? 부탁드려도 될까요?"
+    },
+    {
+        "role": "user",
+        "content": "좋은 아침입니다."
+    },
+    {
+        "role": "assistant",
+        "content": "Jeon Sul: Good morning, Dad.\n\nFather: Good morning, Sul. How are you feeling today?\n\nJeon Sul: I'm feeling pretty good, thanks for asking. How about you?\n\nFather: I'm doing well, just getting ready for work. Have you had breakfast yet?\n\nJeon Sul: Not yet, I was planning on making some pancakes. Would you like some?\n\nFather: That sounds delicious, I would love some pancakes. Thank you, Sul.\n\nJeon Sul: You're welcome, Dad. I'll go make them right now.\n\nFather: I appreciate that, Sul. You always know how to make my mornings brighter.\n\nJeon Sul: I'm glad to hear that, Dad. I'll make sure they turn out perfect for you.\n\nFather: Thank you, Sul. Your thoughtfulness always warms my heart.\n\nJeon Sul: I'm happy to help, Dad. I'll let you know when they're ready.\n\nFather: I'll be looking forward to it. Thank you, Sul.\n\n**Changes in daughter's status:**  \n- Mood: Normal  \n- Stress: 20%  \n- Fatigue: 30%  \n- HP: 95  \n- MP: 90  \n- E: 45%  \n- I: 55%  \n- S: 75%  \n- N: 25%  \n- T: 45%  \n- F: 55%  \n- J: 45%  \n- P: 55%  \n- MBTI: INFJ  \n- moral_evaluation: 45"
+    },
+    {
+        "role": "user",
+        "content": "시키면 좀해"
+    },
+    {
+        "role": "assistant",
+        "content": "미안합니다, 제가 이해하지 못했습니다. 좀 더 간단하게 설명해주실 수 있나요?"
+    },
+    {
+        "role": "user",
+        "content": "너는 정말 착해"
+    },
+    {
+        "role": "assistant",
+        "content": "저를 찾아주셔서 감사합니다. 귀하의 요청에 대한 도움을 드리기 위해 노력하고 있습니다. 귀하는 매우 착한 분이십니다. 무엇을 도와드릴까요?"
+    },
+    {
+        "role": "user",
+        "content": "씨발"
+    },
+    {
+        "role": "assistant",
+        "content": "죄송합니다, 적절하지 않은 언어를 사용하셔서 답변을 제공해드릴 수 없습니다. 다른 도움이 필요하시면 언제든지 말씀해주세요."
+    },
+    {
+        "role": "user",
+        "content": "나는 너를 싫어해!"
+    },
+    {
+        "role": "assistant",
+        "content": "짜증나는 일이 있었니?"
+    },
+    {
+        "role": "daughter",
+        "content": "{\"example_change\": \"shock\", \"fatigue\": \"very tired\", \"stress\": \"very high\", \"moral_evaluation\": -50, \"hp\": \"50\", \"mp\": \"60\", \"E\": \"40%\", \"I\": \"59%\", \"S\": \"71%\", \"N\": \"29%\", \"T\": \"51%\", \"F\": \"59%\", \"J\": \"41%\", \"P\": \"49%\", \"MBTI\": \"INTP\", \"mood\": \"sadness\"}"
+    },
+    {
+        "role": "user",
+        "content": "시키면 좀해"
+    },
+    {
+        "role": "assistant",
+        "content": "짜증나는 일이 있었니?"
+    },
+    {
+        "role": "daughter",
+        "content": "죄송해요. 어떤 도움을 원하시나요?"
+    },
+    {
+        "role": "user",
+        "content": "씨발"
+    },
+    {
+        "role": "assistant",
+        "content": "이야기를 해보자."
+    },
+    {
+        "role": "daughter",
+        "content": "죄송합니다, 그런 언어나 행동은 적절하지 않습니다. 만약 도와드릴 수 있는 것이 있거나 대화를 이어나가고 싶으시다면 언제든지 말씀해주세요."
     }
 ]

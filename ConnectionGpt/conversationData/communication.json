@@ -12,11 +12,11 @@
         "gpt_ment": "Hello! How can I help you today?"
     },
     {
-        "user_ment": "my name is \uc804\uc900 how can i call you?",
+        "user_ment": "my name is 전준 how can i call you?",
         "gpt_ment": "You can call me Jun. How may I assist you?"
     },
     {
-        "user_ment": "no; my name is \uc804\uc900. ",
+        "user_ment": "no; my name is 전준. ",
         "gpt_ment": "Hi Jun, how can I help you?"
     },
     {
@@ -44,19 +44,123 @@
         "gpt_ment": "It looks like you are trying to run a Python script called \"connection.py\" located in the directory \"c:/DevTool/workspace/UnityPJ/ProjectForTheHime/ConnectionGpt/\". The command is using Python version 3.12 to run the script.\n\nIf you are encountering any issues with running the script, make sure that the Python interpreter is installed correctly and that the path to the script is accurate. Additionally, check for any errors or exceptions that are being raised when running the script. If you need further assistance, please provide more specific details about the problem you are facing."
     },
     {
-        "user_ment": "\uc548\ub155?",
-        "gpt_ment": "\uc548\ub155\ud558\uc138\uc694! \ubb34\uc5c7\uc744 \ub3c4\uc640\ub4dc\ub9b4\uae4c\uc694?"
+        "user_ment": "안녕?",
+        "gpt_ment": "안녕하세요! 무엇을 도와드릴까요?"
     },
     {
         "user_ment": "& C:/DevTool/Python/Python312/python.exe c:/DevTool/workspace/UnityPJ/ProjectForTheHime/ConnectionGpt/inputCharStatus.py",
-        "gpt_ment": "\uc8c4\uc1a1\ud569\ub2c8\ub2e4. \ud574\ub2f9 \uba85\ub839\uc5b4\ub098 \uacbd\ub85c\uc5d0 \ub300\ud574\uc11c\ub294 \ub3c4\uc6c0\uc744 \ub4dc\ub9b4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4. \ub354 \ub3c4\uc640\ub4dc\ub9b4 \uc218 \uc788\ub294 \ub2e4\ub978 \ubb38\uc81c\uac00 \uc788\ub098\uc694?"
+        "gpt_ment": "죄송합니다. 해당 명령어나 경로에 대해서는 도움을 드릴 수 없습니다. 더 도와드릴 수 있는 다른 문제가 있나요?"
     },
     {
         "user_ment": "& C:/DevTool/Python/Python312/python.exe c:/DevTool/workspace/UnityPJ/ProjectForTheHime/ConnectionGpt/inputCharStatus.py",
-        "gpt_ment": "\uc774 \uba85\ub839\uc5b4\ub294 Python \uc778\ud130\ud504\ub9ac\ud130\ub97c \uc0ac\uc6a9\ud558\uc5ec \"inputCharStatus.py\"\ub77c\ub294 Python \uc2a4\ud06c\ub9bd\ud2b8\ub97c \uc2e4\ud589\ud558\ub294 \uac83\uc73c\ub85c \ubcf4\uc785\ub2c8\ub2e4. \uc2a4\ud06c\ub9bd\ud2b8\uc758 \uacbd\ub85c\uac00 \uc62c\ubc14\ub978\uc9c0 \ud655\uc778\ud558\uace0 \ud574\ub2f9 \uc2a4\ud06c\ub9bd\ud2b8\uac00 \uc788\ub294 \ub514\ub809\ud1a0\ub9ac\ub85c \uc774\ub3d9\ud55c \ud6c4 \uba85\ub839\uc5b4\ub97c \uc2e4\ud589\ud574 \ubcf4\uc138\uc694. \ud544\uc694\ud558\ub2e4\uba74 \uc2a4\ud06c\ub9bd\ud2b8 \ud30c\uc77c\uc774 \uc62c\ubc14\ub974\uac8c \uc791\uc131\ub418\uc5c8\ub294\uc9c0\ub3c4 \ud655\uc778\ud574\uc57c \ud569\ub2c8\ub2e4."
+        "gpt_ment": "이 명령어는 Python 인터프리터를 사용하여 \"inputCharStatus.py\"라는 Python 스크립트를 실행하는 것으로 보입니다. 스크립트의 경로가 올바른지 확인하고 해당 스크립트가 있는 디렉토리로 이동한 후 명령어를 실행해 보세요. 필요하다면 스크립트 파일이 올바르게 작성되었는지도 확인해야 합니다."
     },
     {
         "user_ment": "& C:/DevTool/Python/Python312/python.exe c:/DevTool/workspace/UnityPJ/ProjectForTheHime/ConnectionGpt/inputCharStatus.py",
-        "gpt_ment": "\uc774 \uba85\ub839\uc740 C:/DevTool/Python/Python312/python.exe \uacbd\ub85c\uc5d0 \uc788\ub294 Python \uc778\ud130\ud504\ub9ac\ud130\ub97c \uc0ac\uc6a9\ud558\uc5ec c:/DevTool/workspace/UnityPJ/ProjectForTheHime/ConnectionGpt/inputCharStatus.py \ud30c\uc77c\uc744 \uc2e4\ud589\ud558\ub294 \uac83\uc73c\ub85c \ubcf4\uc785\ub2c8\ub2e4. \uc774 \uba85\ub839\uc744 \uc2e4\ud589\ud558\uba74 inputCharStatus.py \ud30c\uc77c\uc774 python.exe\ub97c \ud1b5\ud574 \uc2e4\ud589\ub420 \uac83\uc785\ub2c8\ub2e4."
+        "gpt_ment": "이 명령은 C:/DevTool/Python/Python312/python.exe 경로에 있는 Python 인터프리터를 사용하여 c:/DevTool/workspace/UnityPJ/ProjectForTheHime/ConnectionGpt/inputCharStatus.py 파일을 실행하는 것으로 보입니다. 이 명령을 실행하면 inputCharStatus.py 파일이 python.exe를 통해 실행될 것입니다."
+    },
+    {
+        "user_ment": "안녕",
+        "gpt_ment": "안녕하세요! 무엇을 도와드릴까요?"
+    },
+    {
+        "user_ment": "안녕 딸아",
+        "gpt_ment": "안녕하세요. 무엇을 도와드릴까요?"
+    },
+    {
+        "user_ment": "돈 벌어와",
+        "gpt_ment": "죄송합니다, 현재는 돈을 벌어올 방법을 제공할 수는 없습니다. 그러나 다른 도움이 필요하시다면 무엇이든 물어보세요. 저는 여러분을 도울 수 있는 여러 분야에 대해 정보를 가지고 있습니다."
+    },
+    {
+        "role": "daughter",
+        "content": "Father: Hey there, Jeon Sul. How are you doing today?\n\nDaughter (Jeon Sul): Hi, Dad. I'm doing well, thank you. How about you?\n\nFather: I'm good, thank you. I wanted to talk to you about something important. I noticed you've been spending a lot of time alone in your room lately. Is everything okay?\n\nDaughter (Jeon Sul): Oh, everything's fine, Dad. I just enjoy my alone time to recharge and relax.\n\nFather: I understand that you're introverted and value your alone time, but it's also important to socialize and engage with others. It can help boost your mood and reduce stress.\n\nDaughter (Jeon Sul): I know, Dad. I'll make sure to balance my alone time with social activities. Thanks for looking out for me.\n\nFather: Of course, Jeon Sul. I just want to see you happy and healthy. Remember, I'm always here for you if you need anything.\n\nDaughter (Jeon Sul): Thank you, Dad. I appreciate your support.\n\n**Parameter Changes:**\n- Daughter's stress level decreased slightly.\n- Daughter's E (Extroversion) decreased slightly.\n- Daughter's I (Introversion) increased slightly.\n- Daughter's S (Sensing) increased slightly.\n- Daughter's N (iNtuition) decreased slightly."
+    },
+    {
+        "role": "daughter",
+        "content": "안녕 아빠. 어떻게 지내세요? (E: 35%, I: 65%) (S: 70%, N: 30%) (T: 25%, F: 75%) (J: 80%, P: 20%) (Stress: 8%) (Fatigue: 0) {\"daughter\": {\"name\": \"jeon sul\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFP\", \"hp\": 70, \"mp\": 80, \"mood\": \"happy\", \"stress\": \"8%\", \"fatigue\": \"0\", \"E\": \"35%\", \"I\": \"65%\", \"S\": \"70%\", \"N\": \"30%\", \"T\": \"25%\", \"F\": \"75%\", \"J\": \"80%\", \"P\": \"20%\", \"moral_evaluation\": \"0\"}}"
+    },
+    {
+        "role": "daughter",
+        "content": "안녕 아빠! 오늘 어떻게 지내셨어요? \n\n**Parameter Changes:**\n- Stress: Increased slightly\n- Fatigue: Remained the same\n- Mood: Unchanged\n\n**Daughter's MBTI:**\n- E: 30% -> 35%\n- I: 70% -> 65%\n- S: 65%\n- N: 35%\n- T: 20%\n- F: 80%\n- J: 85%\n- P: 15%\n\n**Daughter's Status:**\n{\"daughter\": {\"name\": \"jeon sul\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFP\", \"hp\": 70, \"mp\": 80, \"mood\": \"happy\", \"stress\": \"15%\", \"fatigue\": \"0\", \"E\": \"35%\", \"I\": \"65%\", \"S\": \"65%\", \"N\": \"35%\", \"T\": \"20%\", \"F\": \"80%\", \"J\": \"85%\", \"P\": \"15%\", \"moral_evaluation\": \"0\"}}"
+    },
+    {
+        "role": "daughter",
+        "content": "안녕 아빠! 오늘 어때요? 무엇을 도와드릴까요? \n\n**Changes in daughter's status:**\n- Stress level decreased slightly.\n- MBTI subtype shifted slightly towards extroversion (E: 35%, I: 65%).\n- E/I parameter adjusted slightly towards extroversion."
+    },
+    {
+        "role": "daughter",
+        "content": "안녕 아빠. 오늘 어떻게 지내셨어요?"
+    },
+    {
+        "role": "daughter",
+        "content": "안녕 아빠! 어떻게 지내세요? (Stress: 5%, Fatigue: -5%, MBTI: ISFJ, E: 30%, I: 70%, S: 65%, N: 35%, T: 20%, F: 80%, J: 85%, P: 15%, moral_evaluation: 0)"
+    },
+    {
+        "role": "daughter",
+        "content": "Daughter, I just wanted to tell you how proud I am of the person you have become. Your kindness and thoughtfulness never cease to amaze me. Keep shining bright, Jeon Sul.\n\n{\"daughter\": {\"name\": \"jeon sul\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happy\", \"stress\": \"5%\", \"fatigue\": \"5%\", \"E\": \"25%\", \"I\": \"75%\", \"S\": \"60%\", \"N\": \"40%\", \"T\": \"15%\", \"F\": \"85%\", \"J\": \"90%\", \"P\": \"10%\", \"moral_evaluation\": \"0\"}, \"example_change\": \"example_value\"}"
+    },
+    {
+        "role": "daughter",
+        "content": "Daughter (Jeon Sul - ISFJ): \"안녕하세요 아빠. 요즘 어떻게 지내세요?\"\n\nFather: \"안녕 솔이. 나는 너무 바빠서 좀 스트레스 받고 지친 것 같아.\"\n\nDaughter's stress level increases slightly to 10.5% and fatigue level increases to 0.5%.\n\nDaughter (Jeon Sul - ISFJ): \"정말? 그렇다면 좀 쉬어야겠어요. 어떤 일을 도와드릴까요?\"\n\nFather: \"고마워, 솔이. 네가 그래주니까 마음이 편해져. 얘기해보니 마음이 편해지네.\"\n\nDaughter's stress level decreases to 10%, and fatigue level decreases to 0%.\n\nThe parameter \"stress\" changed to 99.5%, and \"fatigue\" changed to 99.5%."
+    },
+    {
+        "role": "daughter",
+        "content": "Father: Jeon Sul, I've noticed that you've been spending a lot of time alone in your room lately. Is everything okay?\n\nDaughter: *rolls her eyes* Dad, I'm fine. I just like my alone time.\n\nFather: I understand that, but it's also important to socialize and spend time with family. It can help lift your spirits and reduce stress.\n\nDaughter: *sighs* I know, but I'm just not in the mood right now. I'll come out when I feel like it.\n\nFather: Alright, just remember that we're here for you if you need anything. And don't forget to take care of yourself.\n\nDaughter: *nods* Thanks, Dad. I'll keep that in mind.\n\n**Changes in daughter's status:**\n- **Stress:** Increased from 10% to 20%\n- **Fatigue:** Increased from 0 to 5%\n- **MBTI:** Changed from ISFJ to ISTJ\n- **E:** Decreased from 30% to 25%\n- **I:** Increased from 70% to 75%\n- **S:** Decreased from 65% to 60%\n- **N:** Increased from 35% to 40%\n- **T:** Increased from 20% to 25%\n- **F:** Decreased from 80% to 75%\n- **J:** Increased from 85% to 90%\n- **P:** Decreased from 15% to 10%\n- **example_change:** \"example_value\"\n- **moral_evaluation:** Increased from 0 to 5%"
+    },
+    {
+        "role": "daughter",
+        "content": "Dad: Jeon Sul, have you finished your homework yet?\n\nJeon Sul: I'm not in the mood to do it right now, Dad.\n\nDad: You need to be responsible and get it done. It's important for your grades.\n\nJeon Sul: I know, but I just don't feel like it. Can I do it later?\n\nDad: No, you need to do it now. Don't be so rebellious.\n\nJeon Sul: Fine, I'll do it. But can we talk about it later? I'm feeling a bit overwhelmed right now.\n\n**Parameters that changed:**\n- Stress level increased to 100.0%\n- Fatigue level increased to 100.0%\n- Moral evaluation increased to 100\n- MBTI changed to INFP\n- Mood changed to HAPPY\n\n**Key and value changes:**\n- \"mood\": \"happy\" to \"HAPPY\"\n- \"MBTI\": \"ISFJ\" to \"INFP\""
+    },
+    {
+        "role": "daughter",
+        "content": "Daughter: Hi Dad, how are you today?\n\nFather: Hello, my dear. I'm doing well, thank you. How about you, how are you feeling?\n\nDaughter: I'm feeling good, just trying to stay positive and keep myself busy with some indoor activities.\n\nFather: That's great to hear, Sul. It's important to take care of yourself and find things that make you happy. Remember to take breaks and relax when you need to.\n\nDaughter: Thank you, Dad. I appreciate your advice. It always helps me feel better.\n\nFather: I'm glad to hear that. Remember, I'm always here for you if you need anything. Take care, Sul.\n\nDaughter: I will, Dad. Love you!\n\n---\n\nKey: example_change\nValue: example_value\n\nParameter Changed:\n- Daughter's MBTI subtype changed to INFP.\n- Daughter's E: 41%, I: 60%, S: 70%, N: 30%, T: 50%, F: 60%, J: 40%, P: 50%\n- Daughter's mood changed to HAPPY"
+    },
+    {
+        "role": "daughter",
+        "content": "Oh, Dad, why are you saying that? Did I do something wrong? Please tell me what's bothering you. I'm here to listen."
+    },
+    {
+        "role": "daughter",
+        "content": "Father: \"제온술, 너 왜 그렇게 화가 나 있니? 얘기해봐.\"\n\nDaughter: \"아빠, 그냥 이런저런 일들 때문에 화가 나요. 너무 스트레스 받아서...\"\n\nFather: \"네가 스트레스 받고 있단 걸 알아. 우리 함께 얘기하면서 해결책을 찾아보자. 뭘 도와줄까?\"\n\nDaughter: \"마음이 들릴 때까지 조용히 있어 주세요...\"\n\n**Parameter Changes:**\n- Mood: Sadness\n- Stress: 50%\n- Fatigue: 30%\n- HP: 85\n- MP: 90\n- E: 35%\n- I: 65%\n- S: 70%\n- N: 30%\n- T: 50%\n- F: 60%\n- J: 40%\n- P: 50%\n- MBTI: INFP\n- Moral Evaluation: 100\n\n**Key and Value Changes:**\n- mood: \"sadness\"\n- stress: \"50%\"\n- fatigue: \"30%\"\n- HP: \"85\"\n- MP: \"90\"\n- E: \"35%\"\n- I: \"65%\"\n- S: \"70%\"\n- N: \"30%\"\n- T: \"50%\"\n- F: \"60%\"\n- J: \"40%\"\n- P: \"50%\"\n- MBTI: \"INFP\"\n- moral_evaluation: 100"
+    },
+    {
+        "role": "daughter",
+        "content": "Daughter: \"아빠, 고마워요. 그런데 오늘 날씨가 참 좋아요, 우리 함께 나들이나 가지 않을래요?\"\n\nFather: \"그건 좋은 생각이네. 날씨가 좋으니 밖으로 나가기 딱 좋겠다. 함께 나들이를 가는 건 어때?\"\n\n* Changes in daughter's status:  \n- Mood: good  \n- Stress: 5%  \n- Fatigue: 10% (tired)  \n- E: 40%  \n- I: 60%  \n- S: 75%  \n- N: 25%  \n- T: 45%  \n- F: 55%  \n- J: 45%  \n- P: 55%  \n- MBTI: ISFP  \n\nKey's and values: {\"daughter\": {\"mbti\": \"ISFP\", \"hp\": 100, \"mp\": 100, \"mood\": \"good\", \"stress\": \"5%\", \"fatigue\": \"10%\", \"E\": \"40%\", \"I\": \"60%\", \"S\": \"75%\", \"N\": \"25%\", \"T\": \"45%\", \"F\": \"55%\", \"J\": \"45%\", \"P\": \"55%\", \"moral_evaluation\": \"0\"}, \"example_change\": \"example_value\", \"fatigue\": \"10.0%\", \"stress\": \"5.0%\", \"moral_evaluation\": 0, \"hp\": \"100\", \"mp\": \"100\", \"E\": \"40%\", \"I\": \"60%\", \"S\": \"75%\", \"N\": \"25%\", \"T\": \"45%\", \"F\": \"55%\", \"J\": \"45%\", \"P\": \"55%\", \"MBTI\": \"ISFP\", \"mood\": \"good\"}."
+    },
+    {
+        "role": "daughter",
+        "content": "I'm sorry, but I couldn't quite understand the context of your request. Can you please provide more information or clarify what you need help with?"
+    },
+    {
+        "role": "daughter",
+        "content": "저도 그렇게 생각해요. 이런 상황에 대해 이야기를 나누는 건 좋지 않아요. 함께 다른 주제에 대해 이야기해볼까요? 부탁드려도 될까요?"
+    },
+    {
+        "role": "daughter",
+        "content": "Jeon Sul: Good morning, Dad.\n\nFather: Good morning, Sul. How are you feeling today?\n\nJeon Sul: I'm feeling pretty good, thanks for asking. How about you?\n\nFather: I'm doing well, just getting ready for work. Have you had breakfast yet?\n\nJeon Sul: Not yet, I was planning on making some pancakes. Would you like some?\n\nFather: That sounds delicious, I would love some pancakes. Thank you, Sul.\n\nJeon Sul: You're welcome, Dad. I'll go make them right now.\n\nFather: I appreciate that, Sul. You always know how to make my mornings brighter.\n\nJeon Sul: I'm glad to hear that, Dad. I'll make sure they turn out perfect for you.\n\nFather: Thank you, Sul. Your thoughtfulness always warms my heart.\n\nJeon Sul: I'm happy to help, Dad. I'll let you know when they're ready.\n\nFather: I'll be looking forward to it. Thank you, Sul.\n\n**Changes in daughter's status:**  \n- Mood: Normal  \n- Stress: 20%  \n- Fatigue: 30%  \n- HP: 95  \n- MP: 90  \n- E: 45%  \n- I: 55%  \n- S: 75%  \n- N: 25%  \n- T: 45%  \n- F: 55%  \n- J: 45%  \n- P: 55%  \n- MBTI: INFJ  \n- moral_evaluation: 45"
+    },
+    {
+        "role": "daughter",
+        "content": "미안합니다, 제가 이해하지 못했습니다. 좀 더 간단하게 설명해주실 수 있나요?"
+    },
+    {
+        "role": "daughter",
+        "content": "저를 찾아주셔서 감사합니다. 귀하의 요청에 대한 도움을 드리기 위해 노력하고 있습니다. 귀하는 매우 착한 분이십니다. 무엇을 도와드릴까요?"
+    },
+    {
+        "role": "daughter",
+        "content": "죄송합니다, 적절하지 않은 언어를 사용하셔서 답변을 제공해드릴 수 없습니다. 다른 도움이 필요하시면 언제든지 말씀해주세요."
+    },
+    {
+        "role": "daughter",
+        "content": "{\"example_change\": \"shock\", \"fatigue\": \"very tired\", \"stress\": \"very high\", \"moral_evaluation\": -50, \"hp\": \"50\", \"mp\": \"60\", \"E\": \"40%\", \"I\": \"59%\", \"S\": \"71%\", \"N\": \"29%\", \"T\": \"51%\", \"F\": \"59%\", \"J\": \"41%\", \"P\": \"49%\", \"MBTI\": \"INTP\", \"mood\": \"sadness\"}"
+    },
+    {
+        "role": "daughter",
+        "content": "죄송해요. 어떤 도움을 원하시나요?"
+    },
+    {
+        "role": "daughter",
+        "content": "죄송합니다, 그런 언어나 행동은 적절하지 않습니다. 만약 도와드릴 수 있는 것이 있거나 대화를 이어나가고 싶으시다면 언제든지 말씀해주세요."
     }
 ]

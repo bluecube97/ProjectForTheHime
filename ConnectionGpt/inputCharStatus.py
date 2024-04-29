@@ -1,10 +1,23 @@
-import openai
 import json
 import os
+import openai
 
 # OpenAI API 키 설정
-api_key = 'sk-proj-3ZLbBHwylhtASxE4BIaMT3BlbkFJh6cUB6QhPVKBieezTqSg'
+api_key = 'sk-proj-SrmvFmvip9TvsU8P9i3oT3BlbkFJ9dN0aAhwog6sSQ8aXL22'
 openai.api_key = api_key
+
+def save_conversation(messages):
+    conversation_path = os.path.join("conversationData", "conversation.json")
+    if os.path.exists(conversation_path):
+        with open(conversation_path, 'r') as f:
+            conversation_data = json.load(f)
+    else:
+        conversation_data = []
+
+    conversation_data.extend(messages)
+
+    with open(conversation_path, 'w') as f:
+        json.dump(conversation_data, f, indent=4)
 
 def make_child_status():
     communication_path = os.path.join("conversationData", "daughter_status.json")
@@ -38,7 +51,7 @@ def make_child_status():
 
     print("daughter_status.json 파일이 생성되었습니다.")
 
-def father_chat(messages, daughter_status):  # daughter_status를 매개변수로 추가
+def father_chat(messages, daughter_status):  
     father_status = {
         "father": {
             "name": "Lain",
@@ -77,6 +90,8 @@ def father_chat(messages, daughter_status):  # daughter_status를 매개변수�
         
         messages.append({"role": "assistant", "content": f"{daughter_name}: {daughter_reply}"})
 
+    # 대화 기록
+    save_conversation(messages)
 
 def main():
     make_child_status()
@@ -89,7 +104,7 @@ def main():
         
         messages = [
             {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": f"Role-play a conversation between your father or user. Here's your status: {json.dumps(daughter_status, ensure_ascii=False)}. And also I want to get your key's and value's in last sentence. Understand the feeling of the user's words yourself and fine-tune the key values."}
+            {"role": "user", "content": f"Role-play a conversation between your father or user. Here's your status: {json.dumps(daughter_status, ensure_ascii=False)}. And also I want to get your key's and value's in last sentence"}
         ]
         father_chat(messages, daughter_status)  # daughter_status를 father_chat 함수에 전달
         print("전체 대화 히스토리:")
