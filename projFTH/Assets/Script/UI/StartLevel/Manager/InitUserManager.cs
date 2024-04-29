@@ -7,11 +7,11 @@ namespace Script.UI.StartLevel.Manager
 {
     public class InitUserManager : MonoBehaviour
     {
-        public InputField inputUserNameField;
-        public Dropdown inputUserSexDropDown;
-
         private GameObject _myGameObject;
         private StartLevelDao _sld;
+
+        public InputField inputUserNameField;
+        public Dropdown inputUserSexDropDown;
 
         public void Awake()
         {

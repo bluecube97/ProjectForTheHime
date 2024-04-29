@@ -1,4 +1,4 @@
-namespace Script.UI.MainLevel.StartTurn
+namespace Script.UI.MainLevel.StartTurn.Manager
 {
     using UnityEngine;
     using UnityEngine.SceneManagement;

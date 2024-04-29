@@ -20,6 +20,7 @@ namespace Script.UI.StartLevel.Dao
                 {
                     // DB에 유저 정보 저장
                     cmd.CommandText = sql;
+                    cmd.Parameters.Clear();
                     cmd.Parameters.AddWithValue("@userName", name);
                     cmd.Parameters.AddWithValue("@userSex", gender);
                     cmd.ExecuteNonQuery();
