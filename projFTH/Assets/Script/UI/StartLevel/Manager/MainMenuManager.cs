@@ -1,4 +1,4 @@
-namespace Script.UI.StartLevel
+namespace Script.UI.StartLevel.Manager
 {
     using UnityEditor;
     using UnityEngine;
