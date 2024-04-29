@@ -69,6 +69,8 @@ def father_chat(messages, daughter_status):  # daughter_status를 매개변수�
             "father_message": father_prompt,
             "daughter_reply": daughter_reply
         }
+
+        character_status_update(daughter_reply)
         print("JSON 출력:", json.dumps(daughter_response_json, indent=2))
         
         if 'daughter' in daughter_status and 'name' in daughter_status['daughter']:
@@ -79,6 +81,27 @@ def father_chat(messages, daughter_status):  # daughter_status를 매개변수�
         messages.append({"role": "assistant", "content": f"{daughter_name}: {daughter_reply}"})
 
 
+def character_status_update(daughter_reply):
+    if "```json" in daughter_reply:
+        start_index = daughter_reply.find("```json") + len("```json")
+        end_index = daughter_reply.find("```", start_index)
+        json_str = daughter_reply[start_index:end_index].strip()
+
+        try:
+            updateStat = json.loads(json_str)
+            # 파일 저장 경로 설정
+            json_path = os.path.join("conversationData", "updated_daughter_status.json")
+            with open(json_path, 'w', encoding='utf-8') as json_file:
+                json.dump(updateStat, json_file, ensure_ascii=False, indent=4)
+            print(f"Updated parameters are saved in {json_path}")
+            return updateStat
+        except json.JSONDecodeError:
+            print("JSON 인코딩 에러가 발생했습니다.")
+            return None
+    else:
+        print("JSON 데이터가 포함된 대답이 없습니다.")
+        return None
+    
 def main():
     make_child_status()
     
@@ -102,13 +125,13 @@ def main():
             "The fatigue index is set in five levels: very tired, tired, normal, refreshing, and very refreshing."
             "Daughter's Stress and fatigue levels change according to the father's words, "
             "and the level of the MBTI subtype and the MBTI change according to the daughter's behavior. "
+            "When a father has an out-of-context conversation or a story that has nothing to do with the content of the conversation, the daughter asks a reverse question or changes the subject."
             "E and I, S and N, T and F, J and P change their numbers according to their propensity at 100 each other."
             "The parameter numbers in the daughter_status change very minutely."
             "Daughter is a game character and based on her MBTI tendencies, if she's an extrovert, she likes hunting or outdoor activities,"
             "if she's introverted, she acts based on her tendencies, like being timid or doing things alone indoors."
-            "And also I want to get your key's and value's except name, age, sex keys in last sentence. "
             "Also fine-tune paramter's yourself. "
-            "And i want to know the parameter what changed. "
+            "And at the end of my daughter's answer, please give me both the changed and unchanged parameter values in the json file."
             "Here's your status: "
             f"{json.dumps(daughter_status, ensure_ascii=False)}."
         )
