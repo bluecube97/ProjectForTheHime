@@ -1,6 +1,12 @@
 import json
 import os
 
+class NameList() : 
+    name1 = ""
+    name2 = ""
+
+    
+
 # 현재 스크립트의 경로
 current_directory = os.path.dirname(__file__)
 

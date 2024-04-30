@@ -2,6 +2,22 @@ import openai
 import json
 import os
 
+# 1. custom 지피티 로 넘어간다. 
+#   ㄴ api 화 
+# 1-2. 스테이터스 미세조정
+ # 은님꺼(gpt를 우리가 사용할 수 있게 api화하기)
+
+# 2. statusVo를 다른 파일로 만들지, 같은 파일에 만들지. -> 다른파일로 만드는게 좋을거같다.
+#   ㄴ set_text에 예를 들어 getI, getAge
+#       ㄴ 최종목표 setText 안에 있는 daughter_status.json자체를 없애기
+# 2-2. 스테이터스 미세조정 조건문 존나 굴려라
+# (은님 거를 메인 파일에 어떻게 합칠지&statusManager.py=VO에 class와 json읽어서 관리 부분 설계.)
+
+# 우선순위
+# 유니티 상호통신 -> 전준
+# 스크립트 컨펌 로직관리, DB설계, 알파카공부, json데이터 적재방법 설계..
+
+
 # OpenAI API 키 설정
 api_key = 'sk-proj-SrmvFmvip9TvsU8P9i3oT3BlbkFJ9dN0aAhwog6sSQ8aXL22'
 openai.api_key = api_key

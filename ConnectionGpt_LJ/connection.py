@@ -82,8 +82,6 @@ while (True):
 with open(absolute_path, 'w', encoding='UTF-8') as file:
     json.dump(conversation, file, ensure_ascii=False, indent=4)
 
-
-
 # 1. parameter값이 전체적으로 들어가는 : Parameter.json
 # 2. ques 와 resp만 들어가는 : Conversation.json
 
