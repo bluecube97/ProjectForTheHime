@@ -8,12 +8,14 @@ using UnityEngine.UI;
 
 namespace Script.UI.MainLevel.StartTurn.Manager
 {
-    public class LifeTimeManager : MonoBehaviour
+    public class LifeTimeManager : MonoBehaviour, IPointerEnterHandler
     {
         public GameObject todoListPrefab; // TODOList 이미지 프리팹 참조
         public GameObject todoList; // TODOList 이미지 참조
         public Transform todoListLayout; // TODOList들이 들어갈 레이아웃 참조
         public GameObject detailPopup; // TODOList의 세부 정보 팝업창
+        public GameObject todoListInstance; // TODOList의 인스턴스
+
         private GameObject _myGameObject;
         private StartTurnDao _std;
         public List<Dictionary<string, object>> TodoList = new(); // TODO리스트를 담는 딕셔너리 리스트
@@ -34,7 +36,7 @@ namespace Script.UI.MainLevel.StartTurn.Manager
             foreach (var dic in TodoList)
             {
                 // 이미지 프리팹 인스턴스화
-                var todoListInstance = Instantiate(todoListPrefab, todoListLayout);
+                todoListInstance = Instantiate(todoListPrefab, todoListLayout);
 
                 // 이미지 오브젝트에 딕셔너리 값 설정
                 var textComponent = todoListInstance.GetComponentInChildren<Text>();
@@ -71,14 +73,17 @@ namespace Script.UI.MainLevel.StartTurn.Manager
             detailPopup.transform.position = popupPosition;
         }
 
-        public void OnPointerEnter()
+
+        public void OnPointerEnter(PointerEventData eventData)
         {
-            // 현재 마우스가 가리키고 있는 게임 오브젝트 가져옴
-            var nowGameObject = EventSystem.current.currentSelectedGameObject;
+            GameObject enteredObject = eventData.pointerEnter;
+            Debug.Log(enteredObject.ToString());
+            int index = todoListInstance.transform.GetSiblingIndex();
+            Debug.Log(index);
             // 팝업 활성화
             detailPopup.SetActive(true);
             // 해당 게임 오브젝트의 TodoNo 가져오기
-            var todoNo = 1; // = Convert.ToInt32(nowGameObject.name);
+            var todoNo = 1;//Convert.ToInt32(nowGameObject.name);
             // 팝업에 세부 정보 설정
             var popupText = detailPopup.GetComponentInChildren<Text>();
             // TodoList에서 해당 Todo 항목의 정보를 가져옴

@@ -55,10 +55,10 @@ namespace Script.UI.MainLevel.StartTurn.Dao
                             while (reader.Read())
                             {
                                 Dictionary<string, object> dic = new();
-                                dic.Add("TODONAME", reader["TODONAME"].ToString());
-                                dic.Add("REWARD", reader["REWARD"].ToString());
-                                dic.Add("LOSEREWARD", reader["LOSEREWARD"].ToString());
-                                dic.Add("STATREWARD", reader["STATREWARD"].ToString());
+                                dic.Add("TODONAME", reader["TODONAME"]);
+                                dic.Add("REWARD", reader["REWARD"]);
+                                dic.Add("LOSEREWARD", reader["LOSEREWARD"]);
+                                dic.Add("STATREWARD", reader["STATREWARD"]);
                                 dic.Add("TODONO", num);
                                 todoList.Add(dic);
                             }

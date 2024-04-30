@@ -1436,7 +1436,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.00018310547}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &634712304
@@ -2389,23 +2389,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1668377143}
-          m_TargetAssemblyTypeName: Script.UI.MainLevel.StartTurn.Manager.LifeTimeManager,
-            Assembly-CSharp
-          m_MethodName: OnPointerEnter
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
   - eventID: 1
     callback:
       m_PersistentCalls:
@@ -4000,7 +3983,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2116824379}
   m_HandleRect: {fileID: 2116824378}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -5231,6 +5214,7 @@ MonoBehaviour:
   todoList: {fileID: 1039589820}
   todoListLayout: {fileID: 634712303}
   detailPopup: {fileID: 1235018986}
+  todoListInstance: {fileID: 1039589820}
 --- !u!4 &1668377144
 Transform:
   m_ObjectHideFlags: 0

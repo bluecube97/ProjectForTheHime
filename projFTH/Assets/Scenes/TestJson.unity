@@ -363,7 +363,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uBC84\uD2BC"
 --- !u!222 &315814099
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1062,8 +1062,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   filePath: Assets/JSON/conversation.json
-  InputDataField: {fileID: 387478477}
-  OutputDataText: {fileID: 1722023004}
+  inputDataField: {fileID: 387478477}
+  outputDataText: {fileID: 1722023004}
 --- !u!1 &1543698888
 GameObject:
   m_ObjectHideFlags: 0

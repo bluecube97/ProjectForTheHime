@@ -4,5 +4,6 @@
     <file url="file://$PROJECT_DIR$/Assets/Script/UI/Outing/ClothingStoreManager.cs" charset="x-windows-949" />
     <file url="file://$PROJECT_DIR$/Assets/Script/UI/Outing/RestaurantManager.cs" charset="x-windows-949" />
     <file url="file://$PROJECT_DIR$/Assets/Script/UI/Outing/RestaurantScript/RestaurantFoodList.cs" charset="x-windows-949" />
+    <file url="file://$PROJECT_DIR$/Assets/Script/UI/Outing/RestaurantScript/RestaurantManager.cs" charset="x-windows-949" />
   </component>
 </project>
