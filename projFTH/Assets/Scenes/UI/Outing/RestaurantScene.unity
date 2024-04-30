@@ -485,6 +485,8 @@ RectTransform:
   - {fileID: 455983076}
   - {fileID: 1009172180}
   - {fileID: 2012902302}
+  - {fileID: 937686601}
+  - {fileID: 201661184}
   m_Father: {fileID: 1958770258}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -562,11 +564,11 @@ RectTransform:
   m_Children:
   - {fileID: 1834859059}
   - {fileID: 1146058626}
-  m_Father: {fileID: 951774952}
+  m_Father: {fileID: 143104843}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.000030517578}
+  m_AnchoredPosition: {x: 2.8966095, y: 27.036236}
   m_SizeDelta: {x: 882.1183, y: 296.978}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &201661185
@@ -2081,11 +2083,11 @@ RectTransform:
   m_Children:
   - {fileID: 1953374962}
   - {fileID: 1305338268}
-  m_Father: {fileID: 951774952}
+  m_Father: {fileID: 143104843}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.000030517578}
+  m_AnchoredPosition: {x: 2.8966095, y: 27.036236}
   m_SizeDelta: {x: 882.1183, y: 296.978}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &937686602
@@ -2156,8 +2158,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 937686601}
-  - {fileID: 201661184}
   - {fileID: 1181271691}
   - {fileID: 1639196658}
   - {fileID: 1002247596}
@@ -2660,8 +2660,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1599511057}
-        m_TargetAssemblyTypeName: Script.UI.Outing.RestaurantManager, Assembly-CSharp
-        m_MethodName: OnClickChiceUiOut
+        m_TargetAssemblyTypeName: Script.UI.Outing.RestaurantUIController, Assembly-CSharp
+        m_MethodName: OnClickBuyCompleOut
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2990,8 +2990,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1599511057}
-        m_TargetAssemblyTypeName: Script.UI.Outing.RestaurantManager, Assembly-CSharp
-        m_MethodName: OnClickChiceUiOut
+        m_TargetAssemblyTypeName: Script.UI.Outing.RestaurantUIController, Assembly-CSharp
+        m_MethodName: OnClickBuyFailOut
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3959,6 +3959,7 @@ GameObject:
   - component: {fileID: 1599511058}
   - component: {fileID: 1599511057}
   - component: {fileID: 1599511059}
+  - component: {fileID: 1599511061}
   - component: {fileID: 1599511060}
   m_Layer: 0
   m_Name: RestaurantManager
@@ -3983,6 +3984,8 @@ MonoBehaviour:
   SellMenu: {fileID: 450863648}
   BuyMenu: {fileID: 891230032}
   ChiceUi: {fileID: 951774951}
+  BuyComple: {fileID: 201661183}
+  BuyFail: {fileID: 937686600}
 --- !u!4 &1599511058
 Transform:
   m_ObjectHideFlags: 0
@@ -4021,6 +4024,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b548e2a5eae6f5b46b4f6723902905e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1599511061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1599511056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4b763b22f1ed124696cd36f48f369db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   foodListPrefab: {fileID: 1711416373}
@@ -4109,9 +4124,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1599511060}
-        m_TargetAssemblyTypeName: RestaurantFoodList, Assembly-CSharp
-        m_MethodName: PaymentFood
+      - m_Target: {fileID: 1599511061}
+        m_TargetAssemblyTypeName: RestaurantManager, Assembly-CSharp
+        m_MethodName: ProcessPayment
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4384,8 +4399,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1599511060}
-        m_TargetAssemblyTypeName: RestaurantFoodList, Assembly-CSharp
+      - m_Target: {fileID: 1599511061}
+        m_TargetAssemblyTypeName: RestaurantManager, Assembly-CSharp
         m_MethodName: GetclickFoodList
         m_Mode: 1
         m_Arguments:
