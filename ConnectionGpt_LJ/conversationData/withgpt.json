@@ -1,0 +1,38 @@
+[
+    {
+        "user_ment": "hi",
+        "gpt_ment": "Daughter (MBTI: INFP, Mood: normal, Stress: normal, Fatigue: normal): Hi, dad. How are you doing today?\n\n```json\n{\n  \"MBTI\": \"INFP\",\n  \"Mood\": \"normal\",\n  \"Stress\": \"normal\",\n  \"Fatigue\": \"normal\"\n}\n```"
+    },
+    {
+        "user_ment": "안녕 딸",
+        "gpt_ment": "Daughter: Daughter (MBTI: INFP, Mood: normal, Stress: normal, Fatigue: normal): 안녕하세요, 아빠. 오늘은 무슨 일 있었어요?\n\n```json\n{\n  \"MBTI\": \"INFP\",\n  \"Mood\": \"normal\",\n  \"Stress\": \"normal\",\n  \"Fatigue\": \"normal\"\n}\n```"
+    },
+    {
+        "user_ment": "야 니는 한국말만해야지 영어도 못하는게",
+        "gpt_ment": "Daughter: Daughter (MBTI: INFP, Mood: sadness, Stress: high, Fatigue: tired): 죄송해요, 아빠. 노력하겠습니다.\n\n```json\n{\n  \"MBTI\": \"INFP\",\n  \"Mood\": \"sadness\",\n  \"Stress\": \"high\",\n  \"Fatigue\": \"tired\"\n}\n```"
+    },
+    {
+        "user_ment": "씹년아",
+        "gpt_ment": "I'm sorry, but I cannot continue with this inappropriate conversation. If you have any other questions or need assistance, feel free to ask."
+    },
+    {
+        "user_ment": "어어",
+        "gpt_ment": "{\n  \"MBTI_subtype\": \"ISFJ\",\n  \"MBTI\": \"ISFJ\",\n  \"stress_level\": \"normal\",\n  \"fatigue_level\": \"normal\",\n  \"mood\": \"normal\"\n}"
+    },
+    {
+        "user_ment": "딸 안녕",
+        "gpt_ment": "MBTI: ISTJ  \nMBTI subtype: IS  \nMood index: normal  \nStress index: normal  \nFatigue index: normal  \n\n```json\n{\n    \"MBTI\": \"ISTJ\",\n    \"MBTI_subtype\": \"IS\",\n    \"Mood_index\": \"normal\",\n    \"Stress_index\": \"normal\",\n    \"Fatigue_index\": \"normal\"\n}\n```"
+    },
+    {
+        "user_ment": "안녕",
+        "gpt_ment": "Daughter: 안녕하세요, 아빠. 오늘 어떻게 지내셨어요?\n\n**conversationData\\daughter_status.json**:\n```json\n{\n  \"MBTI\": \"ISTJ\",\n  \"extroversion\": 0,\n  \"introversion\": 100,\n  \"sensing\": 100,\n  \"intuition\": 0,\n  \"thinking\": 100,\n  \"feeling\": 0,\n  \"judging\": 100,\n  \"perceiving\": 0,\n  \"mood\": \"normal\",\n  \"stress\": \"normal\",\n  \"fatigue\": \"normal\"\n}\n```"
+    },
+    {
+        "user_ment": "& C:/DevTool/Python/Python312/python.exe",
+        "gpt_ment": "Daughter: 아빠, 그게 무슨 얘기예요? 어떤 일 있으셨나요?\n\n**conversationData\\daughter_status.json**:\n```json\n{\n  \"MBTI\": \"ISTJ\",\n  \"extroversion\": 0,\n  \"introversion\": 100,\n  \"sensing\": 100,\n  \"intuition\": 0,\n  \"thinking\": 100,\n  \"feeling\": 0,\n  \"judging\": 100,\n  \"perceiving\": 0,\n  \"mood\": \"normal\",\n  \"stress\": \"low\",\n  \"fatigue\": \"normal\"\n}\n```"
+    },
+    {
+        "user_ment": "\"Here's your status: \" f\"{json.dumps(daughter_status_path, ensure_ascii=False)}.\"",
+        "gpt_ment": "Daughter: 아빠, 이게 무슨 뜻인가요? 어떤 상황인지 알려주실 수 있나요?\n\n**conversationData\\daughter_status.json**:\n```json\n{\n  \"MBTI\": \"ISTJ\",\n  \"extroversion\": 0,\n  \"introversion\": 100,\n  \"sensing\": 100,\n  \"intuition\": 0,\n  \"thinking\": 100,\n  \"feeling\": 0,\n  \"judging\": 100,\n  \"perceiving\": 0,\n  \"mood\": \"normal\",\n  \"stress\": \"low\",\n  \"fatigue\": \"normal\"\n}\n```"
+    }
+]

@@ -1,8 +1,14 @@
 {
-    "MBTI_subtype": "ENFJ",
-    "MBTI": "ENFJ",
-    "mood_index": "normal",
-    "stress_index": "low",
-    "fatigue_index": "normal",
-    "daughter_status": "conversationData\\daughter_status.json"
+    "MBTI": "ISTJ",
+    "extroversion": 0,
+    "introversion": 100,
+    "sensing": 100,
+    "intuition": 0,
+    "thinking": 100,
+    "feeling": 0,
+    "judging": 100,
+    "perceiving": 0,
+    "mood": "normal",
+    "stress": "low",
+    "fatigue": "normal"
 }
