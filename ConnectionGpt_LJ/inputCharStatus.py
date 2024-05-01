@@ -1,10 +1,61 @@
 import openai
 import json
 import os
+from statusManager import Daughter as d, load_daughter_status as lds
+
+# 1. custom 지피티 로 넘어간다. 
+#   ㄴ api 화 
+# 1-2. 스테이터스 미세조정
+ # 은님꺼(gpt를 우리가 사용할 수 있게 api화하기)
+
+# 2. statusVo를 다른 파일로 만들지, 같은 파일에 만들지. -> 다른파일로 만드는게 좋을거같다.
+#   ㄴ set_text에 예를 들어 getI, getAge
+#       ㄴ 최종목표 setText 안에 있는 daughter_status.json자체를 없애기
+# 2-2. 스테이터스 미세조정 조건문 존나 굴려라
+# (은님 거를 메인 파일에 어떻게 합칠지&statusManager.py=VO에 class와 json읽어서 관리 부분 설계.)
+
+# 우선순위
+# 유니티 상호통신 -> 전준
+# 스크립트 컨펌 로직관리, DB설계, 알파카공부, json데이터 적재방법 설계..
+
 
 # OpenAI API 키 설정
 api_key = 'sk-proj-SrmvFmvip9TvsU8P9i3oT3BlbkFJ9dN0aAhwog6sSQ8aXL22'
 openai.api_key = api_key
+
+# 현재 스크립트의 경로
+current_directory = os.path.dirname(__file__)
+
+# conversation.json 상대경로
+relative_path = "conversationData/withgpt.json"
+
+# 절대경로 변환
+absolute_path = os.path.join(current_directory, relative_path)
+
+withgpt_ = []
+
+
+def read_comm_file(question, response):
+    commu = {"user_ment": question, "gpt_ment": response}
+    withgpt_path = os.path.join(current_directory, "conversationData", "withgpt.json")
+
+    # communication.json 파일을 저장할 폴더가 없을 경우 폴더를 생성합니다.
+    if not os.path.exists(os.path.dirname(withgpt_path)):
+        os.makedirs(os.path.dirname(withgpt_path))
+
+    # 파일이 존재하지 않는 경우 새로운 파일을 생성하여 데이터를 저장
+    if not os.path.exists(withgpt_path):
+        withgpt_.append(commu)
+        with open(withgpt_path, 'w', encoding='utf-8') as f:
+            json.dump(withgpt_, f, indent=4, ensure_ascii=False)
+    else:
+        # 파일이 존재하는 경우 기존 파일을 열어서 데이터를 읽고 덮어쓰기
+        withgpt_.append(commu)
+        with open(withgpt_path, 'r', encoding='utf-8') as f:  
+            current_withgpt = json.load(f)  
+        current_withgpt.append(commu)
+        with open(withgpt_path, 'w', encoding='utf-8') as f: 
+            json.dump(current_withgpt, f, indent=4, ensure_ascii=False)
 
 def make_child_status():
     communication_path = os.path.join("conversationData", "daughter_status.json")
@@ -32,10 +83,21 @@ def make_child_status():
         json.dump(daughter_data, f, indent=4)
     print("daughter_status.json 파일이 생성되었습니다.")
 
-
 def load_daughter_status(path):
     with open(path, 'r', encoding='utf-8') as f:
-        return json.load(f)
+        return json.load(f)  
+    
+'''def daughter_stat(S_M):
+    daughter_stat = (
+        "Your name is " + S_M.get_Name, "Your age is " + S_M.get_Age, "Your sex is " + S_M.get_Sex,
+        "Your MBTI is " + S_M.get_Mbti, "Your HP is " + S_M.get_Hp,  "Your MP is " + S_M.get_Mp,
+        "Your Mood is " + S_M.get_Mood, "Your Stress is " + S_M.get_Stress, "Your Fatigue is " + S_M.get_Fatigue,
+        "Your MBTI(E) is " + S_M.get_E, "Your MBTI(I) is " + S_M.get_I, "Your MBTI(S) is " + S_M.get_S,
+        "Your MBTI(N) is " + S_M.get_N, "Your MBTI(T) is " + S_M.get_T, "Your MBTI(F) is " + S_M.get_F,
+        "Your MBTI(J) is " + S_M.get_J, "Your MBTI(P) is " + S_M.get_P
+    )
+    return daughter_stat'''
+
 
 def updated_daughter_status(origin_path, update_path):
     # update_path에서 데이터를 읽고 origin_path에 덮어쓰기
@@ -49,11 +111,14 @@ def updated_daughter_status(origin_path, update_path):
         print("Updated JSON file does not exist")
 
 def extract_and_save_updated_status(daughter_reply, update_path):
+    json_str = None  # json_str 변수를 미리 정의하고 None으로 초기화합니다.
     if "```json" in daughter_reply:
         start_index = daughter_reply.find("```json") + len("```json")
         end_index = daughter_reply.find("```", start_index)
         json_str = daughter_reply[start_index:end_index].strip()
+        print("Extracted JSON string:", json_str)  # 추가
 
+    if json_str is not None:  # json_str이 None이 아닌 경우에만 실행합니다.
         try:
             update_data = json.loads(json_str)
             with open(update_path, 'w', encoding='utf-8') as file:
@@ -80,6 +145,8 @@ def father_chat(daughter_status_path, daughter_update_path):
             "job": "Teacher"
         }
     }
+
+    '''d_stat = daughter_stat(S_M)'''
     
     set_text = (
             "You are Role-play a conversation between your father. "
@@ -102,6 +169,7 @@ def father_chat(daughter_status_path, daughter_update_path):
             "Also fine-tune paramter's yourself. "
             "And at the end of my daughter's answer, please only give me the changed parameter values as JSON file."
             "Here's your status: " f"{json.dumps(daughter_status_path, ensure_ascii=False)}."
+            #+ d_stat
         )
 
     messages = [
@@ -137,6 +205,9 @@ def father_chat(daughter_status_path, daughter_update_path):
 
         messages.append({"role": "assistant", "content": f"{daughter_name}: {daughter_reply}"})
 
+        # 아빠와 딸의 대화를 withgpt.json에 저장
+        read_comm_file(father_prompt, daughter_reply)
+
 def main():
     make_child_status()
     daughter_status_path = os.path.join("conversationData", "daughter_status.json")
@@ -150,3 +221,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+    print(d.get_Age)

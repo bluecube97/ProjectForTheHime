@@ -1,8 +1,7 @@
 {
-    "MBTI_subtype": "ENFJ",
-    "MBTI": "ENFJ",
-    "mood_index": "normal",
-    "stress_index": "low",
-    "fatigue_index": "normal",
-    "daughter_status": "conversationData\\daughter_status.json"
+    "stress_level": "normal",
+    "fatigue_level": "normal",
+    "mood": "normal",
+    "MBTI_subtype": "ISTJ",
+    "MBTI": "ISTJ"
 }
