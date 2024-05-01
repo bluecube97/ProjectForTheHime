@@ -110,6 +110,7 @@ def ConnectionGpt(daughter_status_path, daughter_update_path):
                 update_daughter_status(daughter_status_path, daughter_update_path)
         except Exception as e:
             print(f"An error occurred during API interaction: {e}")
+    
 
 def main():
     daughter_status_path = os.path.join("conversationData", "daughter_status.json")
