@@ -187,6 +187,8 @@ def load_daughter_status(daughter, communication_path):
 
     status_keys = items["daughter"]
 
+    # 예외처리 key값이 없을경우
+
     daughter.name = status_keys["name"]
     daughter.age = status_keys["age"]
     daughter.sex = status_keys["sex"]
@@ -211,7 +213,7 @@ d = Daughter()
 
 ##파일 경로 설정
 communication_path = os.path.join("conversationData", "daughter_status.json")
-d = load_daughter_status(d, communication_path)
+#d = load_daughter_status(d, communication_path)
 
-print("딸랑구 나이 : ", d.age)
-print("딸랑구 이름 : ", d.name)  # 이제 업데이트된 age가 출력됩니다
+#print("딸랑구 나이 : ", d.age)
+#print("딸랑구 이름 : ", d.name)  # 이제 업데이트된 age가 출력됩니다

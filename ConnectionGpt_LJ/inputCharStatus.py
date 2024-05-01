@@ -1,7 +1,7 @@
 import openai
 import json
 import os
-import statusManager as S_M
+from statusManager import Daughter as d, load_daughter_status as lds
 
 # 1. custom 지피티 로 넘어간다. 
 #   ㄴ api 화 
@@ -83,10 +83,21 @@ def make_child_status():
         json.dump(daughter_data, f, indent=4)
     print("daughter_status.json 파일이 생성되었습니다.")
 
-
 def load_daughter_status(path):
     with open(path, 'r', encoding='utf-8') as f:
-        return json.load(f)
+        return json.load(f)  
+    
+'''def daughter_stat(S_M):
+    daughter_stat = (
+        "Your name is " + S_M.get_Name, "Your age is " + S_M.get_Age, "Your sex is " + S_M.get_Sex,
+        "Your MBTI is " + S_M.get_Mbti, "Your HP is " + S_M.get_Hp,  "Your MP is " + S_M.get_Mp,
+        "Your Mood is " + S_M.get_Mood, "Your Stress is " + S_M.get_Stress, "Your Fatigue is " + S_M.get_Fatigue,
+        "Your MBTI(E) is " + S_M.get_E, "Your MBTI(I) is " + S_M.get_I, "Your MBTI(S) is " + S_M.get_S,
+        "Your MBTI(N) is " + S_M.get_N, "Your MBTI(T) is " + S_M.get_T, "Your MBTI(F) is " + S_M.get_F,
+        "Your MBTI(J) is " + S_M.get_J, "Your MBTI(P) is " + S_M.get_P
+    )
+    return daughter_stat'''
+
 
 def updated_daughter_status(origin_path, update_path):
     # update_path에서 데이터를 읽고 origin_path에 덮어쓰기
@@ -122,9 +133,7 @@ def extract_and_save_updated_status(daughter_reply, update_path):
         return False
 
 
-def father_chat(daughter_status_path, daughter_update_path, S_M):
-    instance = S_M.Daughter()
-    instance.get_Name
+def father_chat(daughter_status_path, daughter_update_path):
     father_status = {
         "father": {
             "name": "Lain",
@@ -136,6 +145,8 @@ def father_chat(daughter_status_path, daughter_update_path, S_M):
             "job": "Teacher"
         }
     }
+
+    '''d_stat = daughter_stat(S_M)'''
     
     set_text = (
             "You are Role-play a conversation between your father. "
@@ -157,9 +168,8 @@ def father_chat(daughter_status_path, daughter_update_path, S_M):
             "Her stress, fatigue, and mood levels change because of conversations with her father or because of her daughter's tiredness from work or her stressful work. But not all conversations change, they change in meaningful conversations. "
             "Also fine-tune paramter's yourself. "
             "And at the end of my daughter's answer, please only give me the changed parameter values as JSON file."
-            "Here's your status: "
-            
-             f"{json.dumps(daughter_status_path, ensure_ascii=False)}."
+            "Here's your status: " f"{json.dumps(daughter_status_path, ensure_ascii=False)}."
+            #+ d_stat
         )
 
     messages = [
@@ -211,3 +221,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+    print(d.get_Age)

@@ -1,14 +1,7 @@
 {
-    "MBTI": "ISTJ",
-    "extroversion": 0,
-    "introversion": 100,
-    "sensing": 100,
-    "intuition": 0,
-    "thinking": 100,
-    "feeling": 0,
-    "judging": 100,
-    "perceiving": 0,
+    "stress_level": "normal",
+    "fatigue_level": "normal",
     "mood": "normal",
-    "stress": "low",
-    "fatigue": "normal"
+    "MBTI_subtype": "ISTJ",
+    "MBTI": "ISTJ"
 }

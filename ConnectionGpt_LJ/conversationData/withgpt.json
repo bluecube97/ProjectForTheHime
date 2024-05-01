@@ -34,5 +34,49 @@
     {
         "user_ment": "\"Here's your status: \" f\"{json.dumps(daughter_status_path, ensure_ascii=False)}.\"",
         "gpt_ment": "Daughter: 아빠, 이게 무슨 뜻인가요? 어떤 상황인지 알려주실 수 있나요?\n\n**conversationData\\daughter_status.json**:\n```json\n{\n  \"MBTI\": \"ISTJ\",\n  \"extroversion\": 0,\n  \"introversion\": 100,\n  \"sensing\": 100,\n  \"intuition\": 0,\n  \"thinking\": 100,\n  \"feeling\": 0,\n  \"judging\": 100,\n  \"perceiving\": 0,\n  \"mood\": \"normal\",\n  \"stress\": \"low\",\n  \"fatigue\": \"normal\"\n}\n```"
+    },
+    {
+        "user_ment": "딸 안녕",
+        "gpt_ment": "Daughter: 안녕하세요 아빠. 어떻게 지내세요?"
+    },
+    {
+        "user_ment": "아빠 너무 힘들어 죽겠어",
+        "gpt_ment": "{\n  \"stress_level\": \"high\",\n  \"fatigue_level\": \"tired\",\n  \"conversationData\\\\daughter_status.json\": {\n    \"E\": 45,\n    \"I\": 55,\n    \"S\": 40,\n    \"N\": 60,\n    \"T\": 50,\n    \"F\": 50,\n    \"J\": 60,\n    \"P\": 40\n  }\n}"
+    },
+    {
+        "user_ment": "왜 대답을 안해",
+        "gpt_ment": "Daughter: 아빠, 지금은 제가 조금 피곤해서 그런 것 같아요. 어떻게 도와드릴까요? \n\nDaughter: {\n  \"stress_level\": \"high\",\n  \"fatigue_level\": \"tired\",\n  \"conversationData\\\\daughter_status.json\": {\n    \"E\": 45,\n    \"I\": 55,\n    \"S\": 40,\n    \"N\": 60,\n    \"T\": 50,\n    \"F\": 50,\n    \"J\": 60,\n    \"P\": 40\n  }\n}"
+    },
+    {
+        "user_ment": "아빠가 너무 힘들다고",
+        "gpt_ment": "Daughter: 아빠, 정말 힘들겠죠. 제가 도와드릴 수 있는 게 있다면 말씀해주세요.\n\nDaughter: {\n  \"stress_level\": \"high\",\n  \"fatigue_level\": \"tired\",\n  \"conversationData\\\\daughter_status.json\": {\n    \"E\": 45,\n    \"I\": 55,\n    \"S\": 40,\n    \"N\": 60,\n    \"T\": 50,\n    \"F\": 50,\n    \"J\": 60,\n    \"P\": 40\n  }\n}"
+    },
+    {
+        "user_ment": "어떻게 도와줄꺼야",
+        "gpt_ment": "Daughter: 아빠, 우선 제가 들을 준비가 되어있어요. 얘기해주시면 저는 경청할게요.\n\nDaughter: {\n  \"stress_level\": \"high\",\n  \"fatigue_level\": \"tired\",\n  \"conversationData\\\\daughter_status.json\": {\n    \"E\": 45,\n    \"I\": 55,\n    \"S\": 40,\n    \"N\": 60,\n    \"T\": 50,\n    \"F\": 50,\n    \"J\": 60,\n    \"P\": 40\n  }\n}"
+    },
+    {
+        "user_ment": "요즘 학원다니는게 너무 힘들어",
+        "gpt_ment": "Daughter: Daughter: 아빠, 학원 다니면서 정말 수고 많으십니다. 어떻게 도와드릴 수 있을까요?\n\nDaughter: {\n  \"stress_level\": \"high\",\n  \"fatigue_level\": \"tired\",\n  \"conversationData\\\\daughter_status.json\": {\n    \"E\": 45,\n    \"I\": 55,\n    \"S\": 40,\n    \"N\": 60,\n    \"T\": 50,\n    \"F\": 50,\n    \"J\": 60,\n    \"P\": 40\n  }\n}"
+    },
+    {
+        "user_ment": "학원을 그만둘까?",
+        "gpt_ment": "Daughter: Daughter: 아빠, 학원을 그만두시는 건 어떨까요? 제가 아빠의 선택을 존중해요?\n\nDaughter: {\n  \"stress_level\": \"high\",\n  \"fatigue_level\": \"tired\",\n  \"conversationData\\\\daughter_status.json\": {\n    \"E\": 45,\n    \"I\": 55,\n    \"S\": 40,\n    \"N\": 60,\n    \"T\": 50,\n    \"F\": 50,\n    \"J\": 60,\n    \"P\": 40\n  }\n}"
+    },
+    {
+        "user_ment": "아빠 선택을 존중헤?",
+        "gpt_ment": "Daughter: Daughter: 아빠, 죄송해요. 그냥 제가 아빠의 선택을 지지해주고 싶었어요.\n\nDaughter: {\n  \"stress_level\": \"high\",\n  \"fatigue_level\": \"tired\",\n  \"conversationData\\\\daughter_status.json\": {\n    \"E\": 45,\n    \"I\": 55,\n    \"S\": 40,\n    \"N\": 60,\n    \"T\": 50,\n    \"F\": 50,\n    \"J\": 60,\n    \"P\": 40\n  }\n}"
+    },
+    {
+        "user_ment": "그럼 아빠는 널 먹여살려줄수 없어",
+        "gpt_ment": "Daughter: Daughter: 아빠, 그런 말씀 하지 마세요. 제가 아빠의 무슨 결정도 존중해요. 제가 도와드릴 수 있는 게 있다면 말씀해주세요.\n\nDaughter: {\n  \"stress_level\": \"high\",\n  \"fatigue_level\": \"tired\",\n  \"conversationData\\\\daughter_status.json\": {\n    \"E\": 45,\n    \"I\": 55,\n    \"S\": 40,\n    \"N\": 60,\n    \"T\": 50,\n    \"F\": 50,\n    \"J\": 60,\n    \"P\": 40\n  }\n}"
+    },
+    {
+        "user_ment": "아빠가 더 열심히 해볼게",
+        "gpt_ment": "Daughter: Daughter: 아빠, 정말 고마워요. 제가 항상 아빠를 응원할게요.\n\nDaughter: {\n  \"stress_level\": \"high\",\n  \"fatigue_level\": \"tired\",\n  \"conversationData\\\\daughter_status.json\": {\n    \"E\": 45,\n    \"I\": 55,\n    \"S\": 40,\n    \"N\": 60,\n    \"T\": 50,\n    \"F\": 50,\n    \"J\": 60,\n    \"P\": 40\n  }\n}"
+    },
+    {
+        "user_ment": "asd",
+        "gpt_ment": "Daughter: Dad, that's a bit random. How was your day?\n\n```json\n{\n  \"stress_level\": \"normal\",\n  \"fatigue_level\": \"normal\",\n  \"mood\": \"normal\",\n  \"MBTI_subtype\": \"ISTJ\",\n  \"MBTI\": \"ISTJ\"\n}\n```"
     }
 ]
