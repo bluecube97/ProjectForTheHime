@@ -6,17 +6,15 @@ namespace Script.UI.Outing
     using UnityEngine.SceneManagement;
     using UnityEngine.UI;
 
-    public class QuestBoardManager : MonoBehaviour 
-    { 
+    public class QuestBoardManager : MonoBehaviour
+    {
         public GameObject questListPrefab; // QuestList 이미지 프리팹 참조
         public GameObject questList; // QuestList 이미지 참조
         public Transform questListLayout; // QuestList들이 들어갈 레이아웃 참조
 
         private QusetBoardDao questBoardDao;
 
-        private bool playbleQuest = true;
-        private bool submitQuest;
-        private bool completeQuest;
+       
 
         private List<GameObject> questListInstances = new List<GameObject>();
 
@@ -32,20 +30,10 @@ namespace Script.UI.Outing
         {
             questList.SetActive(true);
 
-            List<Dictionary<string, object>> QuestList = new List<Dictionary<string, object>>();
+            List<QuestBoardVO> QuestList = questBoardDao.GetQuestBoardList();
 
-            if (playbleQuest)
-            {
-                QuestList = questBoardDao.GetQuestBoardList();
-            }
-            else if (submitQuest)
-            {
-                QuestList = questBoardDao.GetSubmitQuestBoardList();
-            }
-            else if (completeQuest)
-            {
-                QuestList = questBoardDao.GetCompleteQuestBoardList();
-            }
+
+
 
             // 기존에 생성된 QuestList 오브젝트들을 제거합니다.
             foreach (GameObject questInstance in questListInstances)
@@ -56,7 +44,7 @@ namespace Script.UI.Outing
 
             // 새로운 QuestList 오브젝트를 생성하고 설정합니다.
             int i = 0;
-            foreach (var dic in QuestList)
+            foreach (var quest in QuestList)
             {
                 i++;
 
@@ -68,12 +56,13 @@ namespace Script.UI.Outing
 
                 if (textComponent != null)
                 {
-                    textComponent.text = dic["QUESTNO"] + "." +
-                            " : " + dic["QUESTNM"] + "\r\n" +
-                            " 내용 : " + dic["QUESTMEMO"];
+                    textComponent.text = quest.QuestNo + "." +
+                            " : " + quest.QuestNm + "\r\n" +
+                            " 내용 : " + quest.QuestMemo;
                 }
             }
             questList.SetActive(false);
+
 
         }
 
@@ -88,8 +77,8 @@ namespace Script.UI.Outing
             string indexString = parentObjectName.Replace("QuestList", "");
             int index = int.Parse(indexString);
 
-            Dictionary<string, object> QuestInfo = QuestList[index - 1];
-            int questNo = (int)QuestInfo["QUESTNO"];
+            QuestBoardVO quest = QuestList[index - 1];
+            int questNo = quest.QuestNo;
 
             questBoardDao.SubmitQuset(questNo);
 
@@ -99,25 +88,19 @@ namespace Script.UI.Outing
 
         public void OnClickPlayQuest()
         {
-            playbleQuest = true;
-            submitQuest = false;
-            completeQuest = false;
+           
             UpdateQuestList();
         }
 
         public void OnClickSubmitQuest()
         {
-            playbleQuest = false;
-            submitQuest = true;
-            completeQuest = false;
+        
             UpdateQuestList();
         }
 
         public void OnClickCompleteQuest()
         {
-            playbleQuest = false;
-            submitQuest = false;
-            completeQuest = true;
+            
             UpdateQuestList();
         }
 
