@@ -1,6 +1,7 @@
 import openai
 import json
 import os
+from statusManager import Daughter as d, load_daughter_status as lds
 
 # OpenAI API 키 설정
 api_key = 'sk-proj-3ZLbBHwylhtASxE4BIaMT3BlbkFJh6cUB6QhPVKBieezTqSg'
@@ -58,6 +59,8 @@ def ConnectionGpt(daughter_status_path, daughter_update_path):
     }
     daughter_status_json = load_json_data(daughter_status_path)
 
+    #Your name is {d.get_Name}, Your age is {d.get_Age} Your sex is {d.get_Sex}, Your MBIT is {d.get_Mbti}, Your HP is {d.get_Hp}, Your MP is {d.get_Mp}, Your Mood is {d.get_Mood}, Your Stress is {d.get_Stress}, Your Fatigue is {d.get_Fatigue}, Your MBTI(E) is {d.get_E}, Your MBTI(I) is {d.get_I}, Your MBTI(S) is {d.get_S}, Your MBTI(N) is {d.get_N}, Your MBTI(T) is {d.get_T}, Your MBTI(F) is {d.get_F}, Your MBTI(J) is {d.get_J}, Your MBTI(P) is {d.get_P}
+
     set_text = (
             "You are Role-play a conversation between your father. "
             "The father act will be a user, and GPT you gonna act daughter. "
@@ -78,8 +81,8 @@ def ConnectionGpt(daughter_status_path, daughter_update_path):
             "Her stress, fatigue, and mood levels change because of conversations with her father or because of her daughter's tiredness from work or her stressful work. But not all conversations change, they change in meaningful conversations. "
             "Also fine-tune paramter's yourself. "
             "And at the end of my daughter's answer, please only give me the changed parameter values as JSON file."
-            "If you make json file start with ```json and end to ```" # gpt가 json파일 방식으로 뱉도록
-            f"Here's your status: {daughter_status_json}"
+            "If you make json file start with ```json and end to ```" # gpt가 json파일 방식으로 뱉도록 #daughter_status_json
+            f"Here's your status: {daughter_status_json}"  
         )
     
     messages = [
@@ -112,6 +115,8 @@ def ConnectionGpt(daughter_status_path, daughter_update_path):
             print(f"An error occurred during API interaction: {e}")
 
 def main():
+    lds
+    print(f"딸 나이: {d.get_Age}")
     daughter_status_path = os.path.join("conversationData", "daughter_status.json")
     daughter_update_path = os.path.join("conversationData", "updated_daughter_status.json")
 
