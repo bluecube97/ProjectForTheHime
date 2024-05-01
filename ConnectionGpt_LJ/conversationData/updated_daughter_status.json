@@ -1,8 +1,17 @@
 {
-    "MBTI_subtype": "ENFJ",
-    "MBTI": "ENFJ",
-    "mood_index": "normal",
-    "stress_index": "low",
-    "fatigue_index": "normal",
-    "daughter_status": "conversationData\\daughter_status.json"
+    "daughter": {
+        "hp": 70,
+        "mp": 80,
+        "mood": "normal",
+        "stress": "low",
+        "fatigue": "tired",
+        "E": 30,
+        "I": 70,
+        "S": 65,
+        "N": 35,
+        "T": 20,
+        "F": 80,
+        "J": 85,
+        "P": 15
+    }
 }
