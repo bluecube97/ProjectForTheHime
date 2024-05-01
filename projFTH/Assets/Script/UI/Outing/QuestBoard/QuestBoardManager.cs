@@ -5,76 +5,113 @@ namespace Script.UI.Outing
     using UnityEngine.EventSystems;
     using UnityEngine.SceneManagement;
     using UnityEngine.UI;
+    using UnityEngine.UIElements;
 
-    public class QuestBoardManager : MonoBehaviour 
-    { 
+    public class QuestBoardManager : MonoBehaviour
+    {
         public GameObject questListPrefab; // QuestList 이미지 프리팹 참조
         public GameObject questList; // QuestList 이미지 참조
         public Transform questListLayout; // QuestList들이 들어갈 레이아웃 참조
-
-        private QusetBoardDao questBoardDao;
-
-        private bool playbleQuest = true;
-        private bool submitQuest;
-        private bool completeQuest;
-
         private List<GameObject> questListInstances = new List<GameObject>();
 
+        public GameObject SubmitquestListPrefab; // SubmitQuestList 이미지 프리팹 참조
+        public GameObject SubmitquestList; // SubmitQuestList 이미지 참조
+        public Transform SubmitquestListLayout; // SubmitQuestList들이 들어갈 레이아웃 참조
+        private List<GameObject> SubmitquestListInstances = new List<GameObject>();
+
+        private QusetBoardDao questBoardDao;
+        private List<QuestBoardVO> QuestList = new List<QuestBoardVO>();
         private void Start()
         {
-
             questBoardDao = GetComponent<QusetBoardDao>();
-            UpdateQuestList();
+            QuestList = questBoardDao.GetQuestBoardList();
+
+            StartQuestList(QuestList);
 
         }
-
-        public void UpdateQuestList()
+        public void StartQuestList(List<QuestBoardVO> QuestList)
         {
             questList.SetActive(true);
-
-            List<Dictionary<string, object>> QuestList = new List<Dictionary<string, object>>();
-
-            if (playbleQuest)
-            {
-                QuestList = questBoardDao.GetQuestBoardList();
-            }
-            else if (submitQuest)
-            {
-                QuestList = questBoardDao.GetSubmitQuestBoardList();
-            }
-            else if (completeQuest)
-            {
-                QuestList = questBoardDao.GetCompleteQuestBoardList();
-            }
+            SubmitquestList.SetActive(true);
 
             // 기존에 생성된 QuestList 오브젝트들을 제거합니다.
             foreach (GameObject questInstance in questListInstances)
             {
                 Destroy(questInstance);
             }
-            questListInstances.Clear();
-
-            // 새로운 QuestList 오브젝트를 생성하고 설정합니다.
-            int i = 0;
-            foreach (var dic in QuestList)
+            foreach (GameObject submitquestInstance in SubmitquestListInstances)
             {
-                i++;
+                Destroy(submitquestInstance);
+            }
+            questListInstances.Clear();
+            SubmitquestListInstances.Clear();
+            // 새로운 QuestList 오브젝트를 생성하고 설정합니다.
 
-                GameObject questListInstance = Instantiate(questListPrefab, questListLayout);
-                questListInstance.name = "QuestList" + i;
-                questListInstances.Add(questListInstance);
 
-                Text textComponent = questListInstance.GetComponentInChildren<Text>();
-
-                if (textComponent != null)
+            foreach (var quest in QuestList)
+            {
+                if (quest.SubmitFlag.Equals("N"))
                 {
-                    textComponent.text = dic["QUESTNO"] + "." +
-                            " : " + dic["QUESTNM"] + "\r\n" +
-                            " 내용 : " + dic["QUESTMEMO"];
+                    {
+                        GameObject questListInstance = Instantiate(questListPrefab, questListLayout);
+                        questListInstance.name = "QuestList" + quest.QuestNo;
+                        questListInstances.Add(questListInstance);
+
+                        Text textComponent = questListInstance.GetComponentInChildren<Text>();
+
+                        if (textComponent != null)
+                        {
+                            textComponent.text = quest.QuestNo + "." +
+                                         " : " + quest.QuestNm + "\r\n" +
+                                    " 내용 : " + quest.QuestMemo;
+                        }
+                    }
                 }
             }
             questList.SetActive(false);
+            SubmitquestList.SetActive(false);
+        }
+        public void UpdateQuestList(List<QuestBoardVO> QuestList)
+        {
+            questList.SetActive(true);
+            SubmitquestList.SetActive(true);
 
+            // 기존에 생성된 QuestList 오브젝트들을 제거합니다.
+            foreach (GameObject questInstance in questListInstances)
+            {
+                Destroy(questInstance);
+            }
+            foreach (GameObject submitquestInstance in SubmitquestListInstances)
+            {
+                Destroy(submitquestInstance);
+            }
+            questListInstances.Clear();
+            SubmitquestListInstances.Clear();
+            // 새로운 QuestList 오브젝트를 생성하고 설정합니다.
+
+
+            foreach (var quest in QuestList)
+            {
+                if (!quest.SubmitFlag.Equals("N"))
+                {
+                    {
+                        GameObject SubmitquestListInstance = Instantiate(SubmitquestListPrefab, SubmitquestListLayout);
+                        SubmitquestListInstance.name = "QuestList" + quest.QuestNo;
+                        SubmitquestListInstances.Add(SubmitquestListInstance);
+
+                        Text textComponent = SubmitquestListInstance.GetComponentInChildren<Text>();
+
+                        if (textComponent != null)
+                        {
+                            textComponent.text = quest.QuestNo + "." +
+                                         " : " + quest.QuestNm + "\r\n" +
+                                    " 내용 : " + quest.QuestMemo;
+                        }
+                    }
+                }
+            }
+            questList.SetActive(false);
+            SubmitquestList.SetActive(false);
         }
 
         public void OnClickSubmit()
@@ -82,45 +119,46 @@ namespace Script.UI.Outing
             GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
             GameObject parentObject = clickedButton.transform.parent.gameObject;
             string parentObjectName = parentObject.name;
-            Debug.Log("클릭된 버튼의 부모 오브젝트 이름: " + parentObjectName);
-
-            var QuestList = questBoardDao.GetQuestBoardList();
             string indexString = parentObjectName.Replace("QuestList", "");
             int index = int.Parse(indexString);
 
-            Dictionary<string, object> QuestInfo = QuestList[index - 1];
-            int questNo = (int)QuestInfo["QUESTNO"];
-
-            questBoardDao.SubmitQuset(questNo);
-
+            questBoardDao.SubmitQuset(index);
             // 업데이트된 정보를 다시 표시합니다.
-            UpdateQuestList();
-        }
+            StartQuestList(QuestList);
+            SceneManager.LoadScene("QuestBoardScene");
 
-        public void OnClickPlayQuest()
+        }
+        public void OnClickRefuseSubmit()
         {
-            playbleQuest = true;
-            submitQuest = false;
-            completeQuest = false;
-            UpdateQuestList();
-        }
+            GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
+            GameObject parentObject = clickedButton.transform.parent.gameObject;
+            string parentObjectName = parentObject.name;
+            string indexString = parentObjectName.Replace("QuestList", "");
+            int index = int.Parse(indexString);
+            questBoardDao.RefuseSubmitQuset(index);
+            // 업데이트된 정보를 다시 표시합니다.
+            StartQuestList(QuestList);
+            SceneManager.LoadScene("QuestBoardScene");
 
-        public void OnClickSubmitQuest()
+        }
+        public void QuestButton()
         {
-            playbleQuest = false;
-            submitQuest = true;
-            completeQuest = false;
-            UpdateQuestList();
+            string ButtonNm = OnClickQuestListButton();
+            if (ButtonNm.Equals("PalybleQuest"))
+            {
+                StartQuestList(QuestList);
+            }
+            else if (ButtonNm.Equals("SubmitQuest"))
+            {
+                UpdateQuestList(QuestList);
+            }
         }
-
-        public void OnClickCompleteQuest()
+        public string OnClickQuestListButton()
         {
-            playbleQuest = false;
-            submitQuest = false;
-            completeQuest = true;
-            UpdateQuestList();
+            GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
+            string ChiceBotton = clickedButton.name;
+            return ChiceBotton;
         }
-
         public void OnClickReturn()
         {
             {

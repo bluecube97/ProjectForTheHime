@@ -21,10 +21,10 @@ public class RestaurantDao : MonoBehaviour
 
     }
 
-    public List<Dictionary<string, object>> GetFoodListFromDB()
+    public List<FoodListVO> GetFoodListFromDB()
     {
-        List<Dictionary<string, object>> FoodList = new List<Dictionary<string, object>>();
-        var sql = "SELECT gr.FOODNM , gr.FOODPRICE " +
+        List<FoodListVO> FoodList = new List<FoodListVO> ();
+        var sql = "SELECT gr.SEQ, gr.FOODNM , gr.FOODPRICE " +
                     "FROM game_restaurant gr ";
         using (MySqlConnection connection = new MySqlConnection(con))
         {
@@ -36,13 +36,12 @@ public class RestaurantDao : MonoBehaviour
                 {
                     while (reader.Read())
                     {
-                        Dictionary<string, object> dic = new();
-                        string foodName = (string)reader["FOODNM"];
-                        int foodPrice = (int)reader["FOODPRICE"];
-                        dic.Add("FOODNM", foodName);
-                        dic.Add("FOODPRICE", foodPrice);
+                        FoodListVO fv = new FoodListVO();
+                        fv.FoodNo = (int)reader["SEQ"];
+                        fv.FoodNm = (string)reader["FOODNM"];
+                        fv.FoodPr = (int)reader["FOODPRICE"];
 
-                        FoodList.Add(dic);
+                        FoodList.Add(fv);
                     }
                 }
             }
