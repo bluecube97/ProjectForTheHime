@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 using UnityEngine;
+using NotImplementedException = System.NotImplementedException;
 
 namespace Script.UI.MainLevel.StartTurn.Dao
 {
@@ -70,8 +71,34 @@ namespace Script.UI.MainLevel.StartTurn.Dao
             }
         }
 
-        public void GetDate(int TodoNo)
+        public List<Dictionary<string, object>> GetTodoDayTime(int todoNo)
         {
+            using (var connection = new MySqlConnection(con))
+            {
+                connection.Open();
+                using (var cmd = connection.CreateCommand())
+                {
+                    cmd.CommandText = " SELECT DATE, ROUTINE " +
+                                      " FROM tododate " +
+                                      " WHERE TODONO = @todono ";
+
+                    List<Dictionary<string, object>> todoDayTime = new();
+
+                        cmd.Parameters.Clear();
+                        cmd.Parameters.AddWithValue("@todono", todoNo);
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Dictionary<string, object> dic = new();
+                                dic.Add("DATE", reader["DATE"]);
+                                dic.Add("ROUTINE", reader["ROUTINE"]);
+                                todoDayTime.Add(dic);
+                            }
+                    }
+                    return todoDayTime;
+                }
+            }
         }
     }
 }
