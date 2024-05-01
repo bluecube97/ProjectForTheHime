@@ -94,6 +94,24 @@ public class QusetBoardDao : MonoBehaviour
         }
 
     }
+    public void RefuseSubmitQuset(int questNo)
+    {
+        string sql = "UPDATE game_questboard " +
+                               " SET SUBMITFALG ='N'" +
+                             " WHERE QUESTNO = @QuestNo ";
+        using (MySqlConnection connection = new MySqlConnection(con))
+        {
+            connection.Open();
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandText = sql;
+                cmd.Parameters.AddWithValue("@QuestNo", questNo);
+                cmd.ExecuteNonQuery();
+            }
+        }
+    }
+    
     /*
     public void DeleteQuset(int questNo)
     {
