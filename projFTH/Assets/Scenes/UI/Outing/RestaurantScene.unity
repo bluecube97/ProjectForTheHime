@@ -3898,9 +3898,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1599511060}
-        m_TargetAssemblyTypeName: RestaurantFoodList, Assembly-CSharp
-        m_MethodName: OnClickEatMeueBtn
+      - m_Target: {fileID: 1599511061}
+        m_TargetAssemblyTypeName: RestaurantManager, Assembly-CSharp
+        m_MethodName: OnclickFoodList
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
