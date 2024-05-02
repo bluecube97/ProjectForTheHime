@@ -7,19 +7,21 @@ using UnityEngine.UI;
 
 namespace Script.UI.MainLevel.StartTurn.Manager
 {
-    public class LifeTimeManager : MonoBehaviour
+    public class _LifeTimeManager : MonoBehaviour
     {
         public GameObject todoListPrefab; // TODOList 이미지 프리팹 참조
         public GameObject todoList; // TODOList 이미지 참조
         public Transform todoListLayout; // TODOList들이 들어갈 레이아웃 참조
         public GameObject todoListInstance; // TODOList의 인스턴스
         private readonly Dictionary<GameObject, bool> _isButtonSelect = new(); // 버튼이 선택되어있는지 확인하는 딕셔너리
+        private readonly Dictionary<GameObject, bool> _isButtonActive = new(); // 버튼이 활성화되어 있는지 확인하는 딕셔너리
+        private readonly Dictionary<string, bool> _isDayTimeSelect = new(); // 해당 날짜와 시간대가 선택되어있는지 확인하는 딕셔너리
 
         private GameObject _myGameObject;
         private StartTurnDao _std;
-        private List<Dictionary<string, object>> _todoDay = new(); // TODO리스트의 날짜를 담는 딕셔너리 리스트
+        private List<Dictionary<string, object>> _todoDayTime = new(); // TODO리스트의 날짜와 시간을 담는 딕셔너리 리스트
         private List<Dictionary<string, object>> _todoList = new(); // TODO리스트를 담는 딕셔너리 리스트
-
+        private List<Dictionary<string, object>> _todoDayTimeList = new(); // 모든 TODO리스트의 날짜와 시간을 담는 딕셔너리 리스트
 
         public void Awake()
         {
@@ -31,11 +33,9 @@ namespace Script.UI.MainLevel.StartTurn.Manager
         {
             var noList = _std.GetTodoNo(2024, 4);
             _todoList = _std.GetTodoList(noList);
-            _todoDay = _std.GetTodoDay(noList);
+            _todoDayTimeList = _std.GetTodoDayTimeList(noList);
 
-            foreach (var VARIABLE in _todoDay)
-            foreach (var var in VARIABLE)
-                Debug.Log("todoDay: " + var);
+            InitDayTime();
 
             foreach (var dic in _todoList)
             {
@@ -43,6 +43,8 @@ namespace Script.UI.MainLevel.StartTurn.Manager
                 todoListInstance = Instantiate(todoListPrefab, todoListLayout);
                 // 버튼이 선택되지 않은 상태로 초기화
                 _isButtonSelect[todoListInstance] = false;
+                // 버튼이 활성화된 살태로 초기화
+                _isButtonActive[todoListInstance] = true;
                 // 이미지 오브젝트에 딕셔너리 값 설정
                 var textComponent = todoListInstance.GetComponentInChildren<Text>();
                 if (textComponent != null)
@@ -67,27 +69,63 @@ namespace Script.UI.MainLevel.StartTurn.Manager
             }
 
             todoList.SetActive(false);
+
+            Logging();
+        }
+
+        private void InitDayTime()
+        {
+            for (var i = 1; i <= 20; i++)
+            for (var j = 0; j < 3; j++)
+            {
+                var objectName = "";
+                switch (j)
+                {
+                    case 0:
+                        objectName = "Day" + i + "Morning";
+                        break;
+                    case 1:
+                        objectName = "Day" + i + "Afternoon";
+                        break;
+                    case 2:
+                        objectName = "Day" + i + "Evening";
+                        break;
+                }
+                _isDayTimeSelect[objectName] = false;
+            }
         }
 
         public void OnClickTodoBtn(GameObject button)
         {
             // 버튼이 선택되어있지 않은 상태이고, 버튼이 활성화된 상태이면
-            if (!_isButtonSelect[button])
+            if (!_isButtonSelect[button] && _isButtonActive[button])
             {
                 _isButtonSelect[button] = true;
                 var index = button.transform.GetSiblingIndex();
+                var todoNo = Convert.ToInt32(_todoList[index - 1]["TODONO"]);
+                _todoDayTime = _std.GetTodoDayTime(todoNo);
 
-                foreach (var dic in _todoDay)
+                foreach (var dic in _todoDayTime)
                 {
-                    var todoNo = Convert.ToInt32(dic["TODONO"]);
-                    if (todoNo == (int)_todoList[index - 1]["TODONO"])
+                    var date = dic["DATE"].ToString();
+                    var routine = dic["ROUTINE"].ToString();
+                    switch (routine)
                     {
-                        var date = dic["DATE"].ToString();
-                        Debug.Log(date);
-                        var objectName = "Day" + date;
-                        var color = FindColor(index);
-                        ChangeImageColor(objectName, color);
+                        case "아침":
+                            routine = "Morning";
+                            break;
+                        case "점심":
+                            routine = "Afternoon";
+                            break;
+                        case "저녁":
+                            routine = "Evening";
+                            break;
                     }
+
+                    var objectName = "Day" + date + routine;
+                    var color = FindColor(index);
+                    ChangeImageColor(objectName, color);
+                    _isDayTimeSelect[objectName] = true;
                 }
             }
             // 버튼이 이미 선택되어 있는 상태이면
@@ -95,22 +133,63 @@ namespace Script.UI.MainLevel.StartTurn.Manager
             {
                 _isButtonSelect[button] = false;
                 var index = button.transform.GetSiblingIndex();
+                var todoNo = Convert.ToInt32(_todoList[index - 1]["TODONO"]);
+                _todoDayTime = _std.GetTodoDayTime(todoNo);
 
-                foreach (var dic in _todoDay)
+                foreach (var dic in _todoDayTime)
                 {
-                    var todoNo = Convert.ToInt32(dic["TODONO"]);
-                    if (todoNo == (int)_todoList[index - 1]["TODONO"])
+                    var date = dic["DATE"].ToString();
+                    var routine = dic["ROUTINE"].ToString();
+                    switch (routine)
                     {
-                        var date = dic["DATE"].ToString();
-                        Debug.Log(date);
-                        var objectName = "Day" + date;
-                        var color = Color.white;
-                        ChangeImageColor(objectName, color);
+                        case "아침":
+                            routine = "Morning";
+                            break;
+                        case "점심":
+                            routine = "Afternoon";
+                            break;
+                        case "저녁":
+                            routine = "Evening";
+                            break;
                     }
+
+                    var objectName = "Day" + date + routine;
+                    var color = Color.white;
+                    ChangeImageColor(objectName, color);
+                }
+            }
+            Logging();
+        }
+
+        private void Logging()
+        {
+            foreach (var VARIABLE in _isButtonSelect)
+            {
+                Debug.Log("_isButtonSelect: "+VARIABLE);
+            }
+            foreach (var VARIABLE in _isButtonActive)
+            {
+                Debug.Log("_isButtonActive: "+VARIABLE);
+            }
+            foreach (var VARIABLE in _isDayTimeSelect)
+            {
+                Debug.Log("_isDayTimeSelect: "+VARIABLE);
+            }
+            // foreach (var VARIABLE in _todoDayTime)
+            // {
+            //     foreach (var VAR in VARIABLE)
+            //     {
+            //         Debug.Log("_todoDayTime: "+VAR);
+            //     }
+            // }
+            foreach (var VARIABLE in _todoDayTimeList)
+            {
+                foreach (var VAR in VARIABLE)
+                {
+                    Debug.Log("_todoDayTimeList: "+VAR);
                 }
             }
         }
-
 
         private static Color FindColor(int index)
         {
