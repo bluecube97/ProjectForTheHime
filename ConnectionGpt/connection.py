@@ -60,6 +60,7 @@ while (True):
     )
     response = completion.choices[0].message.content.strip()
     print("gpt:", response)
+    print(type(response))
 
     previous_completion = completion
 

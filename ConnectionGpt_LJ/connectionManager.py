@@ -93,7 +93,6 @@ def ConnectionGpt(daughter_status_path, daughter_update_path):
             break
 
         messages.append({"role": "user", "content": f"{father_status['father']['name']} (Father): {user_request}"})
-        
         try:
             response = openai.ChatCompletion.create(
                 model='gpt-3.5-turbo',

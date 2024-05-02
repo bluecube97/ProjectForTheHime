@@ -66,5 +66,13 @@
     {
         "user_ment": "hello my name is jun plz call me jun",
         "gpt_ment": "Hello Jun! How can I assist you today?"
+    },
+    {
+        "user_ment": "\uc548\ub155?",
+        "gpt_ment": "\uc548\ub155\ud558\uc138\uc694! \ubb34\uc5c7\uc744 \ub3c4\uc640\ub4dc\ub9b4\uae4c\uc694?"
+    },
+    {
+        "user_ment": "\uc548\ub155?",
+        "gpt_ment": "\uc548\ub155\ud558\uc138\uc694! \ubb34\uc5c7\uc744 \ub3c4\uc640\ub4dc\ub9b4\uae4c\uc694?"
     }
 ]
