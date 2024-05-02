@@ -11,7 +11,7 @@ relative_path = "conversationData/conversation.json"
 absolute_path = os.path.join(current_directory, relative_path)
 
 # OpenAI API 키 설정
-openai.api_key = "sk-proj-3ZLbBHwylhtASxE4BIaMT3BlbkFJh6cUB6QhPVKBieezTqSg"
+openai.api_key = "sk-proj-etIKYqkaIIeqPj4MdmyxT3BlbkFJnG8udZ0AZbCgaL6ZpGIF"
 # 이전 대화 결과 초기화
 previous_completion = None
 
