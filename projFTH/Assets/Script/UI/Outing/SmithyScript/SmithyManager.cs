@@ -1,108 +1,87 @@
+using Script.UI.Outing;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-    using global::System;
-    using UnityEngine;
-    using UnityEngine.SceneManagement;
+
 
     public class SmithyManager : MonoBehaviour
-    {
-        private static SmithyManager instance; 
-        public GameObject SmeltMenu;
-        public GameObject SellMenu;
-        public GameObject BuyMenu;
+{
+    public GameObject weaponListPrefab;
+    public GameObject weaponList; 
+    public Transform weaponListLayout;
 
-        private bool SmeltMenuActive; 
-        private bool SellMenuActive;
-        private bool BuyMenuActive; 
+    private PointerEventData eventData;
 
-        public static SmithyManager Instance
+    private SmithyDao smithyDao;
+    private SmithyController SmithyController;
+
+    string weaponName = "";
+    int weaponPrice = 0;
+    private void Start()
+    { smithyDao = FindObjectOfType<SmithyDao>();
+       // smithyDao = GetComponent<SmithyDao>(); // RestaurantDao 컴포넌트를 가져와서 초기화합니다.
+        SmithyController = FindObjectOfType<SmithyController>(); // RestaurantManager를 찾아서 초기화합니다.
+
+        var WeaponList = smithyDao.GetWeaponList();
+
+        int i = 0;
+
+        foreach (var dic in WeaponList)
         {
-            get
+            i++;
+            string i_ = i.ToString();
+            GameObject weaponListInstance = Instantiate(weaponListPrefab, weaponListLayout);
+            weaponListInstance.name = "weaponlist" + i_;
+            Text textComponent = weaponListInstance.GetComponentInChildren<Text>();
+
+            if (textComponent != null)
             {
-                if (instance == null)
-                {
-                    instance = FindObjectOfType<SmithyManager>();
+                textComponent.text = dic["WEAPONNM"] + "\r\n" +
+                               " " + dic["WEAPONPRICE"];
 
-                    if (instance == null)
-                    {
-                        var obj = new GameObject();
-                        obj.name = "SmeltMenu";
-                        obj.name = "SellMenu";
-                        obj.name = "BuyMenu";
-
-                        instance = obj.AddComponent<SmithyManager>();
-                    }
-                }
-
-                return instance;
             }
         }
-        public void OnClickReturn()
-        {
-          SceneManager.LoadScene("OutingScene");
-        }
-       
-        public void OnClickSmelting()
-        {
-          ActivateSmeltMenu();
-        }
-       
-        public void OnClickSmeltOuting()
-        {
-           DeactivateSmeltMenu();
-        }
-
-        
-        public void OnClickSelling()
-        {
-            ActivateSellMenu();
-        }
-       
-        public void OnClickSellOuting()
-        {
-            DeactivateSellMenu();
-        }
-
-        public void OnClickBuying()
-        {
-            ActivateBuyMenu();
-        }
-
-        public void OnClickBuyOuting()
-        {
-            DeactivateBuyMenu();
-        }
-
-        
-
-        private void ActivateSmeltMenu()
-        {
-            SmeltMenu.SetActive(true);
-        }
-
-        private void DeactivateSmeltMenu()
-        {
-            SmeltMenu.SetActive(false);
-        }
-       
-        private void ActivateSellMenu()
-        {
-            SellMenu.SetActive(true);
-        }
-
-        private void DeactivateSellMenu()
-        {
-            SellMenu.SetActive(false);
-        }
-        
-        private void ActivateBuyMenu()
-        {
-            BuyMenu.SetActive(true);
-        }
-
-        private void DeactivateBuyMenu()
-        {
-            BuyMenu.SetActive(false);
-        }
+        weaponList.SetActive(false);
     }
 
+    public void GetclickWeaponList()
+    {
+        GameObject clickList = EventSystem.current.currentSelectedGameObject;
+        var WeaponList = smithyDao.GetWeaponList();
 
+        string objectName = clickList.name;
+
+        string indexString = objectName.Replace("weaponlist", "");
+
+        int index = int.Parse(indexString);
+
+        Dictionary<string, object> weaponInfo = WeaponList[index - 1];
+        weaponName = (string)weaponInfo["WEAPONNM"];
+        weaponPrice = (int)weaponInfo["WEAPONPRICE"];
+       
+        
+        Debug.Log("이름 " + weaponName);
+        Debug.Log("가격 " + weaponPrice);
+
+    }
+        public void ProcessPayment()
+    {
+        int userCash = smithyDao.GetUserInfoFromDB();
+        int NowCash = userCash - weaponPrice;
+        Debug.Log("DB 유저 현금 " +userCash);
+        Debug.Log("계산 후 금액 " + NowCash);
+        if (NowCash >= 0)
+        {
+            smithyDao.UpdateUserCash(NowCash);
+            SmithyController.OnClickBuyComple();
+        }
+        else
+        {
+            Debug.Log("Not enough cash!");
+            SmithyController.OnClickBuyFail();
+
+        }
+    }
+}
