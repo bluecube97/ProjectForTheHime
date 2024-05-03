@@ -7,7 +7,7 @@ from statusManager import Daughter as d, load_daughter_status as lds
 conversation_ = []
 
 # OpenAI API 키 설정
-api_key = 'sk-proj-3ZLbBHwylhtASxE4BIaMT3BlbkFJh6cUB6QhPVKBieezTqSg'
+api_key = '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'
 openai.api_key = api_key
 
 #딸과의 대화 json 파일에 저장
@@ -52,7 +52,17 @@ def update_daughter_status(update_path, update_data):
     except Exception as e:
         print(f"Data saving failed: {e}")
 
-def extract_and_save_updated_status(daughter_reply, update_path):
+def extract_and_save_updated_status(daughter_reply, update_path, d):
+    if "GPT (Daughter): " in daughter_reply:
+        # "GPT (Daughter): " 다음의 문자열을 찾아서 인덱스 설정
+        start_gpt = daughter_reply.find("GPT (Daughter): ") + len("GPT (Daughter): ")
+        # "" 문자열을 찾아서 인덱스 설정
+        end_gpt = daughter_reply.find("**", start_gpt)
+        # 문자열을 추출하여 공백 제거
+        gpt_str = daughter_reply[start_gpt:end_gpt].strip()
+
+    print(gpt_str)
+
     # daughter_reply 문자열에서 "**change"가 있는지 확인.
     if "**" in daughter_reply:
         # "**change" 다음의 문자열을 찾아서 인덱스 설정
@@ -62,7 +72,111 @@ def extract_and_save_updated_status(daughter_reply, update_path):
         # 문자열을 추출하여 공백 제거
         stat_str = daughter_reply[start_index:end_index].strip()
 
-        try:
+        # "name"을 키워드로 사용하여 값을 추출
+        name_start = stat_str.find('"name": "') + len('"name": "')
+        name_end = stat_str.find('"', name_start + 1)
+        name_value = stat_str[name_start:name_end]
+        d.name(name_value)
+        
+        
+        # "age"을 키워드로 사용하여 값을 추출
+        age_start = stat_str.find('"age": "') + len('"age": "')
+        age_end = stat_str.find('"', age_start + 1)
+        age_value = stat_str[age_start:age_end]
+        d.age(age_value)
+
+        # "sex"을 키워드로 사용하여 값을 추출
+        sex_start = stat_str.find('"sex": "') + len('"sex": "')
+        sex_end = stat_str.find('"', sex_start + 1)
+        sex_value = stat_str[sex_start:sex_end]
+        d.sex(sex_value)
+
+        # "mbti"을 키워드로 사용하여 값을 추출
+        mbti_start = stat_str.find('"mbti": "') + len('"mbti": "')
+        mbti_end = stat_str.find('"', mbti_start + 1)
+        mbti_value = stat_str[mbti_start:mbti_end]
+        d.mbti(mbti_value)
+
+        # "hp"을 키워드로 사용하여 값을 추출
+        hp_start = stat_str.find('"hp": "') + len('"hp": "')
+        hp_end = stat_str.find('"', hp_start + 1)
+        hp_value = stat_str[hp_start:hp_end]
+        d.hp(hp_value)
+
+        # "mp"을 키워드로 사용하여 값을 추출
+        mp_start = stat_str.find('"mp": "') + len('"mp": "')
+        mp_end = stat_str.find('"', mp_start + 1)
+        mp_value = stat_str[mp_start:mp_end]
+        d.mp(mp_value)
+
+        # "mood"을 키워드로 사용하여 값을 추출
+        mood_start = stat_str.find('"mood": "') + len('"mood": "')
+        mood_end = stat_str.find('"', mood_start + 1)
+        mood_value = stat_str[mood_start:mood_end]
+        d.mood(mood_value)
+
+        # "stress"을 키워드로 사용하여 값을 추출
+        stress_start = stat_str.find('"stress": "') + len('"stress": "')
+        stress_end = stat_str.find('"', stress_start + 1)
+        stress_value = stat_str[stress_start:stress_end]
+        d.stress(stress_value)
+
+        # "fatigue"을 키워드로 사용하여 값을 추출
+        fatigue_start = stat_str.find('"fatigue": "') + len('"fatigue": "')
+        fatigue_end = stat_str.find('"', fatigue_start + 1)
+        fatigue_value = stat_str[fatigue_start:fatigue_end]
+        d.fatigue(fatigue_value)
+
+        # "E"을 키워드로 사용하여 값을 추출
+        E_start = stat_str.find('"E": "') + len('"E": "')
+        E_end = stat_str.find('"', E_start + 1)
+        E_value = stat_str[E_start:E_end]
+        d.E(E_value)
+
+        # "I"을 키워드로 사용하여 값을 추출
+        I_start = stat_str.find('"I": "') + len('"I": "')
+        I_end = stat_str.find('"', I_start + 1)
+        I_value = stat_str[I_start:I_end]
+        d.I(I_value)
+
+        # "S"을 키워드로 사용하여 값을 추출
+        S_start = stat_str.find('"S": "') + len('"S": "')
+        S_end = stat_str.find('"', S_start + 1)
+        S_value = stat_str[S_start:S_end]
+        d.S(S_value)
+
+        # "N"을 키워드로 사용하여 값을 추출
+        N_start = stat_str.find('"N": "') + len('"N": "')
+        N_end = stat_str.find('"', N_start + 1)
+        N_value = stat_str[N_start:N_end]
+        d.N(N_value)
+
+        # "T"을 키워드로 사용하여 값을 추출
+        T_start = stat_str.find('"T": "') + len('"T": "')
+        T_end = stat_str.find('"', T_start + 1)
+        T_value = stat_str[T_start:T_end]
+        d.T(T_value)
+
+        # "F"을 키워드로 사용하여 값을 추출
+        F_start = stat_str.find('"F": "') + len('"F": "')
+        F_end = stat_str.find('"', F_start + 1)
+        F_value = stat_str[F_start:F_end]
+        d.F(F_value)
+
+        # "J"을 키워드로 사용하여 값을 추출
+        J_start = stat_str.find('"J": "') + len('"J": "')
+        J_end = stat_str.find('"', J_start + 1)
+        J_value = stat_str[J_start:J_end]
+        d.J(J_value)
+
+        # "P"을 키워드로 사용하여 값을 추출
+        P_start = stat_str.find('"P": "') + len('"P": "')
+        P_end = stat_str.find('"', P_start + 1)
+        P_value = stat_str[P_start:P_end]
+        d.P(P_value)
+
+
+        ''' try:
             update_data = json.loads(stat_str)
             with open(update_path, 'w', encoding='utf-8') as file:
                 json.dump(update_data, file, indent=4, ensure_ascii=False)
@@ -73,7 +187,7 @@ def extract_and_save_updated_status(daughter_reply, update_path):
             return False
     else:
         print("No JSON data found in daughter's reply.")
-        return False
+        return False'''
             
         '''#stat_data 스텟 문자열마다 split해서 찾아서. 그 값을 setter에 세팅
         for stat_data in stat_str.split(","):
@@ -87,10 +201,24 @@ def extract_and_save_updated_status(daughter_reply, update_path):
             except Exception as e:
                 print(f"Setter에 들어갈 Key {key}가 존재하지 않습니다.")'''
             
+
+'''def set_daughter_status_from_json(daughter_status_json):
+    try:
+        # JSON 데이터를 파이썬 딕셔너리로 로드
+        daughter_status_data = json.loads(daughter_status_json)
+        
+        # 딕셔너리를 Daughter 클래스의 setter를 사용하여 d_stat에 설정
+        for key, value in daughter_status_data['daughter'].items():
+            setattr(d, key, value)
+        
+        print("딸의 스텟을 업데이트하였습니다.")
+        print("딸 이름: " + d.name, "딸 스트레스: " + d.stress, "딸 피로: " + d.fatigue, "딸 기분: " + d.mood, "딸 MBTI: " + d.mbti)
+    except Exception as e:
+        print(f"딸의 스텟을 설정하는 도중 오류가 발생하였습니다: {e}")'''
         
 
 
-def ConnectionGpt(daughter_status_path, daughter_update_path, d_stat):
+def ConnectionGpt(daughter_status_path, daughter_update_path, d_stat, set_d):
     father_status = {
         "father": {
             "name": "Lain",
@@ -102,7 +230,8 @@ def ConnectionGpt(daughter_status_path, daughter_update_path, d_stat):
             "job": "Teacher"
         }
     }
-    daughter_status_json = load_json_data(daughter_status_path)
+
+    #daughter_status_json = load_json_data(daughter_status_path)
 
     stat_json = {
     "daughter": {
@@ -126,31 +255,12 @@ def ConnectionGpt(daughter_status_path, daughter_update_path, d_stat):
         }
     }
 
-    stat_text = (
-              f"Your name is {d_stat.name,}"
-              f"Your age is {d_stat.age},"
-              f"Your sex is {d_stat.sex},"
-              f"Your MBIT is {d_stat.mbti},"
-              f"Your HP is {d_stat.hp},"
-              f"Your MP is {d_stat.mp},"
-              f"Your Mood is {d_stat.mood},"
-              f"Your Stress is {d_stat.stress},"
-              f"Your Fatigue is {d_stat.fatigue},"
-              f"Your MBTI(E) is {d_stat.E},"
-              f"Your MBTI(I) is {d_stat.I},"
-              f"Your MBTI(S) is {d_stat.S},"
-              f"Your MBTI(N) is {d_stat.N},"
-              f"Your MBTI(T) is {d_stat.T},"
-              f"Your MBTI(F) is {d_stat.F},"
-              f"Your MBTI(J) is {d_stat.J},"
-              f"Your MBTI(P) is {d_stat.P}"
-    )
-
     set_text = (
                 "1. You are role-playing a conversation with your father."
                 "2. Be sure to answer according to the rules below."
                 "3. You must always have to answer in Korean and you have to answer everything I say."
-                "4. The father will act as the user, and GPT will act as the daughter."
+                "4. The daughter's answer is unconditionally 'GPT (Daughter): ' Please tell me through the form."
+                "5. The father will act as the user, and GPT will act as the daughter."
                 "	1)Conversation with the user occurs only once."
                 "	2)E is extroversion, I is introversion, S is sensing, N is intuition"
                 "	3) T is thought, F is emotion, J is judgment, and P is perception."
@@ -162,7 +272,7 @@ def ConnectionGpt(daughter_status_path, daughter_update_path, d_stat):
                 "	8-1)If you get angry, swear, or verbally abuse someone, your stress and fatigue will increase."
                 "	8-2)If you give compliments, nice words, and gifts, stress and fatigue will decrease."
                 "	8-3)Please refer to the initial value from the next line"
-                    f"Your name is {d_stat.name},"
+                    f"Your name is {d_stat.name,}"
                     f"Your age is {d_stat.age},"
                     f"Your sex is {d_stat.sex},"
                     f"Your MBIT is {d_stat.mbti},"
@@ -188,11 +298,9 @@ def ConnectionGpt(daughter_status_path, daughter_update_path, d_stat):
                 "	14)However, if she has an introverted personality (it means MbTI criterion is I), she acts timid or doing something alone indoors."
                 "	15)Her stress, fatigue, and mood levels change due to conversations with her father, or daughter's fatigue at work, or something stressful. It doesn't change in every conversation, it only changes in meaningful conversations."
                 "   And at the end of your daughter’s answer, be sure to give me the whole parameter values like next line. "                    
-                f"{stat_json} Please change all single quotes in all parameter values here to double quotes. "
+                f"  {stat_json} Please change all single quotes in all parameter values here to double quotes. "
                 "	17) When providing the parameter, use the format starts with '**' and ends with '**'."
-                
                 #f"{daughter_status_json}"
-
             )
     
     messages = [
@@ -219,8 +327,14 @@ def ConnectionGpt(daughter_status_path, daughter_update_path, d_stat):
             messages.append({"role": "assistant", "content": f"Daughter: {daughter_reply}"})
 
             # Try to extract and save the updated status if present in the reply
-            if extract_and_save_updated_status(daughter_reply, daughter_update_path):
+            if extract_and_save_updated_status(daughter_reply, daughter_update_path, set_d):
                 update_daughter_status(daughter_status_path, daughter_update_path)
+
+            '''# 업데이트된 상태를 다시 읽어와서 d_stat에 설정하고 알려줌
+            updated_daughter_status_json = load_json_data(daughter_update_path)
+            if updated_daughter_status_json:
+                set_daughter_status_from_json(updated_daughter_status_json)'''
+
         except Exception as e:
             print(f"An error occurred during API interaction: {e}")
 
@@ -229,12 +343,13 @@ def ConnectionGpt(daughter_status_path, daughter_update_path, d_stat):
 
 def main():
     d_stat = lds()
+    set_d = d()
     print("딸 나이: ", d_stat.age)
     daughter_status_path = os.path.join("conversationData", "daughter_status.json")
     daughter_update_path = os.path.join("conversationData", "updated_daughter_status.json")
 
     if os.path.exists(daughter_status_path):
-       ConnectionGpt(daughter_status_path, daughter_update_path, d_stat)
+       ConnectionGpt(daughter_status_path, daughter_update_path, d_stat, set_d)
     else : 
         print("대화를 진행할 수 없습니다. daughter_status.json 파일이 존재하지 않습니다.")
 
