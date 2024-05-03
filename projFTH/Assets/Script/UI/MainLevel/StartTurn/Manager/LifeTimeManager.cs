@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Script.UI.MainLevel.StartTurn.Dao;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,13 +14,16 @@ namespace Script.UI.MainLevel.StartTurn.Manager
         public GameObject todoList; // TODOList 이미지 참조
         public Transform todoListLayout; // TODOList들이 들어갈 레이아웃 참조
         public GameObject todoListInstance; // TODOList의 인스턴스
+        private readonly Dictionary<string, int> _calendarChk = new(); // 달력에 일정이 있는지의 여부를 담는 딕셔너리 리스트
+        private readonly Dictionary<GameObject, bool> _isButtonActive = new(); // 버튼이 활성화되어 있는지 확인하는 딕셔너리
         private readonly Dictionary<GameObject, bool> _isButtonSelect = new(); // 버튼이 선택되어있는지 확인하는 딕셔너리
+        private readonly Dictionary<GameObject, List<string>> _buttonDates = new();
+        private IEnumerable<IGrouping<object, Dictionary<string, object>>> _groupTodoDay;
 
         private GameObject _myGameObject;
         private StartTurnDao _std;
         private List<Dictionary<string, object>> _todoDay = new(); // TODO리스트의 날짜를 담는 딕셔너리 리스트
         private List<Dictionary<string, object>> _todoList = new(); // TODO리스트를 담는 딕셔너리 리스트
-
 
         public void Awake()
         {
@@ -32,6 +36,9 @@ namespace Script.UI.MainLevel.StartTurn.Manager
             var noList = _std.GetTodoNo(2024, 4);
             _todoList = _std.GetTodoList(noList);
             _todoDay = _std.GetTodoDay(noList);
+            _groupTodoDay = _todoDay.GroupBy(dic => dic["TODONO"]);
+
+            for (var i = 1; i <= 20; i++) _calendarChk.Add(i.ToString(), 0);
 
             foreach (var VARIABLE in _todoDay)
             foreach (var var in VARIABLE)
@@ -43,6 +50,8 @@ namespace Script.UI.MainLevel.StartTurn.Manager
                 todoListInstance = Instantiate(todoListPrefab, todoListLayout);
                 // 버튼이 선택되지 않은 상태로 초기화
                 _isButtonSelect[todoListInstance] = false;
+                // 버튼이 활성화된 살태로 초기화
+                _isButtonActive[todoListInstance] = true;
                 // 이미지 오브젝트에 딕셔너리 값 설정
                 var textComponent = todoListInstance.GetComponentInChildren<Text>();
                 if (textComponent != null)
@@ -51,7 +60,13 @@ namespace Script.UI.MainLevel.StartTurn.Manager
                     var reward = Convert.ToInt32(dic["REWARD"]);
                     var loseReward = Convert.ToInt32(dic["LOSEREWARD"]);
                     var statRewardI = Convert.ToInt32(dic["STATREWARD"]);
+                    var todoNo = Convert.ToInt32(dic["TODONO"]);
+                    // 버튼이 어떤 날짜에 걸쳐 있는지 저장
+                    var dates = _todoDay.Where(d => (int)d["TODONO"] == todoNo).Select(d => d["DATE"].ToString()).ToList();
+                    _buttonDates[todoListInstance] = dates;
                     var statReward = "";
+
+                    todoListInstance.name = "TodoBtn" + todoNo;
 
                     // statReward의 마지막 숫자가 0이면 힘, 1이면 마력
                     if (statRewardI % 2 == 0)
@@ -72,7 +87,7 @@ namespace Script.UI.MainLevel.StartTurn.Manager
         public void OnClickTodoBtn(GameObject button)
         {
             // 버튼이 선택되어있지 않은 상태이고, 버튼이 활성화된 상태이면
-            if (!_isButtonSelect[button])
+            if (!_isButtonSelect[button] && _isButtonActive[button])
             {
                 _isButtonSelect[button] = true;
                 var index = button.transform.GetSiblingIndex();
@@ -87,11 +102,32 @@ namespace Script.UI.MainLevel.StartTurn.Manager
                         var objectName = "Day" + date;
                         var color = FindColor(index);
                         ChangeImageColor(objectName, color);
+                        _calendarChk[date]++;
                     }
                 }
+
+                foreach (var date in _buttonDates[button])
+                {
+                    _calendarChk[date]++;
+                    if (_calendarChk[date] > 1)
+                    {
+                        ChangeImageColor(button.name, Color.gray);
+                        _isButtonActive[button] = false;
+                    }
+                }
+
+                foreach (var group in _groupTodoDay)
+                foreach (var dic in group)
+                    if (_calendarChk[dic["DATE"].ToString()] > 0)
+                    {
+                        var activeBtn = GameObject.Find("TodoBtn" + group.Key);
+                        ChangeImageColor(activeBtn.name, Color.gray);
+                        _isButtonActive[activeBtn] = false;
+                    }
+                ChangeImageColor(button.name, Color.green);
             }
             // 버튼이 이미 선택되어 있는 상태이면
-            else
+            else if (_isButtonSelect[button] && _isButtonActive[button])
             {
                 _isButtonSelect[button] = false;
                 var index = button.transform.GetSiblingIndex();
@@ -106,8 +142,36 @@ namespace Script.UI.MainLevel.StartTurn.Manager
                         var objectName = "Day" + date;
                         var color = Color.white;
                         ChangeImageColor(objectName, color);
+                        _calendarChk[date]--;
                     }
                 }
+
+                foreach (var date in _buttonDates[button])
+                {
+                    _calendarChk[date]--;
+                    if (_calendarChk[date] == 0)
+                    {
+                        ChangeImageColor(button.name, Color.white);
+                        _isButtonActive[button] = true;
+                    }
+                }
+
+                foreach (var group in _groupTodoDay)
+                foreach (var dic in group)
+                    if (_calendarChk[dic["DATE"].ToString()] > 0)
+                    {
+                        var activeBtn = GameObject.Find("TodoBtn" + group.Key);
+                        ChangeImageColor(activeBtn.name, Color.gray);
+                        _isButtonActive[activeBtn] = false;
+                    }
+                    else
+                    {
+                        var activeBtn = GameObject.Find("TodoBtn" + group.Key);
+                        ChangeImageColor(activeBtn.name, Color.white);
+                        _isButtonActive[activeBtn] = true;
+                    }
+
+                ChangeImageColor(button.name, Color.white);
             }
         }
 
