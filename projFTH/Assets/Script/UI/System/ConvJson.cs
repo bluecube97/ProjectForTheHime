@@ -42,7 +42,7 @@ public class SendDataToPython : MonoBehaviour
         {
             Process process = new Process();
             process.StartInfo.FileName = "python";
-            process.StartInfo.Arguments = @"./Assets/JSON/connection.py";
+            process.StartInfo.Arguments = @"./Assets/JSON/connectionManager.py";
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardInput = true;
             process.StartInfo.UseShellExecute = false;

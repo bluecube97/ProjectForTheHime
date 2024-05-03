@@ -49,7 +49,11 @@ def get_response():
         )
 
         response = completion.choices[0].message.content.strip()
+<<<<<<< Updated upstream
         
+=======
+
+>>>>>>> Stashed changes
         json_response = json.dumps({"gpt_ment": response}, ensure_ascii=False)
         print(json_response)
 
