@@ -1,1 +1,21 @@
-"conversationData\\updated_daughter_status.json"
+{
+    "daughter": {
+        "name": "더조은",
+        "age": "20",
+        "sex": "female",
+        "mbti": "ISFJ",
+        "hp": "70",
+        "mp": "80",
+        "mood": "happiness",
+        "stress": "high",
+        "fatigue": "tired",
+        "E": "30",
+        "I": "70",
+        "S": "65",
+        "N": "35",
+        "T": "20",
+        "F": "80",
+        "J": "85",
+        "P": "15"
+    }
+}
