@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using System;
+using UnityEditor;
+using System.Text;
+
 
 public class SendDataToPython : MonoBehaviour
 {
@@ -26,6 +29,12 @@ public class SendDataToPython : MonoBehaviour
 
     public void OnButtonClick()
     {
+        if (inputDataField == null || outputDataText == null)
+        {
+            UnityEngine.Debug.LogError("InputField or OutputText is not assigned in the Inspector");
+            return;
+        }
+
         MessageData dataToSend = new MessageData { user_ment = inputDataField.text };
         string json = JsonUtility.ToJson(dataToSend);
 
@@ -33,32 +42,44 @@ public class SendDataToPython : MonoBehaviour
         {
             Process process = new Process();
             process.StartInfo.FileName = "python";
-            process.StartInfo.Arguments = @"/Assets/JSON/connection.py";
+            process.StartInfo.Arguments = @"./Assets/JSON/connection.py";
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardInput = true;
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.CreateNoWindow = true;
             process.Start();
 
-            using (StreamWriter sw = process.StandardInput)
+            using (StreamWriter sw = new StreamWriter(process.StandardInput.BaseStream, Encoding.UTF8))
             {
                 sw.WriteLine(json);
             }
 
-            using (StreamReader sr = process.StandardOutput)
+            using (StreamReader sr = new StreamReader(process.StandardOutput.BaseStream, Encoding.UTF8))
             {
-                string output = sr.ReadToEnd(); // 전체 출력을 읽습니다.
-                ResponseData response = JsonUtility.FromJson<ResponseData>(output);
-                outputDataText.text = response.gpt_ment; // Unity UI에 표시
+                string output = sr.ReadToEnd();
+                int endIndex = output.IndexOf("}") + 1;
+                string validJson = output.Substring(0, endIndex);
 
-                string ment = response.gpt_ment; // 응답에서 gpt_ment 값을 추출하여 변수에 저장
-                UnityEngine.Debug.Log("Received ment: " + ment); // 콘솔에 로그 출력
+                try
+                {
+                    ResponseData response = JsonUtility.FromJson<ResponseData>(validJson);
+                    outputDataText.text = response.gpt_ment;
+                    UnityEngine.Debug.Log("gpt_ment: " + response.gpt_ment);
+                }
+                catch (Exception parseException)
+                {
+                    UnityEngine.Debug.LogError("JSON 파싱오류: " + parseException.Message);
+                    UnityEngine.Debug.LogError("gpt_ment: " + output);
+                }
             }
 
+            process.WaitForExit();
+            process.Close();
         }
         catch (Exception e)
         {
             UnityEngine.Debug.LogError("Error: " + e.Message);
         }
     }
+
 }

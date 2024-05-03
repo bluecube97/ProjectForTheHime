@@ -13,7 +13,6 @@ def get_ment_from_unity():
         return user_ment
     except EOFError as e:
         print(json.dumps({"error": str(e)}))
-        return None
 
 def make_whole_cov(path, message):
     if not os.path.exists(os.path.dirname(path)):
@@ -48,11 +47,12 @@ def get_response():
         )
 
         response = completion.choices[0].message.content.strip()
-        json_response = json.dumps({"gpt_ment": response})  # JSON 형식으로 응답
-        print(json_response)  # Unity로 JSON 응답 전송
+        json_response = json.dumps({"gpt_ment": response}, ensure_ascii=False)
+        print(json_response)
 
         previous_completion = completion
         message = {"user_ment": question, "gpt_ment": response}
+        #print(message)
         make_whole_cov(wc_path, message)
 
 if __name__ == "__main__":
