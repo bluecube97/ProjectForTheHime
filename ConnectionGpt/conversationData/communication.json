@@ -58,5 +58,21 @@
     {
         "user_ment": "& C:/DevTool/Python/Python312/python.exe c:/DevTool/workspace/UnityPJ/ProjectForTheHime/ConnectionGpt/inputCharStatus.py",
         "gpt_ment": "\uc774 \uba85\ub839\uc740 C:/DevTool/Python/Python312/python.exe \uacbd\ub85c\uc5d0 \uc788\ub294 Python \uc778\ud130\ud504\ub9ac\ud130\ub97c \uc0ac\uc6a9\ud558\uc5ec c:/DevTool/workspace/UnityPJ/ProjectForTheHime/ConnectionGpt/inputCharStatus.py \ud30c\uc77c\uc744 \uc2e4\ud589\ud558\ub294 \uac83\uc73c\ub85c \ubcf4\uc785\ub2c8\ub2e4. \uc774 \uba85\ub839\uc744 \uc2e4\ud589\ud558\uba74 inputCharStatus.py \ud30c\uc77c\uc774 python.exe\ub97c \ud1b5\ud574 \uc2e4\ud589\ub420 \uac83\uc785\ub2c8\ub2e4."
+    },
+    {
+        "user_ment": "\uc548\ub155",
+        "gpt_ment": "\uc548\ub155\ud558\uc138\uc694! \ubb34\uc5c7\uc744 \ub3c4\uc640\ub4dc\ub9b4\uae4c\uc694?"
+    },
+    {
+        "user_ment": "hello my name is jun plz call me jun",
+        "gpt_ment": "Hello Jun! How can I assist you today?"
+    },
+    {
+        "user_ment": "\uc548\ub155?",
+        "gpt_ment": "\uc548\ub155\ud558\uc138\uc694! \ubb34\uc5c7\uc744 \ub3c4\uc640\ub4dc\ub9b4\uae4c\uc694?"
+    },
+    {
+        "user_ment": "\uc548\ub155?",
+        "gpt_ment": "\uc548\ub155\ud558\uc138\uc694! \ubb34\uc5c7\uc744 \ub3c4\uc640\ub4dc\ub9b4\uae4c\uc694?"
     }
 ]

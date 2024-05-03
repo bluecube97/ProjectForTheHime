@@ -82,26 +82,4 @@ while (True):
 with open(absolute_path, 'w', encoding='UTF-8') as file:
     json.dump(conversation, file, ensure_ascii=False, indent=4)
 
-
-
-# 1. parameter값이 전체적으로 들어가는 : Parameter.json
-# 2. ques 와 resp만 들어가는 : Conversation.json
-
-
-# 전체적인 로직
-#     1. 사용자가 프롬프트 입력
-#     2. 프롬프트 값 json에 저장 -> 유니티에서
-#     3. 파이썬에서 json파일 읽어서 유저가 입력한 프롬프트 값의 key값을 읽음
-#     4. 읽은 key값을 변숮에 저장 후 날림
-#     5. 날아 올때 모든 파라미터 값의 변경과, 대답을 가져옴
-#     6. 데이터 정재
-#         6.1 날아온 데이터에서 파라미터 값을 제외한 답안을 별도의 json파일에 저장
-#         6.2 먼저 날아온 question을 별도의 json에 넣고 response만 다시 별도의 json에 넣어서
-#         6.3 유니티로 반환
-#     유니티에서 게임이 끝나거나 게임을 저장 혹은 분기가 끝났을 때 모든 프롬프트 값이 담긴 json 파일을 유니티로 넘겨줌
-    # 유니티에서 db관리 
-    # 게임이 재 시작 하면, 전체적인 파라미터 및 데이터가 담긴 json파일을 넘겨주는 메서드를 시작.
-
-
-# 만들 메서드 목록
-     # parameter 읽고 쓰기 함수, conversation 읽고 쓰기, 데이터 정재 함수
+#유니티 대화 해보기

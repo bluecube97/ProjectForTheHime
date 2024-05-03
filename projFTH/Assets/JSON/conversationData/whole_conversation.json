@@ -1,0 +1,68 @@
+{
+    "data": [
+        {
+            "user_ment": "\uc548\ub155~",
+            "gpt_ment": "\uc548\ub155\ud558\uc138\uc694! \ub300\ud654\ub97c \ub098\ub204\uc5b4 \uc8fc\uc154\uc11c \uac10\uc0ac\ud569\ub2c8\ub2e4. \ubb34\uc5c7\uc744 \ub3c4\uc640\ub4dc\ub9b4\uae4c\uc694?"
+        },
+        {
+            "user_ment": "\uc548\ub155~",
+            "gpt_ment": "\uc548\ub155\ud558\uc138\uc694! \uc5b4\ub5bb\uac8c \ub3c4\uc640\ub4dc\ub9b4\uae4c\uc694?"
+        },
+        {
+            "user_ment": "\uc548\ub155~",
+            "gpt_ment": "\uc548\ub155! \ub9cc\ub098\uc11c \ubc18\uac00\uc6cc\uc694. \ubb34\uc5c7\uc744 \ub3c4\uc640\ub4dc\ub9b4\uae4c\uc694?"
+        },
+        {
+            "user_ment": "& C:/DevTool/Python/Python312/python.exe c:/DevTool/workspace/UnityPJ/ProjectForTheHime/projFTH/Assets/JSON/connection.py",
+            "gpt_ment": "\uc774 \uba85\ub839\uc740 Python \uc778\ud130\ud504\ub9ac\ud130\ub97c \uc0ac\uc6a9\ud558\uc5ec \"c:/DevTool/workspace/UnityPJ/ProjectForTheHime/projFTH/Assets/JSON/connection.py\" \ub77c\ub294 \ud30c\uc77c\uc744 \uc2e4\ud589\ud558\ub824\ub294 \uac83\uc73c\ub85c \ubcf4\uc785\ub2c8\ub2e4. \uc774 \ud30c\uc77c\uc740 \ud504\ub85c\uc81d\ud2b8\uc640 \uad00\ub828\ub41c JSON \uc5f0\uacb0\uc744 \ud558\ub294 \uac83\uc73c\ub85c \ucd94\uce21\ub429\ub2c8\ub2e4. \uc774 \ud504\ub85c\uadf8\ub7a8\uc774 \ud558\ub294 \uc77c\uc5d0 \ub300\ud574 \uc790\uc138\ud55c \uc815\ubcf4\uac00 \ud544\uc694\ud558\uc2e0\uac00\uc694?"
+        },
+        {
+            "user_ment": "\uc548\ub155",
+            "gpt_ment": "\uc548\ub155\ud558\uc138\uc694! \ubb34\uc5c7\uc744 \ub3c4\uc640\ub4dc\ub9b4\uae4c\uc694?"
+        },
+        {
+            "user_ment": "\uc548\ub155!",
+            "gpt_ment": "\uc548\ub155\ud558\uc138\uc694! \uc5b4\ub5bb\uac8c \ub3c4\uc640\ub4dc\ub9b4\uae4c\uc694?"
+        },
+        {
+            "user_ment": "\uc548\ub155!",
+            "gpt_ment": "\uc548\ub155\ud558\uc138\uc694! \ubb34\uc5c7\uc744 \ub3c4\uc640\ub4dc\ub9b4\uae4c\uc694?"
+        },
+        {
+            "user_ment": "\uc548\ub155~",
+            "gpt_ment": "\uc548\ub155\ud558\uc138\uc694! \ubb34\uc5c7\uc744 \ub3c4\uc640\ub4dc\ub9b4\uae4c\uc694?"
+        },
+        {
+            "user_ment": "\uc548\ub155",
+            "gpt_ment": "\uc548\ub155\ud558\uc138\uc694! \ubb34\uc5c7\uc744 \ub3c4\uc640\ub4dc\ub9b4\uae4c\uc694?"
+        },
+        {
+            "user_ment": "& C:/DevTool/Python/Python312/python.exe c:/DevTool/workspace/UnityPJ/ProjectForTheHime/projFTH/Assets/JSON/connection.py",
+            "gpt_ment": "\uc8c4\uc1a1\ud569\ub2c8\ub2e4, \uadf8 \uba85\ub839\uc5b4\ub294 \uc720\ud6a8\ud558\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4. \"connection.py\" \ud30c\uc77c\uc744 \uc2e4\ud589\ud558\ub294 \ubc29\ubc95\uc5d0 \ub300\ud574 \ub354 \ub9ce\uc740 \uc815\ubcf4\ub97c \uc81c\uacf5\ud574\uc8fc\uc2dc\uaca0\uc5b4\uc694?"
+        },
+        {
+            "user_ment": "\uc548\ub155!",
+            "gpt_ment": "\uc548\ub155\ud558\uc138\uc694! \uc5b4\ub5bb\uac8c \ub3c4\uc640\ub4dc\ub9b4\uae4c\uc694?"
+        },
+        {
+            "user_ment": "& C:/DevTool/Python/Python312/python.exe c:/DevTool/workspace/UnityPJ/ProjectForTheHime/projFTH/Assets/JSON/connection.py",
+            "gpt_ment": "\uc8c4\uc1a1\ud569\ub2c8\ub2e4. \uadf8 \uba85\ub839\uc740 \uc2e4\ud589\ub418\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4. Python \uc778\ud130\ud504\ub9ac\ud130\ub85c \uc2a4\ud06c\ub9bd\ud2b8 \ud30c\uc77c\uc744 \uc2e4\ud589\ud558\ub824\uba74 \uba85\ub839 \ud504\ub86c\ud504\ud2b8\ub098 \ud130\ubbf8\ub110\uc744 \uc0ac\uc6a9\ud574\uc57c \ud569\ub2c8\ub2e4. \uba85\ub839 \ud504\ub86c\ud504\ud2b8\ub098 \ud130\ubbf8\ub110\uc744 \uc5f4\uace0 \ud574\ub2f9 \uc2a4\ud06c\ub9bd\ud2b8\uac00 \uc788\ub294 \ub514\ub809\ud1a0\ub9ac\ub85c \uc774\ub3d9\ud55c \ud6c4 `python connection.py` \ub97c \uc2e4\ud589\ud574\ubcf4\uc138\uc694."
+        },
+        {
+            "user_ment": "\uc548\ub155~",
+            "gpt_ment": "\uc548\ub155\ud558\uc138\uc694! \ubb34\uc5c7\uc744 \ub3c4\uc640\ub4dc\ub9b4\uae4c\uc694?"
+        },
+        {
+            "user_ment": "\uc548\ub155!",
+            "gpt_ment": "\uc548\ub155\ud558\uc138\uc694! \ubb34\uc5c7\uc744 \ub3c4\uc640\ub4dc\ub9b4\uae4c\uc694?"
+        },
+        {
+            "user_ment": "\uc548\ub155!",
+            "gpt_ment": "\uc548\ub155\ud558\uc138\uc694! \ubb34\uc5c7\uc744 \ub3c4\uc640\ub4dc\ub9b4\uae4c\uc694?"
+        },
+        {
+            "user_ment": "\uc548\ub155!",
+            "gpt_ment": "\uc548\ub155\ud558\uc138\uc694! \ubb34\uc5c7\uc744 \ub3c4\uc640\ub4dc\ub9b4\uae4c\uc694?"
+        }
+    ]
+}
