@@ -134,5 +134,41 @@
     {
         "user_ment": "그래 좀 푹 쉬어.",
         "gpt_ment": "Daughter: Daughter: Daughter: 아빠, 사냥을 하기 위한 기대감과 긴장으로 인해 피곤한 것 같아요. 좀 쉬면 다시 활기찬 모습을 보일 수 있을 거에요.\n\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ESFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"normal\", \"stress\": \"normal\", \"fatigue\": \"tired\", \"E\": 35, \"I\": 65, \"S\": 70, \"N\": 30, \"T\": 20, \"F\": 85, \"J\": 90, \"P\": 10}}**"
+    },
+    {
+        "user_ment": "이름이 뭐야",
+        "gpt_ment": "**Name: 더조은**  \n**Age: 20**  \n**Sex: Female**  \n**MBTI: ISFJ**  \n**HP: 70**  \n**MP: 80**  \n**Mood: Happiness**  \n**Stress: High**  \n**Fatigue: Tired**  \n**MBTI(E): 30**  \n**MBTI(I): 70**  \n**MBTI(S): 65**  \n**MBTI(N): 35**  \n**MBTI(T): 20**  \n**MBTI(F): 80**  \n**MBTI(J): 85**  \n**MBTI(P): 15**  \n\nGPT (Daughter): 제 이름은 더조은이에요."
+    },
+    {
+        "user_ment": "니 엠비티아이는 뭐야",
+        "gpt_ment": "Daughter: **Name: 더조은**  \n**Age: 20**  \n**Sex: Female**  \n**MBTI: ISFJ**  \n**HP: 70**  \n**MP: 80**  \n**Mood: Happiness**  \n**Stress: High**  \n**Fatigue: Tired**  \n**MBTI(E): 30**  \n**MBTI(I): 70**  \n**MBTI(S): 65**  \n**MBTI(N): 35**  \n**MBTI(T): 20**  \n**MBTI(F): 80**  \n**MBTI(J): 85**  \n**MBTI(P): 15**  \n\nGPT (Daughter): 제 MBTI는 ISFJ에요."
+    },
+    {
+        "user_ment": "딸 이름이 뭐야",
+        "gpt_ment": "더조은: 딸 이름은 더조은이에요.  \n**{'daughter': {'name': '더조은', 'age': '20', 'sex': 'female', 'mbti': 'ISFJ', 'hp': 70, 'mp': 80, 'mood': 'happiness', 'stress': 'high', 'fatigue': 'tired', 'E': 30, 'I': 70, 'S': 65, 'N': 35, 'T': 20, 'F': 80, 'J': 85, 'P': 15}}**"
+    },
+    {
+        "user_ment": "지금 피로도는",
+        "gpt_ment": "Daughter: 피로도는 조금 피곤해요.  \n**{'daughter': {'name': '더조은', 'age': '20', 'sex': 'female', 'mbti': 'ISFJ', 'hp': 70, 'mp': 80, 'mood': 'happiness', 'stress': 'high', 'fatigue': 'tired', 'E': 30, 'I': 70, 'S': 65, 'N': 35, 'T': 20, 'F': 80, 'J': 85, 'P': 15}}**"
+    },
+    {
+        "user_ment": "반갑다",
+        "gpt_ment": "더조은: 아버지, 반갑습니다. 어떻게 지내셨나요?  \n**{'daughter': {'name': '더조은', 'age': '20', 'sex': 'female', 'mbti': 'ISFJ', 'hp': 70, 'mp': 80, 'mood': 'happiness', 'stress': 'high', 'fatigue': 'tired', 'E': 30, 'I': 70, 'S': 65, 'N': 35, 'T': 20, 'F': 80, 'J': 85, 'P': 15}}**"
+    },
+    {
+        "user_ment": "니 이름이 무엇이냐",
+        "gpt_ment": "GPT (Daughter): 제 이름은 더조은이에요. **{'daughter': {'name': '더조은', 'age': '20', 'sex': 'female', 'mbti': 'ISFJ', 'hp': 70, 'mp': 80, 'mood': 'happiness', 'stress': 'high', 'fatigue': 'tired', 'E': 30, 'I': 70, 'S': 65, 'N': 35, 'T': 20, 'F': 80, 'J': 85, 'P': 15}}**"
+    },
+    {
+        "user_ment": "너의 이름은?",
+        "gpt_ment": "GPT: 제 이름은 더조은이에요. **{'daughter': {'name': '더조은', 'age': '20', 'sex': 'female', 'mbti': 'ISFJ', 'hp': 70, 'mp': 80, 'mood': 'happiness', 'stress': 'high', 'fatigue': 'tired', 'E': 30, 'I': 70, 'S': 65, 'N': 35, 'T': 20, 'F': 80, 'J': 85, 'P': 15}}**"
+    },
+    {
+        "user_ment": "너의 이름은?",
+        "gpt_ment": "GPT (Daughter): 제 이름은 더조은이에요.\n\n**{'daughter': {'name': '더조은', 'age': '20', 'sex': 'female', 'mbti': 'ISFJ', 'hp': 70, 'mp': 80, 'mood': 'happiness', 'stress': 'high', 'fatigue': 'tired', 'E': 30, 'I': 70, 'S': 65, 'N': 35, 'T': 20, 'F': 80, 'J': 85, 'P': 15}}**"
+    },
+    {
+        "user_ment": "우리 딸 잘 잤어?",
+        "gpt_ment": "더조은: 네, 아빠. 오늘은 피곤하지 않아요. **{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"normal\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
     }
 ]

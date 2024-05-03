@@ -47,7 +47,7 @@ def update_daughter_status(update_path, update_data):
     try:
         # 데이터를 JSON 파일로 저장
         with open(update_path, 'w', encoding='utf-8') as file:
-            json.dump(update_data, file, indent=4)
+            json.dump(update_data, file, indent=4, ensure_ascii=False)
         print("Data has been saved successfully to the update file.")
     except Exception as e:
         print(f"Data saving failed: {e}")
@@ -65,7 +65,7 @@ def extract_and_save_updated_status(daughter_reply, update_path):
         try:
             update_data = json.loads(stat_str)
             with open(update_path, 'w', encoding='utf-8') as file:
-                json.dump(update_data, file, indent=4)
+                json.dump(update_data, file, indent=4, ensure_ascii=False)
             print("Updated daughter status saved to JSON.")
             return True
         except json.JSONDecodeError:
@@ -104,6 +104,28 @@ def ConnectionGpt(daughter_status_path, daughter_update_path, d_stat):
     }
     daughter_status_json = load_json_data(daughter_status_path)
 
+    stat_json = {
+    "daughter": {
+        "name": "더조은",
+        "age": "20",
+        "sex": "female",
+        "mbti": "ISFJ",
+        "hp": 70,
+        "mp": 80,
+        "mood": "happiness",
+        "stress": "high",
+        "fatigue": "tired",
+        "E": 30,
+        "I": 70,
+        "S": 65,
+        "N": 35,
+        "T": 20,
+        "F": 80,
+        "J": 85,
+        "P": 15
+        }
+    }
+
     stat_text = (
               f"Your name is {d_stat.name,}"
               f"Your age is {d_stat.age},"
@@ -139,7 +161,24 @@ def ConnectionGpt(daughter_status_path, daughter_update_path, d_stat):
                 "	8)Depending on what the father says, the daughter’s stress and fatigue level changes."
                 "	8-1)If you get angry, swear, or verbally abuse someone, your stress and fatigue will increase."
                 "	8-2)If you give compliments, nice words, and gifts, stress and fatigue will decrease."
-                "	8-3)Please refer to the initial value from the 'stat_text'"
+                "	8-3)Please refer to the initial value from the next line"
+                    f"Your name is {d_stat.name},"
+                    f"Your age is {d_stat.age},"
+                    f"Your sex is {d_stat.sex},"
+                    f"Your MBIT is {d_stat.mbti},"
+                    f"Your HP is {d_stat.hp},"
+                    f"Your MP is {d_stat.mp},"
+                    f"Your Mood is {d_stat.mood},"
+                    f"Your Stress is {d_stat.stress},"
+                    f"Your Fatigue is {d_stat.fatigue},"
+                    f"Your MBTI(E) is {d_stat.E},"
+                    f"Your MBTI(I) is {d_stat.I},"
+                    f"Your MBTI(S) is {d_stat.S},"
+                    f"Your MBTI(N) is {d_stat.N},"
+                    f"Your MBTI(T) is {d_stat.T},"
+                    f"Your MBTI(F) is {d_stat.F},"
+                    f"Your MBTI(J) is {d_stat.J},"
+                    f"Your MBTI(P) is {d_stat.P}"
                 "   8-4)When changing values, please change daughter_status_json file from the initial value."
                 "	9)And depending on your daughter’s behavior, her MBTI criterion will vary."
                 "	10)If the father talks out of context or says something completely unrelated to the conversation, the daughter asks a counter question or changes the topic."
@@ -148,9 +187,12 @@ def ConnectionGpt(daughter_status_path, daughter_update_path, d_stat):
                 "	13)My daughter is a game character and if she has an extroverted personality (it means MbTI criterion is E), she likes hunting and outdoor activities."
                 "	14)However, if she has an introverted personality (it means MbTI criterion is I), she acts timid or doing something alone indoors."
                 "	15)Her stress, fatigue, and mood levels change due to conversations with her father, or daughter's fatigue at work, or something stressful. It doesn't change in every conversation, it only changes in meaningful conversations."
-                "	16) And at the end of your daughter’s answer, be sure to give me the whole parameter values."
+                "   And at the end of your daughter’s answer, be sure to give me the whole parameter values like next line. "                    
+                f"{stat_json} Please change all single quotes in all parameter values here to double quotes. "
                 "	17) When providing the parameter, use the format starts with '**' and ends with '**'."
-                f"{daughter_status_json}"
+                
+                #f"{daughter_status_json}"
+
             )
     
     messages = [

@@ -1,21 +1,21 @@
 {
     "daughter": {
-        "name": "\ub354\uc870\uc740",
+        "name": "더조은",
         "age": "20",
         "sex": "female",
-        "mbti": "ESFJ",
+        "mbti": "ISFJ",
         "hp": 70,
         "mp": 80,
-        "mood": "normal",
-        "stress": "normal",
-        "fatigue": "tired",
-        "E": 35,
-        "I": 65,
-        "S": 70,
-        "N": 30,
+        "mood": "happiness",
+        "stress": "high",
+        "fatigue": "normal",
+        "E": 30,
+        "I": 70,
+        "S": 65,
+        "N": 35,
         "T": 20,
-        "F": 85,
-        "J": 90,
-        "P": 10
+        "F": 80,
+        "J": 85,
+        "P": 15
     }
 }
