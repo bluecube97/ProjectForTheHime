@@ -4401,7 +4401,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1599511061}
         m_TargetAssemblyTypeName: RestaurantManager, Assembly-CSharp
-        m_MethodName: GetclickFoodList
+        m_MethodName: GetclickListValue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

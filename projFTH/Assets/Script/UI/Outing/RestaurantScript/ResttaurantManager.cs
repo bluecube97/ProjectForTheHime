@@ -1,9 +1,11 @@
 ﻿using Script.UI.Outing;
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.WSA;
 
 
 
@@ -19,7 +21,7 @@ public class RestaurantManager : MonoBehaviour
     private RestaurantUIController RestaurantUIController;
     private FoodListVO foodlistVO;
     private List<FoodListVO> FoodList;
-
+    private int FoodPr = 0;
 
     private void Start()
     {
@@ -52,12 +54,16 @@ public class RestaurantManager : MonoBehaviour
         string indexString = objectName.Replace("foodlist", "");
         int index = int.Parse(indexString);
         FoodListVO fv = FoodList[index-1];
-        ProcessPayment(fv.FoodPr);
+         FoodPr = fv.FoodPr;
+        Debug.Log("계산 금액 " + FoodPr);
+
     }
-    public void ProcessPayment(int foodPr)
+    public void ProcessPayment()
     {
         int userCash = restaurantDao.GetUserInfoFromDB();
-        int NowCash = userCash - foodPr;
+        int NowCash = userCash - FoodPr;
+        Debug.Log("계산 금액 " + FoodPr);
+
         Debug.Log("DB 유저 현금 " + userCash);
         Debug.Log("계산 후 금액 " + NowCash);
         if (NowCash > 0)
