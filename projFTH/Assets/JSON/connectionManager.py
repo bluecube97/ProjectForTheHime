@@ -73,6 +73,7 @@ def extract_and_save_updated_status(daughter_reply, d):
         # 문자열을 추출하여 공백 제거
         stat_str = daughter_reply[start_index:end_index].strip()
 
+<<<<<<< Updated upstream:projFTH/Assets/JSON/connectionManager.py
         # "name"을 키워드로 사용하여 값을 추출
         name_start = stat_str.find('"name": "') + len('"name": "')
         name_end = stat_str.find('"', name_start + 1)
@@ -187,6 +188,21 @@ def get_ment_from_unity():
 
 def ConnectionGpt(daughter_status_path, daughter_update_path, d_stat, set_d):
 >>>>>>> Stashed changes:projFTH/Assets/JSON/connectionManager.py
+=======
+        #stat_str dict화
+        stat_str_ = json.loads(stat_str)
+
+        # 키값에 따른 벨유값 추출
+        for key, value in stat_str_.items() :
+            print("뽑아낸 추출값"f"{key} : {value}")
+
+        
+    
+        
+
+def ConnectionGpt(daughter_status_path, daughter_update_path, d_stat, set_d):
+    
+>>>>>>> Stashed changes:ConnectionGpt_LJ/connectionManager.py
     father_status = {
         "father": {
             "name": "Lain",
