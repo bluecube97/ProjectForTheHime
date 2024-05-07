@@ -210,7 +210,6 @@ def ConnectionGpt(daughter_status_path, d_stat, set_d):
                 print(json.dumps(response_data))
             else:
                 print("No valid response to process.")
-            
         
         except Exception as e:
             print("error : ", e)
@@ -218,14 +217,16 @@ def ConnectionGpt(daughter_status_path, d_stat, set_d):
         read_comm_file(user_request, daughter_reply)
 
 def main():
+    # 상대 경로를 사용하여 스크립트 실행 위치에 상관없이 일관된 경로를 얻습니다.
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    daughter_status_path = os.path.join(base_dir, r"conversationData\daughter_status.json")
+
     d_stat = lds()
     set_d = d()
-    
-    daughter_status_path = os.path.join("conversationData", "daughter_status.json")
 
     if os.path.exists(daughter_status_path):
-       ConnectionGpt(daughter_status_path, d_stat, set_d)
-    else : 
+        ConnectionGpt(daughter_status_path, d_stat, set_d)
+    else:
         print("대화를 진행할 수 없습니다. daughter_status.json 파일이 존재하지 않습니다.")
 
 if __name__ == "__main__":
