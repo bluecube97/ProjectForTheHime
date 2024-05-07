@@ -3,9 +3,9 @@ namespace Script.UI.Outing
     using UnityEngine;
     using UnityEngine.SceneManagement;
 
-    public class ClothingUIManager : MonoBehaviour
+    public class ClothingUIController : MonoBehaviour
     {
-        private static ClothingUIManager instance; // 메뉴의 인스턴스
+        private static ClothingUIController instance; // 메뉴의 인스턴스
         public GameObject MakeClothingMenu; // 옷 패널 오브젝트
         public GameObject SellMenu; // 판매 패널 오브젝트
         public GameObject BuyMenu; // 구매 패널 오브젝트
@@ -25,7 +25,7 @@ namespace Script.UI.Outing
                 Destroy(gameObject);
             }
         }
-        public static ClothingUIManager Instance => instance;
+        public static ClothingUIController Instance => instance;
 
         public void OnClickReturn()
         {

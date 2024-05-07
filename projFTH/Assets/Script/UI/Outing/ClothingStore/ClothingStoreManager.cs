@@ -23,7 +23,7 @@ public class ClothingStoreManager : MonoBehaviour
 
     private ClothingDao clothingDao;
     private InventoryDao inventoryDao;
-    private ClothingUIManager clothingUIManager;
+    private ClothingUIController clothingUIController;
 
     private List<ClothingVO> clothingList = new List<ClothingVO>();
     private List<ClothingVO> cltBuyList = new List<ClothingVO>();
@@ -38,7 +38,7 @@ public class ClothingStoreManager : MonoBehaviour
     {
         clothingDao = GetComponent<ClothingDao>();
         inventoryDao = GetComponent<InventoryDao>();
-        clothingUIManager = FindObjectOfType<ClothingUIManager>();
+        clothingUIController = FindObjectOfType<ClothingUIController>();
 
         clothingList = clothingDao.GetClothingList();
         cltBuyList = clothingDao.GetClothingBuyList();
@@ -140,11 +140,11 @@ public class ClothingStoreManager : MonoBehaviour
         {
             inventoryDao.BuyClothing(balSlik, balLine);
             clothingDao.Buyclothing(index);
-            clothingUIManager.OnClickBuyComple();
+            clothingUIController.OnClickBuyComple();
         }
         else
         {
-            clothingUIManager.OnClickBuyFail();
+            clothingUIController.OnClickBuyFail();
         }
 
        
@@ -158,12 +158,12 @@ public class ClothingStoreManager : MonoBehaviour
         if (NowCash > 0)
         {
             clothingDao.UpdateUserCash(NowCash);
-            clothingUIManager.OnClickBuyComple();
+            clothingUIController.OnClickBuyComple();
         }
         else
         {
             Debug.Log("Not enough cash!");
-            clothingUIManager.OnClickBuyFail();
+            clothingUIController.OnClickBuyFail();
 
         }
     }
