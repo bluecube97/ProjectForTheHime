@@ -5,6 +5,7 @@ import os
 openai.api_key = "sk-proj-3ZLbBHwylhtASxE4BIaMT3BlbkFJh6cUB6QhPVKBieezTqSg"
 previous_completion = None
 
+#유니티에서 대답 가져오는 메서드
 def get_ment_from_unity():
     try:
         user_ment = input()
@@ -38,6 +39,7 @@ def get_response():
             break
 
         messages = [{"role": "user", "content": question}]
+
         if previous_completion:
             messages.append({"role": "assistant", "content": previous_completion.choices[0].message.content})
 
@@ -47,12 +49,12 @@ def get_response():
         )
 
         response = completion.choices[0].message.content.strip()
+
         json_response = json.dumps({"gpt_ment": response}, ensure_ascii=False)
         print(json_response)
 
         previous_completion = completion
         message = {"user_ment": question, "gpt_ment": response}
-        #print(message)
         make_whole_cov(wc_path, message)
 
 if __name__ == "__main__":
