@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 using System.Collections;
 using System.Diagnostics;
 using UnityEngine;
@@ -8,6 +9,15 @@ using UnityEditor;
 using System.Text;
 
 
+=======
+using System.Diagnostics;
+using System.IO;
+using System.Text;
+using System;
+using UnityEngine.UI;
+using UnityEngine;
+
+>>>>>>> Stashed changes
 public class SendDataToPython : MonoBehaviour
 {
     public InputField inputDataField;

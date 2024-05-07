@@ -33,6 +33,7 @@ def update_daughter_status(update_path, update_data):
     except Exception as e:
         print(f"Data saving failed: {e}")
 
+<<<<<<< Updated upstream:projFTH/Assets/JSON/connectionManager.py
 <<<<<<< Updated upstream:ConnectionGpt_LJ/connectionManager.py
 def extract_and_save_updated_status(daughter_reply, update_path):
     if "```json" in daughter_reply:
@@ -63,6 +64,16 @@ def get_origin_ment(daughter_reply) :
     return gpt_str
 
 def extract_and_save_updated_status(daughter_reply, d):
+=======
+def get_origin_ment(daughter_reply) :
+    if "GPT (Daughter): " in daughter_reply:
+        start_gpt = daughter_reply.find("GPT (Daughter): ") + len("GPT (Daughter): ")
+        end_gpt = daughter_reply.find("**", start_gpt)
+        gpt_str = daughter_reply[start_gpt:end_gpt].strip()
+    return gpt_str
+
+def extract_and_save_updated_status(daughter_reply, update_path, d):
+>>>>>>> Stashed changes:ConnectionGpt_LJ/connectionManager.py
 
     # daughter_reply 문자열에서 "**change"가 있는지 확인.
     if "**" in daughter_reply:
@@ -176,6 +187,10 @@ def extract_and_save_updated_status(daughter_reply, d):
         P_end = stat_str.find('"', P_start + 1)
         P_value = stat_str[P_start:P_end]
         d.P(P_value)
+<<<<<<< Updated upstream:projFTH/Assets/JSON/connectionManager.py
+=======
+
+>>>>>>> Stashed changes:ConnectionGpt_LJ/connectionManager.py
         
 def get_ment_from_unity():
     try:
@@ -279,7 +294,10 @@ def ConnectionGpt(daughter_status_path, daughter_update_path, d_stat, set_d):
             break
 
         messages.append({"role": "user", "content": f"{father_status['father']['name']} (Father): {user_request}"})
+<<<<<<< Updated upstream:projFTH/Assets/JSON/connectionManager.py
 <<<<<<< Updated upstream:ConnectionGpt_LJ/connectionManager.py
+=======
+>>>>>>> Stashed changes:ConnectionGpt_LJ/connectionManager.py
         try:
             response = openai.ChatCompletion.create(
                 model='gpt-3.5-turbo',
@@ -288,12 +306,19 @@ def ConnectionGpt(daughter_status_path, daughter_update_path, d_stat, set_d):
                 temperature=0.5
             )
             daughter_reply = response['choices'][0]['message']['content']
-            print(daughter_reply)
+            #print(daughter_reply)
             messages.append({"role": "assistant", "content": f"Daughter: {daughter_reply}"})
+            #----  실질적인 output 유니티로 전달
 
+            ment_ = get_origin_ment(daughter_reply)
+            json_response = json.dumps({"gpt_ment": ment_}, ensure_ascii=False)
+            print(json_response)
+
+            #---
             # Try to extract and save the updated status if present in the reply
             if extract_and_save_updated_status(daughter_reply, daughter_update_path):
                 update_daughter_status(daughter_status_path, daughter_update_path)
+<<<<<<< Updated upstream:projFTH/Assets/JSON/connectionManager.py
         except Exception as e:
             print(f"An error occurred during API interaction: {e}")
 
@@ -320,6 +345,11 @@ def main():
         # if extract_and_save_updated_status(daughter_reply, daughter_update_path, set_d):
         #     update_daughter_status(daughter_status_path, daughter_update_path)
         
+=======
+        
+        except Exception as e:
+            sys.exit(1)
+>>>>>>> Stashed changes:ConnectionGpt_LJ/connectionManager.py
         # 아빠와 딸의 대화를 read_comm_file에 있는 conversation.json에 저장
         read_comm_file(user_request, daughter_reply)
 
