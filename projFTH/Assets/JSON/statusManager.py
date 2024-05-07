@@ -181,7 +181,8 @@ class Daughter:
 #d = Daughter() 
 
 def load_daughter_status():
-    communication_path = os.path.join("conversationData", "daughter_status.json")
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    communication_path = os.path.join(base_dir, "conversationData", "daughter_status.json")
     try:
         with open(communication_path, 'r', encoding='utf-8') as f:
             items = json.load(f)

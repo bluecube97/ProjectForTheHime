@@ -93,7 +93,7 @@ def get_ment_from_unity():
     except EOFError as e:
         print(json.dumps({"error": str(e)}))
 
-def ConnectionGpt(daughter_status_path, d_stat, set_d):
+def ConnectionGpt(d_stat, set_d):
     father_status = {
         "father": {
             "name": "Lain",
@@ -196,7 +196,6 @@ def ConnectionGpt(daughter_status_path, d_stat, set_d):
                 temperature=0.5
             )
             daughter_reply = response['choices'][0]['message']['content']
-            #print(daughter_reply)
             messages.append({"role": "assistant", "content": f"{daughter_reply}"})
             #----  실질적인 output 유니티로 전달
             
@@ -204,10 +203,10 @@ def ConnectionGpt(daughter_status_path, d_stat, set_d):
             ment_ = get_origin_ment(daughter_reply)
             if ment_ is not None:
                 extract_and_save_updated_status(daughter_reply, set_d)
-                # json_response = json.dumps({"gpt_ment" : ment_}, ensure_ascii=False)
-                # print(json_response)
-                response_data = {"gpt_ment": "안녕하세요 아빠. 어떻게 지내세요?"}
-                print(json.dumps(response_data))
+                json_response = json.dumps({"gpt_ment" : ment_}, ensure_ascii=False)
+                print(json_response)
+                # response_data = json.dumps({"gpt_ment": "안녕하세요 아빠. 어떻게 지내세요?"}, ensure_ascii=False)
+                # print(json.dumps(response_data))
             else:
                 print("No valid response to process.")
         
@@ -217,17 +216,10 @@ def ConnectionGpt(daughter_status_path, d_stat, set_d):
         read_comm_file(user_request, daughter_reply)
 
 def main():
-    # 상대 경로를 사용하여 스크립트 실행 위치에 상관없이 일관된 경로를 얻습니다.
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    daughter_status_path = os.path.join(base_dir, r"conversationData\daughter_status.json")
-
     d_stat = lds()
     set_d = d()
 
-    if os.path.exists(daughter_status_path):
-        ConnectionGpt(daughter_status_path, d_stat, set_d)
-    else:
-        print("대화를 진행할 수 없습니다. daughter_status.json 파일이 존재하지 않습니다.")
+    ConnectionGpt(d_stat, set_d)
 
 if __name__ == "__main__":
     main()
