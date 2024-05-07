@@ -5,25 +5,25 @@ namespace Script.UI.Outing
 
     public class ClothingStoreManager : MonoBehaviour
     {
-        private static ClothingStoreManager instance; // ESC¸Þ´ºÀÇ ÀÎ½ºÅÏ½º
-        public GameObject MakeClothingMenu; // ¿Ê ÆÐ³Î ¿ÀºêÁ§Æ®
-        public GameObject SellMenu; // ÆÇ¸Å ÆÐ³Î ¿ÀºêÁ§Æ®
-        public GameObject BuyMenu; // ±¸¸Å ÆÐ³Î ¿ÀºêÁ§Æ®
+        private static ClothingStoreManager instance; // ESCï¿½Þ´ï¿½ï¿½ï¿½ ï¿½Î½ï¿½ï¿½Ï½ï¿½
+        public GameObject MakeClothingMenu; // ï¿½ï¿½ ï¿½Ð³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+        public GameObject SellMenu; // ï¿½Ç¸ï¿½ ï¿½Ð³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+        public GameObject BuyMenu; // ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 
-        private bool MakeClothingMenuActive; // ¿Ê È­¸é È°¼ºÈ­ ¿©ºÎ
-        private bool SellMenuActive; // ÆÇ¸Å È­¸é È°¼ºÈ­ ¿©ºÎ
-        private bool BuyMenuActive; // ±¸¸Å È­¸é È°¼ºÈ­ ¿©ºÎ
+        private bool MakeClothingMenuActive; // ï¿½ï¿½ È­ï¿½ï¿½ È°ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½
+        private bool SellMenuActive; // ï¿½Ç¸ï¿½ È­ï¿½ï¿½ È°ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½
+        private bool BuyMenuActive; // ï¿½ï¿½ï¿½ï¿½ È­ï¿½ï¿½ È°ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½
 
         public static ClothingStoreManager Instance
         {
             get
             {
-                // ÀÎ½ºÅÏ½º°¡ ¾ø´Ù¸é »õ·Î »ý¼º
+                // ï¿½Î½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 if (instance == null)
                 {
                     instance = FindObjectOfType<ClothingStoreManager>();
 
-                    // ¾À¿¡ ¸Þ´º°¡ ¾ø´Ù¸é »õ·Î »ý¼º
+                    // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                     if (instance == null)
                     {
                         var obj = new GameObject();
@@ -56,7 +56,7 @@ namespace Script.UI.Outing
         public void OnClickSelling()
         {
 
-            // ÆÇ¸Å¸Þ´º°¡ È°¼ºÈ­ µÇ¾îÀÖÁö ¾Ê´Ù¸é
+            // ï¿½Ç¸Å¸Þ´ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Ù¸ï¿½
 
             ActivateSellMenu();
         }
@@ -70,7 +70,7 @@ namespace Script.UI.Outing
         public void OnClickBuying()
         {
 
-            // ±¸¸Å¸Þ´º°¡ È°¼ºÈ­ µÇ¾îÀÖÁö ¾Ê´Ù¸é
+            // ï¿½ï¿½ï¿½Å¸Þ´ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Ù¸ï¿½
 
 
             ActivateBuyMenu();
