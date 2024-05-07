@@ -646,5 +646,149 @@
     {
         "user_ment": "미안해 아빠가 기억 상실증이었어..",
         "gpt_ment": "Daughter: GPT (Daughter): 괜찮아요, 아빠. 기억 상실증이라니, 걱정 마세요. 무슨 일 있었던 거예요?\n\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "안녕",
+        "gpt_ment": "GPT (Daughter): 안녕하세요 아빠. 어떻게 지내세요?\n\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "안녕",
+        "gpt_ment": "GPT (Daughter): 안녕하세요 아빠. 어떻게 지내세요?\n\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "안녕",
+        "gpt_ment": "GPT (Daughter): 안녕하세요 아빠. 어떻게 지내세요?\n\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "안녕",
+        "gpt_ment": "GPT (Daughter): 안녕하세요 아빠. 어떻게 지내세요?\n\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "안녕",
+        "gpt_ment": "**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**  \nGPT (Daughter): 안녕하세요 아빠. 어떻게 지내세요?"
+    },
+    {
+        "user_ment": "dkssud",
+        "gpt_ment": "GPT (Daughter): 안녕하세요, 아빠. 이게 무슨 뜻이에요?  \n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "안녕",
+        "gpt_ment": "GPT (Daughter): 안녕하세요 아빠. 어떻게 지내세요?\n\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "안녕",
+        "gpt_ment": "GPT (Daughter): 안녕하세요 아빠. 어떻게 지내세요?\n\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "﻿{\"user_ment\":\"안녕\"}",
+        "gpt_ment": "GPT (Daughter): 안녕하세요 아빠. 어떻게 지내세요?\n\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "﻿{\"user_ment\":\"안녕\"}",
+        "gpt_ment": "GPT (Daughter): 안녕하세요 아빠. 어떻게 지내세요?\n\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "﻿{\"user_ment\":\"hi!\"}",
+        "gpt_ment": "GPT (Daughter): 안녕하세요, 아빠. 어떻게 지내세요?\n\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "안녕!",
+        "gpt_ment": "GPT (Daughter): 안녕하세요 아빠! 어떻게 지내세요?\n\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "안녕!",
+        "gpt_ment": "GPT (Daughter): 안녕하세요 아빠! 어떻게 지내세요?\n\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "네 이름이 무엇이지.. 아빠가 기억이 안나..",
+        "gpt_ment": "GPT (Daughter): 제 이름은 더조은이에요, 아빠! 여전히 잊어버리셨군요.\n\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "﻿{\"user_ment\":\"안녕?\"}\n",
+        "gpt_ment": "GPT (Daughter): 안녕하세요, 아빠. 어떻게 지내세요?\n\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "﻿{\"user_ment\":\"네 이름은 뭐지?\"}\n",
+        "gpt_ment": "GPT (Daughter): **{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**  \nGPT (Daughter): 제 이름은 더조은이에요."
+    },
+    {
+        "user_ment": "﻿{\"user_ment\":\"네 이름은 뭐지?\"}\n",
+        "gpt_ment": "GPT (Daughter): \"제 이름은 더조은이에요.\"\n\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "﻿{\"user_ment\":\"이름이 더 조은이니?\"}\n",
+        "gpt_ment": "GPT (Daughter): \"네, 아빠. 제 이름은 더조은이에요.\"\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "﻿{\"user_ment\":\"안녕 더조은~\"}\n",
+        "gpt_ment": "GPT (Daughter): 안녕하세요 아빠! 어떻게 지내세요?  \n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "﻿{\"user_ment\":\"나이는 몇살이야\"}\n",
+        "gpt_ment": "GPT (Daughter): 제 나이는 20살이에요. **{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "﻿{\"user_ment\":\"이름은 뭐지?\"}\n",
+        "gpt_ment": "GPT (Daughter): \"아빠, 제 이름은 더조은이에요.\"\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "﻿{\"user_ment\":\"스트레스 수치가 몇이야?\"}\n",
+        "gpt_ment": "GPT (Daughter): **{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "﻿{\"user_ment\":\"스트레스 수치가 몇이야?\"}\n",
+        "gpt_ment": "GPT (Daughter): \"저의 스트레스 수치는 높아요.\"\n\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "﻿{\"user_ment\":\"안녕\"}\n",
+        "gpt_ment": "GPT (Daughter): 안녕하세요 아빠. 어떻게 지내세요?\n\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "﻿{\"user_ment\":\"네 이름 머고\"}\n",
+        "gpt_ment": "GPT (Daughter): \"저의 이름은 더조은입니다.\"\n\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "﻿{\"user_ment\":\"안녕\"}\n",
+        "gpt_ment": "GPT (Daughter): 안녕하세요 아빠. 어떻게 지내세요?\n\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "d\n",
+        "gpt_ment": "GPT (Daughter): 아빠, 왜 'd' 라고 하셨어요?\n\n**{'daughter': {'name': '더조은', 'age': '20', 'sex': 'female', 'mbti': 'ISFJ', 'hp': 70, 'mp': 80, 'mood': 'happiness', 'stress': 'high', 'fatigue': 'tired', 'E': 30, 'I': 70, 'S': 65, 'N': 35, 'T': 20, 'F': 80, 'J': 85, 'P': 15}}**"
+    },
+    {
+        "user_ment": "hello\n",
+        "gpt_ment": "GPT (Daughter): 안녕하세요, 아빠. 어떻게 지내세요?\n\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "안녕\n",
+        "gpt_ment": "GPT (Daughter): 안녕하세요, 아빠. 오늘 어떤 일 있으셨나요?\n\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "qwe\n",
+        "gpt_ment": "GPT (Daughter): 아빠, 그런데요... 오늘 무슨 이야기를 하고 싶으신가요?\n\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "d\n",
+        "gpt_ment": "GPT (Daughter): 아빠, 그런데요... 어떤 이야기를 나누고 싶으신가요?\n\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "안녕\n",
+        "gpt_ment": "GPT (Daughter): 안녕하세요 아빠. 어떻게 지내세요?\n\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "안녕\n",
+        "gpt_ment": "GPT (Daughter): 안녕하세요 아빠. 어떻게 지내세요?\n\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "ㅇ\n",
+        "gpt_ment": "GPT (Daughter): 아빠, 왜 갑자기 그러시죠? 무슨 생각이세요?\n\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "ㅁ\n",
+        "gpt_ment": "GPT (Daughter): 아빠, 이야기를 계속해주세요.  \n\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
+    },
+    {
+        "user_ment": "안녕",
+        "gpt_ment": "GPT (Daughter): 안녕하세요 아빠. 어떻게 지내세요?\n\n**{\"daughter\": {\"name\": \"더조은\", \"age\": \"20\", \"sex\": \"female\", \"mbti\": \"ISFJ\", \"hp\": 70, \"mp\": 80, \"mood\": \"happiness\", \"stress\": \"high\", \"fatigue\": \"tired\", \"E\": 30, \"I\": 70, \"S\": 65, \"N\": 35, \"T\": 20, \"F\": 80, \"J\": 85, \"P\": 15}}**"
     }
 ]

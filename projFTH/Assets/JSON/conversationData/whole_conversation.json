@@ -79,6 +79,22 @@
         {
             "user_ment": "& C:/DevTool/Python/Python312/python.exe c:/DevTool/workspace/UnityPJ/ProjectForTheHime/projFTH/Assets/JSON/connectionManager.py",
             "gpt_ment": "\uc8c4\uc1a1\ud569\ub2c8\ub2e4. \ud558\uc9c0\ub9cc \uc800\ub294 Python \ud504\ub85c\uadf8\ub7a8\uc744 \uc2e4\ud589\ud560 \uc218\ub294 \uc5c6\uc2b5\ub2c8\ub2e4. \ub300\uc2e0 Python \ucf54\ub4dc\uc5d0 \ub300\ud55c \ub3c4\uc6c0\uc744 \ub4dc\ub9b4 \uc218 \uc788\uc2b5\ub2c8\ub2e4. \ub3c4\uc640\ub4dc\ub9b4 \uc218 \uc788\ub294 \ub2e4\ub978 \uac83\uc774 \uc788\ub098\uc694?"
+        },
+        {
+            "user_ment": "\uc548\ub155",
+            "gpt_ment": "\uc548\ub155! \ub9cc\ub098\uc11c \ubc18\uac00\uc6cc\uc694. \ubb34\uc5c7\uc744 \ub3c4\uc640\ub4dc\ub9b4\uae4c\uc694?"
+        },
+        {
+            "user_ment": "hello",
+            "gpt_ment": "Hello! How can I assist you today?"
+        },
+        {
+            "user_ment": "& C:/DevTool/Python/Python312/python.exe c:/DevTool/workspace/UnityPJ/ProjectForTheHime/projFTH/Assets/JSON/connectionManager.py",
+            "gpt_ment": "I'm sorry, but I'm just a language model AI and I can't run Python code directly. However, if you have any questions or need help with understanding or writing Python code, I'd be happy to help!"
+        },
+        {
+            "user_ment": "\uc548\ub155",
+            "gpt_ment": "\uc548\ub155\ud558\uc138\uc694! \ubb34\uc5c7\uc744 \ub3c4\uc640\ub4dc\ub9b4\uae4c\uc694?"
         }
     ]
 }

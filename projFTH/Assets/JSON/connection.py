@@ -49,17 +49,12 @@ def get_response():
         )
 
         response = completion.choices[0].message.content.strip()
-<<<<<<< Updated upstream
-        
-=======
 
->>>>>>> Stashed changes
         json_response = json.dumps({"gpt_ment": response}, ensure_ascii=False)
         print(json_response)
 
         previous_completion = completion
         message = {"user_ment": question, "gpt_ment": response}
-        #print(message)
         make_whole_cov(wc_path, message)
 
 if __name__ == "__main__":

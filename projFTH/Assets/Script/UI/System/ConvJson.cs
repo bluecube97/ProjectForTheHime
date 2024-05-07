@@ -1,27 +1,14 @@
-<<<<<<< Updated upstream
-using System.Collections;
-using System.Diagnostics;
-using UnityEngine;
-using UnityEngine.UI;
-using System.IO;
-using System;
-using UnityEditor;
-using System.Text;
-
-
-=======
 using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System;
-using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.UI;
 
->>>>>>> Stashed changes
 public class SendDataToPython : MonoBehaviour
 {
-    public InputField inputDataField;
-    public Text outputDataText;
+    public InputField inputDataField;  // Inspector에서 할당
+    public Text outputDataText;        // Inspector에서 할당
 
     // JSON 직렬화를 위한 클래스
     [System.Serializable]
@@ -39,47 +26,66 @@ public class SendDataToPython : MonoBehaviour
 
     public void OnButtonClick()
     {
+        // 필드 검증
         if (inputDataField == null || outputDataText == null)
         {
             UnityEngine.Debug.LogError("InputField or OutputText is not assigned in the Inspector");
             return;
         }
 
+        // 사용자 입력 검증
+        if (string.IsNullOrEmpty(inputDataField.text))
+        {
+            UnityEngine.Debug.LogError("Input field is empty");
+            return;
+        }
+
+        // JSON 데이터 생성
         MessageData dataToSend = new MessageData { user_ment = inputDataField.text };
         string json = JsonUtility.ToJson(dataToSend);
 
         try
         {
             Process process = new Process();
+            string scriptPath = Application.dataPath + "/Scripts/connectionManager.py";  // 절대 경로 사용 예
+
             process.StartInfo.FileName = "python";
-            process.StartInfo.Arguments = @"./Assets/JSON/connectionManager.py";
+            process.StartInfo.Arguments = "\"" + scriptPath + "\"";  // 경로에 공백이 있을 수 있으므로 인용부호 추가
+            process.StartInfo.WorkingDirectory = Application.dataPath;
             process.StartInfo.RedirectStandardOutput = true;
-            process.StartInfo.RedirectStandardInput = true;
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.CreateNoWindow = true;
             process.Start();
 
+            UnityEngine.Debug.Log("Script path: " + scriptPath);
+            UnityEngine.Debug.Log("Working directory: " + Application.dataPath);
+
+
+            // Python 스크립트에 데이터 전송
             using (StreamWriter sw = new StreamWriter(process.StandardInput.BaseStream, Encoding.UTF8))
             {
                 sw.WriteLine(json);
+                sw.WriteLine("END_OF_INPUT");  // 종료 신호
             }
 
+            // Python 스크립트 출력 받기
             using (StreamReader sr = new StreamReader(process.StandardOutput.BaseStream, Encoding.UTF8))
             {
                 string output = sr.ReadToEnd();
-                int endIndex = output.IndexOf("}") + 1;
-                string validJson = output.Substring(0, endIndex);
-
+                UnityEngine.Debug.Log("Received Raw Data: " + output);  // 받은 데이터 로깅
                 try
                 {
-                    ResponseData response = JsonUtility.FromJson<ResponseData>(validJson);
+                    ResponseData response = JsonUtility.FromJson<ResponseData>(output);
+                    if (response == null || string.IsNullOrEmpty(response.gpt_ment))
+                    {
+                        UnityEngine.Debug.LogError("Failed to parse response or response is empty");
+                        return;
+                    }
                     outputDataText.text = response.gpt_ment;
-                    UnityEngine.Debug.Log("gpt_ment: " + response.gpt_ment);
                 }
-                catch (Exception parseException)
+                catch (Exception e)
                 {
-                    UnityEngine.Debug.LogError("JSON 파싱오류: " + parseException.Message);
-                    UnityEngine.Debug.LogError("gpt_ment: " + output);
+                    UnityEngine.Debug.LogError("JSON 파싱 오류: " + e.Message);
                 }
             }
 
@@ -91,5 +97,4 @@ public class SendDataToPython : MonoBehaviour
             UnityEngine.Debug.LogError("Error: " + e.Message);
         }
     }
-
 }
