@@ -178,44 +178,36 @@ class Daughter:
         print("Judging (J):", self.J)
         print("Perceiving (P):", self.P)
 
-#d = Daughter() 
 
-def load_daughter_status():
-    daughter = Daughter()
-    ##파일 경로 설정
-    communication_path = os.path.join("conversationData", "daughter_status.json")
-    with open(communication_path, 'r', encoding='utf-8') as f:
-        items = json.load(f)
+    def load_daughter_status():
+        daughter = Daughter()
+        ##파일 경로 설정
+        communication_path = os.path.join("conversationData", "daughter_status.json")
+        with open(communication_path, 'r', encoding='utf-8') as f:
+            items = json.load(f)
 
-    status_keys = items["daughter"]
+        status_keys = items["daughter"]
 
-    # 예외처리 key값이 없을경우
-    daughter.name = status_keys["name"]
-    daughter.age = status_keys["age"]
-    daughter.sex = status_keys["sex"]
-    daughter.mbti = status_keys["mbti"]
-    daughter.hp = status_keys["hp"]
-    daughter.mp = status_keys["mp"]
-    daughter.mood = status_keys["mood"]
-    daughter.stress = status_keys["stress"]
-    daughter.fatigue = status_keys["fatigue"]
-    daughter.E = status_keys["E"]
-    daughter.I = status_keys["I"]
-    daughter.S = status_keys["S"]
-    daughter.N = status_keys["N"]
-    daughter.T = status_keys["T"]
-    daughter.F = status_keys["F"]
-    daughter.J = status_keys["J"]
-    daughter.P = status_keys["P"]
+        # 예외처리 key값이 없을경우
+        daughter.name = status_keys["name"]
+        daughter.age = status_keys["age"]
+        daughter.sex = status_keys["sex"]
+        daughter.mbti = status_keys["mbti"]
+        daughter.hp = status_keys["hp"]
+        daughter.mp = status_keys["mp"]
+        daughter.mood = status_keys["mood"]
+        daughter.stress = status_keys["stress"]
+        daughter.fatigue = status_keys["fatigue"]
+        daughter.E = status_keys["E"]
+        daughter.I = status_keys["I"]
+        daughter.S = status_keys["S"]
+        daughter.N = status_keys["N"]
+        daughter.T = status_keys["T"]
+        daughter.F = status_keys["F"]
+        daughter.J = status_keys["J"]
+        daughter.P = status_keys["P"]
 
-    #print("딸랑구 나이 : ", daughter.age)
-    #print("딸랑구 이름 : ", daughter.name)  # 이제 업데이트된 age가 출력됩니다
+        #print("딸랑구 나이 : ", daughter.age)
+        #print("딸랑구 이름 : ", daughter.name)  # 이제 업데이트된 age가 출력됩니다
 
-    return daughter
-
-#d = Daughter()
-
-
-#load_daughter_status(Daughter())
-
-
+        return daughter
