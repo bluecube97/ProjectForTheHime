@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
-using Script.UI.Outing;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
