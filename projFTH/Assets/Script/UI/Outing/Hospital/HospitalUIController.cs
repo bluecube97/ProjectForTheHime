@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class HospitalUIController : MonoBehaviour
 {
+    //병원 UI 컨트롤러 
     private static HospitalUIController instance;
     public GameObject CureMenu;
     public GameObject BuyMenu;
