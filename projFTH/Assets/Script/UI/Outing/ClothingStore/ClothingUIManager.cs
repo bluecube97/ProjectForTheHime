@@ -5,17 +5,17 @@ namespace Script.UI.Outing
 
     public class ClothingUIController : MonoBehaviour
     {
-        private static ClothingUIController instance; // ¸Þ´ºÀÇ ÀÎ½ºÅÏ½º
-        public GameObject MakeClothingMenu; // ¿Ê ÆÐ³Î ¿ÀºêÁ§Æ®
-        public GameObject SellMenu; // ÆÇ¸Å ÆÐ³Î ¿ÀºêÁ§Æ®
-        public GameObject BuyMenu; // ±¸¸Å ÆÐ³Î ¿ÀºêÁ§Æ®
+        private static ClothingUIController instance; // ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½Î½ï¿½ï¿½Ï½ï¿½
+        public GameObject MakeClothingMenu; // ï¿½ï¿½ ï¿½Ð³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+        public GameObject SellMenu; // ï¿½Ç¸ï¿½ ï¿½Ð³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+        public GameObject BuyMenu; // ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
         public GameObject ChiceUi;
         public GameObject BuyChiceUi;
         public GameObject BuyComple;
         public GameObject BuyFail;
         private void Awake()
         {
-            // ÀÎ½ºÅÏ½º°¡ ¾øÀ» °æ¿ì ÇöÀç GameObject¿¡ ClothingUIManager Ãß°¡ÇÕ´Ï´Ù.
+            // ï¿½Î½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ GameObjectï¿½ï¿½ ClothingUIManager ï¿½ß°ï¿½ï¿½Õ´Ï´ï¿½.
             if (instance == null)
             {
                 instance = this;
@@ -45,7 +45,7 @@ namespace Script.UI.Outing
         public void OnClickSelling()
         {
 
-            // ÆÇ¸Å¸Þ´º°¡ È°¼ºÈ­ µÇ¾îÀÖÁö ¾Ê´Ù¸é
+            // ï¿½Ç¸Å¸Þ´ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Ù¸ï¿½
 
             ActivateMenu(SellMenu);
         }
