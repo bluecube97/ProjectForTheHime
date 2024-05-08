@@ -13,7 +13,7 @@ public class RestaurantDao : MonoBehaviour
 {
     private RestaurantManager restaurantManager;
 
-    string con = "Server=localhost;Database=testdb;Uid=root;Pwd=1234;Charset=utf8mb4";
+    string con = "Server=localhost;Database=projfth;Uid=root;Pwd=1234;Charset=utf8mb4";
 
     public void Awake()
     {

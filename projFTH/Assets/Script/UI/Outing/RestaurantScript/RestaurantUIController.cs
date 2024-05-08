@@ -14,6 +14,8 @@ namespace Script.UI.Outing
         public GameObject BuyComple;
         public GameObject BuyFail;
 
+
+
         private void Awake()
         {
             // 인스턴스가 없을 경우 현재 GameObject에 RestaurantManager를 추가합니다.
