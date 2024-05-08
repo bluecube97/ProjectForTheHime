@@ -1,116 +1,170 @@
-namespace Script.UI.Outing
+using Script.UI.Outing;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using UnityEngine.WSA;
+
+public class ClothingStoreManager : MonoBehaviour
 {
-    using UnityEngine;
-    using UnityEngine.SceneManagement;
+    public GameObject ClothingPrefab; // ¿Ê Á¦ÀÛ ÀÌ¹ÌÁö ÇÁ¸®ÆÕ ÂüÁ¶
+    public GameObject Clothing; // ¿Ê Á¦ÀÛ ÀÌ¹ÌÁö ÂüÁ¶
+    public Transform ClothingLayout; // Á¦ÀÛ ¸®½ºÆ®µéÀÌ µé¾î°¥ ·¹ÀÌ¾Æ¿ô ÂüÁ¶
+    private List<GameObject> ClothingInstances = new List<GameObject>();
 
-    public class ClothingStoreManager : MonoBehaviour
+    public GameObject ClotBuyPrefab; // ¿Ê°¡°Ô ÆÇ¸Å ÀÌ¹ÌÁö ÇÁ¸®ÆÕ ÂüÁ¶
+    public GameObject ClotBuy; // ¿Ê°¡°Ô ÆÇ¸Å ÀÌ¹ÌÁö ÂüÁ¶
+    public Transform ClotBuyLayout; // ÆÇ¸Å ¸®½ºÆ®µéÀÌ µé¾î°¥ ·¹ÀÌ¾Æ¿ô ÂüÁ¶
+    private List<GameObject> ClotBuyInstances = new List<GameObject>();
+
+    private ClothingDao clothingDao;
+    private InventoryDao inventoryDao;
+    private ClothingUIManager clothingUIManager;
+
+    private List<ClothingVO> clothingList = new List<ClothingVO>();
+    private List<ClothingVO> cltBuyList = new List<ClothingVO>();
+    private List<InventoryVO> invenList = new List<InventoryVO>();
+
+    private int slikCnt = 0;
+    private int lineCnt = 0;
+    private int index = 0;
+    private int Buyprice = 0;
+
+    void Start()
     {
-        private static ClothingStoreManager instance; // ESCï¿½Þ´ï¿½ï¿½ï¿½ ï¿½Î½ï¿½ï¿½Ï½ï¿½
-        public GameObject MakeClothingMenu; // ï¿½ï¿½ ï¿½Ð³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
-        public GameObject SellMenu; // ï¿½Ç¸ï¿½ ï¿½Ð³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
-        public GameObject BuyMenu; // ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+        clothingDao = GetComponent<ClothingDao>();
+        inventoryDao = GetComponent<InventoryDao>();
+        clothingUIManager = FindObjectOfType<ClothingUIManager>();
 
-        private bool MakeClothingMenuActive; // ï¿½ï¿½ È­ï¿½ï¿½ È°ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½
-        private bool SellMenuActive; // ï¿½Ç¸ï¿½ È­ï¿½ï¿½ È°ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½
-        private bool BuyMenuActive; // ï¿½ï¿½ï¿½ï¿½ È­ï¿½ï¿½ È°ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½
+        clothingList = clothingDao.GetClothingList();
+        cltBuyList = clothingDao.GetClothingBuyList();
+        invenList = inventoryDao.GetInvenList();
 
-        public static ClothingStoreManager Instance
+        SetClothingList(clothingList);
+        SetCltBuyList(cltBuyList);
+    }
+
+    private void SetCltBuyList(List<ClothingVO> cltBuyList)
+    {
+        foreach (GameObject cloteBuyInstance in ClotBuyInstances)
         {
-            get
+            Destroy(cloteBuyInstance);
+        }
+        ClotBuyInstances.Clear();
+        foreach (var cls in cltBuyList)
+        {
+            GameObject clotBuyInstance = Instantiate(ClotBuyPrefab, ClotBuyLayout);
+            clotBuyInstance.name = "Clothing" + cls.seq;
+            ClotBuyInstances.Add(clotBuyInstance);
+            Text textComponent = clotBuyInstance.GetComponentInChildren<Text>();
+            if (textComponent != null)
             {
-                // ï¿½Î½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
-                if (instance == null)
-                {
-                    instance = FindObjectOfType<ClothingStoreManager>();
-
-                    // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
-                    if (instance == null)
-                    {
-                        var obj = new GameObject();
-                        obj.name = "MakeClothingMenu";
-                        obj.name = "SellMenu";
-                        obj.name = "BuyMenu";
-
-                        instance = obj.AddComponent<ClothingStoreManager>();
-                    }
-                }
-
-                return instance;
+                textComponent.text = cls.clsNm + "\r\n" +
+                                     cls.clsDes + "\r\n" +
+                                     "°¡°Ý : " + cls.clspri;
             }
         }
-        public void OnClickReturn()
+        ClotBuy.SetActive(false);
+    }
+    private void SetClothingList(List<ClothingVO> clothingList)
+    {
+        foreach (GameObject clothingInstances in ClothingInstances)
         {
-            SceneManager.LoadScene("OutingScene");
+            Destroy(clothingInstances);
         }
-        public void OnClickMakeClothinging()
-        {
+        ClothingInstances.Clear();
 
-            ActivateMakeClothingMenu();
+        foreach (var clo in clothingList)
+        {
+            if (clo.buyFlag.Equals("N"))
+            {
+
+                GameObject clothingInstance = Instantiate(ClothingPrefab, ClothingLayout);
+                clothingInstance.name = "Clothing" + clo.cloNo;
+                ClothingInstances.Add(clothingInstance);
+
+                Text textComponent = clothingInstance.GetComponentInChildren<Text>();
+                if (textComponent != null)
+                {
+                    textComponent.text = clo.cloNm
+                                        + "\r\n" + "¿Ê°¨ ¿ä±¸·®" + clo.slikCnt
+                                        + "\r\n" + "½Ç ¿ä±¸·®" + clo.linCnt;
+                }
+            }
         }
-        public void OnClickMakeClothingOuting()
+        Clothing.SetActive(false);
+    }
+    public void GetClothingValue()
+    {
+        GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
+        GameObject parentObject = clickedButton.transform.parent.gameObject;
+        string parentObjectName = parentObject.name;
+        string indexString = parentObjectName.Replace("Clothing", "");
+        index = int.Parse(indexString) - 1;
+
+        ClothingVO clv = new();
+
+        clv = clothingList[index];
+        slikCnt = clv.slikCnt;
+        lineCnt = clv.linCnt;
+        Debug.Log(slikCnt);
+    }
+    public void GetClotBuyValue()
+    {
+        GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
+        GameObject parentObject = clickedButton.transform.parent.gameObject;
+        string parentObjectName = parentObject.name;
+        string indexString = parentObjectName.Replace("Clothing", "");
+        index = int.Parse(indexString) - 1;
+
+        ClothingVO clv = new();
+        clv = cltBuyList[index];
+        Buyprice = clv.clspri;
+        Debug.Log(Buyprice);
+    }
+        public void BuyClothing()
+    {
+        // ¿©·¯ ¹øÀÇ µ¥ÀÌÅÍº£ÀÌ½º ¾×¼¼½º¸¦ ´ÜÀÏ ¾×¼¼½º·Î º¯°æ
+        var slik = invenList.Find(p => p.ItemNm.Equals("¿Ê°¨"));
+        var line = invenList.Find(p => p.ItemNm.Equals("½Ç"));
+
+        int balSlik = slik.ItemCnt - slikCnt;
+        int balLine = line.ItemCnt - lineCnt;
+
+        // Äõ¸® °á°ú¸¦ ÇÑ ¹ø¸¸ »ç¿ëÇÏµµ·Ï º¯°æ
+        if (balSlik > 0 && balLine > 0)
         {
-            DeactivateMakeClothingMenu();
+            inventoryDao.BuyClothing(balSlik, balLine);
+            clothingDao.Buyclothing(index);
+            clothingUIManager.OnClickBuyComple();
+        }
+        else
+        {
+            clothingUIManager.OnClickBuyFail();
         }
 
-
-        public void OnClickSelling()
+       
+    }
+    public void BuyThing()
+    {
+        int userCash = clothingDao.GetUserInfoFromDB();
+        int NowCash = userCash - Buyprice;
+        Debug.Log("DB À¯Àú Çö±Ý " + userCash);
+        Debug.Log("°è»ê ÈÄ ±Ý¾× " + NowCash);
+        if (NowCash > 0)
         {
-
-            // ï¿½Ç¸Å¸Þ´ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Ù¸ï¿½
-
-            ActivateSellMenu();
+            clothingDao.UpdateUserCash(NowCash);
+            clothingUIManager.OnClickBuyComple();
         }
-        public void OnClickSellOuting()
-
+        else
         {
-            DeactivateSellMenu();
-        }
+            Debug.Log("Not enough cash!");
+            clothingUIManager.OnClickBuyFail();
 
-
-        public void OnClickBuying()
-        {
-
-            // ï¿½ï¿½ï¿½Å¸Þ´ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Ù¸ï¿½
-
-
-            ActivateBuyMenu();
-        }
-        public void OnClickBuyOuting()
-
-        {
-            DeactivateBuyMenu();
-        }
-
-
-
-
-
-        private void ActivateMakeClothingMenu()
-        {
-            MakeClothingMenu.SetActive(true);
-        }
-
-        private void DeactivateMakeClothingMenu()
-        {
-            MakeClothingMenu.SetActive(false);
-        }
-        private void ActivateSellMenu()
-        {
-            SellMenu.SetActive(true);
-        }
-
-        private void DeactivateSellMenu()
-        {
-            SellMenu.SetActive(false);
-        }
-        private void ActivateBuyMenu()
-        {
-            BuyMenu.SetActive(true);
-        }
-
-        private void DeactivateBuyMenu()
-        {
-            BuyMenu.SetActive(false);
         }
     }
 }
