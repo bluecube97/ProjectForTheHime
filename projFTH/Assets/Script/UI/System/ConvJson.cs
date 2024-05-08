@@ -5,6 +5,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Newtonsoft.Json;
+using UnityEngine.SceneManagement;
 
 public class SendDataToPython : MonoBehaviour
 {
@@ -97,5 +98,10 @@ public class SendDataToPython : MonoBehaviour
         {
             UnityEngine.Debug.LogError("Error: " + e.Message);
         }
+    }
+
+    public void returnMainS()
+    {
+        SceneManager.LoadScene("MainLevelScene");
     }
 }
