@@ -4,17 +4,17 @@ import os
 from statusManager import Daughter as d, load_daughter_status as lds
 import sys
 
-# 전체 대화 내용 저장용 리스트
+# 전체 대화 내용 저장용 리스트 생성
 conversation_ = []
 
-# OpenAI API 키 설정
+# OpenAI API 키 설정, 변수에 저장
 api_key = 'sk-proj-wgBv7WJ3g4GD4gpjZQdxT3BlbkFJ0R2Kyg0bNNp2bnF7SVcF'
-openai.api_key = api_key
+openai.api_key = api_key #openai의 내부 라이브러리 사용한다는 뜻, 담아둔 apikey를 여기에 넣어줌
 
 #딸과의 대화 json 파일에 저장
 def read_comm_file(question, response):
-    commu = {"user_ment": question, "gpt_ment": response}
-    conversation_path = os.path.join("conversationData", "conversation.json")
+    commu = {"user_ment": question, "gpt_ment": response} #딕셔너리(dict) 형태로 담아둠
+    conversation_path = os.path.join("conversationData", "conversation.json") # 아빠와 딸의 대화를 열 경로(data폴더 안에 json파일)를 지정해준다
 
     # conversation.json 파일을 저장할 폴더가 없을 경우 폴더를 생성합니다.
     if not os.path.exists(os.path.dirname(conversation_path)):
@@ -34,17 +34,6 @@ def read_comm_file(question, response):
         with open(conversation_path, 'w', encoding='utf-8') as f: 
             json.dump(current_conversation, f, indent=4, ensure_ascii=False)
 
-def load_json_data(path):
-    """ 파일 경로에서 JSON 데이터를 로드하고 문자열로 반환합니다. """
-    try:
-        with open(path, 'r', encoding='utf-8') as file:
-            data = json.load(file)
-        return json.dumps(data, ensure_ascii=False)
-    except Exception as e:
-        print(f"파일을 로드하거나 JSON 변환 중 오류가 발생했습니다: {e}")
-        return None
-
-
 def get_origin_ment(daughter_reply) :
     if "GPT (Daughter): " in daughter_reply:
         start_gpt = daughter_reply.find("GPT (Daughter): ") + len("GPT (Daughter): ")
@@ -53,7 +42,6 @@ def get_origin_ment(daughter_reply) :
     return gpt_str
 
 def extract_and_save_updated_status(daughter_reply, d):
-
     # daughter_reply 문자열에서 "**change"가 있는지 확인.
     if "**" in daughter_reply:
         # "**change" 다음의 문자열을 찾아서 인덱스 설정
@@ -93,7 +81,7 @@ def get_ment_from_unity():
     except EOFError as e:
         print(json.dumps({"error": str(e)}))
 
-def ConnectionGpt(daughter_status_path, d_stat, set_d):
+def ConnectionGpt(d_stat, set_d):
     father_status = {
         "father": {
             "name": "Lain",
@@ -166,11 +154,11 @@ def ConnectionGpt(daughter_status_path, d_stat, set_d):
                 "	9)And depending on your daughter’s behavior, her MBTI criterion will vary."
                 "	10)If the father talks out of context or says something completely unrelated to the conversation, the daughter asks a counter question or changes the topic."
                 "	11)E and I, S and N, T and F, J and P have different numbers out of 100 depending on their tendencies."
-                "	12)The parameter number of daughter_status changes very subtly."
+                "	12)The parameter number of daughter_status changes very subtly, ranging from 1 to 2."
                 "	13)My daughter is a game character and if she has an extroverted personality (it means MbTI criterion is E), she likes hunting and outdoor activities."
                 "	14)However, if she has an introverted personality (it means MbTI criterion is I), she acts timid or doing something alone indoors."
                 "	15)Her stress, fatigue, and mood levels change due to conversations with her father, or daughter's fatigue at work, or something stressful. It doesn't change in every conversation, it only changes in meaningful conversations."
-                "   And at the end of your daughter’s answer, be sure to give me the whole parameter values like next line. "                    
+                "   16)And at the end of your daughter’s answer, be sure to give me the whole parameter values like next line. "                    
                 f"  {stat_json} Please change all single quotes in all parameter values here to double quotes. "
                 "	17) When providing the parameter, use the format starts with '**' and ends with '**'."
                 #f"{daughter_status_json}"
@@ -200,18 +188,16 @@ def ConnectionGpt(daughter_status_path, d_stat, set_d):
             messages.append({"role": "assistant", "content": f"{daughter_reply}"})
             #----  실질적인 output 유니티로 전달
             
-            #print(daughter_reply)
+            print(daughter_reply)
             ment_ = get_origin_ment(daughter_reply)
             if ment_ is not None:
                 extract_and_save_updated_status(daughter_reply, set_d)
-                # json_response = json.dumps({"gpt_ment" : ment_}, ensure_ascii=False)
-                # print(json_response)
-                response_data = {"gpt_ment": "안녕하세요 아빠. 어떻게 지내세요?"}
-                print(json.dumps(response_data))
+                json_response = json.dumps({"gpt_ment" : ment_}, ensure_ascii=False)
+                print(json_response)
+                #response_data = {"gpt_ment": "안녕하세요 아빠. 어떻게 지내세요?"}
             else:
                 print("No valid response to process.")
             
-        
         except Exception as e:
             print("error : ", e)
         # 아빠와 딸의 대화를 read_comm_file에 있는 conversation.json에 저장
@@ -220,13 +206,7 @@ def ConnectionGpt(daughter_status_path, d_stat, set_d):
 def main():
     d_stat = lds()
     set_d = d()
-    
-    daughter_status_path = os.path.join("conversationData", "daughter_status.json")
-
-    if os.path.exists(daughter_status_path):
-       ConnectionGpt(daughter_status_path, d_stat, set_d)
-    else : 
-        print("대화를 진행할 수 없습니다. daughter_status.json 파일이 존재하지 않습니다.")
+    ConnectionGpt(d_stat, set_d)
 
 if __name__ == "__main__":
     main()
