@@ -20,7 +20,7 @@ namespace Script.UI.MainLevel.StartTurn.Manager
         private GameObject _myGameObject;
         private StartTurnDao _std;
         private List<Dictionary<string, object>> _todoList = new(); // TODO리스트를 담는 딕셔너리 리스트
-
+        private List<Dictionary<string, object>> _ = new();
 
         public void Awake()
         {
@@ -194,6 +194,7 @@ namespace Script.UI.MainLevel.StartTurn.Manager
 
         public void OnClickComplete()
         {
+
             Debug.Log("Complete");
         }
 
