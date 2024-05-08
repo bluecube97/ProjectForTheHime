@@ -18,7 +18,7 @@ namespace Script.UI.MainLevel.StartTurn.Manager
         private readonly Dictionary<string, bool> _isDayTimeSelect = new(); // 해당 날짜와 시간대가 선택되어있는지 확인하는 딕셔너리
 
         private GameObject _myGameObject;
-        private StartTurnDao _std;
+        private _StartTurnDao _std;
         private List<Dictionary<string, object>> _todoDayTime = new(); // TODO리스트의 날짜와 시간을 담는 딕셔너리 리스트
         private List<Dictionary<string, object>> _todoList = new(); // TODO리스트를 담는 딕셔너리 리스트
         private List<Dictionary<string, object>> _todoDayTimeList = new(); // 모든 TODO리스트의 날짜와 시간을 담는 딕셔너리 리스트
@@ -26,7 +26,7 @@ namespace Script.UI.MainLevel.StartTurn.Manager
         public void Awake()
         {
             _myGameObject = new GameObject();
-            _std = _myGameObject.AddComponent<StartTurnDao>();
+            _std = _myGameObject.AddComponent<_StartTurnDao>();
         }
 
         public void Start()
