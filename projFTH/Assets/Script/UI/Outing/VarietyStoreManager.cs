@@ -15,69 +15,82 @@ public class VarietyStoreManager : MonoBehaviour
     public GameObject BuyListPrefab; // BUYList 이미지 프리팹 참조
     public GameObject buyList; // BUYList 이미지 참조
     public Transform buyListLayout; // BUYList들이 들어갈 레이아웃 참조
+    private List<GameObject> buyListInstancese = new();
     private List<ItemListVO> ItemList;
     private int ITEMPR = 0;
     public GameObject BuySuccess;
     public GameObject BuyFail;
     public GameObject CheckBuyMenu;
     private VarietyStoreDAO varietystoreDao;
+    
 
 
 
 
-    public void Start()
+  public void Start()
     {
-           ItemList = LoadData();
-            varietystoreDao = GetComponent<VarietyStoreDAO>();
-           
-         foreach (var dic in ItemList)
-            {
-                // 이미지 프리팹 인스턴스화
-                GameObject buyListInstance = Instantiate(BuyListPrefab, buyListLayout);
-                buyListInstance.name = "itemlist" + dic.ITEMNO;
-                // 이미지 오브젝트에 딕셔너리 값 설정
-                Text textComponent = buyListInstance.GetComponentInChildren<Text>();
-                if (textComponent!= null)
-                {
-                    textComponent.text =  dic.ITEMNO + " : " + dic.ITEMNAME;
-                }
-            }
-            buyList.SetActive(false);        
+        LoadItemDB();
+        varietystoreDao = GetComponent<VarietyStoreDAO>();
+        buyList.SetActive(false);
     }
 
- public List<ItemListVO> LoadData()
+    public void LoadItemDB()
     {
-        List<ItemListVO> ItemList = new List<ItemListVO>();
+        ItemList = LoadData(1);
+        LoadItemList();
+    }
+
+    public List<ItemListVO> LoadData(int itemSep)
+    {
+        List<ItemListVO> itemList = new List<ItemListVO>();
         var sql = "SELECT SEQ, ITEMNAME, ITEMPR " +
-                    "FROM varietystorebuylist ";
+                  "FROM varietystorebuylist " +
+                  "WHERE ItemSep = ?";
         using (MySqlConnection connection = new MySqlConnection(con))
         {   
             connection.Open();
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 cmd.CommandText = sql;
+                cmd.Parameters.AddWithValue("ItemSep", itemSep);
                 using (MySqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                       ItemListVO iv = new ItemListVO();
+                        ItemListVO iv = new ItemListVO();
                         iv.ITEMNO = (int)reader["SEQ"];
                         iv.ITEMNAME = (string)reader["ITEMNAME"];
                         iv.ITEMPR = (int)reader["ITEMPR"];
-
-                        ItemList.Add(iv);
+                        itemList.Add(iv);
                     }
                 }
             }
         }
-        // foreach(var list in ItemList)
-        // {
-        //     Debug.Log(list.ITEMNAME);
-        //     Debug.Log(list.ITEMNAME);
-        //     Debug.Log(list.ITEMPR);
-        // }
-        return ItemList;
-                
+        return itemList;
+    }
+
+    public void LoadItemList()
+    {
+         buyList.SetActive(true);
+
+          foreach (GameObject buyListInstance in buyListInstancese)
+            {
+                Destroy(buyListInstance);
+            }
+
+        foreach (var dic in ItemList)
+        {
+            GameObject buyListInstance = Instantiate(BuyListPrefab, buyListLayout);
+            buyListInstance.name = "itemlist" + dic.ITEMNO;
+            buyListInstancese.Add(buyListInstance);
+            Text textComponent = buyListInstance.GetComponentInChildren<Text>();
+            if (textComponent != null)
+            {
+                textComponent.text =  dic.ITEMNO + " : " + dic.ITEMNAME;
+            }
+        }
+      buyList.SetActive(false);
+
     }
 
 
@@ -211,7 +224,26 @@ public class VarietyStoreManager : MonoBehaviour
             menu.SetActive(false);
         }
 
-    
+        public void Openingredients()
+    {
+        ItemList = LoadData(1);
+        LoadItemList();
+        
+    }
+
+    public void OpenOre()
+    {
+        ItemList = LoadData(2);
+        LoadItemList();
+
+    }
+
+    public void Opengift()
+    {
+        ItemList = LoadData(3);
+        LoadItemList();
+
+    }
 }
     
     
