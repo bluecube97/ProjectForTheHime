@@ -17,7 +17,7 @@ public class InventoryManager : MonoBehaviour
     private List<GameObject> inventoryInstances = new List<GameObject>();
 
     private InventoryDao inven;
-    private List<Dictionary<string, object>> InvenList = new List<Dictionary<string, object>>();
+    private List<InventoryVO> InvenList = new List<InventoryVO>();
 
     private void Awake()
     {
@@ -41,7 +41,7 @@ public class InventoryManager : MonoBehaviour
         InvenList = inven.GetInvenList();
         StartInven(InvenList);
     }
-    public void StartInven(List<Dictionary<string, object>> InvenList)
+    public void StartInven(List<InventoryVO> InvenList)
     {
         inventory.SetActive(true);
 
@@ -56,15 +56,15 @@ public class InventoryManager : MonoBehaviour
         {
             {
                 GameObject invenInstance = Instantiate(inventoryPrefab, inventorytLayout);
-                invenInstance.name =  (string)inven["ItemName"];
+                invenInstance.name =  "Inven" + inven.ItemNo;
                 inventoryInstances.Add(invenInstance);
 
                 Text textComponent = invenInstance.GetComponentInChildren<Text>();
                 if (textComponent != null)
                 {
-                    textComponent.text = inven["ItemName"] + " X " +
-                                         inven["Quantity"] + "\r\n" +
-                                         inven["ItemDescription"];
+                    textComponent.text = inven.ItemNm + " X " +
+                                         inven.ItemCnt + "\r\n" +
+                                         inven.ItemDese;
                 }
             }
         }
