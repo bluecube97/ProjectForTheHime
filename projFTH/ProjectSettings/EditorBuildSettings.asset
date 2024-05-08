@@ -50,4 +50,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/UI/Outing/VarietyStoreScene.unity
     guid: 2793b5ec9c4e5d540914d3a807c6abaa
+  - enabled: 1
+    path: Assets/Scenes/TestJson.unity
+    guid: d6fe58f7e126d4c4b9e4d9e3833f754f
   m_configObjects: {}

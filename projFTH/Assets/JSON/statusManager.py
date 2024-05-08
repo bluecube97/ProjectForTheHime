@@ -181,8 +181,13 @@ class Daughter:
 #d = Daughter() 
 
 def load_daughter_status():
+<<<<<<< HEAD
     basedir = os.path.dirname(os.path.abspath(__file__)) #지금 실행되고 있는 파일 위치가 절대경로가 됨
     communication_path = os.path.join("conversationData", "daughter_status.json")
+=======
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    communication_path = os.path.join(base_dir, "conversationData", "daughter_status.json")
+>>>>>>> 02cb1e43966fa80b6aa5cf5ca3759058891f50d0
     try:
         with open(communication_path, 'r', encoding='utf-8') as f:
             items = json.load(f)

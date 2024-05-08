@@ -184,7 +184,6 @@ def ConnectionGpt(d_stat, set_d):
                 temperature=0.5
             )
             daughter_reply = response['choices'][0]['message']['content']
-            #print(daughter_reply)
             messages.append({"role": "assistant", "content": f"{daughter_reply}"})
             #----  실질적인 output 유니티로 전달
             
@@ -194,10 +193,18 @@ def ConnectionGpt(d_stat, set_d):
                 extract_and_save_updated_status(daughter_reply, set_d)
                 json_response = json.dumps({"gpt_ment" : ment_}, ensure_ascii=False)
                 print(json_response)
+<<<<<<< HEAD
                 #response_data = {"gpt_ment": "안녕하세요 아빠. 어떻게 지내세요?"}
             else:
                 print("No valid response to process.")
             
+=======
+                # response_data = json.dumps({"gpt_ment": "안녕하세요 아빠. 어떻게 지내세요?"}, ensure_ascii=False)
+                # print(json.dumps(response_data))
+            else:
+                print("No valid response to process.")
+        
+>>>>>>> 02cb1e43966fa80b6aa5cf5ca3759058891f50d0
         except Exception as e:
             print("error : ", e)
         # 아빠와 딸의 대화를 read_comm_file에 있는 conversation.json에 저장
@@ -206,6 +213,10 @@ def ConnectionGpt(d_stat, set_d):
 def main():
     d_stat = lds()
     set_d = d()
+<<<<<<< HEAD
+=======
+
+>>>>>>> 02cb1e43966fa80b6aa5cf5ca3759058891f50d0
     ConnectionGpt(d_stat, set_d)
 
 if __name__ == "__main__":

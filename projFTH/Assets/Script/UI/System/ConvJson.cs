@@ -4,6 +4,8 @@ using System.Text;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Newtonsoft.Json;
+using UnityEngine.SceneManagement;
 
 public class SendDataToPython : MonoBehaviour
 {
@@ -47,19 +49,19 @@ public class SendDataToPython : MonoBehaviour
         try
         {
             Process process = new Process();
-            string scriptPath = Application.dataPath + "/Scripts/connectionManager.py";  // 절대 경로 사용 예
+            string scriptPath = Application.dataPath + "/JSON/connectionManager.py";  // 수정된 스크립트 경로
 
             process.StartInfo.FileName = "python";
             process.StartInfo.Arguments = "\"" + scriptPath + "\"";  // 경로에 공백이 있을 수 있으므로 인용부호 추가
-            process.StartInfo.WorkingDirectory = Application.dataPath;
+            process.StartInfo.WorkingDirectory = Application.dataPath;  // 'Assets' 폴더를 작업 디렉토리로 설정
             process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardInput = true;
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.CreateNoWindow = true;
             process.Start();
 
             UnityEngine.Debug.Log("Script path: " + scriptPath);
             UnityEngine.Debug.Log("Working directory: " + Application.dataPath);
-
 
             // Python 스크립트에 데이터 전송
             using (StreamWriter sw = new StreamWriter(process.StandardInput.BaseStream, Encoding.UTF8))
@@ -75,7 +77,7 @@ public class SendDataToPython : MonoBehaviour
                 UnityEngine.Debug.Log("Received Raw Data: " + output);  // 받은 데이터 로깅
                 try
                 {
-                    ResponseData response = JsonUtility.FromJson<ResponseData>(output);
+                    ResponseData response = JsonConvert.DeserializeObject<ResponseData>(output);
                     if (response == null || string.IsNullOrEmpty(response.gpt_ment))
                     {
                         UnityEngine.Debug.LogError("Failed to parse response or response is empty");
@@ -96,5 +98,10 @@ public class SendDataToPython : MonoBehaviour
         {
             UnityEngine.Debug.LogError("Error: " + e.Message);
         }
+    }
+
+    public void returnMainS()
+    {
+        SceneManager.LoadScene("MainLevelScene");
     }
 }

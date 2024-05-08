@@ -19,8 +19,7 @@ namespace Script.UI.MainLevel
 
         public void CommunicationBtn()
         {
-            Debug.Log("대화하기()");
-            // SceneManager.LoadScene("CommunicationScene");
+            SceneManager.LoadScene("TestJson");
         }
     }
 }
