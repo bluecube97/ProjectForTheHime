@@ -49,10 +49,10 @@ public class SendDataToPython : MonoBehaviour
         try
         {
             Process process = new Process();
-            string scriptPath = Application.dataPath + "/JSON/connectionManager.py";  // 수정된 스크립트 경로
+            string scriptPath = Application.dataPath + "/JSON/connectionManager.py"; 
 
             process.StartInfo.FileName = "python";
-            process.StartInfo.Arguments = "\"" + scriptPath + "\"";  // 경로에 공백이 있을 수 있으므로 인용부호 추가
+            process.StartInfo.Arguments = "\"" + scriptPath + "\"";  
             process.StartInfo.WorkingDirectory = Application.dataPath;  // 'Assets' 폴더를 작업 디렉토리로 설정
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardInput = true;

@@ -1,0 +1,82 @@
+[
+    {
+        "daughter": {
+            "name": "더조은",
+            "sex": "female",
+            "age": "20",
+            "mbti": "ISFJ",
+            "hp": 70,
+            "mp": 80,
+            "stress": "high",
+            "fatigue": "tired",
+            "E": 30,
+            "I": 70,
+            "S": 65,
+            "N": 35,
+            "T": 20,
+            "F": 80,
+            "J": 85,
+            "P": 15
+        }
+    },
+    {
+        "daughter": {
+            "name": "더조은",
+            "sex": "female",
+            "age": "20",
+            "mbti": "ISFJ",
+            "hp": 70,
+            "mp": 80,
+            "stress": "high",
+            "fatigue": "tired",
+            "E": 30,
+            "I": 70,
+            "S": 65,
+            "N": 35,
+            "T": 20,
+            "F": 80,
+            "J": 85,
+            "P": 15
+        }
+    },
+    {
+        "daughter": {
+            "name": "더조은",
+            "sex": "female",
+            "age": "20",
+            "mbti": "ISFJ",
+            "hp": 70,
+            "mp": 80,
+            "stress": "normal",
+            "fatigue": "tired",
+            "E": 30,
+            "I": 70,
+            "S": 65,
+            "N": 35,
+            "T": 20,
+            "F": 80,
+            "J": 85,
+            "P": 15
+        }
+    },
+    {
+        "daughter": {
+            "name": "더조은",
+            "sex": "female",
+            "age": "20",
+            "mbti": "ISFJ",
+            "hp": 70,
+            "mp": 80,
+            "stress": "normal",
+            "fatigue": "tired",
+            "E": 30,
+            "I": 70,
+            "S": 65,
+            "N": 35,
+            "T": 20,
+            "F": 80,
+            "J": 85,
+            "P": 15
+        }
+    }
+]
