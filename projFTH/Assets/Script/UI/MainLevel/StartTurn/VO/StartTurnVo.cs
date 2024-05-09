@@ -7,6 +7,9 @@ namespace Script.UI.MainLevel.StartTurn.VO
     {
         // todoNameComponent
         public string todoName;
+        public int reward;
+        public int loseReward;
+        public string statReward;
         public int index;
     }
 }

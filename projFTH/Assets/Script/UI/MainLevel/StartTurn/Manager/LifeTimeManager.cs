@@ -1,7 +1,7 @@
-using System;
-using System.Collections.Generic;
 using Script.UI.MainLevel.StartTurn.Dao;
 using Script.UI.MainLevel.StartTurn.VO;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -10,17 +10,31 @@ namespace Script.UI.MainLevel.StartTurn.Manager
 {
     public class LifeTimeManager : MonoBehaviour
     {
+        private static int _nowYear = 2024;
+        private static int _nowMonth = 4;
+        private static int _nowDate = 1;
+        private static int _nowTime; // 0: 아침, 1: 점심, 2: 저녁
+
+        public GameObject yearTxt; // 년도 텍스트 참조
+        public GameObject monthTxt; // 월 텍스트 참조
+        public GameObject dateTxt; // 일 텍스트 참조
+        public GameObject timeTxt; // 시간 텍스트 참조
+        public GameObject todoNameTxt; // TODO 이름 텍스트 참조
+
         public GameObject todoListPrefab; // TODOList 이미지 프리팹 참조
         public GameObject todoList; // TODOList 이미지 참조
         public Transform todoListLayout; // TODOList들이 들어갈 레이아웃 참조
         public GameObject todoListInstance; // TODOList의 인스턴스
+
+        public GameObject startTurn; // 시작 턴 이미지 참조
+        private readonly List<Dictionary<string, object>> _planList = new();
+
         private bool _isSelectable = true;
         private string _isSelectDate = "Day1"; // 선택된 날짜
 
         private GameObject _myGameObject;
         private StartTurnDao _std;
         private List<Dictionary<string, object>> _todoList = new(); // TODO리스트를 담는 딕셔너리 리스트
-        private List<Dictionary<string, object>> _ = new();
 
         public void Awake()
         {
@@ -30,41 +44,50 @@ namespace Script.UI.MainLevel.StartTurn.Manager
 
         public void Start()
         {
-            var noList = _std.GetTodoNo(2024, 4);
+            List<int> noList = _std.GetTodoNo(_nowYear, _nowMonth);
             _todoList = _std.GetTodoList(noList);
-            var index = 1;
+            int index = 1;
 
-            foreach (var dic in _todoList)
+
+            foreach (Dictionary<string, object> dic in _todoList)
             {
                 // 버튼 프리팹 인스턴스화
                 todoListInstance = Instantiate(todoListPrefab, todoListLayout);
                 // 이미지 오브젝트에 딕셔너리 값 설정
-                var textComponent = todoListInstance.GetComponentInChildren<Text>();
-                if (textComponent != null)
+                Text todoNameTxtComponent = todoListInstance.GetComponentInChildren<Text>();
+                if (todoNameTxtComponent != null)
                 {
-                    var todoName = dic["TODONAME"].ToString();
-                    var reward = Convert.ToInt32(dic["REWARD"]);
-                    var loseReward = Convert.ToInt32(dic["LOSEREWARD"]);
-                    var statRewardI = Convert.ToInt32(dic["STATREWARD"]);
-                    var todoNo = Convert.ToInt32(dic["TODONO"]);
+                    string todoName = dic["TODONAME"].ToString();
+                    int reward = Convert.ToInt32(dic["REWARD"]);
+                    int loseReward = Convert.ToInt32(dic["LOSEREWARD"]);
+                    int statRewardI = Convert.ToInt32(dic["STATREWARD"]);
+                    int todoNo = Convert.ToInt32(dic["TODONO"]);
                     // 버튼이 어떤 날짜에 걸쳐 있는지 저장
 
-                    var statReward = "";
+                    string statReward = "";
                     todoListInstance.name = "TodoBtn" + todoNo;
-                    var todoNameComponent = todoListInstance.GetComponent<StartTurnVo>();
-                    todoNameComponent.todoName = todoName;
-                    todoNameComponent.index = index;
+                    StartTurnVo todoNameComponent = todoListInstance.GetComponent<StartTurnVo>();
 
                     // statReward의 마지막 숫자가 0이면 힘, 1이면 마력
                     if (statRewardI % 2 == 0)
-                        statReward = "힘 " + statRewardI / 10;
+                    {
+                        statReward = "힘 " + (statRewardI / 10);
+                    }
                     else if (statRewardI % 2 == 1)
-                        statReward = "마력 " + statRewardI / 10;
+                    {
+                        statReward = "마력 " + (statRewardI / 10);
+                    }
 
-                    textComponent.text = todoName +
-                                         "\n보상: " + reward +
-                                         "\n소모 재화: " + loseReward +
-                                         "\n얻는 스탯: " + statReward;
+                    todoNameComponent.todoName = todoName;
+                    todoNameComponent.reward = reward;
+                    todoNameComponent.loseReward = loseReward;
+                    todoNameComponent.statReward = statReward;
+                    todoNameComponent.index = index;
+
+                    todoNameTxtComponent.text = todoName +
+                                                "\n보상: " + reward +
+                                                "\n소모 재화: " + loseReward +
+                                                "\n얻는 스탯: " + statReward;
                 }
 
                 index++;
@@ -84,13 +107,23 @@ namespace Script.UI.MainLevel.StartTurn.Manager
 
         public void OnClickTodoBtn(GameObject button)
         {
-            if (!_isSelectable) return;
-            var dateBtn = GameObject.Find(_isSelectDate);
-            var textComponent = dateBtn.GetComponentInChildren<Text>();
+            if (!_isSelectable)
+            {
+                return;
+            }
 
-            var todoNameComponent = button.GetComponent<StartTurnVo>();
+            GameObject dateBtn = GameObject.Find(_isSelectDate);
+            StartTurnVo dateComponent = dateBtn.GetComponent<StartTurnVo>();
+            Text textComponent = dateBtn.GetComponentInChildren<Text>();
+            StartTurnVo todoNameComponent = button.GetComponent<StartTurnVo>();
             textComponent.text = todoNameComponent.todoName;
-            var color = FindColor(todoNameComponent.index);
+
+            dateComponent.todoName = todoNameComponent.todoName;
+            dateComponent.reward = todoNameComponent.reward;
+            dateComponent.loseReward = todoNameComponent.loseReward;
+            dateComponent.statReward = todoNameComponent.statReward;
+
+            Color color = FindColor(todoNameComponent.index);
             ChangeImageColor(_isSelectDate, color);
 
             // 다음 날짜로 넘어가기
@@ -187,23 +220,82 @@ namespace Script.UI.MainLevel.StartTurn.Manager
 
         private static void ChangeImageColor(string objectName, Color color)
         {
-            var obj = GameObject.Find(objectName);
-            var image = obj.GetComponent<Image>();
+            GameObject obj = GameObject.Find(objectName);
+            Image image = obj.GetComponent<Image>();
             image.color = color;
         }
 
         public void OnClickComplete()
         {
+            for (int i = 1; i <= 20; i++)
+            {
+                string findDate = "Day" + i;
+                GameObject findDateBtn = GameObject.Find(findDate);
+                Text findTextComponent = findDateBtn.GetComponentInChildren<Text>();
+                StartTurnVo dateComponent = findDateBtn.GetComponent<StartTurnVo>();
 
-            Debug.Log("Complete");
+                if (string.IsNullOrEmpty(findTextComponent.text))
+                {
+                    continue;
+                }
+
+                Dictionary<string, object> dic = new();
+                dic.Add("DAY", i);
+                dic.Add("TODONAME", dateComponent.todoName);
+                dic.Add("REWARD", dateComponent.reward);
+                dic.Add("LOSEREWARD", dateComponent.loseReward);
+                dic.Add("STATREWARD", dateComponent.statReward);
+
+                _planList.Add(dic);
+            }
+
+            startTurn.SetActive(true);
+            StartTurn();
+        }
+
+        private void StartTurn()
+        {
+            Text yearTxtComponent = yearTxt.GetComponentInChildren<Text>();
+            Text monthTxtComponent = monthTxt.GetComponentInChildren<Text>();
+            Text dateTxtComponent = dateTxt.GetComponentInChildren<Text>();
+            Text timeTxtComponent = timeTxt.GetComponentInChildren<Text>();
+            Text todoNameTxtComponent = todoNameTxt.GetComponentInChildren<Text>();
+
+            yearTxtComponent.text = _nowYear + "년";
+            monthTxtComponent.text = _nowMonth + "월";
+            dateTxtComponent.text = _nowDate + "일";
+            timeTxtComponent.text = _nowTime switch
+            {
+                0 => "아침",
+                1 => "점심",
+                2 => "저녁",
+                _ => timeTxtComponent.text
+            };
+            // todoNameTxtComponent.text = _planList[_nowDate]["TODONAME"].ToString();
+        }
+
+        public void OnClickNextPhase()
+        {
+            _nowTime++;
+            if (_nowTime > 2)
+            {
+                _nowTime = 0;
+                _nowDate++;
+            }
+
+            StartTurn();
         }
 
         public void OnClickDelete()
         {
-            if (!_isSelectable) return;
+            if (!_isSelectable)
+            {
+                return;
+            }
+
             ChangeImageColor(_isSelectDate, Color.white);
-            var dateBtn = GameObject.Find(_isSelectDate);
-            var textComponent = dateBtn.GetComponentInChildren<Text>();
+            GameObject dateBtn = GameObject.Find(_isSelectDate);
+            Text textComponent = dateBtn.GetComponentInChildren<Text>();
             textComponent.text = "";
         }
 
