@@ -1,7 +1,7 @@
 import openai
 import json
 import os
-from statusManager import Daughter as d, load_daughter_status as lds
+from statusVO import Daughter as d, load_daughter_status as lds
 import sys
 
 # 전체 대화 내용 저장용 리스트
@@ -80,6 +80,43 @@ def extract_and_save_updated_status(daughter_reply, d):
         d.F = stat_str_["daughter"]["F"]
         d.J = stat_str_["daughter"]["J"]
         d.P = stat_str_["daughter"]["P"]
+        
+        record_Status = []
+        present_status = {
+            "daughter": {
+                "name": d.name,
+                "sex": d.sex,
+                "age": d.age,
+                "mbti": d.mbti,
+                "hp": d.hp,
+                "mp": d.mp,
+                "stress": d.stress,
+                "fatigue": d.fatigue,
+                "E": d.E,
+                "I": d.I,
+                "S": d.S,
+                "N": d.N,
+                "T": d.T,
+                "F": d.F,
+                "J": d.J,
+                "P": d.P
+            }
+        }
+        
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        update_path = os.path.join(base_dir, "conversationData", "statusRecord.json")
+        record_Status.append(present_status)
+
+        if not os.path.exists(update_path):    
+            with open(update_path, 'w', encoding='utf-8') as f :
+                json.dump(record_Status, f, indent=4, ensure_ascii=False)
+        else :
+            with open(update_path, 'r', encoding='utf-8') as f :
+                cur_data = json.load(f)
+            cur_data.extend(record_Status)
+
+            with open(update_path, 'w', encoding='utf-8') as f :
+                json.dump(cur_data, f, indent=4, ensure_ascii=False)
 
 def get_ment_from_unity():
     try:
@@ -173,7 +210,6 @@ def ConnectionGpt(d_stat, set_d):
                 "   And at the end of your daughter’s answer, be sure to give me the whole parameter values like next line. "                    
                 f"  {stat_json} Please change all single quotes in all parameter values here to double quotes. "
                 "	17) When providing the parameter, use the format starts with '**' and ends with '**'."
-                #f"{daughter_status_json}"
             )
     
     messages = [
@@ -198,22 +234,19 @@ def ConnectionGpt(d_stat, set_d):
             daughter_reply = response['choices'][0]['message']['content']
             messages.append({"role": "assistant", "content": f"{daughter_reply}"})
             #----  실질적인 output 유니티로 전달
-            
-            #print(daughter_reply)
+
             ment_ = get_origin_ment(daughter_reply)
             if ment_ is not None:
                 extract_and_save_updated_status(daughter_reply, set_d)
                 json_response = json.dumps({"gpt_ment" : ment_}, ensure_ascii=False)
                 print(json_response)
-                # response_data = json.dumps({"gpt_ment": "안녕하세요 아빠. 어떻게 지내세요?"}, ensure_ascii=False)
-                # print(json.dumps(response_data))
             else:
                 print("No valid response to process.")
         
         except Exception as e:
             print("error : ", e)
         # 아빠와 딸의 대화를 read_comm_file에 있는 conversation.json에 저장
-        read_comm_file(user_request, daughter_reply)
+        read_comm_file(user_request, ment_)
 
 def main():
     d_stat = lds()
