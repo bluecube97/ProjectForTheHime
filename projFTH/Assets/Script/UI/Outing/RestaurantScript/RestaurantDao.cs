@@ -17,7 +17,7 @@ public class RestaurantDao : MonoBehaviour
 
     public void Awake()
     {
-        restaurantManager = GetComponent<RestaurantManager>(); // ÇöÀç °ÔÀÓ ¿ÀºêÁ§Æ®¿¡ ºÙ¾î ÀÖ´Â RestaurantFoodList ½ºÅ©¸³Æ®¸¦ °¡Á®¿È
+        restaurantManager = GetComponent<RestaurantManager>(); // í˜„ì¬ ê²Œì„ ì˜¤ë¸Œì íŠ¸ì— ë¶™ì–´ ìˆëŠ” RestaurantFoodList ìŠ¤í¬ë¦½íŠ¸ë¥¼ ê°€ì ¸ì˜´
 
     }
 
@@ -88,7 +88,7 @@ public class RestaurantDao : MonoBehaviour
                 var sql = " update game_userinfo " +
                              " set USERCASH = (@payment)" +
                            " where SEQ = 1 ";
-                // DB¿¡ À¯Àú Á¤º¸ ÀúÀå
+                // DBì— ìœ ì € ì •ë³´ ì €ì¥
                 cmd.CommandText = sql;
                 cmd.Parameters.AddWithValue("@payment", payment);
                 cmd.ExecuteNonQuery();

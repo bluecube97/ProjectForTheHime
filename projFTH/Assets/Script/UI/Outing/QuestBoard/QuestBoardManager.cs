@@ -9,14 +9,14 @@ namespace Script.UI.Outing
 
     public class QuestBoardManager : MonoBehaviour
     {
-        public GameObject questListPrefab; // QuestList ÀÌ¹ÌÁö ÇÁ¸®ÆÕ ÂüÁ¶
-        public GameObject questList; // QuestList ÀÌ¹ÌÁö ÂüÁ¶
-        public Transform questListLayout; // QuestListµéÀÌ µé¾î°¥ ·¹ÀÌ¾Æ¿ô ÂüÁ¶
+        public GameObject questListPrefab; // QuestList ì´ë¯¸ì§€ í”„ë¦¬íŒ¹ ì°¸ì¡°
+        public GameObject questList; // QuestList ì´ë¯¸ì§€ ì°¸ì¡°
+        public Transform questListLayout; // QuestListë“¤ì´ ë“¤ì–´ê°ˆ ë ˆì´ì•„ì›ƒ ì°¸ì¡°
         private List<GameObject> questListInstances = new List<GameObject>();
 
-        public GameObject SubmitquestListPrefab; // SubmitQuestList ÀÌ¹ÌÁö ÇÁ¸®ÆÕ ÂüÁ¶
-        public GameObject SubmitquestList; // SubmitQuestList ÀÌ¹ÌÁö ÂüÁ¶
-        public Transform SubmitquestListLayout; // SubmitQuestListµéÀÌ µé¾î°¥ ·¹ÀÌ¾Æ¿ô ÂüÁ¶
+        public GameObject SubmitquestListPrefab; // SubmitQuestList ì´ë¯¸ì§€ í”„ë¦¬íŒ¹ ì°¸ì¡°
+        public GameObject SubmitquestList; // SubmitQuestList ì´ë¯¸ì§€ ì°¸ì¡°
+        public Transform SubmitquestListLayout; // SubmitQuestListë“¤ì´ ë“¤ì–´ê°ˆ ë ˆì´ì•„ì›ƒ ì°¸ì¡°
         private List<GameObject> SubmitquestListInstances = new List<GameObject>();
 
         private QusetBoardDao questBoardDao;
@@ -34,7 +34,7 @@ namespace Script.UI.Outing
             questList.SetActive(true);
             SubmitquestList.SetActive(true);
 
-            // ±âÁ¸¿¡ »ı¼ºµÈ QuestList ¿ÀºêÁ§Æ®µéÀ» Á¦°ÅÇÕ´Ï´Ù.
+            // ê¸°ì¡´ì— ìƒì„±ëœ QuestList ì˜¤ë¸Œì íŠ¸ë“¤ì„ ì œê±°í•©ë‹ˆë‹¤.
             foreach (GameObject questInstance in questListInstances)
             {
                 Destroy(questInstance);
@@ -45,7 +45,7 @@ namespace Script.UI.Outing
             }
             questListInstances.Clear();
             SubmitquestListInstances.Clear();
-            // »õ·Î¿î QuestList ¿ÀºêÁ§Æ®¸¦ »ı¼ºÇÏ°í ¼³Á¤ÇÕ´Ï´Ù.
+            // ìƒˆë¡œìš´ QuestList ì˜¤ë¸Œì íŠ¸ë¥¼ ìƒì„±í•˜ê³  ì„¤ì •í•©ë‹ˆë‹¤.
 
 
             foreach (var quest in QuestList)
@@ -63,7 +63,7 @@ namespace Script.UI.Outing
                         {
                             textComponent.text = quest.QuestNo + "." +
                                          " : " + quest.QuestNm + "\r\n" +
-                                    " ³»¿ë : " + quest.QuestMemo;
+                                    " ë‚´ìš© : " + quest.QuestMemo;
                         }
                     }
                 }
@@ -76,7 +76,7 @@ namespace Script.UI.Outing
             questList.SetActive(true);
             SubmitquestList.SetActive(true);
 
-            // ±âÁ¸¿¡ »ı¼ºµÈ QuestList ¿ÀºêÁ§Æ®µéÀ» Á¦°ÅÇÕ´Ï´Ù.
+            // ê¸°ì¡´ì— ìƒì„±ëœ QuestList ì˜¤ë¸Œì íŠ¸ë“¤ì„ ì œê±°í•©ë‹ˆë‹¤.
             foreach (GameObject questInstance in questListInstances)
             {
                 Destroy(questInstance);
@@ -87,7 +87,7 @@ namespace Script.UI.Outing
             }
             questListInstances.Clear();
             SubmitquestListInstances.Clear();
-            // »õ·Î¿î QuestList ¿ÀºêÁ§Æ®¸¦ »ı¼ºÇÏ°í ¼³Á¤ÇÕ´Ï´Ù.
+            // ìƒˆë¡œìš´ QuestList ì˜¤ë¸Œì íŠ¸ë¥¼ ìƒì„±í•˜ê³  ì„¤ì •í•©ë‹ˆë‹¤.
 
 
             foreach (var quest in QuestList)
@@ -105,7 +105,7 @@ namespace Script.UI.Outing
                         {
                             textComponent.text = quest.QuestNo + "." +
                                          " : " + quest.QuestNm + "\r\n" +
-                                    " ³»¿ë : " + quest.QuestMemo;
+                                    " ë‚´ìš© : " + quest.QuestMemo;
                         }
                     }
                 }
@@ -123,7 +123,7 @@ namespace Script.UI.Outing
             int index = int.Parse(indexString);
 
             questBoardDao.SubmitQuset(index);
-            // ¾÷µ¥ÀÌÆ®µÈ Á¤º¸¸¦ ´Ù½Ã Ç¥½ÃÇÕ´Ï´Ù.
+            // ì—…ë°ì´íŠ¸ëœ ì •ë³´ë¥¼ ë‹¤ì‹œ í‘œì‹œí•©ë‹ˆë‹¤.
             StartQuestList(QuestList);
             SceneManager.LoadScene("QuestBoardScene");
 
@@ -136,7 +136,7 @@ namespace Script.UI.Outing
             string indexString = parentObjectName.Replace("QuestList", "");
             int index = int.Parse(indexString);
             questBoardDao.RefuseSubmitQuset(index);
-            // ¾÷µ¥ÀÌÆ®µÈ Á¤º¸¸¦ ´Ù½Ã Ç¥½ÃÇÕ´Ï´Ù.
+            // ì—…ë°ì´íŠ¸ëœ ì •ë³´ë¥¼ ë‹¤ì‹œ í‘œì‹œí•©ë‹ˆë‹¤.
             StartQuestList(QuestList);
             SceneManager.LoadScene("QuestBoardScene");
 

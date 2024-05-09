@@ -18,7 +18,7 @@ namespace Script.UI.Outing
 
         private void Awake()
         {
-            // ÀÎ½ºÅÏ½º°¡ ¾øÀ» °æ¿ì ÇöÀç GameObject¿¡ RestaurantManager¸¦ Ãß°¡ÇÕ´Ï´Ù.
+            // ì¸ìŠ¤í„´ìŠ¤ê°€ ì—†ì„ ê²½ìš° í˜„ì¬ GameObjectì— RestaurantManagerë¥¼ ì¶”ê°€í•©ë‹ˆë‹¤.
             if (instance == null)
             {
                 instance = this;

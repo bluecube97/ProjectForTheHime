@@ -10,10 +10,10 @@ public class InventoryManager : MonoBehaviour
 {
     private static InventoryManager instance;
     public GameObject InventoryMenu;
-    public GameObject inventoryPrefab; // QuestList ÀÌ¹ÌÁö ÇÁ¸®ÆÕ ÂüÁ¶
-    public GameObject inventory; // QuestList ÀÌ¹ÌÁö ÂüÁ¶
+    public GameObject inventoryPrefab; // QuestList ì´ë¯¸ì§€ í”„ë¦¬íŒ¹ ì°¸ì¡°
+    public GameObject inventory; // QuestList ì´ë¯¸ì§€ ì°¸ì¡°
 
-    public Transform inventorytLayout; // QuestListµéÀÌ µé¾î°¥ ·¹ÀÌ¾Æ¿ô ÂüÁ¶
+    public Transform inventorytLayout; // QuestListë“¤ì´ ë“¤ì–´ê°ˆ ë ˆì´ì•„ì›ƒ ì°¸ì¡°
     private List<GameObject> inventoryInstances = new List<GameObject>();
 
     private InventoryDao inven;
@@ -21,7 +21,7 @@ public class InventoryManager : MonoBehaviour
 
     private void Awake()
     {
-        // ÀÎ½ºÅÏ½º°¡ ¾øÀ» °æ¿ì ÇöÀç GameObject¿¡ RestaurantManager¸¦ Ãß°¡ÇÕ´Ï´Ù.
+        // ì¸ìŠ¤í„´ìŠ¤ê°€ ì—†ì„ ê²½ìš° í˜„ì¬ GameObjectì— RestaurantManagerë¥¼ ì¶”ê°€í•©ë‹ˆë‹¤.
         if (instance == null)
         {
             instance = this;
@@ -45,13 +45,13 @@ public class InventoryManager : MonoBehaviour
     {
         inventory.SetActive(true);
 
-        // ±âÁ¸¿¡ »ı¼ºµÈ QuestList ¿ÀºêÁ§Æ®µéÀ» Á¦°ÅÇÕ´Ï´Ù.
+        // ê¸°ì¡´ì— ìƒì„±ëœ QuestList ì˜¤ë¸Œì íŠ¸ë“¤ì„ ì œê±°í•©ë‹ˆë‹¤.
         foreach (GameObject invenInstance in inventoryInstances)
         {
             Destroy(invenInstance);
         }
         inventoryInstances.Clear();
-        // »õ·Î¿î QuestList ¿ÀºêÁ§Æ®¸¦ »ı¼ºÇÏ°í ¼³Á¤ÇÕ´Ï´Ù.
+        // ìƒˆë¡œìš´ QuestList ì˜¤ë¸Œì íŠ¸ë¥¼ ìƒì„±í•˜ê³  ì„¤ì •í•©ë‹ˆë‹¤.
         foreach (var inven in InvenList)
         {
             {

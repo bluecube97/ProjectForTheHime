@@ -79,7 +79,7 @@ public class HospitalDao : MonoBehaviour
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 
-                // DB¿¡ À¯Àú Á¤º¸ ÀúÀå
+                // DBì— ìœ ì € ì •ë³´ ì €ì¥
                 cmd.CommandText = sql;
                 cmd.Parameters.AddWithValue("@payCash", payCash);
                 cmd.Parameters.AddWithValue("@userHP", userMaxHP);
@@ -99,7 +99,7 @@ public class HospitalDao : MonoBehaviour
             using (MySqlCommand cmd = connection.CreateCommand())
             {
               
-                // DB¿¡ À¯Àú Á¤º¸ ÀúÀå
+                // DBì— ìœ ì € ì •ë³´ ì €ì¥
                 cmd.Parameters.Clear();
 
                 cmd.CommandText = sql;

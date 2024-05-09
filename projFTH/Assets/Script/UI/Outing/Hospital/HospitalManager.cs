@@ -36,7 +36,7 @@ public class HospitalManager : MonoBehaviour
             {
                 textComponent.text = dic["itemNm"] + "\r\n" 
                            +"\r\n" + dic["itemDesc"] + "\r\n" 
-               +"\r\n" + "°¡°Ý : " + dic["itemPrice"];
+               +"\r\n" + "ê°€ê²© : " + dic["itemPrice"];
             }
         }
         Hospital.SetActive(false);
@@ -57,10 +57,10 @@ public class HospitalManager : MonoBehaviour
         dic = hospitalDao.GetUserInfo();
         int userCash = (int)dic["userCash"];
         int NowCash = userCash - price;
-        Debug.Log("°è»ê ±Ý¾× " + price);
+        Debug.Log("ê³„ì‚° ê¸ˆì•¡ " + price);
 
-        Debug.Log("DB À¯Àú Çö±Ý " + userCash);
-        Debug.Log("°è»ê ÈÄ ±Ý¾× " + NowCash);
+        Debug.Log("DB ìœ ì € í˜„ê¸ˆ " + userCash);
+        Debug.Log("ê³„ì‚° í›„ ê¸ˆì•¡ " + NowCash);
         if (NowCash > 0)
         {
             hospitalDao.SetBuyAfter(NowCash);

@@ -6,84 +6,113 @@ namespace Script.UI.Outing
     using UnityEngine.SceneManagement;
     using UnityEngine.UI;
 
-    public class SmeltManager : MonoBehaviour 
-    { 
-        public GameObject smeltListPrefab; 
-        public GameObject smeltList; 
-        public Transform smeltListLayout; 
-  
+    public class SmeltManager : MonoBehaviour
+    {
+        public GameObject smeltListPrefab;
+        public GameObject smeltList;
+        public Transform smeltListLayout;
+
+        public GameObject buyListPrefab;
+        public GameObject buyList;
+        public Transform buyListLayout;
 
         private SmeltDao smeltDao;
 
-    
+        private List<Dictionary<string, object>> SmeltList = new List<Dictionary<string, object>>();
+        private List<Dictionary<string, object>> BuyList = new List<Dictionary<string, object>>();
+
         private List<GameObject> smeltListInstances = new List<GameObject>();
+        private List<GameObject> buyListInstances = new List<GameObject>();
 
         private void Start()
         {
-
             smeltDao = GetComponent<SmeltDao>();
-            UpdateSmeltList();
-
+            BuyList = smeltDao.GetBuyList();
+            SmeltList = smeltDao.GetSmeltList();
+            SelSmeltList(SmeltList);
+            SetBuyList(BuyList);
         }
 
-        public void UpdateSmeltList()
+        //재련 리스트 출력(재료로 구매)
+        public void SelSmeltList(List<Dictionary<string, object>> SmeltList)
         {
             smeltList.SetActive(true);
-
-            List<Dictionary<string, object>> SmeltList = smeltDao.GetSmeltList();
-
-
             foreach (GameObject smeltInstance in smeltListInstances)
             {
                 Destroy(smeltInstance);
             }
             smeltListInstances.Clear();
-
-            
-            int i = 0;
             foreach (var dic in SmeltList)
             {
-                i++;
-
                 GameObject smeltListInstance = Instantiate(smeltListPrefab, smeltListLayout);
-                smeltListInstance.name = "SmeltList" + i;
+                smeltListInstance.name = "SmeltList" + dic["itemNo"];
                 smeltListInstances.Add(smeltListInstance);
 
                 Text textComponent = smeltListInstance.GetComponentInChildren<Text>();
 
                 if (textComponent != null)
                 {
-                    textComponent.text = dic["item_name"] + "." +
-                            " : " + dic["item_cost"] + "\r\n" ;
-                            
+                    textComponent.text = dic["itemNm"] + "\r\n" +
+                                        "소재 :  " + dic["itemValNm"] + "\r\n" +
+                                        "필요 갯수 : " + dic["itemValCnt"];
+
                 }
             }
             smeltList.SetActive(false);
-
         }
-        
+        public void SetBuyList(List<Dictionary<string, object>> BuyList)
+        {
+            foreach (var dic in BuyList)
+            {
+                GameObject buyListInstance = Instantiate(buyListPrefab, buyListLayout);
+                buyListInstance.name = "weaponlist" + dic["itemNo"];
+                Text textComponent = buyListInstance.GetComponentInChildren<Text>();
 
+                if (textComponent != null)
+                {
+                    textComponent.text = dic["itemNm"] + "\r\n" +
+                                         "가격 : " + dic["itemPrice"];
+                }
+            }
+            buyList.SetActive(false);
+        }
         public void OnClickSubmit()
         {
             GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
             GameObject parentObject = clickedButton.transform.parent.gameObject;
             string parentObjectName = parentObject.name;
-            Debug.Log(": " + parentObjectName);
-
-            var SmeltList = smeltDao.GetSmeltList();
-            string indexString = parentObjectName.Replace("SmeltList", "");
+            string indexString = parentObjectName.Replace("weaponlist", "");
+            int index = int.Parse(indexString);
+            var weaponInfo = BuyList[index - 1];
+            int weaponPrice = (int)weaponInfo["itemPrice"];
+            ProcessPayment(weaponPrice);
+        }
+        //구매 리스트 선택 시 구매 리스트 정보 받아오기(현금 구매)
+        public void GetclickWeaponList()
+        {
+            GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
+            GameObject parentObject = clickedButton.transform.parent.gameObject;
+            string parentObjectName = parentObject.name;
+            string indexString = parentObjectName.Replace("weaponlist", "");
             int index = int.Parse(indexString);
 
 
-            
-            UpdateSmeltList();
         }
-
-        public void OnClickReturn()
+        public void ProcessPayment(int weaponPrice)
         {
+            int userCash = smeltDao.GetUserInfoFromDB();
+            int NowCash = userCash - weaponPrice;
+            Debug.Log("DB 유저 현금 " + userCash);
+            Debug.Log("계산 후 금액 " + NowCash);
+            if (NowCash >= 0)
             {
-                SceneManager.LoadScene("OutingScene");
+                smeltDao.UpdateUserCash(NowCash);
+            }
+            else
+            {
+                Debug.Log("Not enough cash!");
             }
         }
+
     }
 }
