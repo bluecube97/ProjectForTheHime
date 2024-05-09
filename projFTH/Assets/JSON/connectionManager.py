@@ -16,17 +16,14 @@ def read_comm_file(question, response):
     commu = {"user_ment": question, "gpt_ment": response}
     conversation_path = os.path.join("conversationData", "conversation.json")
 
-    # conversation.json 파일을 저장할 폴더가 없을 경우 폴더를 생성합니다.
     if not os.path.exists(os.path.dirname(conversation_path)):
         os.makedirs(os.path.dirname(conversation_path))
 
-    # 파일이 존재하지 않는 경우 새로운 파일을 생성하여 데이터를 저장
     if not os.path.exists(conversation_path):
         conversation_.append(commu)
         with open(conversation_path, 'w', encoding='utf-8') as f:
             json.dump(conversation_, f, indent=4, ensure_ascii=False)
     else:
-        # 파일이 존재하는 경우 기존 파일을 열어서 데이터를 읽고 덮어쓰기
         conversation_.append(commu)
         with open(conversation_path, 'r', encoding='utf-8') as f:  
             current_conversation = json.load(f)  
@@ -35,7 +32,6 @@ def read_comm_file(question, response):
             json.dump(current_conversation, f, indent=4, ensure_ascii=False)
 
 def load_json_data(path):
-    """ 파일 경로에서 JSON 데이터를 로드하고 문자열로 반환합니다. """
     try:
         with open(path, 'r', encoding='utf-8') as file:
             data = json.load(file)
@@ -43,7 +39,6 @@ def load_json_data(path):
     except Exception as e:
         print(f"파일을 로드하거나 JSON 변환 중 오류가 발생했습니다: {e}")
         return None
-
 
 def get_origin_ment(daughter_reply) :
     if "GPT (Daughter): " in daughter_reply:
@@ -54,13 +49,10 @@ def get_origin_ment(daughter_reply) :
 
 def extract_and_save_updated_status(daughter_reply, d):
 
-    # daughter_reply 문자열에서 "**change"가 있는지 확인.
+    # daughter_reply 문자열에서 "**change"가 있는지 확인 하고 문자열 공백 제거 및 값 json파일 및 VO객체에 저장.
     if "**" in daughter_reply:
-        # "**change" 다음의 문자열을 찾아서 인덱스 설정
         start_index = daughter_reply.find("**") + len("**")
-        # "**" 문자열을 찾아서 인덱스 설정
         end_index = daughter_reply.find("**", start_index)
-        # 문자열을 추출하여 공백 제거
         stat_str = daughter_reply[start_index:end_index].strip()
 
         stat_str_ = json.loads(stat_str)
@@ -117,6 +109,8 @@ def extract_and_save_updated_status(daughter_reply, d):
 
             with open(update_path, 'w', encoding='utf-8') as f :
                 json.dump(cur_data, f, indent=4, ensure_ascii=False)
+        '''파일에 스테이터스를 덮어씌우도록 변경. '''
+    
 
 def get_ment_from_unity():
     try:
@@ -233,8 +227,8 @@ def ConnectionGpt(d_stat, set_d):
             )
             daughter_reply = response['choices'][0]['message']['content']
             messages.append({"role": "assistant", "content": f"{daughter_reply}"})
-            #----  실질적인 output 유니티로 전달
 
+            #----  실질적인 output 유니티로 전달
             ment_ = get_origin_ment(daughter_reply)
             if ment_ is not None:
                 extract_and_save_updated_status(daughter_reply, set_d)
@@ -242,6 +236,7 @@ def ConnectionGpt(d_stat, set_d):
                 print(json_response)
             else:
                 print("No valid response to process.")
+            #----------------------------------
         
         except Exception as e:
             print("error : ", e)
