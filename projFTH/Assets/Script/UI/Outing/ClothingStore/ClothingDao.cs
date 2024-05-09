@@ -130,7 +130,7 @@ public class ClothingDao : MonoBehaviour
                 var sql = " update game_userinfo " +
                              " set USERCASH = (@payment)" +
                            " where SEQ = 1 ";
-                // DB¿¡ À¯Àú Á¤º¸ ÀúÀå
+                // DBì— ìœ ì € ì •ë³´ ì €ì¥
                 cmd.CommandText = sql;
                 cmd.Parameters.AddWithValue("@payment", payment);
                 cmd.ExecuteNonQuery();

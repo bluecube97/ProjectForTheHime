@@ -11,14 +11,14 @@ using UnityEngine.WSA;
 
 public class ClothingStoreManager : MonoBehaviour
 {
-    public GameObject ClothingPrefab; // ¿Ê Á¦ÀÛ ÀÌ¹ÌÁö ÇÁ¸®ÆÕ ÂüÁ¶
-    public GameObject Clothing; // ¿Ê Á¦ÀÛ ÀÌ¹ÌÁö ÂüÁ¶
-    public Transform ClothingLayout; // Á¦ÀÛ ¸®½ºÆ®µéÀÌ µé¾î°¥ ·¹ÀÌ¾Æ¿ô ÂüÁ¶
+    public GameObject ClothingPrefab; // ì˜· ì œì‘ ì´ë¯¸ì§€ í”„ë¦¬íŒ¹ ì°¸ì¡°
+    public GameObject Clothing; // ì˜· ì œì‘ ì´ë¯¸ì§€ ì°¸ì¡°
+    public Transform ClothingLayout; // ì œì‘ ë¦¬ìŠ¤íŠ¸ë“¤ì´ ë“¤ì–´ê°ˆ ë ˆì´ì•„ì›ƒ ì°¸ì¡°
     private List<GameObject> ClothingInstances = new List<GameObject>();
 
-    public GameObject ClotBuyPrefab; // ¿Ê°¡°Ô ÆÇ¸Å ÀÌ¹ÌÁö ÇÁ¸®ÆÕ ÂüÁ¶
-    public GameObject ClotBuy; // ¿Ê°¡°Ô ÆÇ¸Å ÀÌ¹ÌÁö ÂüÁ¶
-    public Transform ClotBuyLayout; // ÆÇ¸Å ¸®½ºÆ®µéÀÌ µé¾î°¥ ·¹ÀÌ¾Æ¿ô ÂüÁ¶
+    public GameObject ClotBuyPrefab; // ì˜·ê°€ê²Œ íŒë§¤ ì´ë¯¸ì§€ í”„ë¦¬íŒ¹ ì°¸ì¡°
+    public GameObject ClotBuy; // ì˜·ê°€ê²Œ íŒë§¤ ì´ë¯¸ì§€ ì°¸ì¡°
+    public Transform ClotBuyLayout; // íŒë§¤ ë¦¬ìŠ¤íŠ¸ë“¤ì´ ë“¤ì–´ê°ˆ ë ˆì´ì•„ì›ƒ ì°¸ì¡°
     private List<GameObject> ClotBuyInstances = new List<GameObject>();
 
     private ClothingDao clothingDao;
@@ -65,7 +65,7 @@ public class ClothingStoreManager : MonoBehaviour
             {
                 textComponent.text = cls.clsNm + "\r\n" +
                                      cls.clsDes + "\r\n" +
-                                     "°¡°İ : " + cls.clspri;
+                                     "ê°€ê²© : " + cls.clspri;
             }
         }
         ClotBuy.SetActive(false);
@@ -91,8 +91,8 @@ public class ClothingStoreManager : MonoBehaviour
                 if (textComponent != null)
                 {
                     textComponent.text = clo.cloNm
-                                        + "\r\n" + "¿Ê°¨ ¿ä±¸·®" + clo.slikCnt
-                                        + "\r\n" + "½Ç ¿ä±¸·®" + clo.linCnt;
+                                        + "\r\n" + "ì˜·ê° ìš”êµ¬ëŸ‰" + clo.slikCnt
+                                        + "\r\n" + "ì‹¤ ìš”êµ¬ëŸ‰" + clo.linCnt;
                 }
             }
         }
@@ -128,14 +128,14 @@ public class ClothingStoreManager : MonoBehaviour
     }
         public void BuyClothing()
     {
-        // ¿©·¯ ¹øÀÇ µ¥ÀÌÅÍº£ÀÌ½º ¾×¼¼½º¸¦ ´ÜÀÏ ¾×¼¼½º·Î º¯°æ
-        var slik = invenList.Find(p => p.ItemNm.Equals("¿Ê°¨"));
-        var line = invenList.Find(p => p.ItemNm.Equals("½Ç"));
+        // ì—¬ëŸ¬ ë²ˆì˜ ë°ì´í„°ë² ì´ìŠ¤ ì•¡ì„¸ìŠ¤ë¥¼ ë‹¨ì¼ ì•¡ì„¸ìŠ¤ë¡œ ë³€ê²½
+        var slik = invenList.Find(p => p.ItemNm.Equals("ì˜·ê°"));
+        var line = invenList.Find(p => p.ItemNm.Equals("ì‹¤"));
 
         int balSlik = slik.ItemCnt - slikCnt;
         int balLine = line.ItemCnt - lineCnt;
 
-        // Äõ¸® °á°ú¸¦ ÇÑ ¹ø¸¸ »ç¿ëÇÏµµ·Ï º¯°æ
+        // ì¿¼ë¦¬ ê²°ê³¼ë¥¼ í•œ ë²ˆë§Œ ì‚¬ìš©í•˜ë„ë¡ ë³€ê²½
         if (balSlik > 0 && balLine > 0)
         {
             inventoryDao.BuyClothing(balSlik, balLine);
@@ -153,8 +153,8 @@ public class ClothingStoreManager : MonoBehaviour
     {
         int userCash = clothingDao.GetUserInfoFromDB();
         int NowCash = userCash - Buyprice;
-        Debug.Log("DB À¯Àú Çö±İ " + userCash);
-        Debug.Log("°è»ê ÈÄ ±İ¾× " + NowCash);
+        Debug.Log("DB ìœ ì € í˜„ê¸ˆ " + userCash);
+        Debug.Log("ê³„ì‚° í›„ ê¸ˆì•¡ " + NowCash);
         if (NowCash > 0)
         {
             clothingDao.UpdateUserCash(NowCash);
