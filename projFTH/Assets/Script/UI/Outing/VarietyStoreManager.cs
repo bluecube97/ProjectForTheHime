@@ -45,14 +45,14 @@ public class VarietyStoreManager : MonoBehaviour
         List<ItemListVO> itemList = new List<ItemListVO>();
         var sql = "SELECT SEQ, ITEMNAME, ITEMPR " +
                   "FROM varietystorebuylist " +
-                  "WHERE ItemSep = ?";
+                  "WHERE ItemSep = @ItemSep";
         using (MySqlConnection connection = new MySqlConnection(con))
         {   
             connection.Open();
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 cmd.CommandText = sql;
-                cmd.Parameters.AddWithValue("ItemSep", itemSep);
+                cmd.Parameters.AddWithValue("@ItemSep", itemSep);
                 using (MySqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
