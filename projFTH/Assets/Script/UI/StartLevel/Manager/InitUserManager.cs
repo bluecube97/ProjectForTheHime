@@ -28,7 +28,8 @@ namespace Script.UI.StartLevel.Manager
             _sld.SetUserInfo(userName, userSex);
 
             // Load scene
-            SceneManager.LoadScene("MainLevelScene");
+            SceneManager.LoadScene("FirstSetDStat");
+
         }
     }
 }

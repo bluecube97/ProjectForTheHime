@@ -1,7 +1,11 @@
 
+using Newtonsoft.Json.Linq;
 using Script.UI.Outing;
+using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
 
 public class DStateManager : MonoBehaviour
 {
@@ -19,6 +23,7 @@ public class DStateManager : MonoBehaviour
     public GameObject TandF_Desc;
     public GameObject JandP_Desc;
 
+    //MBTI 관련 값 선언
     private string m = "E";
     private string b = "S";
     private string t = "T";
@@ -37,7 +42,7 @@ public class DStateManager : MonoBehaviour
 
     private void Awake()
     {
-        // 인스턴스가 없을 경우 현재 GameObject에 RestaurantManager를 추가합니다.
+        // 인스턴스가 없을 경우 현재 GameObject에 DStateManager 추가합니다.
         if (instance == null)
         {
             instance = this;
@@ -47,6 +52,7 @@ public class DStateManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    //MBTI의 값 설정
     public void GetEandIvalue()
     {
         int iande = 0;
@@ -141,23 +147,39 @@ public class DStateManager : MonoBehaviour
         }
 
     }
+    // 버튼 클릭 시 딸 초기 스탯(이름,MBTI) 로그  확인 
     public void LogMBTI()
     {
         var DaughterName = inputDaughterNameField.text;
         mbti = m + b + t + i;
 
-        Debug.Log(DaughterName);
-        Debug.Log(mbti);
-        Debug.Log("E :"+ E);
-        Debug.Log("I :" + I);
-        Debug.Log("S :" + S);
-        Debug.Log("N :" + N);
-        Debug.Log("T :" + T);
-        Debug.Log("F :" + F);
-        Debug.Log("J :" + J);
-        Debug.Log("E :" + P);
+        var json = new JObject(); 
+        json.Add("name" , DaughterName);
+        json.Add("age", 10);
+        json.Add("sex", "female");
+        json.Add("mbti", mbti);
+        json.Add("hp", 100);
+        json.Add("mp", 100);
+        json.Add("mood", "happiness");
+        json.Add("stress", "high");
+        json.Add("fatigue", "tired");
+        json.Add("E" , E);
+        json.Add("I" , I);
+        json.Add("S" , S);
+        json.Add("N" , N);
+        json.Add("T" , T);
+        json.Add("F" , F);
+        json.Add("J" , J);
+        json.Add("P" , P);
+
+        var finaljson = new JObject();
+        finaljson.Add("daughter", json);
+        Debug.Log(finaljson.ToString());
+        SceneManager.LoadScene("MainLevelScene");
 
     }
+
+    //조건에 따른 UI 관리를 위한 메서드 선언 
     public void OnClickEandI_Desc()
     {
         ActivateMenu(EandI_Desc);
