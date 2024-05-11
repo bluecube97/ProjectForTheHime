@@ -6,9 +6,10 @@ namespace Script.UI.MainLevel.StartTurn.Dao
 {
     public class StartTurnDao : MonoBehaviour
     {
+        // db 연결 정보
         private readonly string con = "Server=localhost;Database=projfth;Uid=root;Pwd=1234;Charset=utf8mb4";
 
-        // 현재 날짜의 연, 월을 입력받아 해당하는 TodoNO를 반환
+        // 현재 날짜의 연, 월을 입력받아 해당하는 TodoNO를 반환하여 리스트에 저장
         public List<int> GetTodoNo(int year, int month)
         {
             using (var connection = new MySqlConnection(con))
@@ -34,6 +35,7 @@ namespace Script.UI.MainLevel.StartTurn.Dao
             }
         }
 
+        // TodoNO를 이용하여 TodoList를 가져와 리스트에 저장
         public List<Dictionary<string, object>> GetTodoList(List<int> noList)
         {
             using (var connection = new MySqlConnection(con))

@@ -10,9 +10,9 @@ namespace Script.UI.MainLevel.StartTurn.Manager
 {
     public class LifeTimeManager : MonoBehaviour
     {
-        private static int _nowYear = 2024;
-        private static int _nowMonth = 4;
-        private static int _nowDate = 1;
+        private static int _nowYear = 2024; // 년도 초기화 (나중에 바뀜)
+        private static int _nowMonth = 4; // 월 초기화 (나중에 바뀜)
+        private static int _nowDate = 1; // 일 초기화
         private static int _nowTime; // 0: 아침, 1: 점심, 2: 저녁
 
         public GameObject yearTxt; // 년도 텍스트 참조
@@ -29,9 +29,9 @@ namespace Script.UI.MainLevel.StartTurn.Manager
         public GameObject startTurn; // 시작 턴 이미지 참조
         public GameObject lifeTimeMain; // 라이프 타임 이미지 참조
         public GameObject convBtn; // 대화 버튼 참조
-        private readonly List<Dictionary<string, object>> _planList = new();
+        private readonly List<Dictionary<string, object>> _planList = new(); // 달력에 적힌 일정을 담는 딕셔너리 리스트
 
-        private bool _isSelectable = true;
+        private bool _isSelectable = true; // TODO 버튼 클릭 가능 여부
         private string _isSelectDate = "Day1"; // 선택된 날짜
 
         private GameObject _myGameObject;
@@ -41,17 +41,24 @@ namespace Script.UI.MainLevel.StartTurn.Manager
 
         public void Awake()
         {
+            // StartTurnDao를 가져오기 위한 GameObject 생성
             _myGameObject = new GameObject();
             _std = _myGameObject.AddComponent<StartTurnDao>();
         }
 
         public void Start()
         {
+            // 현재 날짜의 연, 월을 입력받아 해당하는 TodoNO를 반환하여 리스트에 저장
             List<int> noList = _std.GetTodoNo(_nowYear, _nowMonth);
+            // TodoNO를 이용하여 TodoList를 가져와 리스트에 저장
             _todoList = _std.GetTodoList(noList);
+            // TODOList에 인덱스 지정 할 변수
             int index = 1;
+
+            // 현재 날짜 표기
             Text nowDateComponent = nowDate.GetComponentInChildren<Text>();
             nowDateComponent.text = _nowYear + "년 " + _nowMonth + "월";
+
 
             foreach (Dictionary<string, object> dic in _todoList)
             {
@@ -66,10 +73,11 @@ namespace Script.UI.MainLevel.StartTurn.Manager
                     int loseReward = Convert.ToInt32(dic["LOSEREWARD"]);
                     int statRewardI = Convert.ToInt32(dic["STATREWARD"]);
                     int todoNo = Convert.ToInt32(dic["TODONO"]);
-                    // 버튼이 어떤 날짜에 걸쳐 있는지 저장
 
+                    // 값 초기화
                     string statReward = "";
                     _todoListInstance.name = "TodoBtn" + todoNo;
+                    // TODOList의 각 요소에 컴포넌트 추가
                     StartTurnVo todoNameComponent = _todoListInstance.GetComponent<StartTurnVo>();
 
                     statReward = (statRewardI % 2) switch
@@ -79,7 +87,7 @@ namespace Script.UI.MainLevel.StartTurn.Manager
                         1 => "마력 " + (statRewardI / 10),
                         _ => statReward
                     };
-
+                    // 컴포넌트에 값 저장
                     todoNameComponent.todoName = todoName;
                     todoNameComponent.reward = reward;
                     todoNameComponent.loseReward = loseReward;
@@ -95,36 +103,40 @@ namespace Script.UI.MainLevel.StartTurn.Manager
                 index++;
             }
 
+            // 부모 오브젝트 비활성화
             todoList.SetActive(false);
+            // 첫 날 선택
             GameObject.Find(_isSelectDate).GetComponent<Outline>().enabled = true;
         }
 
+        // 달력의 날짜 버튼 OnClick 이벤트
         public void OnClickDateBtn(GameObject button)
         {
-            _isSelectable = true;
+            _isSelectable = true; // TODO 버튼 클릭 가능
+            // 원래 선택되어 있던 버튼 테두리 비활성화
             GameObject.Find(_isSelectDate).GetComponent<Outline>().enabled = false;
+            // 선택된 버튼 테두리 활성화
             _isSelectDate = button.name;
             GameObject.Find(_isSelectDate).GetComponent<Outline>().enabled = true;
         }
 
+        // TODO 버튼 OnClick 이벤트
         public void OnClickTodoBtn(GameObject button)
         {
-            if (!_isSelectable)
-            {
-                return;
-            }
+            // TODO 버튼 클릭 가능 여부 판단 및 불가능 시 리턴
+            if (!_isSelectable) return;
 
-            GameObject dateBtn = GameObject.Find(_isSelectDate);
-            StartTurnVo dateComponent = dateBtn.GetComponent<StartTurnVo>();
-            Text textComponent = dateBtn.GetComponentInChildren<Text>();
-            StartTurnVo todoNameComponent = button.GetComponent<StartTurnVo>();
-            textComponent.text = todoNameComponent.todoName;
-
+            GameObject dateBtn = GameObject.Find(_isSelectDate); // 선택된 날짜 버튼 참조
+            StartTurnVo dateComponent = dateBtn.GetComponent<StartTurnVo>(); // 선택된 날짜 버튼의 컴포넌트 참조
+            Text textComponent = dateBtn.GetComponentInChildren<Text>(); // 선택된 날짜 버튼의 텍스트 컴포넌트 참조
+            StartTurnVo todoNameComponent = button.GetComponent<StartTurnVo>(); // 선택된 TODO 버튼의 컴포넌트 참조
+            textComponent.text = todoNameComponent.todoName; // 선택된 날짜 버튼의 텍스트 변경
+            // 선택된 날짜 버튼의 컴포넌트 값 변경
             dateComponent.todoName = todoNameComponent.todoName;
             dateComponent.reward = todoNameComponent.reward;
             dateComponent.loseReward = todoNameComponent.loseReward;
             dateComponent.statReward = todoNameComponent.statReward;
-
+            // 선택된 날짜 버튼의 색상 변경
             Color color = FindColor(todoNameComponent.index);
             ChangeImageColor(_isSelectDate, color);
 
@@ -142,7 +154,7 @@ namespace Script.UI.MainLevel.StartTurn.Manager
             }
         }
 
-
+        // TODO 리스트의 인덱스를 입력받아 색상 지정
         private static Color FindColor(int index)
         {
             int r, g, b;
@@ -219,7 +231,7 @@ namespace Script.UI.MainLevel.StartTurn.Manager
 
             return color;
         }
-
+        // 오브젝트의 이름과 색상을 매개변수로 받아 이미지 색상 변경
         private static void ChangeImageColor(string objectName, Color color)
         {
             GameObject obj = GameObject.Find(objectName);
@@ -227,14 +239,15 @@ namespace Script.UI.MainLevel.StartTurn.Manager
             image.color = color;
         }
 
+        // 결정 버튼 OnClick 이벤트
         public void OnClickComplete()
         {
-            for (int i = 1; i <= 20; i++)
+            for (int i = 1; i <= 20; i++) // 20일간 반복
             {
-                string findDate = "Day" + i;
-                GameObject findDateBtn = GameObject.Find(findDate);
-                StartTurnVo dateComponent = findDateBtn.GetComponent<StartTurnVo>();
-
+                string findDate = "Day" + i; // "Day1" ~ "Day20"
+                GameObject findDateBtn = GameObject.Find(findDate); // "Day1" ~ "Day20" 오브젝트 참조
+                StartTurnVo dateComponent = findDateBtn.GetComponent<StartTurnVo>(); // "Day1" ~ "Day20" 오브젝트의 컴포넌트 참조
+                // 딕셔너리에 값 저장
                 Dictionary<string, object> dic = new()
                 {
                     { "DAY", i },
@@ -243,23 +256,26 @@ namespace Script.UI.MainLevel.StartTurn.Manager
                     { "LOSEREWARD", dateComponent.loseReward },
                     { "STATREWARD", dateComponent.statReward }
                 };
-
+                // 리스트에 딕셔너리 추가
                 _planList.Add(dic);
             }
-
+            // 시작 턴 이미지 활성화
             startTurn.SetActive(true);
-            StartTurn();
+            StartTurn(); // 턴 시작
         }
 
+        // 턴 시작
         private void StartTurn()
         {
+            // 각 텍스트 컴포넌트 참조
             Text yearTxtComponent = yearTxt.GetComponentInChildren<Text>();
             Text monthTxtComponent = monthTxt.GetComponentInChildren<Text>();
             Text dateTxtComponent = dateTxt.GetComponentInChildren<Text>();
             Text timeTxtComponent = timeTxt.GetComponentInChildren<Text>();
             Text todoNameTxtComponent = todoNameTxt.GetComponentInChildren<Text>();
+            // 라이프 타임의 텍스트 컴포넌트 참조
             Text lifeTimeMainComponent = lifeTimeMain.GetComponentInChildren<Text>();
-
+            // 각 텍스트 컴포넌트에 값 입력
             yearTxtComponent.text = _nowYear + "년";
             monthTxtComponent.text = _nowMonth + "월";
             dateTxtComponent.text = _nowDate + "일";
@@ -271,6 +287,7 @@ namespace Script.UI.MainLevel.StartTurn.Manager
                 _ => timeTxtComponent.text
             };
 
+            // 아침, 저녁이면 대화 버튼 활성화, 점심에는 비활성화
             switch (_nowTime)
             {
                 case 0:
@@ -283,7 +300,7 @@ namespace Script.UI.MainLevel.StartTurn.Manager
                     convBtn.SetActive(true);
                     break;
             }
-
+            // 현재 날짜의 TODO 이름이 비어있으면 쉬는날
             if (_planList[_nowDate - 1]["TODONAME"].Equals(""))
             {
                 todoNameTxtComponent.text = "쉬는날";
@@ -296,55 +313,50 @@ namespace Script.UI.MainLevel.StartTurn.Manager
                                              "\n소모 재화: " + _planList[_nowDate - 1]["LOSEREWARD"] +
                                              "\n얻는 스탯: " + _planList[_nowDate - 1]["STATREWARD"];
             }
-
-            if (_nowTime is 0 or 2)
-            {
-                // 대화
-            }
-            else
-            {
-                // 일과
-            }
         }
-
+        // 턴 종료
         private void EndTurn()
         {
             startTurn.SetActive(false);
-            if (_nowMonth < 12)
+            if (_nowMonth < 12) // 11월까지 월 증가, 일 초기화
             {
                 _nowMonth++;
                 _nowDate = 1;
             }
-            else
+            else // 12월이면 연도 증가, 월, 일 초기화
             {
                 _nowMonth = 1;
                 _nowYear++;
                 _nowDate = 1;
             }
-
+            // 현재 날짜 표기
             Text nowDateComponent = nowDate.GetComponentInChildren<Text>();
             nowDateComponent.text = _nowYear + "년 " + _nowMonth + "월";
         }
 
+        // 다음 날짜로 넘어가기
         public void OnClickNextPhase()
         {
-            _nowTime++;
-            if (_nowTime > 2)
+            _nowTime++; // 시간 증가
+            if (_nowTime > 2) // 저녁이면, 아침으로
             {
                 _nowTime = 0;
                 _nowDate++;
             }
 
-            if (_nowDate <= 20)
+            if (_nowDate <= 20) // 20일까지 반복
             {
+                // 턴 시작
                 StartTurn();
             }
             else
             {
+                // 20일이 끝나면 턴 종료
                 EndTurn();
             }
         }
 
+        // 일정 삭제
         public void OnClickDelete()
         {
             if (!_isSelectable)
@@ -359,6 +371,7 @@ namespace Script.UI.MainLevel.StartTurn.Manager
             textComponent.text = "";
         }
 
+        // 이전 씬으로 돌아가기
         public void OnClickReturn()
         {
             SceneManager.LoadScene("StartTurnScene");
