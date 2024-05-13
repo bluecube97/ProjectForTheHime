@@ -8,7 +8,6 @@ namespace Script.UI.StartLevel.Dao
     {
         private readonly string con = "Server=localhost;Database=projfth;Uid=root;Pwd=1111;Charset=utf8mb4";
 
-
         public void SetUserInfo(string name, string gender)
         {
             var sql = " INSERT INTO tbl_test (USERNAME, USERSEX) " +
