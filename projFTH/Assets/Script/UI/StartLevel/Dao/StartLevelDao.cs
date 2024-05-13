@@ -5,7 +5,7 @@ namespace Script.UI.StartLevel.Dao
 {
     public class StartLevelDao : MonoBehaviour
     {
-        private readonly string con = "Server=localhost;Database=projfth;Uid=root;Pwd=1234;Charset=utf8mb4";
+        private readonly string con = "Server=192.168.0.78;Database=projfth;Uid=studyuser;Pwd=1111;Charset=utf8mb4";
 
         public void SetUserInfo(string name, string gender)
         {
