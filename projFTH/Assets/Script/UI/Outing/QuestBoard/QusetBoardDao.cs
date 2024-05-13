@@ -2,46 +2,48 @@ using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class QusetBoardDao : MonoBehaviour
+namespace Script.UI.Outing.QuestBoard
 {
-    private string con = "Server=localhost;Database=projfth;Uid=root;Pwd=1234;Charset=utf8mb4";
-
-
-    public List<QuestBoardVO> GetQuestBoardList()
+    public class QusetBoardDao : MonoBehaviour
     {
-        List<QuestBoardVO> QuestList = new List<QuestBoardVO>();
+        private string con = "Server=localhost;Database=projfth;Uid=root;Pwd=1234;Charset=utf8mb4";
 
-        string sql = "SELECT gq.QUESTNO, gq.QUESTNM, gq.QUESTMEMO, gq.SUBMITFALG, gq.COMPLETEFLAG " +
-                     "  FROM game_questboard gq ";
 
-        using (MySqlConnection connection = new MySqlConnection(con))
+        public List<QuestBoardVO> GetQuestBoardList()
         {
-            connection.Open();
-            using (MySqlCommand cmd = connection.CreateCommand())
-            {
-                cmd.CommandText = sql;
-                using (MySqlDataReader reader = cmd.ExecuteReader())
-                {
-                    cmd.Parameters.Clear();
+            List<QuestBoardVO> QuestList = new List<QuestBoardVO>();
 
-                    while (reader.Read())
+            string sql = "SELECT gq.QUESTNO, gq.QUESTNM, gq.QUESTMEMO, gq.SUBMITFALG, gq.COMPLETEFLAG " +
+                         "  FROM game_questboard gq ";
+
+            using (MySqlConnection connection = new MySqlConnection(con))
+            {
+                connection.Open();
+                using (MySqlCommand cmd = connection.CreateCommand())
+                {
+                    cmd.CommandText = sql;
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
-                        QuestBoardVO quest = new QuestBoardVO();
-                        quest.QuestNo = reader.GetInt32(reader.GetOrdinal("QUESTNO"));
-                        quest.QuestNm = reader.GetString(reader.GetOrdinal("QUESTNM"));
-                        quest.QuestMemo = reader.GetString(reader.GetOrdinal("QUESTMEMO"));
-                        quest.SubmitFlag = reader.GetString(reader.GetOrdinal("SUBMITFALG"));
-                        quest.CompleteFlag = reader.GetString(reader.GetOrdinal("COMPLETEFLAG")); 
-                        QuestList.Add(quest);
+                        cmd.Parameters.Clear();
+
+                        while (reader.Read())
+                        {
+                            QuestBoardVO quest = new QuestBoardVO();
+                            quest.QuestNo = reader.GetInt32(reader.GetOrdinal("QUESTNO"));
+                            quest.QuestNm = reader.GetString(reader.GetOrdinal("QUESTNM"));
+                            quest.QuestMemo = reader.GetString(reader.GetOrdinal("QUESTMEMO"));
+                            quest.SubmitFlag = reader.GetString(reader.GetOrdinal("SUBMITFALG"));
+                            quest.CompleteFlag = reader.GetString(reader.GetOrdinal("COMPLETEFLAG")); 
+                            QuestList.Add(quest);
+                        }
                     }
                 }
             }
+
+            return QuestList;
         }
 
-        return QuestList;
-    }
-
-    /*
+        /*
     public List<Dictionary<string, object>> GetCompleteQuestBoardList()
     {
         List<Dictionary<string, object>> QuestList = new List<Dictionary<string, object>>();
@@ -76,43 +78,43 @@ public class QusetBoardDao : MonoBehaviour
 
     }
     */
-    public void SubmitQuset(int questNo)
-    {
-        string sql = "UPDATE game_questboard " +
-                       " SET SUBMITFALG ='Y'" +
-                     " WHERE QUESTNO = @QuestNo ";
-        using (MySqlConnection connection = new MySqlConnection(con))
+        public void SubmitQuset(int questNo)
         {
-            connection.Open();
-            using (MySqlCommand cmd = connection.CreateCommand())
+            string sql = "UPDATE game_questboard " +
+                         " SET SUBMITFALG ='Y'" +
+                         " WHERE QUESTNO = @QuestNo ";
+            using (MySqlConnection connection = new MySqlConnection(con))
             {
-                cmd.Parameters.Clear();
-                cmd.CommandText = sql;
-                cmd.Parameters.AddWithValue("@QuestNo", questNo);
-                cmd.ExecuteNonQuery();
+                connection.Open();
+                using (MySqlCommand cmd = connection.CreateCommand())
+                {
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = sql;
+                    cmd.Parameters.AddWithValue("@QuestNo", questNo);
+                    cmd.ExecuteNonQuery();
+                }
             }
-        }
 
-    }
-    public void RefuseSubmitQuset(int questNo)
-    {
-        string sql = "UPDATE game_questboard " +
-                               " SET SUBMITFALG ='N'" +
-                             " WHERE QUESTNO = @QuestNo ";
-        using (MySqlConnection connection = new MySqlConnection(con))
+        }
+        public void RefuseSubmitQuset(int questNo)
         {
-            connection.Open();
-            using (MySqlCommand cmd = connection.CreateCommand())
+            string sql = "UPDATE game_questboard " +
+                         " SET SUBMITFALG ='N'" +
+                         " WHERE QUESTNO = @QuestNo ";
+            using (MySqlConnection connection = new MySqlConnection(con))
             {
-                cmd.Parameters.Clear();
-                cmd.CommandText = sql;
-                cmd.Parameters.AddWithValue("@QuestNo", questNo);
-                cmd.ExecuteNonQuery();
+                connection.Open();
+                using (MySqlCommand cmd = connection.CreateCommand())
+                {
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = sql;
+                    cmd.Parameters.AddWithValue("@QuestNo", questNo);
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
-    }
     
-    /*
+        /*
     public void DeleteQuset(int questNo)
     {
         string sql = "UPDATE game_questboard " +
@@ -132,4 +134,5 @@ public class QusetBoardDao : MonoBehaviour
 
     }
     */
+    }
 }

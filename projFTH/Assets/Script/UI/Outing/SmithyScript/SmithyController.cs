@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Script.UI.Outing
+namespace Script.UI.Outing.SmithyScript
 {
         public class SmithyController : MonoBehaviour
 

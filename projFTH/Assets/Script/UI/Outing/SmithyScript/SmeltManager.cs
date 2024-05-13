@@ -1,11 +1,10 @@
-namespace Script.UI.Outing
-{
-    using global::System.Collections.Generic;
-    using UnityEngine;
-    using UnityEngine.EventSystems;
-    using UnityEngine.SceneManagement;
-    using UnityEngine.UI;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
+namespace Script.UI.Outing.SmithyScript
+{
     public class SmeltManager : MonoBehaviour
     {
         public GameObject smeltListPrefab;
