@@ -3,12 +3,13 @@ import json
 import os
 from statusVO import Daughter as d, load_daughter_status as lds
 import sys
+import mysql as sql
 
-# 전체 대화 내용 저장용 리스트
+# 전체 대화 내용 저장용 리스트 테스트
 conversation_ = []
 
 # OpenAI API 키 설정
-api_key = 'sk-proj-wgBv7WJ3g4GD4gpjZQdxT3BlbkFJ0R2Kyg0bNNp2bnF7SVcF'
+api_key = ""
 openai.api_key = api_key
 
 #딸과의 대화 json 파일에 저장
@@ -16,17 +17,14 @@ def read_comm_file(question, response):
     commu = {"user_ment": question, "gpt_ment": response}
     conversation_path = os.path.join("conversationData", "conversation.json")
 
-    # conversation.json 파일을 저장할 폴더가 없을 경우 폴더를 생성합니다.
     if not os.path.exists(os.path.dirname(conversation_path)):
         os.makedirs(os.path.dirname(conversation_path))
 
-    # 파일이 존재하지 않는 경우 새로운 파일을 생성하여 데이터를 저장
     if not os.path.exists(conversation_path):
         conversation_.append(commu)
         with open(conversation_path, 'w', encoding='utf-8') as f:
             json.dump(conversation_, f, indent=4, ensure_ascii=False)
     else:
-        # 파일이 존재하는 경우 기존 파일을 열어서 데이터를 읽고 덮어쓰기
         conversation_.append(commu)
         with open(conversation_path, 'r', encoding='utf-8') as f:  
             current_conversation = json.load(f)  
@@ -34,17 +32,7 @@ def read_comm_file(question, response):
         with open(conversation_path, 'w', encoding='utf-8') as f: 
             json.dump(current_conversation, f, indent=4, ensure_ascii=False)
 
-def load_json_data(path):
-    """ 파일 경로에서 JSON 데이터를 로드하고 문자열로 반환합니다. """
-    try:
-        with open(path, 'r', encoding='utf-8') as file:
-            data = json.load(file)
-        return json.dumps(data, ensure_ascii=False)
-    except Exception as e:
-        print(f"파일을 로드하거나 JSON 변환 중 오류가 발생했습니다: {e}")
-        return None
-
-
+# gpt응답에서 순수 대답 분리.
 def get_origin_ment(daughter_reply) :
     if "GPT (Daughter): " in daughter_reply:
         start_gpt = daughter_reply.find("GPT (Daughter): ") + len("GPT (Daughter): ")
@@ -52,18 +40,17 @@ def get_origin_ment(daughter_reply) :
         gpt_str = daughter_reply[start_gpt:end_gpt].strip()
     return gpt_str
 
+# gpt응답에서 변경 스테이터스 분리.
 def extract_and_save_updated_status(daughter_reply, d):
 
-    # daughter_reply 문자열에서 "**change"가 있는지 확인.
+    # daughter_reply 문자열에서 "**change"가 있는지 확인 하고 문자열 공백 제거 및 값 json파일 및 VO객체에 저장.
     if "**" in daughter_reply:
-        # "**change" 다음의 문자열을 찾아서 인덱스 설정
         start_index = daughter_reply.find("**") + len("**")
-        # "**" 문자열을 찾아서 인덱스 설정
         end_index = daughter_reply.find("**", start_index)
-        # 문자열을 추출하여 공백 제거
         stat_str = daughter_reply[start_index:end_index].strip()
 
         stat_str_ = json.loads(stat_str)
+
         d.name = stat_str_["daughter"]["name"]
         d.sex = stat_str_["daughter"]["sex"]
         d.age = stat_str_["daughter"]["age"]
@@ -81,7 +68,6 @@ def extract_and_save_updated_status(daughter_reply, d):
         d.J = stat_str_["daughter"]["J"]
         d.P = stat_str_["daughter"]["P"]
         
-        record_Status = []
         present_status = {
             "daughter": {
                 "name": d.name,
@@ -105,19 +91,26 @@ def extract_and_save_updated_status(daughter_reply, d):
         
         base_dir = os.path.dirname(os.path.abspath(__file__))
         update_path = os.path.join(base_dir, "conversationData", "statusRecord.json")
-        record_Status.append(present_status)
 
-        if not os.path.exists(update_path):    
-            with open(update_path, 'w', encoding='utf-8') as f :
-                json.dump(record_Status, f, indent=4, ensure_ascii=False)
+        with open(update_path, 'w', encoding='utf-8') as f:
+            json.dump(present_status, f, indent=4, ensure_ascii=False)
+
+# 부모 정보 받아오기.
+def get_parent_status():
+    try :
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        parent_status_path = os.path.join(base_dir, "conversationData", "parentStat.json")
+
+        if parent_status_path is os.path.exists :
+            with open(parent_status_path, 'r', encoding='utf-8') as f :
+                parent_status = json.load(f)
+                return parent_status
         else :
-            with open(update_path, 'r', encoding='utf-8') as f :
-                cur_data = json.load(f)
-            cur_data.extend(record_Status)
+            print("No Parent_Status.json file check the path or GameScene")
+    except EOFError as e:
+        print(json.dumps({"error": str(e)}))
 
-            with open(update_path, 'w', encoding='utf-8') as f :
-                json.dump(cur_data, f, indent=4, ensure_ascii=False)
-
+# unity에서 입력 프롬프트 받아오기.
 def get_ment_from_unity():
     try:
         user_ment = sys.stdin.readline().strip() #input말고 파이썬 모듈 sys의 내부 함수를 사용해 표준입력으로 한줄만 읽음.
@@ -130,6 +123,7 @@ def get_ment_from_unity():
     except EOFError as e:
         print(json.dumps({"error": str(e)}))
 
+# gpt와 실질적인 연결.
 def ConnectionGpt(d_stat, set_d):
     father_status = {
         "father": {
@@ -165,8 +159,9 @@ def ConnectionGpt(d_stat, set_d):
         }
     }
 
+    #gpt 설정 추가.
     set_text = (
-                "1. You are role-playing a conversation with your father."
+                "1. You are role-playing a conversation with your parent."
                 "2. Be sure to answer according to the rules below."
                 "3. You must always have to answer in Korean and you have to answer everything I say."
                 "4. The daughter's answer is unconditionally 'GPT (Daughter): ' Please tell me through the form."
@@ -228,20 +223,22 @@ def ConnectionGpt(d_stat, set_d):
             response = openai.ChatCompletion.create(
                 model='gpt-3.5-turbo',
                 messages=messages,
-                max_tokens=300,
-                temperature=0.5
+                max_tokens=300, #gpt response의 최대값 갯수.
+                temperature=0.6
             )
             daughter_reply = response['choices'][0]['message']['content']
             messages.append({"role": "assistant", "content": f"{daughter_reply}"})
-            #----  실질적인 output 유니티로 전달
 
+            #----  실질적인 output 유니티로 전달 ----
             ment_ = get_origin_ment(daughter_reply)
             if ment_ is not None:
                 extract_and_save_updated_status(daughter_reply, set_d)
                 json_response = json.dumps({"gpt_ment" : ment_}, ensure_ascii=False)
                 print(json_response)
             else:
-                print("No valid response to process.")
+                # 대화 삑사리 나면 대화 끝내기.
+                print("No valid response to process.") # 오류
+            #---------------------------------------
         
         except Exception as e:
             print("error : ", e)

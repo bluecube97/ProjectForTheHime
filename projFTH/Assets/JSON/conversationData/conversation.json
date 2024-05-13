@@ -822,5 +822,21 @@
     {
         "user_ment": "& C:/DevTool/Python/Python312/python.exe c:/DevTool/workspace/UnityPJ/ProjectForTheHime/projFTH/Assets/JSON/statusManager.py",
         "gpt_ment": "아빠, 그게 무슨 얘긴가요? 어떤 이야기를 하고 싶으세요?"
+    },
+    {
+        "user_ment": "해위",
+        "gpt_ment": "아빠, 무슨 일 있으세요?"
+    },
+    {
+        "user_ment": "바위",
+        "gpt_ment": "아빠, 왜 바위를 말씀하시는 건가요?"
+    },
+    {
+        "user_ment": "바위 가위 보",
+        "gpt_ment": "가위!"
+    },
+    {
+        "user_ment": "니가 졌다 아",
+        "gpt_ment": "아빠, 왜 그런 말씀을 하시는 건가요?"
     }
 ]
