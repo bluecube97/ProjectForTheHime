@@ -1,81 +1,78 @@
-﻿using Script.UI.Outing;
-using System;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using UnityEngine.WSA;
 
-
-
-public class RestaurantManager : MonoBehaviour
+namespace Script.UI.Outing.RestaurantScript
 {
-    public GameObject foodListPrefab;
-    public GameObject foodList;
-    public Transform foodListLayout;
-
-    private PointerEventData eventData;
-
-    private RestaurantDao restaurantDao;
-    private RestaurantUIController RestaurantUIController;
-    private FoodListVO foodlistVO;
-    private List<FoodListVO> FoodList;
-    private int FoodPr = 0;
-
-    private void Start()
+    public class RestaurantManager : MonoBehaviour
     {
-        restaurantDao = GetComponent<RestaurantDao>(); // RestaurantDao 컴포넌트를 가져와서 초기화합니다.
-        RestaurantUIController = FindObjectOfType<RestaurantUIController>(); // RestaurantManager를 찾아서 초기화합니다.
-        FoodList = restaurantDao.GetFoodListFromDB();
+        public GameObject foodListPrefab;
+        public GameObject foodList;
+        public Transform foodListLayout;
 
+        private PointerEventData eventData;
 
-    }
-    public void OnclickFoodList()
-    {
-        foreach (var dic in FoodList)
+        private RestaurantDao restaurantDao;
+        private RestaurantUIController RestaurantUIController;
+        private FoodListVO foodlistVO;
+        private List<FoodListVO> FoodList;
+        private int FoodPr = 0;
+
+        private void Start()
         {
-            GameObject foodListInstance = Instantiate(foodListPrefab, foodListLayout);
-            foodListInstance.name = "foodlist" + dic.FoodNo;
-            Text textComponent = foodListInstance.GetComponentInChildren<Text>();
+            restaurantDao = GetComponent<RestaurantDao>(); // RestaurantDao 컴포넌트를 가져와서 초기화합니다.
+            RestaurantUIController = FindObjectOfType<RestaurantUIController>(); // RestaurantManager를 찾아서 초기화합니다.
+            FoodList = restaurantDao.GetFoodListFromDB();
 
-            if (textComponent != null)
+
+        }
+        public void OnclickFoodList()
+        {
+            foreach (var dic in FoodList)
             {
-                textComponent.text = dic.FoodNm + "\r\n" +
-                               " " + dic.FoodPr;
+                GameObject foodListInstance = Instantiate(foodListPrefab, foodListLayout);
+                foodListInstance.name = "foodlist" + dic.FoodNo;
+                Text textComponent = foodListInstance.GetComponentInChildren<Text>();
+
+                if (textComponent != null)
+                {
+                    textComponent.text = dic.FoodNm + "\r\n" +
+                                         " " + dic.FoodPr;
+                }
             }
+            foodList.SetActive(false);
         }
-        foodList.SetActive(false);
-    }
-    public void GetclickListValue()
-    {
-        GameObject clickList = EventSystem.current.currentSelectedGameObject;
-        string objectName = clickList.name;
-        string indexString = objectName.Replace("foodlist", "");
-        int index = int.Parse(indexString);
-        FoodListVO fv = FoodList[index-1];
-         FoodPr = fv.FoodPr;
-        Debug.Log("계산 금액 " + FoodPr);
-
-    }
-    public void ProcessPayment()
-    {
-        int userCash = restaurantDao.GetUserInfoFromDB();
-        int NowCash = userCash - FoodPr;
-        Debug.Log("계산 금액 " + FoodPr);
-
-        Debug.Log("DB 유저 현금 " + userCash);
-        Debug.Log("계산 후 금액 " + NowCash);
-        if (NowCash > 0)
+        public void GetclickListValue()
         {
-            restaurantDao.UpdateUserCash(NowCash);
-            RestaurantUIController.OnClickBuyComple();
+            GameObject clickList = EventSystem.current.currentSelectedGameObject;
+            string objectName = clickList.name;
+            string indexString = objectName.Replace("foodlist", "");
+            int index = int.Parse(indexString);
+            FoodListVO fv = FoodList[index-1];
+            FoodPr = fv.FoodPr;
+            Debug.Log("계산 금액 " + FoodPr);
+
         }
-        else
+        public void ProcessPayment()
         {
-            Debug.Log("Not enough cash!");
-            RestaurantUIController.OnClickBuyFail();
+            int userCash = restaurantDao.GetUserInfoFromDB();
+            int NowCash = userCash - FoodPr;
+            Debug.Log("계산 금액 " + FoodPr);
 
+            Debug.Log("DB 유저 현금 " + userCash);
+            Debug.Log("계산 후 금액 " + NowCash);
+            if (NowCash > 0)
+            {
+                restaurantDao.UpdateUserCash(NowCash);
+                RestaurantUIController.OnClickBuyComple();
+            }
+            else
+            {
+                Debug.Log("Not enough cash!");
+                RestaurantUIController.OnClickBuyFail();
+
+            }
         }
     }
 }

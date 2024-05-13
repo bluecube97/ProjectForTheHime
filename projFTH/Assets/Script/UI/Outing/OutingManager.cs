@@ -5,10 +5,6 @@ namespace Script.UI.Outing
 
     public class OutingManager : MonoBehaviour
     {
-        public void OnClickEdu()
-        {
-            SceneManager.LoadScene("EducateScene");
-        }
 
         public void OnClickRestaurant()
         {

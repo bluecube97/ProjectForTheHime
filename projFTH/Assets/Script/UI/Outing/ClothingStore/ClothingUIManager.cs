@@ -1,4 +1,4 @@
-namespace Script.UI.Outing
+namespace Script.UI.Outing.ClothingStore
 {
     using UnityEngine;
     using UnityEngine.SceneManagement;

@@ -1,4 +1,4 @@
-namespace Script.UI.Outing
+namespace Script.UI.Outing.QuestBoard
 {
     using global::System.Collections.Generic;
     using UnityEngine;
