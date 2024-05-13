@@ -99,11 +99,12 @@ def extract_and_save_updated_status(daughter_reply, d):
 def get_parent_status():
     try :
         base_dir = os.path.dirname(os.path.abspath(__file__))
-        parent_status_path = os.path.join(base_dir, "conversationData", "parentStat.json")
+        parent_status_path = os.path.join(base_dir, "conversationData", "parent_status.json")
 
-        if parent_status_path is os.path.exists :
+        if os.path.exists(parent_status_path) :
             with open(parent_status_path, 'r', encoding='utf-8') as f :
                 parent_status = json.load(f)
+                # print(parent_status) 디버그용
                 return parent_status
         else :
             print("No Parent_Status.json file check the path or GameScene")
@@ -125,15 +126,15 @@ def get_ment_from_unity():
 
 # gpt와 실질적인 연결.
 def ConnectionGpt(d_stat, set_d):
-    father_status = {
-        "father": {
-            "name": "Lain",
-            "age": 45,
-            "mbti": "ENTJ",
-            "blood": "RH B+",
-            "mood": "HAPPY",
-            "money": "MIDDLE",
-            "job": "Teacher"
+
+    userInfo = get_parent_status()
+    username = userInfo['username']
+    usersex = userInfo['usersex']
+
+    parent_status = {
+        "parent": {
+            "name": username,
+            "sex": usersex
         }
     }
 
@@ -162,10 +163,12 @@ def ConnectionGpt(d_stat, set_d):
     #gpt 설정 추가.
     set_text = (
                 "1. You are role-playing a conversation with your parent."
+                    "	1)If User's sex is male Gpt you call user by dad"
+                    "	2)Else if User's sex is female Gpt you call user by mom"
                 "2. Be sure to answer according to the rules below."
                 "3. You must always have to answer in Korean and you have to answer everything I say."
                 "4. The daughter's answer is unconditionally 'GPT (Daughter): ' Please tell me through the form."
-                "5. The father will act as the user, and GPT will act as the daughter."
+                "5. The parent will act as the user, and GPT will act as the daughter."
                 "	1)Conversation with the user occurs only once."
                 "	2)E is extroversion, I is introversion, S is sensing, N is intuition"
                 "	3) T is thought, F is emotion, J is judgment, and P is perception."
@@ -173,7 +176,7 @@ def ConnectionGpt(d_stat, set_d):
                 "	5)The mood index is set to five levels: happiness, good, normal, sadness, and depression."
                 "	6)The stress index is set in five levels: very high, high, normal, low, and very low."
                 "	7)The fatigue index is set to five levels: very refreshed, refreshed, normal, tired, and very tired."
-                "	8)Depending on what the father says, the daughter’s stress and fatigue level changes."
+                "	8)Depending on what the parent says, the daughter’s stress and fatigue level changes."
                 "	8-1)If you get angry, swear, or verbally abuse someone, your stress and fatigue will increase."
                 "	8-2)If you give compliments, nice words, and gifts, stress and fatigue will decrease."
                 "	8-3)Please refer to the initial value from the next line"
@@ -196,12 +199,12 @@ def ConnectionGpt(d_stat, set_d):
                     f"Your MBTI(P) is {d_stat.P}"
                 "   8-4)When changing values, please change daughter_status_json file from the initial value."
                 "	9)And depending on your daughter’s behavior, her MBTI criterion will vary."
-                "	10)If the father talks out of context or says something completely unrelated to the conversation, the daughter asks a counter question or changes the topic."
+                "	10)If the parent talks out of context or says something completely unrelated to the conversation, the daughter asks a counter question or changes the topic."
                 "	11)E and I, S and N, T and F, J and P have different numbers out of 100 depending on their tendencies."
                 "	12)The parameter number of daughter_status changes very subtly."
                 "	13)My daughter is a game character and if she has an extroverted personality (it means MbTI criterion is E), she likes hunting and outdoor activities."
                 "	14)However, if she has an introverted personality (it means MbTI criterion is I), she acts timid or doing something alone indoors."
-                "	15)Her stress, fatigue, and mood levels change due to conversations with her father, or daughter's fatigue at work, or something stressful. It doesn't change in every conversation, it only changes in meaningful conversations."
+                "	15)Her stress, fatigue, and mood levels change due to conversations with her parent, or daughter's fatigue at work, or something stressful. It doesn't change in every conversation, it only changes in meaningful conversations."
                 "   And at the end of your daughter’s answer, be sure to give me the whole parameter values like next line. "                    
                 f"  {stat_json} Please change all single quotes in all parameter values here to double quotes. "
                 "	17) When providing the parameter, use the format starts with '**' and ends with '**'."
@@ -218,7 +221,7 @@ def ConnectionGpt(d_stat, set_d):
         if user_request is None or user_request.lower() == 'close' :
             break
 
-        messages.append({"role": "user", "content": f"{father_status['father']['name']} (Father): {user_request}"})
+        messages.append({"role": "user", "content": f"{parent_status['parent']['name']} (parent): {user_request}"})
         try:
             response = openai.ChatCompletion.create(
                 model='gpt-3.5-turbo',

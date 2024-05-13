@@ -1,4 +1,8 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Script.UI.StartLevel.Dao;
+using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -26,7 +30,18 @@ namespace Script.UI.StartLevel.Manager
             var userSex = inputUserSexDropDown.options[inputUserSexDropDown.value].text;
 
             _sld.SetUserInfo(userName, userSex);
-
+            Dictionary<string, string> userInfo = _sld.GetUserInfo();
+            if (userInfo != null)
+            {
+                string userInfo_json = JsonConvert.SerializeObject(userInfo, Formatting.Indented);
+                string scriptPath = Application.dataPath + "/JSON/conversationData/parent_status.json";
+                File.WriteAllText(scriptPath, userInfo_json);
+                Debug.Log("부모정보 json화 완료");
+            }
+            else 
+            {
+                Debug.Log("userInfo in Null" + userInfo);
+            }
             // Load scene
             SceneManager.LoadScene("FirstSetDStat");
 

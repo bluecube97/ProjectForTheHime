@@ -838,5 +838,61 @@
     {
         "user_ment": "니가 졌다 아",
         "gpt_ment": "아빠, 왜 그런 말씀을 하시는 건가요?"
+    },
+    {
+        "user_ment": "해위",
+        "gpt_ment": "아빠, 해위가 무슨 뜻이에요?"
+    },
+    {
+        "user_ment": "해위",
+        "gpt_ment": "아빠, 안녕하세요. 어떻게 도와드릴까요?"
+    },
+    {
+        "user_ment": "해위",
+        "gpt_ment": "아빠, 안녕하세요. 어떻게 도와드릴까요?"
+    },
+    {
+        "user_ment": "해위",
+        "gpt_ment": "아빠, 왜 그런 말을 하세요?"
+    },
+    {
+        "user_ment": "godnl",
+        "gpt_ment": "Hello, Dad. How are you today?"
+    },
+    {
+        "user_ment": "아빠 이름이 뭐야?",
+        "gpt_ment": "아빠, 제 이름은 더조은이에요."
+    },
+    {
+        "user_ment": "아니 아빠 이름이 뭐야?",
+        "gpt_ment": "아빠, 제 이름은 더조은이에요."
+    },
+    {
+        "user_ment": "what's your daddy's name?",
+        "gpt_ment": "Dad, my name is Deojoon. How can I help you today?"
+    },
+    {
+        "user_ment": "안녕",
+        "gpt_ment": "아빠, 무엇을 도와드릴까요?"
+    },
+    {
+        "user_ment": "안녕",
+        "gpt_ment": "안녕하세요 아빠. 어떻게 지내세요"
+    },
+    {
+        "user_ment": "& C:/DevTool/Python/Python312/python.exe",
+        "gpt_ment": "아빠, 그게 무슨 얘기예요? 어떻게 도와드릴까요?"
+    },
+    {
+        "user_ment": "userInfo[]",
+        "gpt_ment": "아빠, userInfo[]가 무슨 내용인가요? 좀 더 설명해주시겠어요?"
+    },
+    {
+        "user_ment": "안녕",
+        "gpt_ment": "안녕하세요 아빠. 오늘은 무슨 일 있으세요?"
+    },
+    {
+        "user_ment": "안녕",
+        "gpt_ment": "안녕하세요, 엄마. 어떻게 지내세요?"
     }
 ]
