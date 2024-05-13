@@ -65,6 +65,9 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+# API KEY
+/[Aa]ssets/JSON/apiKey/*
+
 # Packed Addressables
 /[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
 
