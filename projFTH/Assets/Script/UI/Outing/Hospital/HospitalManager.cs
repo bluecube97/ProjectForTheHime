@@ -1,32 +1,28 @@
 using System.Collections.Generic;
-using System.Data.SqlTypes;
-using Script.UI.Outing;
-using Script.UI.StartLevel.Dao;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEngine.WSA;
 
 public class HospitalManager : MonoBehaviour
 {
-    public GameObject HospitalPrefab; 
-    public GameObject Hospital; 
-    public Transform HospitalLayout; 
-    private List<GameObject> HospitalInstances = new List<GameObject>();
-    private List<Dictionary<string,object>> SellList = new List<Dictionary<string,object>>();   
+    public GameObject HospitalPrefab;
+    public GameObject Hospital;
+    public Transform HospitalLayout;
+    private Dictionary<string, object> dic = new();
 
     private HospitalDao hospitalDao;
-    private Dictionary<string,object> dic = new Dictionary<string,object>();
+    private List<GameObject> HospitalInstances = new();
+    private List<Dictionary<string, object>> SellList = new();
+
     private void Start()
     {
-        hospitalDao = GetComponent<HospitalDao>(); 
+        hospitalDao = GetComponent<HospitalDao>();
         SellList = hospitalDao.getSellList();
-
     }
+
     public void OnclickSellList()
     {
-        foreach (var dic in SellList)
+        foreach (Dictionary<string, object> dic in SellList)
         {
             GameObject hospitalInstances = Instantiate(HospitalPrefab, HospitalLayout);
             hospitalInstances.name = "itemList" + dic["itemNo"];
@@ -34,13 +30,15 @@ public class HospitalManager : MonoBehaviour
 
             if (textComponent != null)
             {
-                textComponent.text = dic["itemNm"] + "\r\n" 
-                           +"\r\n" + dic["itemDesc"] + "\r\n" 
-               +"\r\n" + "가격 : " + dic["itemPrice"];
+                textComponent.text = dic["itemNm"] + "\r\n"
+                                                   + "\r\n" + dic["itemDesc"] + "\r\n"
+                                                   + "\r\n" + "가격 : " + dic["itemPrice"];
             }
         }
+
         Hospital.SetActive(false);
     }
+
     public void GetclickListValue()
     {
         GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
@@ -48,10 +46,11 @@ public class HospitalManager : MonoBehaviour
         string parentObjectName = parentObject.name;
         string indexString = parentObjectName.Replace("itemList", "");
         int index = int.Parse(indexString);
-        var dic = SellList[index - 1];
+        Dictionary<string, object> dic = SellList[index - 1];
         int price = (int)dic["itemPrice"];
         ProcessPayment(price);
     }
+
     public void ProcessPayment(int price)
     {
         dic = hospitalDao.GetUserInfo();
@@ -70,13 +69,14 @@ public class HospitalManager : MonoBehaviour
             Debug.Log("Not enough cash!");
         }
     }
+
     public void OnclikHealing()
     {
         dic = hospitalDao.GetUserInfo();
         int userCash = (int)dic["userCash"];
         int userMaxHP = (int)dic["userMaxHP"];
         int userHP = (int)dic["userHP"];
-        int payCash = userCash - ((userMaxHP - userHP)*10);
+        int payCash = userCash - ((userMaxHP - userHP) * 10);
 
         hospitalDao.SetAfterHeal(payCash, userMaxHP);
     }

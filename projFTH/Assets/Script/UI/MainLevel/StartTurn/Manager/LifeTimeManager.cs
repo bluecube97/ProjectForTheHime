@@ -51,12 +51,12 @@ namespace Script.UI.MainLevel.StartTurn.Manager
         public void Start()
         {
             InitTodoList(); // TODOList 세팅
-            todoList.SetActive(false); // 부모 오브젝트 비활성화
         }
 
         // TODOList 세팅
         private void InitTodoList()
         {
+            todoList.SetActive(true);
             // 현재 날짜의 연, 월을 입력받아 해당하는 TodoNO를 반환하여 리스트에 저장
             List<int> noList = _std.GetTodoNo(_nowYear, _nowMonth);
             // TodoNO를 이용하여 TodoList를 가져와 리스트에 저장
@@ -111,7 +111,8 @@ namespace Script.UI.MainLevel.StartTurn.Manager
 
                 index++;
             }
-
+            // 부모 오브젝트 비활성화
+            todoList.SetActive(false);
             // 첫 날 선택
             GameObject.Find(_isSelectDate).GetComponent<Outline>().enabled = true;
         }
