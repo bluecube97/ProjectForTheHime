@@ -1,11 +1,12 @@
 using MySql.Data.MySqlClient;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Script.UI.StartLevel.Dao
 {
     public class StartLevelDao : MonoBehaviour
     {
-        private readonly string con = "Server=192.168.0.78;Database=projfth;Uid=studyuser;Pwd=1111;Charset=utf8mb4";
+        private readonly string con = "Server=localhost;Database=projfth;Uid=root;Pwd=1111;Charset=utf8mb4";
 
         public void SetUserInfo(string name, string gender)
         {
@@ -26,6 +27,35 @@ namespace Script.UI.StartLevel.Dao
                     cmd.ExecuteNonQuery();
                 }
             }
+        }
+
+        public Dictionary<string, string> GetUserInfo()
+        {
+            Dictionary<string, string> userInfo = new Dictionary<string, string>();
+
+            var sql = "SELECT tt.USERNAME AS username, tt.USERSEX AS USERSEX "+
+                "  FROM tbl_test tt "+
+                " ORDER BY tt.SEQ DESC LIMIT 1 ";
+
+            using (MySqlConnection connection = new MySqlConnection(con))
+            {
+                connection.Open();
+                using (MySqlCommand cmd = connection.CreateCommand())
+                {
+                    cmd.CommandText = sql;
+                    cmd.Parameters.Clear();
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            userInfo["username"] = reader.GetString("username").ToString();
+                            userInfo["usersex"] = reader.GetString("usersex").ToString();
+                        }
+                    }
+                }
+            }
+            return userInfo;
         }
     }
 }
