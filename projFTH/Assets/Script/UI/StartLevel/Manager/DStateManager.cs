@@ -2,6 +2,9 @@
 using Newtonsoft.Json.Linq;
 using Script.UI.Outing;
 using System;
+using System.Diagnostics;
+using System.IO;
+using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -174,7 +177,24 @@ public class DStateManager : MonoBehaviour
 
         var finaljson = new JObject();
         finaljson.Add("daughter", json);
-        Debug.Log(finaljson.ToString());
+        var filePath = Application.dataPath + "/JSON/conversationData/daughter_status.json";
+
+        // daughter_status.json 파일이 존재하는지 확인하고 삭제합니다.
+        if (File.Exists(filePath))
+        {
+            File.Delete(filePath);
+        }
+
+        // daughter_status.json 파일을 생성하고 JSON 데이터를 쓰기 위해 FileStream을 사용합니다.
+        using (var fileStream = File.Create(filePath))
+        {
+            // JSON 데이터를 문자열로 변환하여 파일에 씁니다.
+            var jsonText = finaljson.ToString();
+            var bytes = Encoding.UTF8.GetBytes(jsonText);
+            fileStream.Write(bytes, 0, bytes.Length);
+        }
+
+        // MainLevelScene을 로드합니다.
         SceneManager.LoadScene("MainLevelScene");
 
     }
