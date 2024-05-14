@@ -1,4 +1,5 @@
 using MySql.Data.MySqlClient;
+using Script.UI.System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,16 +7,21 @@ namespace Script.UI.Outing.SmithyScript
 {
     public class SmeltDao : MonoBehaviour
     {
-        private string con = "Server=localhost;Database=projfth;Uid=root;Pwd=1234;Charset=utf8mb4";
+        private ConnDB _connDB;
+
+        private void Awake()
+        {
+            _connDB = new ConnDB();
+        }
 
         //구매 리스트 받아오기
         public List<Dictionary<string, object>> GetBuyList()
         {
             List<Dictionary<string, object>> BuyList = new List<Dictionary<string, object>>();
 
-            string sql = "select s.EqNo, s.EqNm, s.EqPrice " +
+            string sql = "select s.SMELTNO, s.SMELTNM, s.SMELTPRICE " +
                          "  from smelt s ";
-            using (MySqlConnection connection = new MySqlConnection(con))
+            using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
                 using (MySqlCommand cmd = connection.CreateCommand())
@@ -44,7 +50,7 @@ namespace Script.UI.Outing.SmithyScript
             List<Dictionary<string, object>> SmeltList = new List<Dictionary<string, object>>();
             var sql = "select s.EqNo, s.EqNm, s.EqMatNm, s.EqMatCnt " +
                       "  from smelt s ";
-            using (MySqlConnection connection = new MySqlConnection(con))
+            using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
                 using (MySqlCommand cmd = connection.CreateCommand())
@@ -74,7 +80,7 @@ namespace Script.UI.Outing.SmithyScript
             var sql = "  SELECT gu.USERCASH " +
                       "   FROM game_userinfo gu " +
                       " WHERE gu.SEQ = 1";
-            using (MySqlConnection connection = new MySqlConnection(con))
+            using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
                 using (MySqlCommand cmd = connection.CreateCommand())
@@ -95,7 +101,7 @@ namespace Script.UI.Outing.SmithyScript
         //결재 후 남은 잔액 DB SET
         public void UpdateUserCash(int payment)
         {
-            using (MySqlConnection connection = new MySqlConnection(con))
+            using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
                 using (MySqlCommand cmd = connection.CreateCommand())

@@ -29,7 +29,7 @@ namespace Script.UI.StartLevel.Manager
             var userName = inputUserNameField.text;
             var userSex = inputUserSexDropDown.options[inputUserSexDropDown.value].text;
 
-            _sld.SetUserInfo(userName, userSex);
+            StartLevelDao.SetUserInfo(userName, userSex);
             Dictionary<string, string> userInfo = _sld.GetUserInfo();
             if (userInfo != null)
             {

@@ -1,4 +1,5 @@
 using MySql.Data.MySqlClient;
+using Script.UI.System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,13 +8,12 @@ namespace Script.UI.Outing.RestaurantScript
     public class RestaurantDao : MonoBehaviour
     {
         private RestaurantManager restaurantManager;
-
-        string con = "Server=localhost;Database=projfth;Uid=root;Pwd=1234;Charset=utf8mb4";
+        private ConnDB _connDB;
 
         public void Awake()
         {
             restaurantManager = GetComponent<RestaurantManager>(); // 현재 게임 오브젝트에 붙어 있는 RestaurantFoodList 스크립트를 가져옴
-
+            _connDB = new ConnDB();
         }
 
         public List<FoodListVO> GetFoodListFromDB()
@@ -21,7 +21,7 @@ namespace Script.UI.Outing.RestaurantScript
             List<FoodListVO> FoodList = new List<FoodListVO> ();
             var sql = "SELECT gr.SEQ, gr.FOODNM , gr.FOODPRICE " +
                       "FROM game_restaurant gr ";
-            using (MySqlConnection connection = new MySqlConnection(con))
+            using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
                 using (MySqlCommand cmd = connection.CreateCommand())
@@ -52,7 +52,7 @@ namespace Script.UI.Outing.RestaurantScript
             int Usercash = 0;
             var sql = "  SELECT gu.USERCASH " +
                       "   FROM game_userinfo gu ";
-            using (MySqlConnection connection = new MySqlConnection(con))
+            using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
                 using (MySqlCommand cmd = connection.CreateCommand())
@@ -75,7 +75,7 @@ namespace Script.UI.Outing.RestaurantScript
         public void UpdateUserCash(int payment)
         {
 
-            using (MySqlConnection connection = new MySqlConnection(con))
+            using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
                 using (MySqlCommand cmd = connection.CreateCommand())

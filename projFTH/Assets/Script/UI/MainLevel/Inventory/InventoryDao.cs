@@ -1,4 +1,6 @@
 using MySql.Data.MySqlClient;
+using Script.UI.System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,15 +8,22 @@ namespace Script.UI.MainLevel.Inventory
 {
     public class InventoryDao : MonoBehaviour
     {
-        private string con = "Server=localhost;Database=projfth;Uid=root;Pwd=1234;Charset=utf8mb4";
+        private ConnDB _connDB;
+
+        private void Awake()
+        {
+            _connDB = new ConnDB();
+        }
+
         public List<InventoryVO> GetInvenList()
         {
-            List<InventoryVO> InvenList = new List<InventoryVO>();
+            List<InventoryVO> InvenList = new();
 
             string sql = "SELECT i.ID AS ItemNo, i.Name AS ItemName, i.Description AS ItemDescription, inv.Quantity AS Quantity " +
-                         "   FROM Inventory AS inv" +
-                         " INNER JOIN Item AS i ON inv.ItemID = i.ID ";
-            using (MySqlConnection connection = new MySqlConnection(con))
+                         "   FROM inventory AS inv" +
+                         " INNER JOIN item AS i ON inv.ItemID = i.ID ";
+
+            using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
                 using (MySqlCommand cmd = connection.CreateCommand())
@@ -46,7 +55,7 @@ namespace Script.UI.MainLevel.Inventory
                           " UPDATE inventory" +
                           "   SET Quantity = @line  " +
                           " WHERE ItemID =19; ";
-            using (MySqlConnection connection = new MySqlConnection(con))
+            using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
                 using (MySqlCommand cmd = connection.CreateCommand())

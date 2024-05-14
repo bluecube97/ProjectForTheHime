@@ -1,4 +1,5 @@
 using MySql.Data.MySqlClient;
+using Script.UI.System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,14 +7,19 @@ namespace Script.UI.Outing.Hospital
 {
     public class HospitalDao : MonoBehaviour
     {
-        string con = "Server=localhost;Database=projfth;Uid=root;Pwd=1234;Charset=utf8mb4";
+        private ConnDB _connDB;
+
+        private void Awake()
+        {
+            _connDB = new ConnDB();
+        }
 
         public List<Dictionary<string, object>> getSellList()
         {
             List<Dictionary<string, object>> SellList = new();
             var sql = "  select h.itemNo, h.itemNm, h.itemPrice, h.itemdesc " +
                       "  from hositemlist h  ";
-            using (MySqlConnection connection = new MySqlConnection(con))
+            using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
                 using (MySqlCommand cmd = connection.CreateCommand())
@@ -44,7 +50,7 @@ namespace Script.UI.Outing.Hospital
             var sql = " select gu.USERCASH, gu.userHP, gu.userMaxHP " +
                       " from game_userinfo gu " +
                       "  where gu.SEQ =1";
-            using (MySqlConnection connection = new MySqlConnection(con))
+            using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
                 using (MySqlCommand cmd = connection.CreateCommand())
@@ -73,7 +79,7 @@ namespace Script.UI.Outing.Hospital
                       " set USERCASH = @payCash, " +
                       "     userHP = @userHP " +
                       " where SEQ = 1";
-            using (MySqlConnection connection = new MySqlConnection(con))
+            using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
                 using (MySqlCommand cmd = connection.CreateCommand())
@@ -93,7 +99,7 @@ namespace Script.UI.Outing.Hospital
             var sql = " update game_userinfo " +
                       " set USERCASH = @payCash " +
                       " where SEQ = 1";
-            using (MySqlConnection connection = new MySqlConnection(con))
+            using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
                 using (MySqlCommand cmd = connection.CreateCommand())

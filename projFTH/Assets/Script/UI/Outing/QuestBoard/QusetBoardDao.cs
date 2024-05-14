@@ -1,4 +1,5 @@
 using MySql.Data.MySqlClient;
+using Script.UI.System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,17 +7,21 @@ namespace Script.UI.Outing.QuestBoard
 {
     public class QusetBoardDao : MonoBehaviour
     {
-        private string con = "Server=localhost;Database=projfth;Uid=root;Pwd=1234;Charset=utf8mb4";
+        private ConnDB _connDB;
 
+        private void Awake()
+        {
+            _connDB = new ConnDB();
+        }
 
         public List<QuestBoardVO> GetQuestBoardList()
         {
-            List<QuestBoardVO> QuestList = new List<QuestBoardVO>();
+            List<QuestBoardVO> QuestList = new();
 
             string sql = "SELECT gq.QUESTNO, gq.QUESTNM, gq.QUESTMEMO, gq.SUBMITFALG, gq.COMPLETEFLAG " +
                          "  FROM game_questboard gq ";
 
-            using (MySqlConnection connection = new MySqlConnection(con))
+            using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
                 using (MySqlCommand cmd = connection.CreateCommand())
@@ -83,7 +88,7 @@ namespace Script.UI.Outing.QuestBoard
             string sql = "UPDATE game_questboard " +
                          " SET SUBMITFALG ='Y'" +
                          " WHERE QUESTNO = @QuestNo ";
-            using (MySqlConnection connection = new MySqlConnection(con))
+            using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
                 using (MySqlCommand cmd = connection.CreateCommand())
@@ -101,7 +106,7 @@ namespace Script.UI.Outing.QuestBoard
             string sql = "UPDATE game_questboard " +
                          " SET SUBMITFALG ='N'" +
                          " WHERE QUESTNO = @QuestNo ";
-            using (MySqlConnection connection = new MySqlConnection(con))
+            using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
                 using (MySqlCommand cmd = connection.CreateCommand())

@@ -1,18 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using MySql.Data.MySqlClient;
+using Script.UI.System;
 using UnityEngine;
 
 public class VarietyStoreDAO : MonoBehaviour
 {
- private string con = "Server=localhost;Database=projfth;Uid=root;Pwd=1234;Charset=utf8mb4";
+    private ConnDB _connDB;
 
-  public int GetUserInfo()
-{
-int Usercash = 0;
- var sql = " SELECT USERCASH " +
-            " FROM game_userinfo ";
-using (MySqlConnection connection = new MySqlConnection(con))
+    private void Awake()
+    {
+        _connDB = new ConnDB();
+    }
+
+    public int GetUserInfo()
+    {
+        int Usercash = 0;
+        string sql = " SELECT USERCASH " +
+                     " FROM game_userinfo ";
+        using (MySqlConnection connection = new(ConnDB.Con))
         {
             connection.Open();
             using (MySqlCommand cmd = connection.CreateCommand())
@@ -22,34 +26,30 @@ using (MySqlConnection connection = new MySqlConnection(con))
                 {
                     if (reader.Read())
                     {
-                       Usercash = reader.GetInt32(0);
+                        Usercash = reader.GetInt32(0);
                         Debug.Log(Usercash);
                     }
                 }
             }
         }
+
         return Usercash;
     }
 
-  public void UpdateUserCash(int payment)
+    public void UpdateUserCash(int payment)
     {
-
-        using (MySqlConnection connection = new MySqlConnection(con))
+        using (MySqlConnection connection = new(ConnDB.Con))
         {
             connection.Open();
             using (MySqlCommand cmd = connection.CreateCommand())
             {
-                var sql = " update game_userinfo " +
-                            " set USERCASH = (@payment)" +
-                           " where SEQ = 1 ";
+                string sql = " update game_userinfo " +
+                             " set USERCASH = (@payment)" +
+                             " where SEQ = 1 ";
                 cmd.CommandText = sql;
                 cmd.Parameters.AddWithValue("@payment", payment);
                 cmd.ExecuteNonQuery();
             }
         }
-
     }
-
-
-
 }

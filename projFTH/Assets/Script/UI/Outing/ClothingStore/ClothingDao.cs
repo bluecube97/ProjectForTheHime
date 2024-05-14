@@ -1,4 +1,5 @@
 using MySql.Data.MySqlClient;
+using Script.UI.System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,12 @@ namespace Script.UI.Outing.ClothingStore
 {
     public class ClothingDao : MonoBehaviour
     {
-        private string con = "Server=localhost;Database=projfth;Uid=root;Pwd=1234;Charset=utf8mb4";
+        private ConnDB _connDB;
+
+        private void Awake()
+        {
+            _connDB = new ConnDB();
+        }
 
         public List<ClothingVO> GetClothingList()
         {
@@ -16,7 +22,7 @@ namespace Script.UI.Outing.ClothingStore
             string sql = "SELECT CLONO, CLONM, SILKCNT, LINECNT, BUYFLAG" +
                          "  FROM clothing c ";
 
-            using (MySqlConnection connection = new MySqlConnection(con))
+            using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
                 using (MySqlCommand cmd = connection.CreateCommand())
@@ -49,9 +55,9 @@ namespace Script.UI.Outing.ClothingStore
 
             string sql = "  SELECT SEQ, i.ID AS ItemNo, i.Name AS ItemName, i.Description AS ItemDescription, cts.SELLPRICE AS SellPrice " +
                          " FROM clothingsell AS cts " +
-                         " INNER JOIN Item AS i ON cts.ItemID = i.ID ";
+                         " INNER JOIN item AS i ON cts.ItemID = i.ID ";
 
-            using (MySqlConnection connection = new MySqlConnection(con))
+            using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
                 using (MySqlCommand cmd = connection.CreateCommand())
@@ -83,7 +89,7 @@ namespace Script.UI.Outing.ClothingStore
             string sql = "  UPDATE clothing " +
                          " SET BUYFLAG = 'Y' " +
                          " WHERE CLONO =  @clothingNo";
-            using (MySqlConnection connection = new MySqlConnection(con))
+            using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
                 using (MySqlCommand cmd = connection.CreateCommand())
@@ -100,7 +106,7 @@ namespace Script.UI.Outing.ClothingStore
             int Usercash = 0;
             var sql = "  SELECT gu.USERCASH " +
                       "   FROM game_userinfo gu ";
-            using (MySqlConnection connection = new MySqlConnection(con))
+            using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
                 using (MySqlCommand cmd = connection.CreateCommand())
@@ -121,7 +127,7 @@ namespace Script.UI.Outing.ClothingStore
         public void UpdateUserCash(int payment)
         {
 
-            using (MySqlConnection connection = new MySqlConnection(con))
+            using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
                 using (MySqlCommand cmd = connection.CreateCommand())
