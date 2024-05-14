@@ -58,9 +58,9 @@ namespace Script.UI.MainLevel.StartTurn.Manager
         {
             todoList.SetActive(true);
             // 현재 날짜의 연, 월을 입력받아 해당하는 TodoNO를 반환하여 리스트에 저장
-            List<int> noList = _std.GetTodoNo(_nowYear, _nowMonth);
+            List<int> noList = StartTurnDao.GetTodoNo(_nowYear, _nowMonth);
             // TodoNO를 이용하여 TodoList를 가져와 리스트에 저장
-            _todoList = _std.GetTodoList(noList);
+            _todoList = StartTurnDao.GetTodoList(noList);
             // TODOList에 인덱스 지정 할 변수
             int index = 1;
 
@@ -194,6 +194,8 @@ namespace Script.UI.MainLevel.StartTurn.Manager
                 _planList.Add(dic);
             }
 
+            OnClickDateBtn(GameObject.Find("Day1")); // 첫 날 선택
+
             // 시작 턴 이미지 활성화
             startTurn.SetActive(true);
             StartTurn(); // 턴 시작
@@ -288,6 +290,11 @@ namespace Script.UI.MainLevel.StartTurn.Manager
             {
                 child.gameObject.GetComponent<Image>().color = Color.white;
                 child.gameObject.GetComponentInChildren<Text>().text = "";
+                child.gameObject.GetComponent<StartTurnVo>().todoName = "";
+                child.gameObject.GetComponent<StartTurnVo>().reward = 0;
+                child.gameObject.GetComponent<StartTurnVo>().loseReward = 0;
+                child.gameObject.GetComponent<StartTurnVo>().statReward = "";
+                child.gameObject.GetComponent<StartTurnVo>().index = 0;
             }
         }
 
