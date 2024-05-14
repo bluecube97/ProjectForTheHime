@@ -3,7 +3,7 @@ using UnityEngine.Serialization;
 
 namespace Script.UI.MainLevel.StartTurn.VO
 {
-    public class StartTurnVo : MonoBehaviour
+    public class TodoNameComponentVo : MonoBehaviour
     {
         // todoNameComponent
         public string todoName;
