@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Newtonsoft.Json;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class SendDataToPython : MonoBehaviour
 {
@@ -88,6 +89,9 @@ public class SendDataToPython : MonoBehaviour
                 catch (Exception e)
                 {
                     UnityEngine.Debug.LogError("JSON 파싱 오류: " + e.Message);
+                    string[] dummyResponse = new string[4] {"뭐라구요?","다시 말해줘요!","뭐라는거야!","흥~"};
+                    int randomIndex = UnityEngine.Random.Range(0, dummyResponse.Length);
+                    outputDataText.text = dummyResponse[randomIndex];
                 }
             }
 

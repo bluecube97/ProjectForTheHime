@@ -146,5 +146,37 @@
     {
         "user_ment": "﻿{\"user_ment\":\"dd\"}",
         "gpt_ment": "안녕하세요, 아빠. 어떻게 지내세요?"
+    },
+    {
+        "user_ment": "﻿{\"user_ment\":\"하위\"}",
+        "gpt_ment": "엄마, 안녕하세요. 오늘 하루 어떻게 보내셨나요?"
+    },
+    {
+        "user_ment": "﻿{\"user_ment\":\"네 이름이 뭐니?\"}",
+        "gpt_ment": "제 이름은 유리예요."
+    },
+    {
+        "user_ment": "﻿{\"user_ment\":\"네 이름이 뭐니?\"}",
+        "gpt_ment": "제 이름은 유리예요."
+    },
+    {
+        "user_ment": "﻿{\"user_ment\":\"엄마 이름은 뭐야?\"}",
+        "gpt_ment": "엄마, 제 이름은 유리예요."
+    },
+    {
+        "user_ment": "﻿{\"user_ment\":\"엄마 이름이 뭐야?\"}",
+        "gpt_ment": "엄마, 제 이름은 유리예요."
+    },
+    {
+        "user_ment": "﻿{\"user_ment\":\"what's your mommy name?\"}",
+        "gpt_ment": "Mom, your name is 신사임당."
+    },
+    {
+        "user_ment": "﻿{\"user_ment\":\"유리 너의 엄마의 이름은 뭐니?\"}",
+        "gpt_ment": "엄마, 제 이름은 유리에요."
+    },
+    {
+        "user_ment": "﻿{\"user_ment\":\"아니 네 이름 말고 user의 이름은 뭐야\"}",
+        "gpt_ment": "user의 이름은 유리야."
     }
 ]
