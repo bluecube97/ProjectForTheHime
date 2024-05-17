@@ -4013,7 +4013,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0decc3f74bfa3a149beb961244107cd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ESCMenuBackGround: {fileID: 67304548}
+  escMenuBackGround: {fileID: 67304548}
 --- !u!114 &1599511060
 MonoBehaviour:
   m_ObjectHideFlags: 0

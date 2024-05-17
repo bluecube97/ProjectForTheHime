@@ -2069,7 +2069,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0decc3f74bfa3a149beb961244107cd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ESCMenuBackGround: {fileID: 1568629387}
+  escMenuBackGround: {fileID: 1568629387}
 --- !u!1 &1330517814
 GameObject:
   m_ObjectHideFlags: 0
