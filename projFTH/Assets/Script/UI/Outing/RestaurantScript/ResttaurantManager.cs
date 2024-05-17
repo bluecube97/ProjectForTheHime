@@ -14,10 +14,9 @@ namespace Script.UI.Outing.RestaurantScript
         private PointerEventData eventData;
         private List<FoodListVO> FoodList;
         private FoodListVO foodlistVO;
-        private int FoodPr;
-
         private RestaurantDao restaurantDao;
         private RestaurantUIController RestaurantUIController;
+        private string FoodPr;
 
         private void Start()
         {
@@ -49,21 +48,23 @@ namespace Script.UI.Outing.RestaurantScript
             GameObject clickList = EventSystem.current.currentSelectedGameObject;
             string objectName = clickList.name;
             string indexString = objectName.Replace("foodlist", "");
-            int index = int.Parse(indexString);
-            FoodListVO fv = FoodList[index - 1];
+            FoodListVO fv = FoodList.Find(p => p.FoodNo == indexString);
             FoodPr = fv.FoodPr;
             Debug.Log("계산 금액 " + FoodPr);
         }
 
         public void ProcessPayment()
         {
-            int userCash = restaurantDao.GetUserInfoFromDB();
-            int NowCash = userCash - FoodPr;
+            string _userCash = restaurantDao.GetUserInfoFromDB();
+            int userCash = int.Parse(_userCash);
+            int _FoorPr = int.Parse(FoodPr);
+            int _NowCash = userCash - _FoorPr;
+            string NowCash = _NowCash.ToString();
             Debug.Log("계산 금액 " + FoodPr);
 
             Debug.Log("DB 유저 현금 " + userCash);
             Debug.Log("계산 후 금액 " + NowCash);
-            if (NowCash > 0)
+            if (_NowCash > 0)
             {
                 restaurantDao.UpdateUserCash(NowCash);
                 RestaurantUIController.OnClickBuyComple();
