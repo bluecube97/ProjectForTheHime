@@ -19,9 +19,9 @@ namespace Script.UI.MainLevel.Inventory
         {
             List<InventoryVO> InvenList = new();
 
-            string sql = "SELECT i.ID AS ItemNo, i.Name AS ItemName, i.Description AS ItemDescription, inv.Quantity AS Quantity " +
-                         "   FROM inventory AS inv" +
-                         " INNER JOIN item AS i ON inv.ItemID = i.ID ";
+            string sql = "SELECT i.ITEM_ID AS itemcode, i.NAME AS itemnm, i.DESC AS itemdesc, inv.CNT AS itemcnt " +
+                         "   FROM TBL_INVEN AS inv" +
+                         " INNER JOIN TBL_ITEM AS i ON inv.ITEM_ID = i.ITEM_ID ";
 
             using (MySqlConnection connection = new(ConnDB.Con))
             {
@@ -36,10 +36,10 @@ namespace Script.UI.MainLevel.Inventory
                         while (reader.Read())
                         {
                             InventoryVO inv = new();
-                            inv.ItemNo = reader.GetInt32(0);
+                            inv.ItemNo = reader.GetString(0);
                             inv.ItemNm = reader.GetString(1);
                             inv.ItemDese  = reader.GetString(2);
-                            inv.ItemCnt = reader.GetInt32(3);
+                            inv.ItemCnt = reader.GetString(3);
                             InvenList.Add(inv);
                         }
                     }
@@ -47,14 +47,14 @@ namespace Script.UI.MainLevel.Inventory
             }
             return InvenList;
         }
-        public void BuyClothing(int balSlik, int balLine)
+        public void BuyClothing(string balSlik, string balLine)
         {
-            string sql =  " UPDATE inventory" +
-                          "   SET Quantity = @slik  " +
-                          " WHERE ItemID =18; " +
-                          " UPDATE inventory" +
-                          "   SET Quantity = @line  " +
-                          " WHERE ItemID =19; ";
+            string sql =  " UPDATE TBL_INVEN" +
+                          "   SET CNT = @slik  " +
+                          " WHERE ITEM_ID =18; " +
+                          " UPDATE TBL_INVEN" +
+                          "   SET CNT = @line  " +
+                          " WHERE ITEM_ID =19; ";
             using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();

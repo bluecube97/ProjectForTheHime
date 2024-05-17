@@ -15,7 +15,6 @@ namespace Script.UI.Outing.ClothingStore
         public GameObject ClotBuyPrefab; // 옷가게 판매 이미지 프리팹 참조
         public GameObject ClotBuy; // 옷가게 판매 이미지 참조
         public Transform ClotBuyLayout; // 판매 리스트들이 들어갈 레이아웃 참조
-        private int Buyprice;
         private readonly List<GameObject> ClotBuyInstances = new();
 
         private ClothingDao clothingDao;
@@ -24,12 +23,14 @@ namespace Script.UI.Outing.ClothingStore
         private List<ClothingVO> clothingList = new();
         private ClothingUIManager clothingUIManager;
         private List<ClothingVO> cltBuyList = new();
-        private int index;
         private List<InventoryVO> invenList = new();
         private InventoryDao inventoryDao;
-        private int lineCnt;
+        
+        private ClothingVO slik;
+        private string Buyprice;
+        private ClothingVO line;
+        private string itemid;
 
-        private int slikCnt;
 
         private void Start()
         {
@@ -42,10 +43,10 @@ namespace Script.UI.Outing.ClothingStore
             invenList = inventoryDao.GetInvenList();
 
             SetClothingList(clothingList);
-            SetCltBuyList(cltBuyList);
+            SetCltBuyList(clothingList);
         }
 
-        private void SetCltBuyList(List<ClothingVO> cltBuyList)
+        private void SetCltBuyList(List<ClothingVO> clothingList)
         {
             foreach (GameObject cloteBuyInstance in ClotBuyInstances)
             {
@@ -53,17 +54,20 @@ namespace Script.UI.Outing.ClothingStore
             }
 
             ClotBuyInstances.Clear();
-            foreach (ClothingVO cls in cltBuyList)
+            foreach (ClothingVO cls in clothingList)
             {
-                GameObject clotBuyInstance = Instantiate(ClotBuyPrefab, ClotBuyLayout);
-                clotBuyInstance.name = "Clothing" + cls.seq;
-                ClotBuyInstances.Add(clotBuyInstance);
-                Text textComponent = clotBuyInstance.GetComponentInChildren<Text>();
-                if (textComponent != null)
+                if (cls.typeid.Equals("3003"))
                 {
-                    textComponent.text = cls.clsNm + "\r\n" +
-                                         cls.clsDes + "\r\n" +
-                                         "가격 : " + cls.clspri;
+                 GameObject clotBuyInstance = Instantiate(ClotBuyPrefab, ClotBuyLayout);
+                    clotBuyInstance.name = "Clothing" + cls.itemid;
+                    ClotBuyInstances.Add(clotBuyInstance);
+                    Text textComponent = clotBuyInstance.GetComponentInChildren<Text>();
+                    if (textComponent != null)
+                    {
+                        textComponent.text = cls.itemnm + "\r\n" +
+                                             cls.itemdesc + "\r\n" +
+                                             "가격 : " + cls.buyprice;
+                    }
                 }
             }
 
@@ -81,69 +85,67 @@ namespace Script.UI.Outing.ClothingStore
 
             foreach (ClothingVO clo in clothingList)
             {
-                if (clo.buyFlag.Equals("N"))
+                if (clo.typeid.Equals("1002"))
                 {
                     GameObject clothingInstance = Instantiate(ClothingPrefab, ClothingLayout);
-                    clothingInstance.name = "Clothing" + clo.cloNo;
+                    clothingInstance.name = "Clothing" + clo.itemid;
                     ClothingInstances.Add(clothingInstance);
 
                     Text textComponent = clothingInstance.GetComponentInChildren<Text>();
+                    
                     if (textComponent != null)
                     {
-                        textComponent.text = clo.cloNm
-                                             + "\r\n" + "옷감 요구량" + clo.slikCnt
-                                             + "\r\n" + "실 요구량" + clo.linCnt;
+                        textComponent.text = clo.itemnm
+                                             + "\r\n" + "옷감 요구량" + clo.itemnm
+                                             + "\r\n" + "실 요구량" + clo.buyprice;
                     }
                 }
             }
 
             Clothing.SetActive(false);
         }
-
         public void GetClothingValue()
         {
             GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
             GameObject parentObject = clickedButton.transform.parent.gameObject;
             string parentObjectName = parentObject.name;
             string indexString = parentObjectName.Replace("Clothing", "");
-            index = int.Parse(indexString) - 1;
+            if (clothingList.Find(p => p.itemid.Equals(indexString)) != null)
+            {
+                slik = clothingList.Find(p => p.itemnm.Equals("옷감"));
+                line = clothingList.Find(p => p.itemnm.Equals("실"));
+            }
 
             ClothingVO clv = new();
-
-            clv = clothingList[index];
-            slikCnt = clv.slikCnt;
-            lineCnt = clv.linCnt;
-            Debug.Log(slikCnt);
         }
-
         public void GetClotBuyValue()
         {
             GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
             GameObject parentObject = clickedButton.transform.parent.gameObject;
             string parentObjectName = parentObject.name;
-            string indexString = parentObjectName.Replace("Clothing", "");
-            index = int.Parse(indexString) - 1;
-
-            ClothingVO clv = new();
-            clv = cltBuyList[index];
-            Buyprice = clv.clspri;
+            itemid = parentObjectName.Replace("Clothing", "");
+            
+            ClothingVO clv = clothingList.Find(p => p.itemid == itemid);
+            Buyprice = clv.buyprice;
             Debug.Log(Buyprice);
         }
-
         public void BuyClothing()
         {
             // 여러 번의 데이터베이스 액세스를 단일 액세스로 변경
             InventoryVO slik = invenList.Find(p => p.ItemNm.Equals("옷감"));
             InventoryVO line = invenList.Find(p => p.ItemNm.Equals("실"));
 
-            int balSlik = slik.ItemCnt - slikCnt;
-            int balLine = line.ItemCnt - lineCnt;
+            int balSlik = int.Parse(slik.ItemCnt);
+            int balLine = int.Parse(line.ItemCnt);
 
             // 쿼리 결과를 한 번만 사용하도록 변경
             if (balSlik > 0 && balLine > 0)
             {
-                inventoryDao.BuyClothing(balSlik, balLine);
-                clothingDao.Buyclothing(index);
+                string _balSlik = balSlik.ToString();
+                string _balLine = balLine.ToString();
+
+                inventoryDao.BuyClothing(_balSlik, _balLine);
+                clothingDao.Buyclothing(itemid);
                 clothingUIManager.OnClickBuyComple();
             }
             else
@@ -154,11 +156,13 @@ namespace Script.UI.Outing.ClothingStore
 
         public void BuyThing()
         {
-            int userCash = clothingDao.GetUserInfoFromDB();
-            int NowCash = userCash - Buyprice;
+            string userCash = clothingDao.GetUserInfoFromDB();
+            int _NowCash = int.Parse(userCash) - int.Parse(Buyprice);
+            string NowCash = _NowCash.ToString();
+            
             Debug.Log("DB 유저 현금 " + userCash);
             Debug.Log("계산 후 금액 " + NowCash);
-            if (NowCash > 0)
+            if (_NowCash > 0)
             {
                 clothingDao.UpdateUserCash(NowCash);
                 clothingUIManager.OnClickBuyComple();
