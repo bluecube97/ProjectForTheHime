@@ -31,12 +31,12 @@ namespace Script.UI.StartLevel.Dao
             cmd.ExecuteNonQuery();
         }
 
-        public Dictionary<string, string> GetUserInfo()
+        public static Dictionary<string, string> GetUserInfo()
         {
-            Dictionary<string, string> userInfo = new Dictionary<string, string>();
+            Dictionary<string, string> userInfo = new();
 
-            const string sql = "SELECT tt.USERNAME AS username, tt.USERSEX AS USERSEX "+
-                               "  FROM tbl_test tt "+
+            const string sql = "SELECT tt.USERNAME AS username, tt.USERSEX AS USERSEX " +
+                               "  FROM tbl_test tt " +
                                " ORDER BY tt.SEQ DESC LIMIT 1 ";
 
             using MySqlConnection connection = new(ConnDB.Con);
@@ -51,8 +51,8 @@ namespace Script.UI.StartLevel.Dao
                 return userInfo;
             }
 
-            userInfo["username"] = reader.GetString("username").ToString();
-            userInfo["usersex"] = reader.GetString("usersex").ToString();
+            userInfo["username"] = reader.GetString("username");
+            userInfo["usersex"] = reader.GetString("usersex");
 
             return userInfo;
         }

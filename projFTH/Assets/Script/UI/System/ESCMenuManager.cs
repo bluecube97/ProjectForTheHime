@@ -6,14 +6,14 @@ namespace Script.UI.System
     using UnityEngine;
     using UnityEngine.SceneManagement;
 
-    public class EscMenuScript : MonoBehaviour
+    public class EscMenuManager : MonoBehaviour
     {
-        private static EscMenuScript _instance; // ESC메뉴의 인스턴스
+        private static EscMenuManager _instance; // ESC메뉴의 인스턴스
         public GameObject escMenuBackGround; // 설정 패널 오브젝트
         private bool _settingActive; // 설정 화면 활성화 여부
 
         // 싱글톤 패턴을 사용하여 ESC 메뉴 인스턴스를 가져오는 속성
-        public static EscMenuScript Instance
+        public static EscMenuManager Instance
         {
             get
             {
@@ -23,7 +23,7 @@ namespace Script.UI.System
                     return _instance;
                 }
 
-                _instance = FindObjectOfType<EscMenuScript>();
+                _instance = FindObjectOfType<EscMenuManager>();
 
                 // 씬에 ESC메뉴가 없다면 새로 생성
                 if (_instance != null)
@@ -32,7 +32,7 @@ namespace Script.UI.System
                 }
 
                 GameObject obj = new() { name = "ESCMenuBackGround" };
-                _instance = obj.AddComponent<EscMenuScript>();
+                _instance = obj.AddComponent<EscMenuManager>();
 
                 return _instance;
             }

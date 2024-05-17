@@ -11,11 +11,11 @@ namespace Script.UI.StartLevel.Manager
 {
     public class InitUserManager : MonoBehaviour
     {
-        private GameObject _myGameObject;
-        private StartLevelDao _sld;
+        private GameObject _myGameObject; // StartLevelDao를 담는 빈 오브젝트
+        private StartLevelDao _sld; // StartLevelDao를 사용하기 위한 변수
 
-        public InputField inputUserNameField;
-        public Dropdown inputUserSexDropDown;
+        public InputField inputUserNameField; // 사용자 이름 입력 필드
+        public Dropdown inputUserSexDropDown; // 사용자 성별 입력 드롭다운
 
         public void Awake()
         {
@@ -26,11 +26,11 @@ namespace Script.UI.StartLevel.Manager
         public void OnClickEnterUserBtn()
         {
             // initUserScene에서 userName과 userSex 값을 받아옴
-            var userName = inputUserNameField.text;
-            var userSex = inputUserSexDropDown.options[inputUserSexDropDown.value].text;
+            string userName = inputUserNameField.text;
+            string userSex = inputUserSexDropDown.options[inputUserSexDropDown.value].text;
 
             StartLevelDao.SetUserInfo(userName, userSex);
-            Dictionary<string, string> userInfo = _sld.GetUserInfo();
+            Dictionary<string, string> userInfo = StartLevelDao.GetUserInfo();
             if (userInfo != null)
             {
                 string userInfo_json = JsonConvert.SerializeObject(userInfo, Formatting.Indented);
