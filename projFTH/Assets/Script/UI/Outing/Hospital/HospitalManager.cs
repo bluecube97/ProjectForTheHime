@@ -47,24 +47,32 @@ namespace Script.UI.Outing.Hospital
             GameObject parentObject = clickedButton.transform.parent.gameObject;
             string parentObjectName = parentObject.name;
             string indexString = parentObjectName.Replace("itemList", "");
-            int index = int.Parse(indexString);
-            Dictionary<string, object> dic = SellList[index - 1];
-            int price = (int)dic["itemPrice"];
-            ProcessPayment(price);
+            Dictionary<string, object> selectedItem = SellList.Find
+                (dic => dic["itemNo"].ToString() == indexString);
+
+            if (selectedItem != null && selectedItem.TryGetValue("itemPrice", out object priceObj) 
+                                     && priceObj is string priceStr
+                                     && int.TryParse(priceStr, out int price))
+            {
+                Debug.Log(selectedItem);
+                ProcessPayment(price);
+            }
         }
 
         public void ProcessPayment(int price)
         {
             dic = hospitalDao.GetUserInfo();
-            int userCash = (int)dic["userCash"];
+            string _userCash = (string)dic["userCash"];
+            int userCash = int.Parse(_userCash);
             int NowCash = userCash - price;
+            string _NowCash = NowCash.ToString();
             Debug.Log("계산 금액 " + price);
 
             Debug.Log("DB 유저 현금 " + userCash);
             Debug.Log("계산 후 금액 " + NowCash);
             if (NowCash > 0)
             {
-                hospitalDao.SetBuyAfter(NowCash);
+                hospitalDao.SetBuyAfter(_NowCash);
             }
             else
             {
@@ -75,12 +83,17 @@ namespace Script.UI.Outing.Hospital
         public void OnclikHealing()
         {
             dic = hospitalDao.GetUserInfo();
-            int userCash = (int)dic["userCash"];
-            int userMaxHP = (int)dic["userMaxHP"];
-            int userHP = (int)dic["userHP"];
-            int payCash = userCash - ((userMaxHP - userHP) * 10);
+            int userCash = int.Parse((string)dic["userCash"]);
+            int userMaxHP = int.Parse((string)dic["userMaxHP"]);
+            int userHP = int.Parse((string)dic["userHP"]);
+            int _payCash = userCash - ((userMaxHP - userHP) * 10);
+            string payCash = _payCash.ToString();
+            string _userMaxHP = userMaxHP.ToString();
+            Debug.Log("usercash"+userCash);
+            Debug.Log("userMaxHP"+userMaxHP);
+            Debug.Log("userHP"+userHP);
 
-            hospitalDao.SetAfterHeal(payCash, userMaxHP);
+            hospitalDao.SetAfterHeal(payCash, _userMaxHP);
         }
     }
 }
