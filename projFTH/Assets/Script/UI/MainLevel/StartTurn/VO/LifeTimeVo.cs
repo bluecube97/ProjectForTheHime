@@ -5,10 +5,10 @@ namespace Script.UI.MainLevel.StartTurn.VO
     // LifeTime의 변수를 한번에 관리하기 위한 클래스
     public class LifeTimeVo
     {
-        public static int NowYear = 2024; // 년도 초기화 (나중에 바뀜)
-        public static int NowMonth = 4;
-        public static int NowDate = 1; // 일 초기화
-        public static int NowTime = 0; // 0: 아침, 1: 점심, 2: 저녁
+        public int NowYear = 2024; // 년도 초기화 (나중에 바뀜)
+        public int NowMonth = 4;
+        public int NowDate = 1; // 일 초기화
+        public int NowTime = 0; // 0: 아침, 1: 점심, 2: 저녁
 
         public bool IsSelectable = true; // TODO 버튼 클릭 가능 여부
         public string IsSelectDate = "Day1"; // 선택된 날짜

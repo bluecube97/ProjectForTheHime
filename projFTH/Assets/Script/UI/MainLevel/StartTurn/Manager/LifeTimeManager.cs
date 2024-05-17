@@ -10,11 +10,11 @@ namespace Script.UI.MainLevel.StartTurn.Manager
 {
     public class LifeTimeManager : MonoBehaviour
     {
-        private LifeTimeGo _ltgo;
-        private LifeTimeVo _ltvo;
+        private LifeTimeGo _ltgo; // LifeTime의 GameObject들을 한번에 관리하기 위한 클래스
+        private LifeTimeVo _ltvo; // LifeTime의 변수를 한번에 관리하기 위한 클래스
 
-        private GameObject _myGameObject;
-        private StartTurnDao _std;
+        private GameObject _myGameObject; // StartTurnDao를 가져오기 위한 GameObject
+        private StartTurnDao _std; // StartTurnDao 클래스 참조
 
         public void Start()
         {
@@ -104,14 +104,14 @@ namespace Script.UI.MainLevel.StartTurn.Manager
         // 다음 날짜로 넘어가기
         public void OnClickNextPhase()
         {
-            LifeTimeVo.NowTime++; // 시간 증가
-            if (LifeTimeVo.NowTime > 2) // 저녁이면, 아침으로
+            _ltvo.NowTime++; // 시간 증가
+            if (_ltvo.NowTime > 2) // 저녁이면, 아침으로
             {
-                LifeTimeVo.NowTime = 0;
-                LifeTimeVo.NowDate++;
+                _ltvo.NowTime = 0;
+                _ltvo.NowDate++;
             }
 
-            if (LifeTimeVo.NowDate <= 20) // 20일까지 반복
+            if (_ltvo.NowDate <= 20) // 20일까지 반복
             {
                 // 턴 시작
                 StartTurn();
@@ -140,8 +140,6 @@ namespace Script.UI.MainLevel.StartTurn.Manager
             textComponent.text = "";
         }
 
-
-
         // 이전 씬으로 돌아가기
         public void OnClickReturn()
         {
@@ -154,15 +152,15 @@ namespace Script.UI.MainLevel.StartTurn.Manager
             _ltgo.StartTurn.SetActive(false);
             _ltgo.TodoList.SetActive(true);
             // 현재 날짜의 연, 월을 입력받아 해당하는 TodoNO를 반환하여 리스트에 저장
-            List<int> noList = StartTurnDao.GetTodoNo(LifeTimeVo.NowYear, LifeTimeVo.NowMonth);
+            List<int> noList = _std.GetTodoNo(_ltvo.NowYear, _ltvo.NowMonth);
             // TodoNO를 이용하여 TodoList를 가져와 리스트에 저장
-            _ltvo.TodoList = StartTurnDao.GetTodoList(noList);
+            _ltvo.TodoList = _std.GetTodoList(noList);
             // TODOList에 인덱스 지정 할 변수
             int index = 1;
 
             // 현재 날짜 표기
             Text nowDateComponent = _ltgo.NowDate.GetComponentInChildren<Text>();
-            nowDateComponent.text = LifeTimeVo.NowYear + "년 " + LifeTimeVo.NowMonth + "월";
+            nowDateComponent.text = _ltvo.NowYear + "년 " + _ltvo.NowMonth + "월";
 
 
             foreach (Dictionary<string, object> dic in _ltvo.TodoList)
@@ -227,10 +225,10 @@ namespace Script.UI.MainLevel.StartTurn.Manager
             // 라이프 타임의 텍스트 컴포넌트 참조
             Text lifeTimeMainComponent = _ltgo.LifeTimeMain.GetComponentInChildren<Text>();
             // 각 텍스트 컴포넌트에 값 입력
-            yearTxtComponent.text = LifeTimeVo.NowYear + "년";
-            monthTxtComponent.text = LifeTimeVo.NowMonth + "월";
-            dateTxtComponent.text = LifeTimeVo.NowDate + "일";
-            timeTxtComponent.text = LifeTimeVo.NowTime switch
+            yearTxtComponent.text = _ltvo.NowYear + "년";
+            monthTxtComponent.text = _ltvo.NowMonth + "월";
+            dateTxtComponent.text = _ltvo.NowDate + "일";
+            timeTxtComponent.text = _ltvo.NowTime switch
             {
                 0 => "아침",
                 1 => "점심",
@@ -239,7 +237,7 @@ namespace Script.UI.MainLevel.StartTurn.Manager
             };
 
             // 아침, 저녁이면 대화 버튼 활성화, 점심에는 비활성화
-            switch (LifeTimeVo.NowTime)
+            switch (_ltvo.NowTime)
             {
                 case 0:
                     _ltgo.ConvBtn.SetActive(true);
@@ -253,17 +251,17 @@ namespace Script.UI.MainLevel.StartTurn.Manager
             }
 
             // 현재 날짜의 TODO 이름이 비어있으면 쉬는날
-            if (_ltvo.PlanList[LifeTimeVo.NowDate - 1]["TODONAME"].Equals(""))
+            if (_ltvo.PlanList[_ltvo.NowDate - 1]["TODONAME"].Equals(""))
             {
                 todoNameTxtComponent.text = "쉬는날";
                 lifeTimeMainComponent.text = "";
             }
             else
             {
-                todoNameTxtComponent.text = _ltvo.PlanList[LifeTimeVo.NowDate - 1]["TODONAME"].ToString();
-                lifeTimeMainComponent.text = "보상: " + _ltvo.PlanList[LifeTimeVo.NowDate - 1]["REWARD"] +
-                                             "\n소모 재화: " + _ltvo.PlanList[LifeTimeVo.NowDate - 1]["LOSEREWARD"] +
-                                             "\n얻는 스탯: " + _ltvo.PlanList[LifeTimeVo.NowDate - 1]["STATREWARD"];
+                todoNameTxtComponent.text = _ltvo.PlanList[_ltvo.NowDate - 1]["TODONAME"].ToString();
+                lifeTimeMainComponent.text = "보상: " + _ltvo.PlanList[_ltvo.NowDate - 1]["REWARD"] +
+                                             "\n소모 재화: " + _ltvo.PlanList[_ltvo.NowDate - 1]["LOSEREWARD"] +
+                                             "\n얻는 스탯: " + _ltvo.PlanList[_ltvo.NowDate - 1]["STATREWARD"];
             }
         }
 
@@ -271,16 +269,16 @@ namespace Script.UI.MainLevel.StartTurn.Manager
         private void EndTurn()
         {
             _ltgo.StartTurn.SetActive(false);
-            if (LifeTimeVo.NowMonth < 12) // 11월까지 월 증가, 일 초기화
+            if (_ltvo.NowMonth < 12) // 11월까지 월 증가, 일 초기화
             {
-                LifeTimeVo.NowMonth++;
-                LifeTimeVo.NowDate = 1;
+                _ltvo.NowMonth++;
+                _ltvo.NowDate = 1;
             }
             else // 12월이면 연도 증가, 월, 일 초기화
             {
-                LifeTimeVo.NowMonth = 1;
-                LifeTimeVo.NowYear++;
-                LifeTimeVo.NowDate = 1;
+                _ltvo.NowMonth = 1;
+                _ltvo.NowYear++;
+                _ltvo.NowDate = 1;
             }
 
             _ltvo.PlanList.Clear();
