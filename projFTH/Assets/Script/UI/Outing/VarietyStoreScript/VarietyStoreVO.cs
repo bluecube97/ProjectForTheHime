@@ -3,17 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemListVO { 
-    public int ITEMNO { get; set; }
+    public string ITEMNO { get; set; }
+    public string TYPEID { get; set; }
     public string ITEMNAME { get; set; }
-    public int ITEMPR { get; set; }
+    
+    public string ITEMDESC { get; set; }
+
+    public string ITEMPR { get; set; }
 
     public ItemListVO()
     {
     }
-    public ItemListVO(int itemno, string itemnm, int itempr)
+    public ItemListVO(string itemno, string typeid, string itemnm, string itemsdesc, string itempr)
     {
         ITEMNO = itemno;
+        TYPEID = typeid;
         ITEMNAME = itemnm;
+        ITEMDESC = itemsdesc;
         ITEMPR = itempr;
+        
     }
 }

@@ -52,8 +52,9 @@ namespace Script.UI.Outing.SmithyScript
                 if (textComponent != null)
                 {
                     textComponent.text = dic["itemNm"] + "\r\n" +
-                                        "소재 :  " + dic["itemValNm"] + "\r\n" +
-                                        "필요 갯수 : " + dic["itemValCnt"];
+                                         dic["itemDesc"]; /* + "\r\n"+
+                                         "소재 :  " + dic["itemValNm"] + "\r\n" +
+                                         "필요 갯수 : " + dic["itemValCnt"];*/
 
                 }
             }
@@ -70,7 +71,8 @@ namespace Script.UI.Outing.SmithyScript
                 if (textComponent != null)
                 {
                     textComponent.text = dic["itemNm"] + "\r\n" +
-                                         "가격 : " + dic["itemPrice"];
+                                         dic["itemDesc"] + "\r\n" +
+                                         "가격 : " + dic["itemSellPr"];
                 }
             }
             buyList.SetActive(false);
@@ -81,10 +83,16 @@ namespace Script.UI.Outing.SmithyScript
             GameObject parentObject = clickedButton.transform.parent.gameObject;
             string parentObjectName = parentObject.name;
             string indexString = parentObjectName.Replace("weaponlist", "");
-            int index = int.Parse(indexString);
-            var weaponInfo = BuyList[index - 1];
-            int weaponPrice = (int)weaponInfo["itemPrice"];
-            ProcessPayment(weaponPrice);
+            Dictionary<string, object> selectedItem = BuyList.Find
+                (dic => dic["itemNo"].ToString() == indexString);
+
+            if (selectedItem != null && selectedItem.TryGetValue("itemSellPr", out object priceObj)
+                                     && priceObj is string priceStr
+                                     && int.TryParse(priceStr, out int price))
+            {
+                ProcessPayment(price);
+
+            }
         }
         //구매 리스트 선택 시 구매 리스트 정보 받아오기(현금 구매)
         public void GetclickWeaponList()
@@ -99,7 +107,8 @@ namespace Script.UI.Outing.SmithyScript
         }
         public void ProcessPayment(int weaponPrice)
         {
-            int userCash = smeltDao.GetUserInfoFromDB();
+            string _userCash = smeltDao.GetUserInfoFromDB();
+            int userCash = int.Parse(_userCash);
             int NowCash = userCash - weaponPrice;
             Debug.Log("DB 유저 현금 " + userCash);
             Debug.Log("계산 후 금액 " + NowCash);
