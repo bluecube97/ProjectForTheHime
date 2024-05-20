@@ -1,14 +1,14 @@
 namespace Script.UI.Outing.RestaurantScript
 {
     public class FoodListVO { 
-        public int FoodNo { get; set; }
+        public string FoodNo { get; set; }
         public string FoodNm { get; set; }
-        public int FoodPr { get; set; }
+        public string FoodPr { get; set; }
 
         public FoodListVO()
         {
         }
-        public FoodListVO(int foodNo, string foodNm, int foodPr)
+        public FoodListVO(string foodNo, string foodNm, string foodPr)
         {
             FoodNo = foodNo;
             FoodNm = foodNm;

@@ -15,12 +15,12 @@ namespace Script.UI.Outing.RestaurantScript
             restaurantManager = GetComponent<RestaurantManager>(); // 현재 게임 오브젝트에 붙어 있는 RestaurantFoodList 스크립트를 가져옴
             _connDB = new ConnDB();
         }
-
         public List<FoodListVO> GetFoodListFromDB()
         {
             List<FoodListVO> FoodList = new List<FoodListVO> ();
-            var sql = "SELECT gr.SEQ, gr.FOODNM , gr.FOODPRICE " +
-                      "FROM game_restaurant gr ";
+            var sql = "SELECT ITEM_ID, NAME, `DESC`, SELL_PRI, BUY_PRI " +                     
+                           "  FROM TBL_ITEM " +                        
+                          "  WHERE TYPE_ID = 2000 " ;
             using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
@@ -32,26 +32,22 @@ namespace Script.UI.Outing.RestaurantScript
                         while (reader.Read())
                         {
                             FoodListVO fv = new FoodListVO();
-                            fv.FoodNo = (int)reader["SEQ"];
-                            fv.FoodNm = (string)reader["FOODNM"];
-                            fv.FoodPr = (int)reader["FOODPRICE"];
+                            fv.FoodNo = (string)reader["ITEM_ID"];
+                            fv.FoodNm = (string)reader["DESC"];
+                            fv.FoodPr = (string)reader["BUY_PRI"];
 
                             FoodList.Add(fv);
                         }
                     }
                 }
             }
-       
             return FoodList;
         }
-
-
-
-        public int  GetUserInfoFromDB()
+        public string  GetUserInfoFromDB()
         {
-            int Usercash = 0;
-            var sql = "  SELECT gu.USERCASH " +
-                      "   FROM game_userinfo gu ";
+            string Usercash = "";
+            var sql = "  SELECT gu.CASH " +
+                      "   FROM TBL_USERINFO gu ";
             using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
@@ -62,7 +58,7 @@ namespace Script.UI.Outing.RestaurantScript
                     {
                         if (reader.Read())
                         {
-                            Usercash = reader.GetInt32(0);
+                            Usercash = reader.GetString(0);
                             Debug.Log(Usercash);
                         }
                     }
@@ -70,9 +66,7 @@ namespace Script.UI.Outing.RestaurantScript
             }
             return Usercash;
         }
-
-
-        public void UpdateUserCash(int payment)
+        public void UpdateUserCash(string payment)
         {
 
             using (MySqlConnection connection = new(ConnDB.Con))
@@ -80,20 +74,17 @@ namespace Script.UI.Outing.RestaurantScript
                 connection.Open();
                 using (MySqlCommand cmd = connection.CreateCommand())
                 {
-                    var sql = " update game_userinfo " +
-                              " set USERCASH = (@payment)" +
-                              " where SEQ = 1 ";
+                    var sql = " update TBL_USERINFO " +
+                              " set CASH = (@payment)" +
+                              " where PID = @pid ";
                     // DB에 유저 정보 저장
                     cmd.CommandText = sql;
                     cmd.Parameters.AddWithValue("@payment", payment);
+                    cmd.Parameters.AddWithValue("@pid", "ejwhdms502");
                     cmd.ExecuteNonQuery();
                 }
             }
 
         }
-
-
-
-
     }
 }
