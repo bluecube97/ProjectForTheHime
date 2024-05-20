@@ -7,28 +7,29 @@ namespace Script.UI.Outing.Hospital
 {
     public class HospitalManager : MonoBehaviour
     {
-        public GameObject HospitalPrefab;
-        public GameObject Hospital;
-        public Transform HospitalLayout;
-        private Dictionary<string, object> dic = new();
+        private HospitalGo _hpgo;
+        private HospitalVo _hpvo;
 
         private HospitalDao hospitalDao;
-        private List<GameObject> HospitalInstances = new();
-        private List<Dictionary<string, object>> SellList = new();
 
         private void Start()
         {
+            _hpgo = new HospitalGo();
+            _hpvo = new HospitalVo();
+
             hospitalDao = GetComponent<HospitalDao>();
-            SellList = hospitalDao.getSellList();
+            _hpvo.SellList = hospitalDao.getSellList();
+            _hpvo.Userinfo = hospitalDao.GetUserInfo();
+
         }
 
         public void OnclickSellList()
         {
-            foreach (Dictionary<string, object> dic in SellList)
+            foreach (Dictionary<string, object> dic in _hpvo.SellList)
             {
-                GameObject hospitalInstances = Instantiate(HospitalPrefab, HospitalLayout);
-                hospitalInstances.name = "itemList" + dic["itemNo"];
-                Text textComponent = hospitalInstances.GetComponentInChildren<Text>();
+                _hpgo.hospitalInstances = Instantiate(_hpgo.HospitalPrefab, _hpgo.HospitalLayout.transform);
+                _hpgo.hospitalInstances.name = "itemList" + dic["itemNo"];
+                Text textComponent = _hpgo.hospitalInstances.GetComponentInChildren<Text>();
 
                 if (textComponent != null)
                 {
@@ -38,7 +39,7 @@ namespace Script.UI.Outing.Hospital
                 }
             }
 
-            Hospital.SetActive(false);
+            _hpgo.Hospital.SetActive(false);
         }
 
         public void GetclickListValue()
@@ -47,7 +48,7 @@ namespace Script.UI.Outing.Hospital
             GameObject parentObject = clickedButton.transform.parent.gameObject;
             string parentObjectName = parentObject.name;
             string indexString = parentObjectName.Replace("itemList", "");
-            Dictionary<string, object> selectedItem = SellList.Find
+            Dictionary<string, object> selectedItem = _hpvo.SellList.Find
                 (dic => dic["itemNo"].ToString() == indexString);
 
             if (selectedItem != null && selectedItem.TryGetValue("itemPrice", out object priceObj) 
@@ -55,18 +56,17 @@ namespace Script.UI.Outing.Hospital
                                      && int.TryParse(priceStr, out int price))
             {
                 Debug.Log(selectedItem);
-                ProcessPayment(price);
+                _hpvo.price = price;
             }
         }
 
-        public void ProcessPayment(int price)
+        public void ProcessPayment()
         {
-            dic = hospitalDao.GetUserInfo();
-            string _userCash = (string)dic["userCash"];
+            string _userCash = (string)_hpvo.Userinfo["userCash"];
             int userCash = int.Parse(_userCash);
-            int NowCash = userCash - price;
+            int NowCash = userCash - _hpvo.price;
             string _NowCash = NowCash.ToString();
-            Debug.Log("계산 금액 " + price);
+            Debug.Log("계산 금액 " + _hpvo.price);
 
             Debug.Log("DB 유저 현금 " + userCash);
             Debug.Log("계산 후 금액 " + NowCash);
@@ -82,10 +82,9 @@ namespace Script.UI.Outing.Hospital
 
         public void OnclikHealing()
         {
-            dic = hospitalDao.GetUserInfo();
-            int userCash = int.Parse((string)dic["userCash"]);
-            int userMaxHP = int.Parse((string)dic["userMaxHP"]);
-            int userHP = int.Parse((string)dic["userHP"]);
+            int userCash = int.Parse((string)_hpvo.Userinfo["userCash"]);
+            int userMaxHP = int.Parse((string)_hpvo.Userinfo["userMaxHP"]);
+            int userHP = int.Parse((string)_hpvo.Userinfo["userHP"]);
             int _payCash = userCash - ((userMaxHP - userHP) * 10);
             string payCash = _payCash.ToString();
             string _userMaxHP = userMaxHP.ToString();

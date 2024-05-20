@@ -9,68 +9,25 @@ namespace Script.UI.Outing
 {
     public class VarietyStoreManager : MonoBehaviour
     {   
-    
-
-        private string con = "Server=localhost;Database=projfth;Uid=root;Pwd=1234;Charset=utf8mb4";
-
-    
         public GameObject BuyListPrefab; // BUYList 이미지 프리팹 참조
         public GameObject buyList; // BUYList 이미지 참조
         public Transform buyListLayout; // BUYList들이 들어갈 레이아웃 참조
         private List<GameObject> buyListInstancese = new();
         private List<ItemListVO> ItemList;
-        private int ITEMPR = 0;
+        private int itempr = 0;
         public GameObject BuySuccess;
         public GameObject BuyFail;
         public GameObject CheckBuyMenu;
-        private VarietyStoreDAO varietystoreDao;
-    
-
-
-
+        private VarietyStoreDao varietystoreDao;
+        private ItemListVO ItemListvo;
 
         public void Start()
         {
-            LoadItemDB();
-            varietystoreDao = GetComponent<VarietyStoreDAO>();
-            buyList.SetActive(false);
-        }
-
-        public void LoadItemDB()
-        {
-            ItemList = LoadData(1);
+            varietystoreDao = GetComponent<VarietyStoreDao>();
+            ItemList = varietystoreDao.LoadData();
             LoadItemList();
         }
-
-        public List<ItemListVO> LoadData(int itemSep)
-        {
-            List<ItemListVO> itemList = new List<ItemListVO>();
-            var sql = "SELECT SEQ, ITEMNAME, ITEMPR " +
-                      "FROM varietystorebuylist " +
-                      "WHERE ItemSep = @ItemSep";
-            using (MySqlConnection connection = new MySqlConnection(con))
-            {   
-                connection.Open();
-                using (MySqlCommand cmd = connection.CreateCommand())
-                {
-                    cmd.CommandText = sql;
-                    cmd.Parameters.AddWithValue("@ItemSep", itemSep);
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            ItemListVO iv = new ItemListVO();
-                            iv.ITEMNO = (int)reader["SEQ"];
-                            iv.ITEMNAME = (string)reader["ITEMNAME"];
-                            iv.ITEMPR = (int)reader["ITEMPR"];
-                            itemList.Add(iv);
-                        }
-                    }
-                }
-            }
-            return itemList;
-        }
-
+        
         public void LoadItemList()
         {
             buyList.SetActive(true);
@@ -79,7 +36,7 @@ namespace Script.UI.Outing
             {
                 Destroy(buyListInstance);
             }
-
+            buyListInstancese.Clear();
             foreach (var dic in ItemList)
             {
                 GameObject buyListInstance = Instantiate(BuyListPrefab, buyListLayout);
@@ -88,7 +45,7 @@ namespace Script.UI.Outing
                 Text textComponent = buyListInstance.GetComponentInChildren<Text>();
                 if (textComponent != null)
                 {
-                    textComponent.text =  dic.ITEMNO + " : " + dic.ITEMNAME;
+                    textComponent.text = dic.ITEMNAME +"\r\n"+ dic.ITEMPR;
                 }
             }
             buyList.SetActive(false);
@@ -103,23 +60,30 @@ namespace Script.UI.Outing
             GameObject ListValue = EventSystem.current.currentSelectedGameObject;
             string objectName = ListValue.name;
             string indexString = objectName.Replace("itemlist", "");
-            Debug.Log(indexString);
-            int index = int.Parse(indexString);
-            ItemListVO iv = ItemList[index-1];
-            ITEMPR = iv.ITEMPR;
-            Debug.Log("계산 금액 " + ITEMPR);
+            ItemListVO selectedItem = ItemList.Find
+                (dic =>dic.ITEMNO  == indexString);
+            if (selectedItem != null)
+            {
+                if (int.TryParse(selectedItem.ITEMPR, out int price))
+                {
+                    Debug.Log("Selected item price: " + price);
+                    itempr = price;
+                }
+            }
         }
 
 
-        public void ProcessPayment()
+        public void ProcessPayment( )
         {
-            int userCash = varietystoreDao.GetUserInfo();
-            int NowCash = userCash - ITEMPR;
-            Debug.Log("계산 금액 " + ITEMPR);
+            string _userCash = varietystoreDao.GetUserInfo();
+            int userCash = int.Parse(_userCash);
+            int _NowCash = userCash - itempr;
+            string NowCash = _NowCash.ToString();
+            Debug.Log("계산 금액 " + itempr);
 
             Debug.Log("DB 유저 현금 " + userCash);
             Debug.Log("계산 후 금액 " + NowCash);
-            if (NowCash > 0)
+            if (_NowCash > 0)
             {
                 varietystoreDao.UpdateUserCash(NowCash);
                 BuySuccessOn();
@@ -131,15 +95,12 @@ namespace Script.UI.Outing
 
             }
         }
-
-
-
+        
         public void OnClickReturn()
         {
             SceneManager.LoadScene("OutingScene");
         }
-
-
+        
         public void OpenBuy()
         {
             ActivateBuyMenu(); // 구매 메뉴를 엶
@@ -161,8 +122,6 @@ namespace Script.UI.Outing
         {
             VarietyStoreBuyBackGround.SetActive(false);
         }
-
-
 
 
         public void OpenSell()
@@ -228,22 +187,56 @@ namespace Script.UI.Outing
 
         public void Openingredients()
         {
-            ItemList = LoadData(1);
-            LoadItemList();
+            buyList.SetActive(true);
+
+            foreach (GameObject buyListInstance in buyListInstancese)
+            {
+                Destroy(buyListInstance);
+            }
+
+            foreach (var dic in ItemList)
+            {
+                if (dic.TYPEID.Equals("2001"))
+                {
+                    GameObject buyListInstance = Instantiate(BuyListPrefab, buyListLayout);
+                    buyListInstance.name = "itemlist" + dic.ITEMNO;
+                    buyListInstancese.Add(buyListInstance);
+                    Text textComponent = buyListInstance.GetComponentInChildren<Text>();
+                    if (textComponent != null)
+                    {
+                        textComponent.text = dic.ITEMNAME + "\r\n"+dic.ITEMPR;
+                    }
+                }
+            }
+
+            buyList.SetActive(false);
+        }
         
-        }
-
-        public void OpenOre()
-        {
-            ItemList = LoadData(2);
-            LoadItemList();
-
-        }
-
         public void Opengift()
         {
-            ItemList = LoadData(3);
-            LoadItemList();
+            buyList.SetActive(true);
+
+            foreach (GameObject buyListInstance in buyListInstancese)
+            {
+                Destroy(buyListInstance);
+            }
+
+            foreach (var dic in ItemList)
+            {
+                if (dic.TYPEID.Equals("3005"))
+                {
+                    GameObject buyListInstance = Instantiate(BuyListPrefab, buyListLayout);
+                    buyListInstance.name = "itemlist" + dic.ITEMNO;
+                    buyListInstancese.Add(buyListInstance);
+                    Text textComponent = buyListInstance.GetComponentInChildren<Text>();
+                    if (textComponent != null)
+                    {
+                        textComponent.text = dic.ITEMNAME +"\r\n"+ dic.ITEMPR;
+                    }
+                }
+            }
+
+            buyList.SetActive(false);
 
         }
     }

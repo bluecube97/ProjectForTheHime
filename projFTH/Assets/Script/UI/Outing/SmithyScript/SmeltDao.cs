@@ -19,8 +19,12 @@ namespace Script.UI.Outing.SmithyScript
         {
             List<Dictionary<string, object>> BuyList = new List<Dictionary<string, object>>();
 
-            string sql = "select s.SMELTNO, s.SMELTNM, s.SMELTPRICE " +
-                         "  from smelt s ";
+            string sql =
+                "SELECT ti.ITEM_ID, ti.NAME, ti.`DESC`, ti.SELL_PRI, ti.BUY_PRI " +
+                " FROM TBL_ITEM ti " +
+                "WHERE ti.TYPE_ID = 3000 " +
+                "  OR  ti.TYPE_ID = 3001 " +
+                "  OR  ti.TYPE_ID = 3002 ";
             using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
@@ -32,9 +36,11 @@ namespace Script.UI.Outing.SmithyScript
                         while (reader.Read())
                         {
                             Dictionary<string, object> dic = new Dictionary<string, object>();
-                            dic.Add("itemNo", reader["EqNo"]);
-                            dic.Add("itemNm", reader["EqNm"]);
-                            dic.Add("itemPrice", reader["EqPrice"]);
+                            dic.Add("itemNo", reader["ITEM_ID"]);
+                            dic.Add("itemNm", reader["NAME"]);
+                            dic.Add("itemDesc", reader["DESC"]);
+                            dic.Add("itemSellPr", reader["SELL_PRI"]);
+                            dic.Add("itemBuyPr", reader["BUY_PRI"]);
 
 
                             BuyList.Add(dic);
@@ -48,8 +54,9 @@ namespace Script.UI.Outing.SmithyScript
         public List<Dictionary<string, object>> GetSmeltList()
         {
             List<Dictionary<string, object>> SmeltList = new List<Dictionary<string, object>>();
-            var sql = "select s.EqNo, s.EqNm, s.EqMatNm, s.EqMatCnt " +
-                      "  from smelt s ";
+            var sql = "SELECT ti.ITEM_ID, ti.NAME, ti.`DESC`, ti.SELL_PRI, ti.BUY_PRI " +
+                      " FROM TBL_ITEM ti" +
+                      " WHERE ti.TYPE_ID = 3000 ";
             using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
@@ -61,10 +68,11 @@ namespace Script.UI.Outing.SmithyScript
                         while (reader.Read())
                         {
                             Dictionary<string, object> dic = new Dictionary<string, object>();
-                            dic.Add("itemNo", reader["EqNo"]);
-                            dic.Add("itemNm", reader["EqNm"]);
-                            dic.Add("itemValNm", reader["EqMatNm"]);
-                            dic.Add("itemValCnt", reader["EqMatCnt"]);
+                            dic.Add("itemNo", reader["ITEM_ID"]);
+                            dic.Add("itemNm", reader["NAME"]);
+                            dic.Add("itemDesc", reader["DESC"]);
+                            dic.Add("itemSellPr", reader["SELL_PRI"]);
+                            dic.Add("itemBuyPr", reader["BUY_PRI"]);
 
                             SmeltList.Add(dic);
                         }
@@ -74,23 +82,24 @@ namespace Script.UI.Outing.SmithyScript
             return SmeltList;
         }
         //결재를 위한 USERINFO에서 보유 현금 들고 오기
-        public int GetUserInfoFromDB()
+        public string GetUserInfoFromDB()
         {
-            int Usercash = 0;
-            var sql = "  SELECT gu.USERCASH " +
-                      "   FROM game_userinfo gu " +
-                      " WHERE gu.SEQ = 1";
+            string Usercash = "";
+            var sql = " select CASH " +
+                             " from TBL_USERINFO  " +
+                           "  where PID = @pid";
             using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
                 using (MySqlCommand cmd = connection.CreateCommand())
-                {
+                {                   
+                    cmd.Parameters.AddWithValue("@pid", "ejwhdms502");
                     cmd.CommandText = sql;
                     using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
                         if (reader.Read())
                         {
-                            Usercash = reader.GetInt32(0);
+                            Usercash = reader.GetString(0);
                             Debug.Log(Usercash);
                         }
                     }
@@ -106,11 +115,13 @@ namespace Script.UI.Outing.SmithyScript
                 connection.Open();
                 using (MySqlCommand cmd = connection.CreateCommand())
                 {
-                    var sql = " update game_userinfo " +
-                              " set USERCASH = (@payment)" +
-                              " where SEQ = 1 ";
+                    var sql = " update TBL_USERINFO " +
+                              " set CASH = (@payment)" +
+                              " where PID = @pid ";
                     cmd.CommandText = sql;
                     cmd.Parameters.AddWithValue("@payment", payment);
+                    cmd.Parameters.AddWithValue("@pid", "ejwhdms502 ");
+
                     cmd.ExecuteNonQuery();
                 }
             }
