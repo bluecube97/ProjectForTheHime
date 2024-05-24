@@ -18,8 +18,8 @@ namespace Script.UI.Outing.QuestBoard
         {
             List<QuestBoardVO> QuestList = new();
 
-            string sql = "SELECT gq.QUESTNO, gq.QUESTNM, gq.QUESTMEMO, gq.SUBMITFALG, gq.COMPLETEFLAG " +
-                         "  FROM game_questboard gq ";
+            string sql = "SELECT gq.QNO, gq.QNM, gq.QMEMO, gq.SFALG, gq.CFLAG " +
+                         "  FROM TBL_QUEST gq ";
 
             using (MySqlConnection connection = new(ConnDB.Con))
             {
@@ -34,11 +34,11 @@ namespace Script.UI.Outing.QuestBoard
                         while (reader.Read())
                         {
                             QuestBoardVO quest = new QuestBoardVO();
-                            quest.QuestNo = reader.GetInt32(reader.GetOrdinal("QUESTNO"));
-                            quest.QuestNm = reader.GetString(reader.GetOrdinal("QUESTNM"));
-                            quest.QuestMemo = reader.GetString(reader.GetOrdinal("QUESTMEMO"));
-                            quest.SubmitFlag = reader.GetString(reader.GetOrdinal("SUBMITFALG"));
-                            quest.CompleteFlag = reader.GetString(reader.GetOrdinal("COMPLETEFLAG")); 
+                            quest.QuestNo = reader.GetInt32(reader.GetOrdinal("QNO"));
+                            quest.QuestNm = reader.GetString(reader.GetOrdinal("QNM"));
+                            quest.QuestMemo = reader.GetString(reader.GetOrdinal("QMEMO"));
+                            quest.SubmitFlag = reader.GetString(reader.GetOrdinal("SFALG"));
+                            quest.CompleteFlag = reader.GetString(reader.GetOrdinal("CFLAG")); 
                             QuestList.Add(quest);
                         }
                     }
@@ -85,9 +85,9 @@ namespace Script.UI.Outing.QuestBoard
     */
         public void SubmitQuset(int questNo)
         {
-            string sql = "UPDATE game_questboard " +
-                         " SET SUBMITFALG ='Y'" +
-                         " WHERE QUESTNO = @QuestNo ";
+            string sql = "UPDATE TBL_QUEST " +
+                         " SET SFALG ='Y'" +
+                         " WHERE QNO = @QuestNo ";
             using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
@@ -103,9 +103,9 @@ namespace Script.UI.Outing.QuestBoard
         }
         public void RefuseSubmitQuset(int questNo)
         {
-            string sql = "UPDATE game_questboard " +
-                         " SET SUBMITFALG ='N'" +
-                         " WHERE QUESTNO = @QuestNo ";
+            string sql = "UPDATE TBL_QUEST " +
+                         " SET SFALG ='N'" +
+                         " WHERE QNO = @QuestNo ";
             using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();

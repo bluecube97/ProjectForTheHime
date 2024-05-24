@@ -47,14 +47,12 @@ namespace Script.UI.MainLevel.Inventory
             }
             return InvenList;
         }
-        public void BuyClothing(string balSlik, string balLine)
+        public void BuyClothing(string itemid, string result)
         {
-            string sql =  " UPDATE TBL_INVEN" +
-                          "   SET CNT = @slik  " +
-                          " WHERE ITEM_ID =18; " +
-                          " UPDATE TBL_INVEN" +
-                          "   SET CNT = @line  " +
-                          " WHERE ITEM_ID =19; ";
+            string sql = " UPDATE TBL_INVEN" +
+                         "   SET CNT = @result  " +
+                         " WHERE ITEM_ID = @itemid; ";
+                        
             using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
@@ -62,8 +60,8 @@ namespace Script.UI.MainLevel.Inventory
                 {
                     cmd.Parameters.Clear();
                     cmd.CommandText = sql;
-                    cmd.Parameters.AddWithValue("@slik", balSlik);
-                    cmd.Parameters.AddWithValue("@line", balLine);
+                    cmd.Parameters.AddWithValue("@result", result);
+                    cmd.Parameters.AddWithValue("@itemid", itemid);
 
                     cmd.ExecuteNonQuery();
                 }
