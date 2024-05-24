@@ -1,4 +1,5 @@
 using Script.UI.MainLevel.Inventory;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -26,9 +27,10 @@ namespace Script.UI.Outing.ClothingStore
         private List<InventoryVO> invenList = new();
         private InventoryDao inventoryDao;
         
-        private ClothingVO slik;
+        private string reqitem;
+        private string reqitem_cnt;
+
         private string Buyprice;
-        private ClothingVO line;
         private string itemid;
 
 
@@ -43,7 +45,7 @@ namespace Script.UI.Outing.ClothingStore
             invenList = inventoryDao.GetInvenList();
 
             SetClothingList(clothingList);
-            SetCltBuyList(clothingList);
+            SetCltBuyList(cltBuyList);
         }
 
         private void SetCltBuyList(List<ClothingVO> clothingList)
@@ -56,7 +58,6 @@ namespace Script.UI.Outing.ClothingStore
             ClotBuyInstances.Clear();
             foreach (ClothingVO cls in clothingList)
             {
-                if (cls.typeid.Equals("3003"))
                 {
                  GameObject clotBuyInstance = Instantiate(ClotBuyPrefab, ClotBuyLayout);
                     clotBuyInstance.name = "Clothing" + cls.itemid;
@@ -85,19 +86,21 @@ namespace Script.UI.Outing.ClothingStore
 
             foreach (ClothingVO clo in clothingList)
             {
-                if (clo.typeid.Equals("1002"))
+                if (clo.r_id.Equals("1002"))
                 {
-                    GameObject clothingInstance = Instantiate(ClothingPrefab, ClothingLayout);
-                    clothingInstance.name = "Clothing" + clo.itemid;
-                    ClothingInstances.Add(clothingInstance);
-
-                    Text textComponent = clothingInstance.GetComponentInChildren<Text>();
-                    
-                    if (textComponent != null)
                     {
-                        textComponent.text = clo.itemnm
-                                             + "\r\n" + "옷감 요구량" + clo.itemnm
-                                             + "\r\n" + "실 요구량" + clo.buyprice;
+                        GameObject clothingInstance = Instantiate(ClothingPrefab, ClothingLayout);
+                        clothingInstance.name = "Clothing" + clo.r_itemid;
+                        ClothingInstances.Add(clothingInstance);
+
+                        Text textComponent = clothingInstance.GetComponentInChildren<Text>();
+
+                        if (textComponent != null)
+                        {
+                            textComponent.text = clo.r_name
+                                                 + "\r\n"+ clo.r_desc
+                                                 + "\n" + clo.req_name +" : "+clo.req_itemcnt +" 개";
+                        }
                     }
                 }
             }
@@ -109,14 +112,12 @@ namespace Script.UI.Outing.ClothingStore
             GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
             GameObject parentObject = clickedButton.transform.parent.gameObject;
             string parentObjectName = parentObject.name;
-            string indexString = parentObjectName.Replace("Clothing", "");
-            if (clothingList.Find(p => p.itemid.Equals(indexString)) != null)
-            {
-                slik = clothingList.Find(p => p.itemnm.Equals("옷감"));
-                line = clothingList.Find(p => p.itemnm.Equals("실"));
-            }
+            itemid = parentObjectName.Replace("Clothing", "");
+            ClothingVO cl = clothingList.Find(p => p.r_itemid == itemid);
 
-            ClothingVO clv = new();
+            reqitem = cl.req_item;
+            reqitem_cnt = cl.req_itemcnt;
+
         }
         public void GetClotBuyValue()
         {
@@ -125,53 +126,73 @@ namespace Script.UI.Outing.ClothingStore
             string parentObjectName = parentObject.name;
             itemid = parentObjectName.Replace("Clothing", "");
             
-            ClothingVO clv = clothingList.Find(p => p.itemid == itemid);
+            ClothingVO clv = cltBuyList.Find(p => p.itemid == itemid);
             Buyprice = clv.buyprice;
             Debug.Log(Buyprice);
         }
         public void BuyClothing()
         {
             // 여러 번의 데이터베이스 액세스를 단일 액세스로 변경
-            InventoryVO slik = invenList.Find(p => p.ItemNm.Equals("옷감"));
-            InventoryVO line = invenList.Find(p => p.ItemNm.Equals("실"));
-
-            int balSlik = int.Parse(slik.ItemCnt);
-            int balLine = int.Parse(line.ItemCnt);
-
-            // 쿼리 결과를 한 번만 사용하도록 변경
-            if (balSlik > 0 && balLine > 0)
-            {
-                string _balSlik = balSlik.ToString();
-                string _balLine = balLine.ToString();
-
-                inventoryDao.BuyClothing(_balSlik, _balLine);
-                clothingDao.Buyclothing(itemid);
-                clothingUIManager.OnClickBuyComple();
-            }
-            else
+            InventoryVO giveitem = invenList.Find(p => p.ItemNo.Equals(reqitem));
+            if (giveitem == null)
             {
                 clothingUIManager.OnClickBuyFail();
             }
+            else
+            {
+                string gitemid = giveitem.ItemNo;
+                string _gitemcnt = giveitem.ItemCnt;
+                int gitemcnt = int.Parse(_gitemcnt);
+                int ritemcnt = int.Parse(reqitem_cnt);
+                int resuit = gitemcnt - ritemcnt;
+            
+                // 쿼리 결과를 한 번만 사용하도록 변경
+                if ( resuit >= 0)
+                {
+                    string _result = resuit.ToString();
+                    inventoryDao.BuyClothing(gitemid, _result);
+                    clothingDao.Buyclothing(itemid);
+                    clothingUIManager.OnClickBuyComple();
+                }
+                else
+                {
+                    clothingUIManager.OnClickBuyFail();
+                }
+            }
+           
         }
 
         public void BuyThing()
         {
             string userCash = clothingDao.GetUserInfoFromDB();
             int _NowCash = int.Parse(userCash) - int.Parse(Buyprice);
-            string NowCash = _NowCash.ToString();
-            
-            Debug.Log("DB 유저 현금 " + userCash);
-            Debug.Log("계산 후 금액 " + NowCash);
-            if (_NowCash > 0)
+            InventoryVO buyitem = invenList.Find(p => p.ItemNo.Equals(itemid));
+            if (buyitem == null)
             {
-                clothingDao.UpdateUserCash(NowCash);
-                clothingUIManager.OnClickBuyComple();
+                clothingDao.InsertBuyThing(itemid);
+
             }
             else
             {
-                Debug.Log("Not enough cash!");
-                clothingUIManager.OnClickBuyFail();
+                string _item = buyitem.ItemCnt;
+                int item = int.Parse(_item);
+                string bitem = (item + 1).ToString();
+                string NowCash = _NowCash.ToString();
+                Debug.Log("DB 유저 현금 " + userCash);
+                Debug.Log("계산 후 금액 " + NowCash);
+                if (_NowCash > 0)
+                {
+                    clothingDao.UpdateUserCash(NowCash);
+                    clothingDao.UpdateBuyThing(bitem,itemid);
+                    clothingUIManager.OnClickBuyComple();
+                }
+                else
+                {
+                    Debug.Log("Not enough cash!");
+                    clothingUIManager.OnClickBuyFail();
+                }  
             }
+            
         }
     }
 }
