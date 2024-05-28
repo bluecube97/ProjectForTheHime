@@ -162,7 +162,6 @@ namespace Script.UI.MainLevel.StartTurn.Manager
             Text nowDateComponent = _ltgo.NowDate.GetComponentInChildren<Text>();
             nowDateComponent.text = _ltvo.NowYear + "년 " + _ltvo.NowMonth + "월";
 
-
             foreach (Dictionary<string, object> dic in _ltvo.TodoList)
             {
                 // 버튼 프리팹 인스턴스화
