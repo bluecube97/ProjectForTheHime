@@ -26,7 +26,7 @@ namespace Script.UI.Outing.ClothingStore
         private List<ClothingVO> cltBuyList = new();
         private List<InventoryVO> invenList = new();
         private InventoryDao inventoryDao;
-        
+
         private string reqitem;
         private string reqitem_cnt;
 
@@ -59,7 +59,7 @@ namespace Script.UI.Outing.ClothingStore
             foreach (ClothingVO cls in clothingList)
             {
                 {
-                 GameObject clotBuyInstance = Instantiate(ClotBuyPrefab, ClotBuyLayout);
+                    GameObject clotBuyInstance = Instantiate(ClotBuyPrefab, ClotBuyLayout);
                     clotBuyInstance.name = "Clothing" + cls.itemid;
                     ClotBuyInstances.Add(clotBuyInstance);
                     Text textComponent = clotBuyInstance.GetComponentInChildren<Text>();
@@ -86,27 +86,25 @@ namespace Script.UI.Outing.ClothingStore
 
             foreach (ClothingVO clo in clothingList)
             {
-                if (clo.r_id.Equals("1002"))
                 {
+                    GameObject clothingInstance = Instantiate(ClothingPrefab, ClothingLayout);
+                    clothingInstance.name = "Clothing" + clo.r_itemid;
+                    ClothingInstances.Add(clothingInstance);
+
+                    Text textComponent = clothingInstance.GetComponentInChildren<Text>();
+
+                    if (textComponent != null)
                     {
-                        GameObject clothingInstance = Instantiate(ClothingPrefab, ClothingLayout);
-                        clothingInstance.name = "Clothing" + clo.r_itemid;
-                        ClothingInstances.Add(clothingInstance);
-
-                        Text textComponent = clothingInstance.GetComponentInChildren<Text>();
-
-                        if (textComponent != null)
-                        {
-                            textComponent.text = clo.r_name
-                                                 + "\r\n"+ clo.r_desc
-                                                 + "\n" + clo.req_name +" : "+clo.req_itemcnt +" 개";
-                        }
+                        textComponent.text = clo.r_name
+                                             + "\r\n" + clo.r_desc
+                                             + "\n" + clo.req_name + " : " + clo.req_itemcnt + " 개";
                     }
                 }
             }
 
             Clothing.SetActive(false);
         }
+
         public void GetClothingValue()
         {
             GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
@@ -117,23 +115,26 @@ namespace Script.UI.Outing.ClothingStore
 
             reqitem = cl.req_item;
             reqitem_cnt = cl.req_itemcnt;
-
         }
+
         public void GetClotBuyValue()
         {
             GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
             GameObject parentObject = clickedButton.transform.parent.gameObject;
             string parentObjectName = parentObject.name;
             itemid = parentObjectName.Replace("Clothing", "");
-            
+
             ClothingVO clv = cltBuyList.Find(p => p.itemid == itemid);
             Buyprice = clv.buyprice;
             Debug.Log(Buyprice);
         }
+
         public void BuyClothing()
         {
             // 여러 번의 데이터베이스 액세스를 단일 액세스로 변경
             InventoryVO giveitem = invenList.Find(p => p.ItemNo.Equals(reqitem));
+            InventoryVO checkVal = invenList.Find(p => p.ItemNo.Equals(itemid));
+
             if (giveitem == null)
             {
                 clothingUIManager.OnClickBuyFail();
@@ -145,21 +146,36 @@ namespace Script.UI.Outing.ClothingStore
                 int gitemcnt = int.Parse(_gitemcnt);
                 int ritemcnt = int.Parse(reqitem_cnt);
                 int resuit = gitemcnt - ritemcnt;
-            
+
                 // 쿼리 결과를 한 번만 사용하도록 변경
-                if ( resuit >= 0)
+                if (resuit >= 0)
                 {
-                    string _result = resuit.ToString();
-                    inventoryDao.BuyClothing(gitemid, _result);
-                    clothingDao.Buyclothing(itemid);
-                    clothingUIManager.OnClickBuyComple();
+                    if (checkVal != null)
+                    {
+                        string _cnt = checkVal.ItemCnt;
+                        int cnt = int.Parse(_cnt);
+                        int _uitem = cnt + 1;
+                        string uitem = _uitem.ToString();
+                        inventoryDao.ItemCraftUpdate(uitem, itemid);
+                    }
+                    else
+                    {
+                        string _result = resuit.ToString();
+                        inventoryDao.ItemCraftPayment(gitemid, _result);
+                        string usbl = "1";
+                        string slot = "Cloth";
+                        inventoryDao.ItemCraftInsert(itemid,usbl,slot);
+                        clothingUIManager.OnClickBuyComple();
+                        invenList = inventoryDao.GetInvenList();
+                    }
+                 
+
                 }
                 else
                 {
                     clothingUIManager.OnClickBuyFail();
                 }
             }
-           
         }
 
         public void BuyThing()
@@ -167,9 +183,12 @@ namespace Script.UI.Outing.ClothingStore
             string userCash = clothingDao.GetUserInfoFromDB();
             int _NowCash = int.Parse(userCash) - int.Parse(Buyprice);
             InventoryVO buyitem = invenList.Find(p => p.ItemNo.Equals(itemid));
+            Debug.Log("DB 유저 현금 " + userCash);
+            Debug.Log("계산 후 금액 " + _NowCash);
             if (buyitem == null)
             {
-                clothingDao.InsertBuyThing(itemid);
+                inventoryDao.InsertBuyThing(itemid);
+                invenList = inventoryDao.GetInvenList();
 
             }
             else
@@ -178,21 +197,19 @@ namespace Script.UI.Outing.ClothingStore
                 int item = int.Parse(_item);
                 string bitem = (item + 1).ToString();
                 string NowCash = _NowCash.ToString();
-                Debug.Log("DB 유저 현금 " + userCash);
-                Debug.Log("계산 후 금액 " + NowCash);
+           
                 if (_NowCash > 0)
                 {
                     clothingDao.UpdateUserCash(NowCash);
-                    clothingDao.UpdateBuyThing(bitem,itemid);
+                    inventoryDao.UpdateBuyThing(bitem, itemid);
                     clothingUIManager.OnClickBuyComple();
                 }
                 else
                 {
                     Debug.Log("Not enough cash!");
                     clothingUIManager.OnClickBuyFail();
-                }  
+                }
             }
-            
         }
     }
 }

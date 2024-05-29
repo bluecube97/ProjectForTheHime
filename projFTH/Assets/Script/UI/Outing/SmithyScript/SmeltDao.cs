@@ -36,7 +36,7 @@ namespace Script.UI.Outing.SmithyScript
                         while (reader.Read())
                         {
                             Dictionary<string, object> dic = new Dictionary<string, object>();
-                            dic.Add("itemNo", reader["ITEM_ID"]);
+                            dic.Add("itemId", reader["ITEM_ID"]);
                             dic.Add("itemNm", reader["NAME"]);
                             dic.Add("itemDesc", reader["DESC"]);
                             dic.Add("itemSellPr", reader["SELL_PRI"]);
@@ -54,9 +54,21 @@ namespace Script.UI.Outing.SmithyScript
         public List<Dictionary<string, object>> GetSmeltList()
         {
             List<Dictionary<string, object>> SmeltList = new List<Dictionary<string, object>>();
-            var sql = "SELECT ti.ITEM_ID, ti.NAME, ti.`DESC`, ti.SELL_PRI, ti.BUY_PRI " +
-                      " FROM TBL_ITEM ti" +
-                      " WHERE ti.TYPE_ID = 3000 ";
+            string sql = "SELECT  tr.RECIPE_ID, " +
+                         " ti.ITEM_ID, " +
+                         " ti.NAME, " +
+                         "ti.`DESC` ," +
+                         " tr.REQ_ITEM, " +
+                         " ti1.NAME AS REQ_ITEM_NAME, " +
+                         " tr.R_ITEM_CNT " +
+                         " FROM TBL_ITEM ti " +
+                         " INNER JOIN TBL_RECIPE tr " +
+                         " ON ti.ITEM_ID = tr.ITEM_ID " +
+                         " LEFT JOIN TBL_ITEM ti1 " +
+                         " ON tr.REQ_ITEM = ti1.ITEM_ID " +
+                         " WHERE ti.TYPE_ID = 1000 " +
+                           "  OR ti.TYPE_ID = 1001 " +
+                         " ORDER BY ti.ITEM_ID";
             using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
@@ -68,11 +80,14 @@ namespace Script.UI.Outing.SmithyScript
                         while (reader.Read())
                         {
                             Dictionary<string, object> dic = new Dictionary<string, object>();
-                            dic.Add("itemNo", reader["ITEM_ID"]);
+                            dic.Add("recipeId", reader["RECIPE_ID"]);
+                            dic.Add("itemId", reader["ITEM_ID"]);
                             dic.Add("itemNm", reader["NAME"]);
                             dic.Add("itemDesc", reader["DESC"]);
-                            dic.Add("itemSellPr", reader["SELL_PRI"]);
-                            dic.Add("itemBuyPr", reader["BUY_PRI"]);
+                            dic.Add("req_item", reader["REQ_ITEM"]);
+                            dic.Add("req_name", reader["REQ_ITEM_NAME"]);
+                            dic.Add("req_itemcnt", reader["R_ITEM_CNT"]);
+                         
 
                             SmeltList.Add(dic);
                         }
@@ -107,8 +122,9 @@ namespace Script.UI.Outing.SmithyScript
             }
             return Usercash;
         }
+        
         //결재 후 남은 잔액 DB SET
-        public void UpdateUserCash(int payment)
+        public void UpdateUserCash(string payment)
         {
             using (MySqlConnection connection = new(ConnDB.Con))
             {
@@ -120,7 +136,7 @@ namespace Script.UI.Outing.SmithyScript
                               " where PID = @pid ";
                     cmd.CommandText = sql;
                     cmd.Parameters.AddWithValue("@payment", payment);
-                    cmd.Parameters.AddWithValue("@pid", "ejwhdms502 ");
+                    cmd.Parameters.AddWithValue("@pid", "ejwhdms502");
 
                     cmd.ExecuteNonQuery();
                 }

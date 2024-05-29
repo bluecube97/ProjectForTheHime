@@ -1,3 +1,5 @@
+using Script.UI.MainLevel.Inventory;
+
 namespace Script.UI.Outing.QuestBoard
 
 {
@@ -20,12 +22,17 @@ namespace Script.UI.Outing.QuestBoard
         public Transform SubmitquestListLayout; // SubmitQuestList들이 들어갈 레이아웃 참조
         private List<GameObject> SubmitquestListInstances = new List<GameObject>();
 
+        private InventoryDao inventoryDao;
         private QusetBoardDao questBoardDao;
-        private List<QuestBoardVO> QuestList = new List<QuestBoardVO>();
+        private List<InventoryVO> invenList;
+        private List<QuestBoardVO> QuestList;
         private void Start()
         {
             questBoardDao = GetComponent<QusetBoardDao>();
+            inventoryDao = GetComponent<InventoryDao>();
+
             QuestList = questBoardDao.GetQuestBoardList();
+            invenList = inventoryDao.GetInvenList();
 
             StartQuestList(QuestList);
 
@@ -49,6 +56,7 @@ namespace Script.UI.Outing.QuestBoard
             // 새로운 QuestList 오브젝트를 생성하고 설정합니다.
 
 
+
             foreach (var quest in QuestList)
             {
                 if (quest.SubmitFlag.Equals("N"))
@@ -59,12 +67,12 @@ namespace Script.UI.Outing.QuestBoard
                         questListInstances.Add(questListInstance);
 
                         Text textComponent = questListInstance.GetComponentInChildren<Text>();
-
                         if (textComponent != null)
                         {
                             textComponent.text = quest.QuestNo + "." +
                                          " : " + quest.QuestNm + "\r\n" +
-                                    " 내용 : " + quest.QuestMemo;
+                                    " 내용 : " + quest.QuestMemo+
+                                         "요구 아이템 : " ;
                         }
                     }
                 }
@@ -126,7 +134,7 @@ namespace Script.UI.Outing.QuestBoard
             questBoardDao.SubmitQuset(index);
             // 업데이트된 정보를 다시 표시합니다.
             StartQuestList(QuestList);
-            SceneManager.LoadScene("QuestBoardScene");
+            QuestList = questBoardDao.GetQuestBoardList();
 
         }
         public void OnClickRefuseSubmit()
@@ -139,7 +147,7 @@ namespace Script.UI.Outing.QuestBoard
             questBoardDao.RefuseSubmitQuset(index);
             // 업데이트된 정보를 다시 표시합니다.
             StartQuestList(QuestList);
-            SceneManager.LoadScene("QuestBoardScene");
+            QuestList = questBoardDao.GetQuestBoardList();
 
         }
         public void QuestButton()

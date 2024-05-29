@@ -20,6 +20,7 @@ namespace Script.UI.Outing.Hospital
             hospitalDao = GetComponent<HospitalDao>();
             _hpvo.SellList = hospitalDao.getSellList();
             _hpvo.Userinfo = hospitalDao.GetUserInfo();
+            OnclickSellList();
 
         }
 
