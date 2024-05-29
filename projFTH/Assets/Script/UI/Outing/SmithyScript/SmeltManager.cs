@@ -1,7 +1,9 @@
+using Script.UI.MainLevel.Inventory;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using NotImplementedException = System.NotImplementedException;
 
 namespace Script.UI.Outing.SmithyScript
 {
@@ -15,7 +17,11 @@ namespace Script.UI.Outing.SmithyScript
         public GameObject buyList;
         public Transform buyListLayout;
 
+        private List<InventoryVO> invenList = new();
+
+        
         private SmeltDao smeltDao;
+        private InventoryDao inventoryDao;
 
         private List<Dictionary<string, object>> SmeltList = new List<Dictionary<string, object>>();
         private List<Dictionary<string, object>> BuyList = new List<Dictionary<string, object>>();
@@ -23,17 +29,26 @@ namespace Script.UI.Outing.SmithyScript
         private List<GameObject> smeltListInstances = new List<GameObject>();
         private List<GameObject> buyListInstances = new List<GameObject>();
 
+        private string itemid;
+        private string reqitem;
+        private string reqitem_cnt;
+
         private void Start()
         {
             smeltDao = GetComponent<SmeltDao>();
+            inventoryDao = GetComponent<InventoryDao>();
+
             BuyList = smeltDao.GetBuyList();
             SmeltList = smeltDao.GetSmeltList();
+            invenList = inventoryDao.GetInvenList();
+
+            
             SelSmeltList(SmeltList);
             SetBuyList(BuyList);
         }
 
         //재련 리스트 출력(재료로 구매)
-        public void SelSmeltList(List<Dictionary<string, object>> SmeltList)
+        public void SelSmeltList(List<Dictionary<string, object>> sList)
         {
             smeltList.SetActive(true);
             foreach (GameObject smeltInstance in smeltListInstances)
@@ -41,10 +56,10 @@ namespace Script.UI.Outing.SmithyScript
                 Destroy(smeltInstance);
             }
             smeltListInstances.Clear();
-            foreach (var dic in SmeltList)
+            foreach (var dic in sList)
             {
                 GameObject smeltListInstance = Instantiate(smeltListPrefab, smeltListLayout);
-                smeltListInstance.name = "SmeltList" + dic["itemNo"];
+                smeltListInstance.name = "list" + dic["itemId"];
                 smeltListInstances.Add(smeltListInstance);
 
                 Text textComponent = smeltListInstance.GetComponentInChildren<Text>();
@@ -52,20 +67,21 @@ namespace Script.UI.Outing.SmithyScript
                 if (textComponent != null)
                 {
                     textComponent.text = dic["itemNm"] + "\r\n" +
-                                         dic["itemDesc"]; /* + "\r\n"+
-                                         "소재 :  " + dic["itemValNm"] + "\r\n" +
-                                         "필요 갯수 : " + dic["itemValCnt"];*/
+                                         dic["itemDesc"] + "\r\n"+
+                                         "소재 :  " + dic["req_name"] + "\r\n" +
+                                         "필요 갯수 : " + dic["req_itemcnt"];
 
                 }
             }
             smeltList.SetActive(false);
         }
-        public void SetBuyList(List<Dictionary<string, object>> BuyList)
+        public void SetBuyList(List<Dictionary<string, object>> bList)
         {
-            foreach (var dic in BuyList)
+            foreach (var dic in bList)
             {
                 GameObject buyListInstance = Instantiate(buyListPrefab, buyListLayout);
-                buyListInstance.name = "weaponlist" + dic["itemNo"];
+                buyListInstance.name = "weaponlist" + dic["itemId"];
+                buyListInstances.Add(buyListInstance);
                 Text textComponent = buyListInstance.GetComponentInChildren<Text>();
 
                 if (textComponent != null)
@@ -82,9 +98,9 @@ namespace Script.UI.Outing.SmithyScript
             GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
             GameObject parentObject = clickedButton.transform.parent.gameObject;
             string parentObjectName = parentObject.name;
-            string indexString = parentObjectName.Replace("weaponlist", "");
+            itemid = parentObjectName.Replace("weaponlist", "");
             Dictionary<string, object> selectedItem = BuyList.Find
-                (dic => dic["itemNo"].ToString() == indexString);
+                (dic => dic["itemId"].ToString() == itemid);
 
             if (selectedItem != null && selectedItem.TryGetValue("itemSellPr", out object priceObj)
                                      && priceObj is string priceStr
@@ -100,27 +116,108 @@ namespace Script.UI.Outing.SmithyScript
             GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
             GameObject parentObject = clickedButton.transform.parent.gameObject;
             string parentObjectName = parentObject.name;
-            string indexString = parentObjectName.Replace("weaponlist", "");
-            int index = int.Parse(indexString);
-
-
+            itemid= parentObjectName.Replace("list", "");
+            Dictionary<string, object> sw = SmeltList.Find
+                (dic => dic["itemId"].ToString() == itemid);
+            reqitem = sw["req_item"].ToString();
+            reqitem_cnt = sw["req_itemcnt"].ToString();
+            Debug.Log(reqitem);
+            Debug.Log(reqitem_cnt);
         }
         public void ProcessPayment(int weaponPrice)
         {
             string _userCash = smeltDao.GetUserInfoFromDB();
-            int userCash = int.Parse(_userCash);
-            int NowCash = userCash - weaponPrice;
-            Debug.Log("DB 유저 현금 " + userCash);
-            Debug.Log("계산 후 금액 " + NowCash);
-            if (NowCash >= 0)
+            int _NowCash = int.Parse(_userCash) - weaponPrice;
+            InventoryVO buyitem = invenList.Find(p => p.ItemNo.Equals(itemid));
+
+            Debug.Log("DB 유저 현금 " + _userCash);
+            Debug.Log("계산 후 금액 " + _NowCash);
+            if (buyitem == null)
             {
-                smeltDao.UpdateUserCash(NowCash);
+                inventoryDao.InsertBuyThing(itemid);
+                invenList = inventoryDao.GetInvenList();
             }
             else
             {
-                Debug.Log("Not enough cash!");
+                string _item = buyitem.ItemCnt;
+                int item = int.Parse(_item);
+                string bitem = (item + 1).ToString();
+                string NowCash = _NowCash.ToString();
+                if (_NowCash > 0)
+                {
+                    inventoryDao.UpdateBuyThing(bitem, itemid);
+                    smeltDao.UpdateUserCash(NowCash);
+                }
+                else
+                {
+                    Debug.Log("Not enough cash!");
+                }
             }
         }
 
+        public void ProcessPayItem()
+        {
+            //인벤토리에 구매 물품 보유 여부 확인
+            InventoryVO checkVal = invenList.Find(p => p.ItemNo.Equals(itemid));
+            
+            //구매 시 소모 아이템 보유 여부, 갯수 확인
+            InventoryVO giveitem = invenList.Find(p => p.ItemNo.Equals(reqitem));
+            //아이템이 없으면
+            if (giveitem == null)
+            {
+                Debug.Log("호갱님 가진것이 없으시네요");
+            }
+            else
+            {
+                //있다면 int로 변환 하고 계산 
+                string gitemid = giveitem.ItemNo;
+                string _gitemcnt = giveitem.ItemCnt;
+                int gitemcnt = int.Parse(_gitemcnt);
+                int ritemcnt = int.Parse(reqitem_cnt);
+                int resuit = gitemcnt - ritemcnt;
+                //계산 시 로직
+                if (resuit >= 0)
+                {
+                    //DB에 선언된 값이 varchar이기 때문에 String으로 변환
+                    string _result = resuit.ToString();
+                    //구매 후 물품 갯수 업데이트 
+                    inventoryDao.ItemCraftPayment(gitemid, _result);
+                    //구매한 물품 넣어주는 구문, DB에 insert와 update구문을 나누는 작업
+                    //인벤에 템이 없다면 insert를 있다면 update 사용
+                    if (checkVal != null)
+                    {
+                        string _cnt = checkVal.ItemCnt;
+                        int cnt = int.Parse(_cnt);
+                        int _uitem = cnt + 1;
+                        string uitem = _uitem.ToString();
+                        inventoryDao.ItemCraftUpdate(uitem, itemid);
+                    }
+                    else
+                    {
+                        string usbl = "1";
+                        string slot;
+                        Dictionary<string, object> sw = SmeltList.Find
+                            (dic => dic["itemId"].ToString() == itemid);
+                        if (sw["recipeId"].Equals("1000"))
+                        {
+                            slot = "Weapon";
+                        }
+                        else
+                        {
+                            slot = "Armor";
+
+                        }
+                        inventoryDao.ItemCraftInsert(itemid,usbl,slot);
+                        invenList = inventoryDao.GetInvenList();
+
+                    }
+                }
+                else
+                {
+                    Debug.Log("호갱님 가진것이 없으시네요");
+
+                }
+            }
+        }
     }
 }

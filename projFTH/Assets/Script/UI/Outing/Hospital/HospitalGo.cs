@@ -4,11 +4,11 @@ namespace Script.UI.Outing.Hospital
 {
     public class HospitalGo
     {
-        public readonly GameObject HospitalPrefab = GameObject.Find("Hospital");
+        public readonly GameObject HospitalPrefab = GameObject.Find("SellItemList");
         
-        public readonly GameObject Hospital = GameObject.Find("Hospital");
+        public readonly GameObject Hospital = GameObject.Find("SellItemList");
         
-        public readonly GameObject HospitalLayout = GameObject.Find("HospitalLayout");
+        public readonly GameObject HospitalLayout = GameObject.Find("BuyLayout");
         
         
         

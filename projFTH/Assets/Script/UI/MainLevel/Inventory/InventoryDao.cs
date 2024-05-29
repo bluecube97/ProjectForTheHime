@@ -38,21 +38,66 @@ namespace Script.UI.MainLevel.Inventory
                             InventoryVO inv = new();
                             inv.ItemNo = reader.GetString(0);
                             inv.ItemNm = reader.GetString(1);
-                            inv.ItemDese  = reader.GetString(2);
+                            inv.ItemDese = reader.GetString(2);
                             inv.ItemCnt = reader.GetString(3);
                             InvenList.Add(inv);
                         }
                     }
                 }
             }
+
             return InvenList;
         }
-        public void BuyClothing(string itemid, string result)
+
+        public void ItemCraftInsert(string itemid, string usbl, string slot)
+        {
+            string sql = "  INSERT INTO TBL_INVEN (PID, ITEM_ID , CNT, USBL,USBL_SLOT) " +
+                         " values (@pid, @itemid, @cnt, @usbl, @slot) ";
+            using (MySqlConnection connection = new(ConnDB.Con))
+            {
+                connection.Open();
+                using (MySqlCommand cmd = connection.CreateCommand())
+                {
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = sql;
+                    cmd.Parameters.AddWithValue("@pid", "ejwhdms502");
+                    cmd.Parameters.AddWithValue("@itemid", itemid);
+                    cmd.Parameters.AddWithValue("@cnt", "1");
+                    cmd.Parameters.AddWithValue("@usbl", usbl);
+                    cmd.Parameters.AddWithValue("@slot", slot);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void ItemCraftUpdate(string bitem, string itemid)
+        {
+            using (MySqlConnection connection = new(ConnDB.Con))
+            {
+                connection.Open();
+                using (MySqlCommand cmd = connection.CreateCommand())
+                {
+                    var sql = " update TBL_INVEN " +
+                              " set CNT = (@bitem)" +
+                              " where PID = (@pid) " +
+                              " AND ITEM_ID = (@itemid)";
+                    // DB에 유저 정보 저장
+                    cmd.CommandText = sql;
+                    cmd.Parameters.AddWithValue("@bitem", bitem);
+                    cmd.Parameters.AddWithValue("@pid", "ejwhdms502");
+                    cmd.Parameters.AddWithValue("@itemid", itemid);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void ItemCraftPayment(string gitemid, string result)
         {
             string sql = " UPDATE TBL_INVEN" +
                          "   SET CNT = @result  " +
-                         " WHERE ITEM_ID = @itemid; ";
-                        
+                         " WHERE ITEM_ID = @gitemid; ";
+
             using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
@@ -61,7 +106,50 @@ namespace Script.UI.MainLevel.Inventory
                     cmd.Parameters.Clear();
                     cmd.CommandText = sql;
                     cmd.Parameters.AddWithValue("@result", result);
+                    cmd.Parameters.AddWithValue("@gitemid", gitemid);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void UpdateBuyThing(string bitem, string itemid)
+        {
+            using (MySqlConnection connection = new(ConnDB.Con))
+            {
+                connection.Open();
+                using (MySqlCommand cmd = connection.CreateCommand())
+                {
+                    var sql = " update TBL_INVEN " +
+                              " set CNT = (@bitem)" +
+                              " where PID = (@pid) " +
+                              " AND ITEM_ID = (@itemid)";
+                    // DB에 유저 정보 저장
+                    cmd.CommandText = sql;
+                    cmd.Parameters.AddWithValue("@bitem", bitem);
+                    cmd.Parameters.AddWithValue("@pid", "ejwhdms502");
                     cmd.Parameters.AddWithValue("@itemid", itemid);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void InsertBuyThing(string itemid)
+        {
+            string sql = "  INSERT INTO TBL_INVEN (PID, ITEM_ID , CNT, USBL,USBL_SLOT) " +
+                         " values (@pid, @itemid, @cnt, @usbl, @slot) ";
+            using (MySqlConnection connection = new(ConnDB.Con))
+            {
+                connection.Open();
+                using (MySqlCommand cmd = connection.CreateCommand())
+                {
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = sql;
+                    cmd.Parameters.AddWithValue("@pid", "ejwhdms502");
+                    cmd.Parameters.AddWithValue("@itemid", itemid);
+                    cmd.Parameters.AddWithValue("@cnt", "1");
+                    cmd.Parameters.AddWithValue("@usbl", "0");
+                    cmd.Parameters.AddWithValue("@slot", "");
 
                     cmd.ExecuteNonQuery();
                 }
@@ -69,3 +157,5 @@ namespace Script.UI.MainLevel.Inventory
         }
     }
 }
+    
+

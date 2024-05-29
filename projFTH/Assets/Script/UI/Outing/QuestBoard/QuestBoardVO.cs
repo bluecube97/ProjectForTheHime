@@ -10,18 +10,10 @@ namespace Script.UI.Outing.QuestBoard
         public string SubmitFlag { get; set; }
         public string CompleteFlag { get; set; }
 
-        public QuestBoardVO()
-        {
+        public string Qitem { get; set; }
+        public string Qitem_cnt { get; set; }
+        public string Qreward { get; set; }
+        public string Qreward_cnt { get; set; }
 
-        }
-
-        public QuestBoardVO(int questNo, string questNm, string questMemo, string submitFlag, string completeFlag)
-        {
-            QuestNo = questNo;
-            QuestNm = questNm;
-            QuestMemo = questMemo;
-            SubmitFlag = submitFlag;
-            CompleteFlag = completeFlag;
-        }
     }
 }

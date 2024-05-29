@@ -19,17 +19,18 @@ namespace Script.UI.Outing.ClothingStore
         {
             List<ClothingVO> clothingList = new();
             string sql = "SELECT  tr.RECIPE_ID, " +
-                                " ti.ITEM_ID, " +
-                                " ti.NAME, " +
-                                "ti.`DESC` ," +
-                                " tr.REQ_ITEM, " +
-                                " ti1.NAME AS REQ_ITEM_NAME, " +
-                                " tr.R_ITEM_CNT " +
-                                " FROM TBL_ITEM ti " +
-                                " INNER JOIN TBL_RECIPE tr " +
-                                " ON ti.ITEM_ID = tr.ITEM_ID " +
-                                " LEFT JOIN TBL_ITEM ti1 " +
-                                " ON tr.REQ_ITEM = ti1.ITEM_ID " +
+                         " ti.ITEM_ID, " +
+                         " ti.NAME, " +
+                         "ti.`DESC` ," +
+                         " tr.REQ_ITEM, " +
+                         " ti1.NAME AS REQ_ITEM_NAME, " +
+                         " tr.R_ITEM_CNT " +
+                         " FROM TBL_ITEM ti " +
+                         " INNER JOIN TBL_RECIPE tr " +
+                         " ON ti.ITEM_ID = tr.ITEM_ID " +
+                         " LEFT JOIN TBL_ITEM ti1 " +
+                         " ON tr.REQ_ITEM = ti1.ITEM_ID " +
+                         " WHERE ti.TYPE_ID = 1002 " +
                          " ORDER BY ti.ITEM_ID";
 
             using (MySqlConnection connection = new(ConnDB.Con))
@@ -52,7 +53,7 @@ namespace Script.UI.Outing.ClothingStore
                             cv.req_item = reader.GetString("REQ_ITEM");
                             cv.req_name = reader.GetString("REQ_ITEM_NAME");
                             cv.req_itemcnt = reader.GetString("R_ITEM_CNT");
-                           
+
                             clothingList.Add(cv);
                         }
                     }
@@ -61,6 +62,7 @@ namespace Script.UI.Outing.ClothingStore
 
             return clothingList;
         }
+
         public List<ClothingVO> GetClothingBuyList()
         {
             List<ClothingVO> CltBuyList = new();
@@ -117,12 +119,13 @@ namespace Script.UI.Outing.ClothingStore
                 }
             }
         }
+
         public string GetUserInfoFromDB()
         {
             string Usercash = "";
-            var sql = "  SELECT CASH " + 
-                            "   FROM TBL_USERINFO " +
-                            "  where PID = @pid";
+            var sql = "  SELECT CASH " +
+                      "   FROM TBL_USERINFO " +
+                      "  where PID = @pid";
             using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
@@ -134,18 +137,19 @@ namespace Script.UI.Outing.ClothingStore
                     using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
                         if (reader.Read())
-                        {                    
+                        {
                             Usercash = reader.GetString(0);
                             Debug.Log(Usercash);
                         }
                     }
                 }
             }
+
             return Usercash;
         }
+
         public void UpdateUserCash(string payment)
         {
-
             using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
@@ -153,7 +157,7 @@ namespace Script.UI.Outing.ClothingStore
                 {
                     var sql = " update TBL_USERINFO " +
                               " set CASH = (@payment)" +
-                              " where PID = (@pid) " ;
+                              " where PID = (@pid) ";
                     // DB에 유저 정보 저장
                     cmd.CommandText = sql;
                     cmd.Parameters.AddWithValue("@pid", "ejwhdms502");
@@ -171,9 +175,9 @@ namespace Script.UI.Outing.ClothingStore
                 using (MySqlCommand cmd = connection.CreateCommand())
                 {
                     var sql = " update TBL_INVEN " +
-                                 " set CNT = (@bitem)" +
-                               " where PID = (@pid) " +
-                                 " AND ITEM_ID = (@itemid)" ;
+                              " set CNT = (@bitem)" +
+                              " where PID = (@pid) " +
+                              " AND ITEM_ID = (@itemid)";
                     // DB에 유저 정보 저장
                     cmd.CommandText = sql;
                     cmd.Parameters.AddWithValue("@bitem", bitem);
@@ -199,7 +203,7 @@ namespace Script.UI.Outing.ClothingStore
                     cmd.Parameters.AddWithValue("@itemid", itemid);
                     cmd.Parameters.AddWithValue("@cnt", "1");
                     cmd.Parameters.AddWithValue("@usbl", "0");
-                    cmd.Parameters.AddWithValue("@slot", null);
+                    cmd.Parameters.AddWithValue("@slot", "");
 
                     cmd.ExecuteNonQuery();
                 }
