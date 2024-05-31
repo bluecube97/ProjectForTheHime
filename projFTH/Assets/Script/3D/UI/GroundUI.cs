@@ -25,10 +25,10 @@ namespace Script._3D.UI
 
             for (int i = 0; i < maxPlaceBtn; i++)
             {
+                placeBtnInstance = Instantiate(placeBtn, placeBtnLayout.transform);
                 PositionComponentVo positionComponent = placeBtnInstance.GetComponent<PositionComponentVo>();
                 positionComponent.posX = (i % linePlaceBtnCnt) - (linePlaceBtnCnt / 2);
                 positionComponent.posZ = (i / linePlaceBtnCnt) - (linePlaceBtnCnt / 2);
-                placeBtnInstance = Instantiate(placeBtn, placeBtnLayout.transform);
                 Text placeBtnTxtComponent = placeBtnInstance.GetComponentInChildren<Text>();
                 placeBtnTxtComponent.text = positionComponent.posX + ", " + positionComponent.posZ;
             }
@@ -42,8 +42,12 @@ namespace Script._3D.UI
             player.transform.position = new Vector3(playerPositionComponent.posX, 0, playerPositionComponent.posZ);
         }
 
-        public void OnClickPlaceBtn()
+        public void OnClickPlaceBtn(Button button)
         {
+            int btnX = button.GetComponent<PositionComponentVo>().posX;
+            int btnZ = button.GetComponent<PositionComponentVo>().posZ;
+            player.transform.position = new Vector3(btnX * 5.5f, 0, btnZ * -5.5f);
+
         }
     }
 }
