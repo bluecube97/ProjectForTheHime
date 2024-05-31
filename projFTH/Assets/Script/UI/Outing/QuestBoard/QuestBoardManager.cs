@@ -1,7 +1,6 @@
 using Script.UI.MainLevel.Inventory;
 
 namespace Script.UI.Outing.QuestBoard
-
 {
     using global::System.Collections.Generic;
     using UnityEngine;
@@ -11,212 +10,246 @@ namespace Script.UI.Outing.QuestBoard
 
     public class QuestBoardManager : MonoBehaviour
     {
-        public GameObject questListPrefab; // QuestList 이미지 프리팹 참조
-        public GameObject questList; // QuestList 이미지 참조
-        public Transform questListLayout; // QuestList들이 들어갈 레이아웃 참조
+        public GameObject questListPrefab; // QuestList image prefab reference
+        public GameObject questList; // QuestList image reference
+        public Transform questListLayout; // Layout for QuestList
         private List<GameObject> questListInstances = new List<GameObject>();
 
-        public GameObject SubmitquestListPrefab; // SubmitQuestList 이미지 프리팹 참조
-        public GameObject SubmitquestList; // SubmitQuestList 이미지 참조
-        public Transform SubmitquestListLayout; // SubmitQuestList들이 들어갈 레이아웃 참조
-        private List<GameObject> SubmitquestListInstances = new List<GameObject>();
+        public GameObject submitQuestListPrefab; // SubmitQuestList image prefab reference
+        public GameObject submitQuestList; // SubmitQuestList image reference
+        public Transform submitQuestListLayout; // Layout for SubmitQuestList
+        private List<GameObject> submitQuestListInstances = new List<GameObject>();
+        
+        public GameObject completeQuestListPrefab; // completeQuestList image prefab reference
+        public GameObject completeQuestList; // completeQuestList image reference
+        public Transform completeQuestListLayout; // Layout for completeQuestList
+        private List<GameObject> completeQuestListInstances = new List<GameObject>();
 
         private InventoryDao inventoryDao;
         private QusetBoardDao questBoardDao;
         private List<InventoryVO> invenList;
-        private List<QuestBoardVO> QuestList;
+        private List<QuestBoardVO> questListData;
+
         private void Start()
         {
             questBoardDao = GetComponent<QusetBoardDao>();
             inventoryDao = GetComponent<InventoryDao>();
 
-            QuestList = questBoardDao.GetQuestBoardList();
+            questListData = questBoardDao.GetQuestBoardList();
             invenList = inventoryDao.GetInvenList();
 
-            StartQuestList(QuestList);
-
+            StartQuestList(questListData);
         }
-        public void StartQuestList(List<QuestBoardVO> QuestList)
+
+        public void StartQuestList(List<QuestBoardVO> questListData)
         {
             questList.SetActive(true);
-            SubmitquestList.SetActive(true);
+            submitQuestList.SetActive(true);
+            completeQuestList.SetActive(true);
 
-            // 기존에 생성된 QuestList 오브젝트들을 제거합니다.
-            foreach (GameObject questInstance in questListInstances)
+            ClearExistingQuestList();
+
+            foreach (var quest in questListData)
             {
-                Destroy(questInstance);
-            }
-            foreach (GameObject submitquestInstance in SubmitquestListInstances)
-            {
-                Destroy(submitquestInstance);
-            }
-            questListInstances.Clear();
-            SubmitquestListInstances.Clear();
-            // 새로운 QuestList 오브젝트를 생성하고 설정합니다.
-
-
-
-            foreach (var quest in QuestList)
-            {
-                if (quest.SubmitFlag.Equals("N"))
+                if (quest.SubmitFlag.Equals("N") && quest.CompleteFlag.Equals("N"))
                 {
+                    GameObject questListInstance = Instantiate(questListPrefab, questListLayout);
+                    questListInstance.name = "QuestList" + quest.QuestNo;
+                    questListInstances.Add(questListInstance);
+
+                    InventoryVO giveitem = invenList.Find(p => p.ItemNo.Equals(quest.Qitem));
+                    string havecnt = giveitem == null ? "0" : giveitem.ItemCnt;
+
+                    Text textComponent = questListInstance.GetComponentInChildren<Text>();
+                    if (textComponent != null)
                     {
-                        GameObject questListInstance = Instantiate(questListPrefab, questListLayout);
-                        questListInstance.name = "QuestList" + quest.QuestNo;
-                        questListInstances.Add(questListInstance);
-                        InventoryVO giveitem = invenList.Find(p => p.ItemNo.Equals(quest.Qitem));
-                        string havecnt = giveitem == null ? "0" : giveitem.ItemCnt;
-                        Text textComponent = questListInstance.GetComponentInChildren<Text>();
-                        if (textComponent != null)
-                        {
-                            textComponent.text = quest.QuestNo + "." +
-                                         " : " + quest.QuestNm + "\r\n" +
-                                    " 내용 : " + quest.QuestMemo+ "\r\n" +
-                                         "요구 아이템 : "+ quest.QitemNm + "( "+ havecnt+ " / "+quest.Qitem_cnt+" )";
-                        }
+                        textComponent.text = $"{quest.QuestNo}. : {quest.QuestNm}\r\n 내용 : {quest.QuestMemo}\r\n 요구 아이템 : {quest.QitemNm} ( {havecnt} / {quest.Qitem_cnt} )";
                     }
                 }
             }
             questList.SetActive(false);
-            SubmitquestList.SetActive(false);
+            submitQuestList.SetActive(false);
+            completeQuestList.SetActive(false);
+
         }
-        public void UpdateQuestList(List<QuestBoardVO> QuestList)
+
+        public void SubmitQuestList(List<QuestBoardVO> questListData)
         {
             questList.SetActive(true);
-            SubmitquestList.SetActive(true);
+            submitQuestList.SetActive(true);
+            completeQuestList.SetActive(true);
 
-            // 기존에 생성된 QuestList 오브젝트들을 제거합니다.
-            foreach (GameObject questInstance in questListInstances)
-            {
-                Destroy(questInstance);
-            }
-            foreach (GameObject submitquestInstance in SubmitquestListInstances)
-            {
-                Destroy(submitquestInstance);
-            }
-            questListInstances.Clear();
-            SubmitquestListInstances.Clear();
-            // 새로운 QuestList 오브젝트를 생성하고 설정합니다.
+            ClearExistingQuestList();
 
-
-            foreach (var quest in QuestList)
+            foreach (var quest in questListData)
             {
-                if (!quest.SubmitFlag.Equals("N"))
+                if (quest.SubmitFlag.Equals("Y") && quest.CompleteFlag.Equals("N"))
                 {
-                    {
-                        GameObject SubmitquestListInstance = Instantiate(SubmitquestListPrefab, SubmitquestListLayout);
-                        SubmitquestListInstance.name = "QuestList" + quest.QuestNo;
-                        SubmitquestListInstances.Add(SubmitquestListInstance);
+                    GameObject submitQuestListInstance = Instantiate(submitQuestListPrefab, submitQuestListLayout);
+                    submitQuestListInstance.name = "QuestList" + quest.QuestNo;
+                    submitQuestListInstances.Add(submitQuestListInstance);
 
-                        Text textComponent = SubmitquestListInstance.GetComponentInChildren<Text>();
-                        InventoryVO giveitem = invenList.Find(p => p.ItemNo.Equals(quest.Qitem));
-                        string havecnt = giveitem == null ? "0" : giveitem.ItemCnt;
-                        if (textComponent != null)
-                        {
-                            textComponent.text = quest.QuestNo + "." +
-                                                 " : " + quest.QuestNm + "\r\n" +
-                                                 " 내용 : " + quest.QuestMemo+ 
-                                                 "요구 아이템 : "+ quest.QitemNm + "( "+ havecnt+ " / "+quest.Qitem_cnt+" )";
-                        }
+                    InventoryVO giveitem = invenList.Find(p => p.ItemNo.Equals(quest.Qitem));
+                    string havecnt = giveitem == null ? "0" : giveitem.ItemCnt;
+
+                    Text textComponent = submitQuestListInstance.GetComponentInChildren<Text>();
+                    if (textComponent != null)
+                    {
+                        textComponent.text = $"{quest.QuestNo}. : {quest.QuestNm}\r\n 내용 : {quest.QuestMemo} 요구 아이템 : {quest.QitemNm} ( {havecnt} / {quest.Qitem_cnt} )";
                     }
                 }
             }
             questList.SetActive(false);
-            SubmitquestList.SetActive(false);
+            submitQuestList.SetActive(false);
+            completeQuestList.SetActive(false);
+
+        }
+
+        public void CompleteQuestList(List<QuestBoardVO> questListData)
+        {
+            questList.SetActive(true);
+            submitQuestList.SetActive(true);
+            completeQuestList.SetActive(true);
+
+            ClearExistingQuestList();
+
+            foreach (var quest in questListData)
+            {
+                if (quest.CompleteFlag.Equals("Y"))
+                {
+                    GameObject completeQuestListInstance = Instantiate(completeQuestListPrefab, completeQuestListLayout);
+                    completeQuestListInstance.name = "QuestList" + quest.QuestNo;
+                    completeQuestListInstances.Add(completeQuestListInstance);
+
+                    Text textComponent = completeQuestListInstance.GetComponentInChildren<Text>();
+                    if (textComponent != null)
+                    {
+                        textComponent.text = $"{quest.QuestNo}. : {quest.QuestNm}\r\n 내용 : {quest.QuestMemo} ";
+                    }
+                }
+            }
+            questList.SetActive(false);
+            submitQuestList.SetActive(false);
+            completeQuestList.SetActive(false);
+
+        }
+
+        private void ClearExistingQuestList()
+        {
+            foreach (GameObject questInstance in questListInstances)
+            {
+                Destroy(questInstance);
+            }
+            foreach (GameObject submitQuestInstance in submitQuestListInstances)
+            {
+                Destroy(submitQuestInstance);
+            }
+            foreach (GameObject completeQuestInstance in completeQuestListInstances)
+            {
+                Destroy(completeQuestInstance);
+            }
+            questListInstances.Clear();
+            submitQuestListInstances.Clear();
+            completeQuestListInstances.Clear();
+
         }
 
         public void OnClickSubmit()
         {
             GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
             GameObject parentObject = clickedButton.transform.parent.gameObject;
-            string parentObjectName = parentObject.name;
-            string indexString = parentObjectName.Replace("QuestList", "");
-            int index = int.Parse(indexString);
+            int index = GetQuestIndexFromObjectName(parentObject.name);
 
-            questBoardDao.SubmitQuset(index);
-            // 업데이트된 정보를 다시 표시합니다.
-            StartQuestList(QuestList);
-            QuestList = questBoardDao.GetQuestBoardList();
-
+            questBoardDao.SubmitQuest(index);
+            questListData = questBoardDao.GetQuestBoardList();
+            StartQuestList(questListData);
         }
+
         public void OnClickRefuseSubmit()
         {
             GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
             GameObject parentObject = clickedButton.transform.parent.gameObject;
-            string parentObjectName = parentObject.name;
-            string indexString = parentObjectName.Replace("QuestList", "");
-            int index = int.Parse(indexString);
-            questBoardDao.RefuseSubmitQuset(index);
-            // 업데이트된 정보를 다시 표시합니다.
-            StartQuestList(QuestList);
-            QuestList = questBoardDao.GetQuestBoardList();
+            int index = GetQuestIndexFromObjectName(parentObject.name);
 
+            questBoardDao.RefuseSubmitQuest(index);
+            questListData = questBoardDao.GetQuestBoardList();
+            StartQuestList(questListData);
         }
 
-        public void OnClickComple()
+        public void OnClickComplete()
         {
             GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
             GameObject parentObject = clickedButton.transform.parent.gameObject;
-            string parentObjectName = parentObject.name;
-            string indexString = parentObjectName.Replace("QuestList", "");
-            int index = int.Parse(indexString);
-            QuestBoardVO qv = QuestList.Find(vo =>vo.QuestNo.Equals(index) );
-            string _qtem = qv.Qitem_cnt;
-            string reqtem = qv.Qitem;
-            InventoryVO iv = invenList.Find(vo => vo.ItemNo.Equals(reqtem));
-            InventoryVO checkVal = invenList.Find(p => p.ItemNo.Equals(qv.Qreward));
+            int index = GetQuestIndexFromObjectName(parentObject.name);
 
-            if (iv == null)
+            QuestBoardVO qv = questListData.Find(vo => vo.QuestNo.Equals(index));
+            string requiredItemCount = qv.Qitem_cnt;
+            string requiredItem = qv.Qitem;
+            InventoryVO iv = invenList.Find(vo => vo.ItemNo.Equals(requiredItem));
+
+            if (iv != null)
             {
-                Debug.Log("응 없어");
-                
-            }
-            else
-            {
-                int _result = int.Parse(iv.ItemCnt)-int.Parse(_qtem);
-                if (_result > 0)
+                int remainingCount = int.Parse(iv.ItemCnt) - int.Parse(requiredItemCount);
+                if (remainingCount >= 0)
                 {
-                    string result = _result.ToString();
-                    inventoryDao.ItemCraftPayment(qv.Qitem, result);
-                    questBoardDao.CompletQuset(index);
-                    if (checkVal != null)
+                    inventoryDao.ItemCraftPayment(qv.Qitem, remainingCount.ToString());
+                    questBoardDao.CompleteQuest(index);
+
+                    InventoryVO rewardItem = invenList.Find(p => p.ItemNo.Equals(qv.Qreward));
+                    if (rewardItem != null)
                     {
-                        int upcnt = int.Parse(qv.Qreward_cnt) + int.Parse(iv.ItemCnt);
-                        string _upcnt = upcnt.ToString();
-                        inventoryDao.ItemCraftUpdate(_upcnt,qv.Qreward);
+                        int updatedCount = int.Parse(qv.Qreward_cnt) + int.Parse(rewardItem.ItemCnt);
+                        inventoryDao.ItemCraftUpdate(updatedCount.ToString(), qv.Qreward);
                     }
                     else
                     {
-                        inventoryDao.ItemCraftInsert(qv.Qreward,qv.Qitem_cnt);
+                        inventoryDao.ItemCraftInsert(qv.Qreward, qv.Qitem_cnt);
                     }
-                    
+                    Start();
+                }
+                else
+                {
+                    Debug.Log("Insufficient items.");
                 }
             }
-           
+            else
+            {
+                Debug.Log("Required item not found in inventory.");
+            }
         }
+
         public void QuestButton()
         {
-            string ButtonNm = OnClickQuestListButton();
-            if (ButtonNm.Equals("PalybleQuest"))
+            string buttonName = OnClickQuestListButton();
+            if (buttonName.Equals("PalybleQuest"))
             {
-                StartQuestList(QuestList);
+                StartQuestList(questListData);
             }
-            else if (ButtonNm.Equals("SubmitQuest"))
+            else if (buttonName.Equals("SubmitQuest"))
             {
-                UpdateQuestList(QuestList);
+                SubmitQuestList(questListData);
+            }
+            else if (buttonName.Equals("CompleteQuest"))
+            {
+                CompleteQuestList(questListData);
             }
         }
+
         public string OnClickQuestListButton()
         {
             GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
-            string ChiceBotton = clickedButton.name;
-            return ChiceBotton;
+            return clickedButton.name;
         }
+
         public void OnClickReturn()
         {
-            {
-                SceneManager.LoadScene("OutingScene");
-            }
+            SceneManager.LoadScene("OutingScene");
+        }
+
+        private int GetQuestIndexFromObjectName(string objectName)
+        {
+            string indexString = objectName.Replace("QuestList", "");
+            return int.Parse(indexString);
         }
     }
 }

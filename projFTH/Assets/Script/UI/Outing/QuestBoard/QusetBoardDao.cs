@@ -61,7 +61,7 @@ namespace Script.UI.Outing.QuestBoard
             return QuestList;
         }
 
-        public void SubmitQuset(int questNo)
+        public void SubmitQuest(int questNo)
         {
             string sql = "UPDATE TBL_QUEST " +
                          " SET SFALG ='Y'" +
@@ -80,7 +80,7 @@ namespace Script.UI.Outing.QuestBoard
 
         }
 
-        public void RefuseSubmitQuset(int questNo)
+        public void RefuseSubmitQuest(int questNo)
         {
             string sql = "UPDATE TBL_QUEST " +
                          " SET SFALG ='N'" +
@@ -98,7 +98,7 @@ namespace Script.UI.Outing.QuestBoard
             }
         }
 
-        public void CompletQuset(int questNo)
+        public void CompleteQuest(int questNo)
         {
             string sql = "UPDATE TBL_QUEST " +
                          " SET CFLAG ='Y'" +
