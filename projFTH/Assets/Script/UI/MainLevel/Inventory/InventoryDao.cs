@@ -49,10 +49,15 @@ namespace Script.UI.MainLevel.Inventory
             return InvenList;
         }
 
-        public void ItemCraftInsert(string itemid, string usbl, string slot)
+        public void ItemCraftInsert( string itemid, string cnt)
         {
             string sql = "  INSERT INTO TBL_INVEN (PID, ITEM_ID , CNT, USBL,USBL_SLOT) " +
-                         " values (@pid, @itemid, @cnt, @usbl, @slot) ";
+                         " values (@pid, @itemid, @cnt, (select USBL from TBL_ITEM where TBL_ITEM.ITEM_ID = @itemid), " +
+                         "(SELECT tit.TYPE_NM " +
+                         "FROM TBL_ITEM ti  " +
+                         "INNER JOIN TBL_ITEM_TYPE tit " +
+                           "ON tit.TYPE_ID = ti.TYPE_ID " +
+                         "WHERE ti.ITEM_ID = @itemid))";
             using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
@@ -62,10 +67,7 @@ namespace Script.UI.MainLevel.Inventory
                     cmd.CommandText = sql;
                     cmd.Parameters.AddWithValue("@pid", "ejwhdms502");
                     cmd.Parameters.AddWithValue("@itemid", itemid);
-                    cmd.Parameters.AddWithValue("@cnt", "1");
-                    cmd.Parameters.AddWithValue("@usbl", usbl);
-                    cmd.Parameters.AddWithValue("@slot", slot);
-
+                    cmd.Parameters.AddWithValue("@cnt", cnt);
                     cmd.ExecuteNonQuery();
                 }
             }

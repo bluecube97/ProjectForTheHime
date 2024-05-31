@@ -58,6 +58,16 @@ namespace Script.UI.Outing.SmithyScript
             smeltListInstances.Clear();
             foreach (var dic in sList)
             {
+                InventoryVO have =  invenList.Find(p => p.ItemNo.Equals(dic["req_item"]));
+                string havecnt;
+                if (have == null)
+                {
+                    havecnt = "0";
+                }
+                else
+                {
+                    havecnt = have.ItemCnt;
+                }
                 GameObject smeltListInstance = Instantiate(smeltListPrefab, smeltListLayout);
                 smeltListInstance.name = "list" + dic["itemId"];
                 smeltListInstances.Add(smeltListInstance);
@@ -69,8 +79,8 @@ namespace Script.UI.Outing.SmithyScript
                     textComponent.text = dic["itemNm"] + "\r\n" +
                                          dic["itemDesc"] + "\r\n"+
                                          "소재 :  " + dic["req_name"] + "\r\n" +
-                                         "필요 갯수 : " + dic["req_itemcnt"];
-
+                                         "필요 갯수 : " + dic["req_itemcnt"] + "\r\n" +
+                                         "소지 갯수 : " + havecnt;
                 }
             }
             smeltList.SetActive(false);
@@ -147,6 +157,8 @@ namespace Script.UI.Outing.SmithyScript
                 {
                     inventoryDao.UpdateBuyThing(bitem, itemid);
                     smeltDao.UpdateUserCash(NowCash);
+                    invenList = inventoryDao.GetInvenList();
+
                 }
                 else
                 {
@@ -174,12 +186,13 @@ namespace Script.UI.Outing.SmithyScript
                 string _gitemcnt = giveitem.ItemCnt;
                 int gitemcnt = int.Parse(_gitemcnt);
                 int ritemcnt = int.Parse(reqitem_cnt);
-                int resuit = gitemcnt - ritemcnt;
+                int result = gitemcnt - ritemcnt;
+                Debug.Log("계산 후 남은 갯수 " + result);
                 //계산 시 로직
-                if (resuit >= 0)
+                if (result >= 0)
                 {
                     //DB에 선언된 값이 varchar이기 때문에 String으로 변환
-                    string _result = resuit.ToString();
+                    string _result = result.ToString();
                     //구매 후 물품 갯수 업데이트 
                     inventoryDao.ItemCraftPayment(gitemid, _result);
                     //구매한 물품 넣어주는 구문, DB에 insert와 update구문을 나누는 작업
@@ -191,23 +204,15 @@ namespace Script.UI.Outing.SmithyScript
                         int _uitem = cnt + 1;
                         string uitem = _uitem.ToString();
                         inventoryDao.ItemCraftUpdate(uitem, itemid);
+                        invenList = inventoryDao.GetInvenList();
+
                     }
                     else
                     {
-                        string usbl = "1";
-                        string slot;
+                        string cnt = "1";
                         Dictionary<string, object> sw = SmeltList.Find
                             (dic => dic["itemId"].ToString() == itemid);
-                        if (sw["recipeId"].Equals("1000"))
-                        {
-                            slot = "Weapon";
-                        }
-                        else
-                        {
-                            slot = "Armor";
-
-                        }
-                        inventoryDao.ItemCraftInsert(itemid,usbl,slot);
+                        inventoryDao.ItemCraftInsert(itemid,cnt);
                         invenList = inventoryDao.GetInvenList();
 
                     }

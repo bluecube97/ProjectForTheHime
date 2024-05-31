@@ -11,8 +11,10 @@ namespace Script.UI.Outing.QuestBoard
         public string CompleteFlag { get; set; }
 
         public string Qitem { get; set; }
+        public string QitemNm { get; set; }
         public string Qitem_cnt { get; set; }
         public string Qreward { get; set; }
+        public string QrewardNm { get; set; }
         public string Qreward_cnt { get; set; }
 
     }
