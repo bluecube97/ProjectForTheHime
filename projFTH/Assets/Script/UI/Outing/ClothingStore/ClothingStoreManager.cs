@@ -162,9 +162,8 @@ namespace Script.UI.Outing.ClothingStore
                     {
                         string _result = resuit.ToString();
                         inventoryDao.ItemCraftPayment(gitemid, _result);
-                        string usbl = "1";
-                        string slot = "Cloth";
-                        inventoryDao.ItemCraftInsert(itemid,usbl,slot);
+                        string cnt = "1";
+                        inventoryDao.ItemCraftInsert(itemid,cnt);
                         clothingUIManager.OnClickBuyComple();
                         invenList = inventoryDao.GetInvenList();
                     }

@@ -520,10 +520,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
-    m_Right: 0
+    m_Left: 10
+    m_Right: 10
     m_Top: 0
-    m_Bottom: 0
+    m_Bottom: 10
   m_ChildAlignment: 0
   m_Spacing: 20
   m_ChildForceExpandWidth: 0
@@ -708,7 +708,7 @@ MonoBehaviour:
   m_MovementType: 1
   m_Elasticity: 0.5
   m_Inertia: 1
-  m_DecelerationRate: 5
+  m_DecelerationRate: 0.5
   m_ScrollSensitivity: 20
   m_Viewport: {fileID: 727294030}
   m_HorizontalScrollbar: {fileID: 0}
@@ -1327,6 +1327,7 @@ GameObject:
   - component: {fileID: 650163526}
   - component: {fileID: 650163530}
   - component: {fileID: 650163531}
+  - component: {fileID: 650163532}
   m_Layer: 0
   m_Name: QuestBoardManager
   m_TagString: Untagged
@@ -1390,6 +1391,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ebd4c3c73cce9194e98061f14da78c5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &650163532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650163525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe155bcfb7bf0b147b4968575af8c415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &727294029
@@ -1621,7 +1634,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -2752,7 +2765,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1250, y: 200}
+  m_SizeDelta: {x: 1220, y: 225}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1415815139
 MonoBehaviour:
@@ -3686,7 +3699,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -3738,7 +3751,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1250, y: 200}
+  m_SizeDelta: {x: 1220, y: 225}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2006127903
 MonoBehaviour:
@@ -3854,8 +3867,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -245.00006, y: 0}
-  m_SizeDelta: {x: -770, y: -200}
+  m_AnchoredPosition: {x: -200, y: 0}
+  m_SizeDelta: {x: -600, y: -200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2108428056
 MonoBehaviour:

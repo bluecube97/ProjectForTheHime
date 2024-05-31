@@ -8,7 +8,6 @@ namespace Script.UI.Outing.QuestBoard
     using UnityEngine.EventSystems;
     using UnityEngine.SceneManagement;
     using UnityEngine.UI;
-    using UnityEngine.UIElements;
 
     public class QuestBoardManager : MonoBehaviour
     {
@@ -65,14 +64,15 @@ namespace Script.UI.Outing.QuestBoard
                         GameObject questListInstance = Instantiate(questListPrefab, questListLayout);
                         questListInstance.name = "QuestList" + quest.QuestNo;
                         questListInstances.Add(questListInstance);
-
+                        InventoryVO giveitem = invenList.Find(p => p.ItemNo.Equals(quest.Qitem));
+                        string havecnt = giveitem == null ? "0" : giveitem.ItemCnt;
                         Text textComponent = questListInstance.GetComponentInChildren<Text>();
                         if (textComponent != null)
                         {
                             textComponent.text = quest.QuestNo + "." +
                                          " : " + quest.QuestNm + "\r\n" +
-                                    " 내용 : " + quest.QuestMemo+
-                                         "요구 아이템 : " ;
+                                    " 내용 : " + quest.QuestMemo+ "\r\n" +
+                                         "요구 아이템 : "+ quest.QitemNm + "( "+ havecnt+ " / "+quest.Qitem_cnt+" )";
                         }
                     }
                 }
@@ -109,12 +109,14 @@ namespace Script.UI.Outing.QuestBoard
                         SubmitquestListInstances.Add(SubmitquestListInstance);
 
                         Text textComponent = SubmitquestListInstance.GetComponentInChildren<Text>();
-
+                        InventoryVO giveitem = invenList.Find(p => p.ItemNo.Equals(quest.Qitem));
+                        string havecnt = giveitem == null ? "0" : giveitem.ItemCnt;
                         if (textComponent != null)
                         {
                             textComponent.text = quest.QuestNo + "." +
-                                         " : " + quest.QuestNm + "\r\n" +
-                                    " 내용 : " + quest.QuestMemo;
+                                                 " : " + quest.QuestNm + "\r\n" +
+                                                 " 내용 : " + quest.QuestMemo+ 
+                                                 "요구 아이템 : "+ quest.QitemNm + "( "+ havecnt+ " / "+quest.Qitem_cnt+" )";
                         }
                     }
                 }
@@ -149,6 +151,48 @@ namespace Script.UI.Outing.QuestBoard
             StartQuestList(QuestList);
             QuestList = questBoardDao.GetQuestBoardList();
 
+        }
+
+        public void OnClickComple()
+        {
+            GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
+            GameObject parentObject = clickedButton.transform.parent.gameObject;
+            string parentObjectName = parentObject.name;
+            string indexString = parentObjectName.Replace("QuestList", "");
+            int index = int.Parse(indexString);
+            QuestBoardVO qv = QuestList.Find(vo =>vo.QuestNo.Equals(index) );
+            string _qtem = qv.Qitem_cnt;
+            string reqtem = qv.Qitem;
+            InventoryVO iv = invenList.Find(vo => vo.ItemNo.Equals(reqtem));
+            InventoryVO checkVal = invenList.Find(p => p.ItemNo.Equals(qv.Qreward));
+
+            if (iv == null)
+            {
+                Debug.Log("응 없어");
+                
+            }
+            else
+            {
+                int _result = int.Parse(iv.ItemCnt)-int.Parse(_qtem);
+                if (_result > 0)
+                {
+                    string result = _result.ToString();
+                    inventoryDao.ItemCraftPayment(qv.Qitem, result);
+                    questBoardDao.CompletQuset(index);
+                    if (checkVal != null)
+                    {
+                        int upcnt = int.Parse(qv.Qreward_cnt) + int.Parse(iv.ItemCnt);
+                        string _upcnt = upcnt.ToString();
+                        inventoryDao.ItemCraftUpdate(_upcnt,qv.Qreward);
+                    }
+                    else
+                    {
+                        inventoryDao.ItemCraftInsert(qv.Qreward,qv.Qitem_cnt);
+                    }
+                    
+                }
+            }
+           
         }
         public void QuestButton()
         {
