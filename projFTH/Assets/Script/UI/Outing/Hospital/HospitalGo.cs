@@ -4,21 +4,20 @@ namespace Script.UI.Outing.Hospital
 {
     public class HospitalGo
     {
-        public readonly GameObject HospitalPrefab = GameObject.Find("SellItemList");
+        public readonly GameObject BuyListPrefab = GameObject.Find("Buyitem");
         
-        public readonly GameObject Hospital = GameObject.Find("SellItemList");
+        public readonly GameObject BuyList = GameObject.Find("Buyitem");
         
-        public readonly GameObject HospitalLayout = GameObject.Find("BuyLayout");
+        public readonly GameObject BuyListLayout = GameObject.Find("BuyLayout");
         
         
         
-        public readonly GameObject CureMenu = GameObject.Find("CureMenu");
+        public readonly GameObject CureMenu = GameObject.Find("CureMenuBackGround");
         
-        public readonly GameObject BuyMenu = GameObject.Find("BuyMenu");
+        public readonly GameObject BuyMenu = GameObject.Find("HospitalBuyBackGround");
         
-        public readonly GameObject SellMenu = GameObject.Find("SellMenu");
+        public readonly GameObject SellMenu = GameObject.Find("HospitalSellBackGround");
         
-        public  GameObject HospitalUIInstance;
         public  GameObject hospitalInstances;
     }
 }
