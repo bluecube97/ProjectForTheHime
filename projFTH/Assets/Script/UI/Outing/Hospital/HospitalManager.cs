@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Script.UI.Outing.Hospital
@@ -20,15 +21,19 @@ namespace Script.UI.Outing.Hospital
             hospitalDao = GetComponent<HospitalDao>();
             _hpvo.SellList = hospitalDao.getSellList();
             _hpvo.Userinfo = hospitalDao.GetUserInfo();
-            OnclickSellList();
+            _hpgo.BuyMenu.SetActive(false);
+            _hpgo.CureMenu.SetActive(false);
+            _hpgo.BuyMenu.SetActive(false);
+            _hpgo.SellMenu.SetActive(false);
 
         }
 
-        public void OnclickSellList()
+        public void OnclickBuyList()
         {
+            _hpgo.BuyMenu.SetActive(true);
             foreach (Dictionary<string, object> dic in _hpvo.SellList)
             {
-                _hpgo.hospitalInstances = Instantiate(_hpgo.HospitalPrefab, _hpgo.HospitalLayout.transform);
+                _hpgo.hospitalInstances = Instantiate(_hpgo.BuyListPrefab, _hpgo.BuyListLayout.transform);
                 _hpgo.hospitalInstances.name = "itemList" + dic["itemNo"];
                 Text textComponent = _hpgo.hospitalInstances.GetComponentInChildren<Text>();
 
@@ -40,7 +45,7 @@ namespace Script.UI.Outing.Hospital
                 }
             }
 
-            _hpgo.Hospital.SetActive(false);
+            _hpgo.BuyList.SetActive(false);
         }
 
         public void GetclickListValue()
@@ -95,5 +100,20 @@ namespace Script.UI.Outing.Hospital
 
             hospitalDao.SetAfterHeal(payCash, _userMaxHP);
         }
+        public void ToggleMenu(GameObject menu, bool isActive)
+        {
+            menu.SetActive(isActive);
+        }
+
+        public void OnClickReturn()
+        {
+            SceneManager.LoadScene("OutingScene");
+        }
+        public void OnClickCure() => ToggleMenu(_hpgo.CureMenu, true);
+        public void OnClickCureOut() => ToggleMenu(_hpgo.CureMenu, false);
+        public void OnClickBuying() => ToggleMenu(_hpgo.BuyMenu, true);
+        public void OnClickBuyOuting() => ToggleMenu(_hpgo.BuyMenu, false);
+        public void OnClickSelling() => ToggleMenu(_hpgo.SellMenu, true);
+        public void OnClickSellOuting() => ToggleMenu(_hpgo.SellMenu, false);
     }
-}
+    }
