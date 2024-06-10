@@ -7,5 +7,6 @@ namespace Script._3D.UI
     {
         public int posX;
         public int posZ;
+        public bool isBlock;
     }
 }

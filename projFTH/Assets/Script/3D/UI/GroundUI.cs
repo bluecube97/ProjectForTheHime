@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 namespace Script._3D.UI
@@ -15,7 +14,9 @@ namespace Script._3D.UI
         public int startPlayerPosZ;
         public GameObject canvas;
 
-        private void Awake()
+        // protected: 상속받은 클래스에서만 접근 가능
+        // virtual: 상속받은 클래스에서 재정의 가능
+        protected virtual void Awake()
         {
             int maxPlaceBtn = linePlaceBtnCnt * linePlaceBtnCnt;
 
