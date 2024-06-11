@@ -9,7 +9,7 @@ namespace Script._3D.UI
         // 장애물 위치를 저장하는 리스트
         private readonly List<Vector2Int> _blockedPosition = new List<Vector2Int>();
         // protected: 상속받은 클래스에서만 접근 가능
-        // override: 상속받은 클래스의 virtual 메서드를 재정의
+        // override: 상속 한 클래스의 virtual 메서드를 재정의
         protected override void Awake()
         {
             base.Awake();
