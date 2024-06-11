@@ -2,7 +2,7 @@ import json
 import openai
 import os
 
-openai.api_key = "sk-proj-3ZLbBHwylhtASxE4BIaMT3BlbkFJh6cUB6QhPVKBieezTqSg"
+openai.api_key = ""
 previous_completion = None
 
 #유니티에서 대답 가져오는 메서드
