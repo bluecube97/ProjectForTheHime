@@ -3,19 +3,19 @@
     "name": "유리",
     "age": 10,
     "sex": "female",
-    "mbti": "ENFP",
+    "mbti": "INTJ",
     "hp": 100,
     "mp": 100,
     "mood": "happiness",
     "stress": "high",
     "fatigue": "tired",
-    "E": 60,
-    "I": 40,
-    "S": 40,
-    "N": 60,
-    "T": 40,
-    "F": 60,
-    "J": 40,
-    "P": 60
+    "E": 40,
+    "I": 60,
+    "S": 20,
+    "N": 80,
+    "T": 80,
+    "F": 20,
+    "J": 60,
+    "P": 40
   }
 }

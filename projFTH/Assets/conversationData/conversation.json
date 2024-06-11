@@ -178,5 +178,9 @@
     {
         "user_ment": "﻿{\"user_ment\":\"아니 네 이름 말고 user의 이름은 뭐야\"}",
         "gpt_ment": "user의 이름은 유리야."
+    },
+    {
+        "user_ment": "﻿{\"user_ment\":\"해위\"}",
+        "gpt_ment": "안녕하세요, 해위! 어떻게 지내세요?"
     }
 ]

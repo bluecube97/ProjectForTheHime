@@ -3,7 +3,6 @@ import json
 import os
 from statusVO import Daughter as d, load_daughter_status as lds
 import sys
-import mysql as sql
 
 # 전체 대화 내용 저장용 리스트 테스트
 conversation_ = []
