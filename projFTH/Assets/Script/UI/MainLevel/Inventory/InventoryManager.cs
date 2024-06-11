@@ -1,3 +1,4 @@
+using Script.UI.System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,6 +20,7 @@ namespace Script.UI.MainLevel.Inventory
 
         private void Awake()
         {
+            StartCoroutine(ConnDB.GetData());
             // 인스턴스가 없을 경우 현재 GameObject에 RestaurantManager를 추가합니다.
             if (instance == null)
             {

@@ -1,3 +1,5 @@
+using Script.UI.System;
+
 namespace Script.UI.Outing
 {
     using UnityEngine;
@@ -5,13 +7,9 @@ namespace Script.UI.Outing
 
     public class OutingManager : MonoBehaviour
     {
-        public void OnClickEdu()
-        {
-            SceneManager.LoadScene("EducateScene");
-        }
-
         public void OnClickRestaurant()
         {
+            StartCoroutine(ConnDB.GetData());
             SceneManager.LoadScene("RestaurantScene");
         }
 
