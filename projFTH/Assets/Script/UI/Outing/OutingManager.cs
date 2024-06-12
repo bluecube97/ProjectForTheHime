@@ -9,7 +9,6 @@ namespace Script.UI.Outing
     {
         public void OnClickRestaurant()
         {
-            StartCoroutine(ConnDB.GetData());
             SceneManager.LoadScene("RestaurantScene");
         }
 

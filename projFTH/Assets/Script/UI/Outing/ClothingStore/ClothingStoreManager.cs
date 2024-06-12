@@ -164,7 +164,7 @@ namespace Script.UI.Outing.ClothingStore
                         inventoryDao.ItemCraftPayment(gitemid, _result);
                         string cnt = "1";
                         inventoryDao.ItemCraftInsert(itemid,cnt);
-                        clothingUIManager.OnClickBuyComple();
+                        clothingUIManager.OnClickBuyComplete();
                         invenList = inventoryDao.GetInvenList();
                     }
                  
@@ -201,7 +201,7 @@ namespace Script.UI.Outing.ClothingStore
                 {
                     clothingDao.UpdateUserCash(NowCash);
                     inventoryDao.UpdateBuyThing(bitem, itemid);
-                    clothingUIManager.OnClickBuyComple();
+                    clothingUIManager.OnClickBuyComplete();
                 }
                 else
                 {

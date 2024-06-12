@@ -1,3 +1,5 @@
+using UnityEngine.Serialization;
+
 namespace Script.UI.Outing.ClothingStore
 {
     using UnityEngine;
@@ -9,7 +11,7 @@ namespace Script.UI.Outing.ClothingStore
         public GameObject MakeClothingMenu; // 옷 패널 오브젝트
         public GameObject SellMenu; // 판매 패널 오브젝트
         public GameObject BuyMenu; // 구매 패널 오브젝트
-        public GameObject ChiceUi;
+        public GameObject ChoiceUi;
         public GameObject BuyChiceUi;
         public GameObject BuyComple;
         public GameObject BuyFail;
@@ -33,7 +35,6 @@ namespace Script.UI.Outing.ClothingStore
         }
         public void OnClickMakeClothinging()
         {
-
             ActivateMenu(MakeClothingMenu);
         }
         public void OnClickMakeClothingOuting()
@@ -44,9 +45,7 @@ namespace Script.UI.Outing.ClothingStore
 
         public void OnClickSelling()
         {
-
             // 판매메뉴가 활성화 되어있지 않다면
-
             ActivateMenu(SellMenu);
         }
         public void OnClickSellOuting()
@@ -64,28 +63,28 @@ namespace Script.UI.Outing.ClothingStore
         {
             DeactivateMenu(BuyMenu);
         }
-        public void OnClickChiceUi()
+        public void OnClickChoiceUi()
         {
-            ActivateMenu(ChiceUi);
+            ActivateMenu(ChoiceUi);
         }
-        public void OnClickChiceUiOut()
+        public void OnClickChoiceUiOut()
         {
-            DeactivateMenu(ChiceUi);
+            DeactivateMenu(ChoiceUi);
         }
-        public void OnClickBuyChiceUi()
+        public void OnClickBuyChoiceUi()
         {
             ActivateMenu(BuyChiceUi);
         }
-        public void OnClickBuyChiceUiOut()
+        public void OnClickBuyChoiceUiOut()
         {
             DeactivateMenu(BuyChiceUi);
         }
-        public void OnClickBuyComple()
+        public void OnClickBuyComplete()
         {
             ActivateMenu(BuyComple);
         }
 
-        public void OnClickBuyCompleOut()
+        public void OnClickBuyCompleteOut()
         {
             DeactivateMenu(BuyComple);
             SceneManager.LoadScene("ClothingStoreScene");

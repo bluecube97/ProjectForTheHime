@@ -123,7 +123,7 @@ namespace Script.UI.Outing.ClothingStore
         public string GetUserInfoFromDB()
         {
             string Usercash = "";
-            var sql = "  SELECT CASH " +
+            var sql = " SELECT CASH " +
                       "   FROM TBL_USERINFO " +
                       "  where PID = @pid";
             using (MySqlConnection connection = new(ConnDB.Con))

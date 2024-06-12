@@ -8,12 +8,6 @@ namespace Script.UI.MainLevel
 
     public class MainLevelManager : MonoBehaviour
     {
-        public void Start()
-        {
-            ConnDB connDB = new();
-            StartCoroutine(ConnDB.GetData());
-        }
-
         public void GoOutBtn()
         {
             SceneManager.LoadScene("OutingScene");

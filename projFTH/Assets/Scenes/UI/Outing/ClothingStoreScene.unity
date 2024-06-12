@@ -779,7 +779,7 @@ MonoBehaviour:
   MakeClothingMenu: {fileID: 1302371267}
   SellMenu: {fileID: 1511912814}
   BuyMenu: {fileID: 1493980590}
-  ChiceUi: {fileID: 1355837051}
+  ChoiceUi: {fileID: 1355837051}
   BuyChiceUi: {fileID: 1997005268}
   BuyComple: {fileID: 920169397}
   BuyFail: {fileID: 800792398}
@@ -935,7 +935,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 260509150}
         m_TargetAssemblyTypeName: Script.UI.Outing.ClothingUIManager, Assembly-CSharp
-        m_MethodName: OnClickChiceUi
+        m_MethodName: OnClickChoiceUi
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2558,7 +2558,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 260509150}
         m_TargetAssemblyTypeName: Script.UI.Outing.ClothingUIManager, Assembly-CSharp
-        m_MethodName: OnClickChiceUiOut
+        m_MethodName: OnClickChoiceUiOut
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2938,7 +2938,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 260509150}
         m_TargetAssemblyTypeName: Script.UI.Outing.ClothingUIManager, Assembly-CSharp
-        m_MethodName: OnClickBuyChiceUi
+        m_MethodName: OnClickBuyChoiceUi
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4043,7 +4043,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 260509150}
         m_TargetAssemblyTypeName: Script.UI.Outing.ClothingUIManager, Assembly-CSharp
-        m_MethodName: OnClickBuyChiceUiOut
+        m_MethodName: OnClickBuyChoiceUiOut
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4176,7 +4176,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 260509150}
         m_TargetAssemblyTypeName: Script.UI.Outing.ClothingUIManager, Assembly-CSharp
-        m_MethodName: OnClickBuyCompleOut
+        m_MethodName: OnClickBuyCompleteOut
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5398,7 +5398,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 260509150}
         m_TargetAssemblyTypeName: Script.UI.Outing.ClothingUIManager, Assembly-CSharp
-        m_MethodName: OnClickBuyChiceUiOut
+        m_MethodName: OnClickBuyChoiceUiOut
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6432,7 +6432,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 260509150}
         m_TargetAssemblyTypeName: Script.UI.Outing.ClothingUIManager, Assembly-CSharp
-        m_MethodName: OnClickChiceUiOut
+        m_MethodName: OnClickChoiceUiOut
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
