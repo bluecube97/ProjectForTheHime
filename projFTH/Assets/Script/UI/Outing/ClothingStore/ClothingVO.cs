@@ -20,11 +20,5 @@ namespace Script.UI.Outing.ClothingStore
         public string req_name { get; set; }
 
         public string req_itemcnt { get; set; }
-
-
-    }
-
-    public class ClothingVo : ClothingVO
-    {
     }
 }

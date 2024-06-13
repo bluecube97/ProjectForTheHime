@@ -1,8 +1,11 @@
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 using Script.UI.System;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using NotImplementedException = System.NotImplementedException;
+using UnityEngine.Networking;
 
 namespace Script.UI.Outing.ClothingStore
 {
@@ -15,55 +18,41 @@ namespace Script.UI.Outing.ClothingStore
             _connDB = new ConnDB();
         }
 
-        public List<ClothingVO> GetClothingList()
+        public IEnumerator GetClothingList(Action<List<Dictionary<string, object>>> callback)
         {
-            List<ClothingVO> clothingList = new();
-            string sql = "SELECT  tr.RECIPE_ID, " +
-                         " ti.ITEM_ID, " +
-                         " ti.NAME, " +
-                         "ti.`DESC` ," +
-                         " tr.REQ_ITEM, " +
-                         " ti1.NAME AS REQ_ITEM_NAME, " +
-                         " tr.R_ITEM_CNT " +
-                         " FROM TBL_ITEM ti " +
-                         " INNER JOIN TBL_RECIPE tr " +
-                         " ON ti.ITEM_ID = tr.ITEM_ID " +
-                         " LEFT JOIN TBL_ITEM ti1 " +
-                         " ON tr.REQ_ITEM = ti1.ITEM_ID " +
-                         " WHERE ti.TYPE_ID = 1002 " +
-                         " ORDER BY ti.ITEM_ID";
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/clothing/list");
+            yield return request.SendWebRequest();
 
-            using (MySqlConnection connection = new(ConnDB.Con))
+            if (request.result == UnityWebRequest.Result.Success)
             {
-                connection.Open();
-                using (MySqlCommand cmd = connection.CreateCommand())
-                {
-                    cmd.CommandText = sql;
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        cmd.Parameters.Clear();
-
-                        while (reader.Read())
-                        {
-                            ClothingVO cv = new ClothingVO();
-                            cv.r_id = reader.GetString("RECIPE_ID");
-                            cv.r_itemid = reader.GetString("ITEM_ID");
-                            cv.r_name = reader.GetString("NAME");
-                            cv.r_desc = reader.GetString("DESC");
-                            cv.req_item = reader.GetString("REQ_ITEM");
-                            cv.req_name = reader.GetString("REQ_ITEM_NAME");
-                            cv.req_itemcnt = reader.GetString("R_ITEM_CNT");
-
-                            clothingList.Add(cv);
-                        }
-                    }
-                }
+                string json = request.downloadHandler.text;
+                List<Dictionary<string, object>> clothingList = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
+                callback(clothingList);
             }
-
-            return clothingList;
+            else
+            {
+                Debug.LogError("Error: " + request.error);
+            }
         }
 
-        public List<ClothingVO> GetClothingBuyList()
+        public IEnumerator GetClothingBuyList(Action<List<Dictionary<string, object>>> callback)
+        {
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/clothing/buy");
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string json = request.downloadHandler.text;
+                List<Dictionary<string, object>> clothingBuyList = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
+                callback(clothingBuyList);
+            }
+            else
+            {
+                Debug.LogError("Error: " + request.error);
+            }
+        }
+
+        public List<ClothingVO> _GetClothingBuyList()
         {
             List<ClothingVO> CltBuyList = new();
 
@@ -84,7 +73,7 @@ namespace Script.UI.Outing.ClothingStore
 
                         while (reader.Read())
                         {
-                            ClothingVO cv = new ClothingVO();
+                            ClothingVO cv = new();
                             cv.itemid = reader.GetString("ITEM_ID");
                             cv.itemnm = reader.GetString("NAME");
                             cv.itemdesc = reader.GetString("DESC");
@@ -120,12 +109,29 @@ namespace Script.UI.Outing.ClothingStore
             }
         }
 
-        public string GetUserInfoFromDB()
+        public IEnumerator GetUserInfoFromDB(Action<string> callback)
+        {
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/clothing/cash");
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string json = request.downloadHandler.text;
+                string userCash = JsonConvert.DeserializeObject<string>(json);
+                callback(userCash);
+            }
+            else
+            {
+                Debug.LogError("Error: " + request.error);
+            }
+        }
+
+        public string _GetUserInfoFromDB()
         {
             string Usercash = "";
-            var sql = " SELECT CASH " +
-                      "   FROM TBL_USERINFO " +
-                      "  where PID = @pid";
+            string sql = " SELECT CASH " +
+                         "   FROM TBL_USERINFO " +
+                         "  where PID = @pid";
             using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();
@@ -155,9 +161,9 @@ namespace Script.UI.Outing.ClothingStore
                 connection.Open();
                 using (MySqlCommand cmd = connection.CreateCommand())
                 {
-                    var sql = " update TBL_USERINFO " +
-                              " set CASH = (@payment)" +
-                              " where PID = (@pid) ";
+                    string sql = " update TBL_USERINFO " +
+                                 " set CASH = (@payment)" +
+                                 " where PID = (@pid) ";
                     // DB에 유저 정보 저장
                     cmd.CommandText = sql;
                     cmd.Parameters.AddWithValue("@pid", "ejwhdms502");
@@ -174,10 +180,10 @@ namespace Script.UI.Outing.ClothingStore
                 connection.Open();
                 using (MySqlCommand cmd = connection.CreateCommand())
                 {
-                    var sql = " update TBL_INVEN " +
-                              " set CNT = (@bitem)" +
-                              " where PID = (@pid) " +
-                              " AND ITEM_ID = (@itemid)";
+                    string sql = " update TBL_INVEN " +
+                                 " set CNT = (@bitem)" +
+                                 " where PID = (@pid) " +
+                                 " AND ITEM_ID = (@itemid)";
                     // DB에 유저 정보 저장
                     cmd.CommandText = sql;
                     cmd.Parameters.AddWithValue("@bitem", bitem);
