@@ -14,6 +14,7 @@ namespace Script.UI.Outing.QuestBoard
             _connDB = new ConnDB();
         }
 
+        //퀘스트 정보 불러옴
         public List<QuestBoardVO> GetQuestBoardList()
         {
             List<QuestBoardVO> QuestList = new();
@@ -61,6 +62,7 @@ namespace Script.UI.Outing.QuestBoard
             return QuestList;
         }
 
+        //퀘스트 수락 시
         public void SubmitQuest(int questNo)
         {
             string sql = "UPDATE TBL_QUEST " +
@@ -80,6 +82,7 @@ namespace Script.UI.Outing.QuestBoard
 
         }
 
+        //수락한 퀘스트 거절 시 
         public void RefuseSubmitQuest(int questNo)
         {
             string sql = "UPDATE TBL_QUEST " +
@@ -98,6 +101,7 @@ namespace Script.UI.Outing.QuestBoard
             }
         }
 
+        //퀘스트 완료 시 
         public void CompleteQuest(int questNo)
         {
             string sql = "UPDATE TBL_QUEST " +
