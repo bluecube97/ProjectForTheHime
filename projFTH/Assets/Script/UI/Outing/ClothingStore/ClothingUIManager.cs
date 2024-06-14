@@ -11,10 +11,10 @@ namespace Script.UI.Outing.ClothingStore
         public GameObject MakeClothingMenu; // 옷 패널 오브젝트
         public GameObject SellMenu; // 판매 패널 오브젝트
         public GameObject BuyMenu; // 구매 패널 오브젝트
-        public GameObject ChoiceUi;
-        public GameObject BuyChiceUi;
-        public GameObject BuyComple;
-        public GameObject BuyFail;
+        public GameObject ChoiceUi; //제작여부 확인 오브젝트
+        public GameObject BuyChiceUi; //구매여부 확인 오브젝트
+        public GameObject BuyComple; //구매,제작 성공 시 오브젝트
+        public GameObject BuyFail; //구매,제작 실패 시 오브젝트
         private void Awake()
         {
             // 인스턴스가 없을 경우 현재 GameObject에 ClothingUIManager 추가합니다.

@@ -14,7 +14,8 @@ namespace Script.UI.Outing.Hospital
             _connDB = new ConnDB();
         }
 
-        public List<Dictionary<string, object>> getSellList()
+        //구매 아이템 목록을 담음
+        public List<Dictionary<string, object>> getBuyList()
         {
             List<Dictionary<string, object>> SellList = new();
             string sql = "SELECT ti.ITEM_ID, ti.NAME, ti.`DESC`, ti.SELL_PRI, ti.BUY_PRI " +
@@ -45,6 +46,7 @@ namespace Script.UI.Outing.Hospital
             return SellList;
         }
 
+        //유저 정보를 담음
         public Dictionary<string, object> GetUserInfo()
         {
             Dictionary<string, object> dic = new();
@@ -74,7 +76,8 @@ namespace Script.UI.Outing.Hospital
 
             return dic;
         }
-
+        
+        //치료 후 정보 갱신
         public void SetAfterHeal(string payCash, string userMaxHP)
         {
             string sql = " update TBL_USERINFO " +
@@ -96,6 +99,7 @@ namespace Script.UI.Outing.Hospital
             }
         }
 
+        //구매 후 정보 갱신
         public void SetBuyAfter(string payCash)
         {
             string sql = " update TBL_USERINFO " +
@@ -111,6 +115,48 @@ namespace Script.UI.Outing.Hospital
                     cmd.CommandText = sql;
                     cmd.Parameters.AddWithValue("@payCash", payCash);
                     cmd.Parameters.AddWithValue("@pid", "ejwhdms502");
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+        public void UpdateBuyThing(string bitem, string itemid)
+        {
+            using (MySqlConnection connection = new(ConnDB.Con))
+            {
+                connection.Open();
+                using (MySqlCommand cmd = connection.CreateCommand())
+                {
+                    string sql = " update TBL_INVEN " +
+                                 " set CNT = (@bitem)" +
+                                 " where PID = (@pid) " +
+                                 " AND ITEM_ID = (@itemid)";
+                    // DB에 유저 정보 저장
+                    cmd.CommandText = sql;
+                    cmd.Parameters.AddWithValue("@bitem", bitem);
+                    cmd.Parameters.AddWithValue("@pid", "ejwhdms502");
+                    cmd.Parameters.AddWithValue("@itemid", itemid);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void InsertBuyThing(string itemid)
+        {
+            string sql = "  INSERT INTO TBL_INVEN (PID, ITEM_ID , CNT, USBL,USBL_SLOT) " +
+                         " values (@pid, @itemid, @cnt, @usbl, @slot) ";
+            using (MySqlConnection connection = new(ConnDB.Con))
+            {
+                connection.Open();
+                using (MySqlCommand cmd = connection.CreateCommand())
+                {
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = sql;
+                    cmd.Parameters.AddWithValue("@pid", "ejwhdms502");
+                    cmd.Parameters.AddWithValue("@itemid", itemid);
+                    cmd.Parameters.AddWithValue("@cnt", "1");
+                    cmd.Parameters.AddWithValue("@usbl", "0");
+                    cmd.Parameters.AddWithValue("@slot", "");
+
                     cmd.ExecuteNonQuery();
                 }
             }
