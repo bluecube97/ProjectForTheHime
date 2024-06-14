@@ -1,9 +1,10 @@
-using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using Script.UI.System;
 using System;
+using System.Text;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
@@ -52,7 +53,10 @@ namespace Script.UI.MainLevel.StartTurn.Dao
             cmd.Parameters.AddWithValue("@month", month);
             using MySqlDataReader reader = cmd.ExecuteReader();
             List<int> todoList = new();
-            while (reader.Read()) todoList.Add((int)reader["TODONO"]);
+            while (reader.Read())
+            {
+                todoList.Add((int)reader["TODONO"]);
+            }
 
             return todoList;
         }
@@ -62,18 +66,26 @@ namespace Script.UI.MainLevel.StartTurn.Dao
             string url = "http://localhost:8080/api/todo";
             string jsonBody = JsonConvert.SerializeObject(list);
 
-            UnityWebRequest request = new UnityWebRequest(url, "POST");
-            byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonBody);
-            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-            request.downloadHandler = new DownloadHandlerBuffer();
+            // JSON 데이터를 바이트 배열로 변환
+            byte[] jsonToSend = Encoding.UTF8.GetBytes(jsonBody);
+
+            // UnityWebRequest를 사용하여 POST 요청 생성
+            UnityWebRequest request = new UnityWebRequest(url, "POST")
+            {
+                uploadHandler = new UploadHandlerRaw(jsonToSend),
+                downloadHandler = new DownloadHandlerBuffer()
+            };
             request.SetRequestHeader("Content-Type", "application/json");
 
+            // 요청을 보내고 응답을 기다림
             yield return request.SendWebRequest();
 
+            // 요청 결과 처리
             if (request.result == UnityWebRequest.Result.Success)
             {
                 string json = request.downloadHandler.text;
-                List<Dictionary<string, object>> todoNoList = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
+                List<Dictionary<string, object>> todoNoList =
+                    JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
                 callback(todoNoList);
             }
             else
