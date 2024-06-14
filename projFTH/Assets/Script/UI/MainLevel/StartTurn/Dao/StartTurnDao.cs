@@ -6,7 +6,6 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Networking;
 
 namespace Script.UI.MainLevel.StartTurn.Dao
@@ -21,9 +20,10 @@ namespace Script.UI.MainLevel.StartTurn.Dao
             _connDB = new ConnDB();
         }
 
+        // 현재 날짜의 연, 월을 입력받아 해당하는 TodoNO를 반환하여 리스트에 저장
         public IEnumerator GetTodoNo(int year, int month, Action<List<int>> callback)
         {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/todo/" + year + "/" + month);
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/lifetime/todono/" + year + "/" + month);
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)
@@ -61,9 +61,10 @@ namespace Script.UI.MainLevel.StartTurn.Dao
             return todoList;
         }
 
+        // TodoNO를 이용하여 TodoList를 가져와 리스트에 저장
         public IEnumerator GetTodoList(List<int> list, Action<List<Dictionary<string, object>>> callback)
         {
-            string url = "http://localhost:8080/api/todo";
+            string url = "http://localhost:8080/api/lifetime/todolist";
             string jsonBody = JsonConvert.SerializeObject(list);
 
             // JSON 데이터를 바이트 배열로 변환
