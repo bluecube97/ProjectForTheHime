@@ -1,7 +1,12 @@
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 using Script.UI.System;
+using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Networking;
 
 namespace Script.UI.MainLevel.StartTurn.Dao
 {
@@ -15,8 +20,25 @@ namespace Script.UI.MainLevel.StartTurn.Dao
             _connDB = new ConnDB();
         }
 
+        public IEnumerator GetTodoNo(int year, int month, Action<List<int>> callback)
+        {
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/todo/" + year + "/" + month);
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string json = request.downloadHandler.text;
+                List<int> todoNoList = JsonConvert.DeserializeObject<List<int>>(json);
+                callback(todoNoList);
+            }
+            else
+            {
+                Debug.LogError("Error: " + request.error);
+            }
+        }
+
         // 현재 날짜의 연, 월을 입력받아 해당하는 TodoNO를 반환하여 리스트에 저장
-        public List<int> GetTodoNo(int year, int month)
+        public List<int> _GetTodoNo(int year, int month)
         {
             using MySqlConnection connection = new(ConnDB.Con);
             connection.Open();
@@ -35,8 +57,33 @@ namespace Script.UI.MainLevel.StartTurn.Dao
             return todoList;
         }
 
+        public IEnumerator GetTodoList(List<int> list, Action<List<Dictionary<string, object>>> callback)
+        {
+            string url = "http://localhost:8080/api/todo";
+            string jsonBody = JsonConvert.SerializeObject(list);
+
+            UnityWebRequest request = new UnityWebRequest(url, "POST");
+            byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonBody);
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string json = request.downloadHandler.text;
+                List<Dictionary<string, object>> todoNoList = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
+                callback(todoNoList);
+            }
+            else
+            {
+                Debug.LogError("Error: " + request.error);
+            }
+        }
+
         // TodoNO를 이용하여 TodoList를 가져와 리스트에 저장
-        public List<Dictionary<string, object>> GetTodoList(List<int> noList)
+        public List<Dictionary<string, object>> _GetTodoList(List<int> noList)
         {
             using MySqlConnection connection = new(ConnDB.Con);
             connection.Open();
