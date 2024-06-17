@@ -9,28 +9,34 @@ namespace Script.UI.Outing.SmithyScript
 {
     public class SmeltManager : MonoBehaviour
     {
-        public GameObject smeltListPrefab;
-        public GameObject smeltList;
-        public Transform smeltListLayout;
+        public GameObject smeltListPrefab; //재련 이미지 참조
+        public GameObject smeltList; // 재련 이미지 참조 
+        public Transform smeltListLayout; //재련 이미치 레이아웃 참조
 
-        public GameObject buyListPrefab;
-        public GameObject buyList;
-        public Transform buyListLayout;
+        public GameObject buyListPrefab; //구매 이미지 참조
+        public GameObject buyList; // 구매이미지 참조
+        public Transform buyListLayout; //구매 이미지 레이아웃 참조
 
+        //인벤토리 정보를 담음
         private List<InventoryVO> invenList = new();
 
         
         private SmeltDao smeltDao;
         private InventoryDao inventoryDao;
 
+        //재련에 대한 정보 담음
         private List<Dictionary<string, object>> SmeltList = new List<Dictionary<string, object>>();
+        //구매에 대한 정보 담음
         private List<Dictionary<string, object>> BuyList = new List<Dictionary<string, object>>();
 
         private List<GameObject> smeltListInstances = new List<GameObject>();
         private List<GameObject> buyListInstances = new List<GameObject>();
-
+        
+        //구매나 제련 시 얻게되는 아이템 아이디를 담음
         private string itemid;
+        //재련 시 요구 아이템 아이디를 담음
         private string reqitem;
+        //재련 시 요구 아이템의 갯수를 담음
         private string reqitem_cnt;
 
         private void Start()
@@ -58,8 +64,9 @@ namespace Script.UI.Outing.SmithyScript
             smeltListInstances.Clear();
             foreach (var dic in sList)
             {
+                //인벤토리에 제작 시 요구 아이템 보유 여부를 찾음
                 InventoryVO have =  invenList.Find(p => p.ItemNo.Equals(dic["req_item"]));
-                string havecnt;
+                string havecnt; //소지갯수를 담음
                 if (have == null)
                 {
                     havecnt = "0";
@@ -68,6 +75,7 @@ namespace Script.UI.Outing.SmithyScript
                 {
                     havecnt = have.ItemCnt;
                 }
+                //재련리스트 인스턴스화
                 GameObject smeltListInstance = Instantiate(smeltListPrefab, smeltListLayout);
                 smeltListInstance.name = "list" + dic["itemId"];
                 smeltListInstances.Add(smeltListInstance);
@@ -85,10 +93,13 @@ namespace Script.UI.Outing.SmithyScript
             }
             smeltList.SetActive(false);
         }
+        
+        //구매 목록 출력
         public void SetBuyList(List<Dictionary<string, object>> bList)
         {
             foreach (var dic in bList)
             {
+                //구매 목록 인스턴스화
                 GameObject buyListInstance = Instantiate(buyListPrefab, buyListLayout);
                 buyListInstance.name = "weaponlist" + dic["itemId"];
                 buyListInstances.Add(buyListInstance);
@@ -103,21 +114,26 @@ namespace Script.UI.Outing.SmithyScript
             }
             buyList.SetActive(false);
         }
+        
+        //구매하기 버튼 클릭 시 
         public void OnClickSubmit()
         {
             GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
             GameObject parentObject = clickedButton.transform.parent.gameObject;
             string parentObjectName = parentObject.name;
             itemid = parentObjectName.Replace("weaponlist", "");
+            
+            //구매 목록 중 itemid와  동일한 item을 찾아 그 값을 담음
             Dictionary<string, object> selectedItem = BuyList.Find
                 (dic => dic["itemId"].ToString() == itemid);
 
+            //itemid 가 있다면 itemSellPr의 값을 추출해 int형으로 price에 담음
             if (selectedItem != null && selectedItem.TryGetValue("itemSellPr", out object priceObj)
                                      && priceObj is string priceStr
                                      && int.TryParse(priceStr, out int price))
             {
+                //값 지불하는 메서드
                 ProcessPayment(price);
-
             }
         }
         //구매 리스트 선택 시 구매 리스트 정보 받아오기(현금 구매)
@@ -127,34 +143,52 @@ namespace Script.UI.Outing.SmithyScript
             GameObject parentObject = clickedButton.transform.parent.gameObject;
             string parentObjectName = parentObject.name;
             itemid= parentObjectName.Replace("list", "");
+            //SmeltList에 itmeid이 있는 지 찾아 값을 담음
             Dictionary<string, object> sw = SmeltList.Find
                 (dic => dic["itemId"].ToString() == itemid);
+            //요구 itemid를 담음
             reqitem = sw["req_item"].ToString();
+            //요구 itemid의 갯수를 담음
             reqitem_cnt = sw["req_itemcnt"].ToString();
             Debug.Log(reqitem);
             Debug.Log(reqitem_cnt);
         }
+        
+        //구매 시 값을 지불하는 메서드
         public void ProcessPayment(int weaponPrice)
         {
             string _userCash = smeltDao.GetUserInfoFromDB();
             int _NowCash = int.Parse(_userCash) - weaponPrice;
+            
+            //DB에 값을 넣을 때 update와 insert문을 구별 하기 위해
+            // 구매 시 얻게 되는 itemid가 있는 지 확인
             InventoryVO buyitem = invenList.Find(p => p.ItemNo.Equals(itemid));
 
             Debug.Log("DB 유저 현금 " + _userCash);
             Debug.Log("계산 후 금액 " + _NowCash);
+            
+            //인벤토리에 구매 아이템이 없다면
             if (buyitem == null)
             {
+                //인서트 구문을 사용해 인벤토리DB에 넣어줌
                 inventoryDao.InsertBuyThing(itemid);
+                //값 갱신
                 invenList = inventoryDao.GetInvenList();
             }
             else
             {
+                //인벤토리에 구매아이템이 있다면 
+                // 인벤토리에 구매아이템의 갯수를 담고
+                //계산을 위해 형변환
                 string _item = buyitem.ItemCnt;
                 int item = int.Parse(_item);
                 string bitem = (item + 1).ToString();
                 string NowCash = _NowCash.ToString();
+                
+                //계산 후 금액이 0보다 크면
                 if (_NowCash > 0)
                 {
+                    //DB에 값을 update함
                     inventoryDao.UpdateBuyThing(bitem, itemid);
                     smeltDao.UpdateUserCash(NowCash);
                     invenList = inventoryDao.GetInvenList();
@@ -166,7 +200,8 @@ namespace Script.UI.Outing.SmithyScript
                 }
             }
         }
-
+        
+        //재련 시 값을 지불하는 메서드
         public void ProcessPayItem()
         {
             //인벤토리에 구매 물품 보유 여부 확인
@@ -219,7 +254,7 @@ namespace Script.UI.Outing.SmithyScript
                 }
                 else
                 {
-                    Debug.Log("호갱님 가진것이 없으시네요");
+                    Debug.Log("호갱님 재료가 부족해요");
 
                 }
             }

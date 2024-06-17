@@ -15,6 +15,8 @@ namespace Script.UI.Outing.RestaurantScript
             restaurantManager = GetComponent<RestaurantManager>(); // 현재 게임 오브젝트에 붙어 있는 RestaurantFoodList 스크립트를 가져옴
             _connDB = new ConnDB();
         }
+        
+        //음식 정보 받아옴
         public List<FoodListVO> GetFoodListFromDB()
         {
             List<FoodListVO> FoodList = new List<FoodListVO> ();
@@ -31,7 +33,7 @@ namespace Script.UI.Outing.RestaurantScript
                     {
                         while (reader.Read())
                         {
-                            FoodListVO fv = new FoodListVO();
+                            FoodListVO fv = new();
                             fv.FoodNo = (string)reader["ITEM_ID"];
                             fv.FoodNm = (string)reader["DESC"];
                             fv.FoodPr = (string)reader["BUY_PRI"];
@@ -43,6 +45,8 @@ namespace Script.UI.Outing.RestaurantScript
             }
             return FoodList;
         }
+        
+        //유저 정보 받아오기
         public string  GetUserInfoFromDB()
         {
             string Usercash = "";
@@ -66,9 +70,10 @@ namespace Script.UI.Outing.RestaurantScript
             }
             return Usercash;
         }
+        
+        //결제 후 잔액 업데이트
         public void UpdateUserCash(string payment)
         {
-
             using (MySqlConnection connection = new(ConnDB.Con))
             {
                 connection.Open();

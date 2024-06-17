@@ -6,13 +6,14 @@ namespace Script.UI.Outing.RestaurantScript
         public class RestaurantUIController : MonoBehaviour
 
     {
+        //UI 인스턴스화
         private static RestaurantUIController instance;
-        public GameObject EatMenu;
-        public GameObject SellMenu;
-        public GameObject BuyMenu;
-        public GameObject ChiceUi;
-        public GameObject BuyComple;
-        public GameObject BuyFail;
+        public GameObject EatMenu; //식사목록
+        public GameObject SellMenu; //판매목록
+        public GameObject BuyMenu; //구매목록
+        public GameObject ChiceUi; //구매 여부 선택
+        public GameObject BuyComple; //구매성공 시
+        public GameObject BuyFail; // 구매실패 시
 
 
 
