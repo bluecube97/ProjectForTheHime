@@ -64,7 +64,7 @@ namespace Script.UI.MainLevel.StartTurn.Dao
         // TodoNO를 이용하여 TodoList를 가져와 리스트에 저장
         public IEnumerator GetTodoList(List<int> list, Action<List<Dictionary<string, object>>> callback)
         {
-            string url = "http://localhost:8080/api/lifetime/todolist";
+            const string url = "http://localhost:8080/api/lifetime/todolist";
             string jsonBody = JsonConvert.SerializeObject(list);
 
             // JSON 데이터를 바이트 배열로 변환

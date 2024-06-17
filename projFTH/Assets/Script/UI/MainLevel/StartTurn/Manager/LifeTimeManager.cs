@@ -157,67 +157,75 @@ namespace Script.UI.MainLevel.StartTurn.Manager
             StartCoroutine(_std.GetTodoNo(_ltvo.NowYear, _ltvo.NowMonth, list =>
             {
                 noList = list;
-            }));
-
-            // TodoNO를 이용하여 TodoList를 가져와 리스트에 저장
-            StartCoroutine(_std.GetTodoList(noList, list =>
-            {
-                _ltvo.TodoList = list;
-            }));
-            // TODOList에 인덱스 지정 할 변수
-            int index = 1;
-
-            // 현재 날짜 표기
-            Text nowDateComponent = _ltgo.NowDate.GetComponentInChildren<Text>();
-            nowDateComponent.text = _ltvo.NowYear + "년 " + _ltvo.NowMonth + "월";
-
-            foreach (Dictionary<string, object> dic in _ltvo.TodoList)
-            {
-                // 버튼 프리팹 인스턴스화
-                _ltgo.TodoListInstance = Instantiate(_ltgo.TodoListPrefab, _ltgo.TodoListLayout.transform);
-                // 이미지 오브젝트에 딕셔너리 값 설정
-                Text todoNameTxtComponent = _ltgo.TodoListInstance.GetComponentInChildren<Text>();
-                if (todoNameTxtComponent != null)
+                // TodoNO를 이용하여 TodoList를 가져와 리스트에 저장
+                StartCoroutine(_std.GetTodoList(noList, list =>
                 {
-                    string todoName = dic["TODONAME"].ToString();
-                    int reward = Convert.ToInt32(dic["REWARD"]);
-                    int loseReward = Convert.ToInt32(dic["LOSEREWARD"]);
-                    int statRewardI = Convert.ToInt32(dic["STATREWARD"]);
-                    int todoNo = Convert.ToInt32(dic["TODONO"]);
+                    _ltvo.TodoList = list;
 
-                    // 값 초기화
-                    string statReward = "";
-                    _ltgo.TodoListInstance.name = "TodoBtn" + todoNo;
-                    // TODOList의 각 요소에 컴포넌트 추가
-                    TodoNameComponentVo todoNameComponent = _ltgo.TodoListInstance.GetComponent<TodoNameComponentVo>();
+                    // TODOList에 인덱스 지정 할 변수
+                    int index = 1;
 
-                    statReward = (statRewardI % 2) switch
+                    // 현재 날짜 표기
+                    Text nowDateComponent = _ltgo.NowDate.GetComponentInChildren<Text>();
+                    nowDateComponent.text = _ltvo.NowYear + "년 " + _ltvo.NowMonth + "월";
+
+                    foreach (Dictionary<string, object> dic in _ltvo.TodoList)
                     {
-                        // statReward의 마지막 숫자가 0이면 힘, 1이면 마력
-                        0 => "힘 " + (statRewardI / 10),
-                        1 => "마력 " + (statRewardI / 10),
-                        _ => statReward
-                    };
-                    // 컴포넌트에 값 저장
-                    todoNameComponent.todoName = todoName;
-                    todoNameComponent.reward = reward;
-                    todoNameComponent.loseReward = loseReward;
-                    todoNameComponent.statReward = statReward;
-                    todoNameComponent.index = index;
+                        // 버튼 프리팹 인스턴스화
+                        _ltgo.TodoListInstance = Instantiate(_ltgo.TodoListPrefab, _ltgo.TodoListLayout.transform);
+                        // 이미지 오브젝트에 딕셔너리 값 설정
+                        Text todoNameTxtComponent = _ltgo.TodoListInstance.GetComponentInChildren<Text>();
+                        if (todoNameTxtComponent != null)
+                        {
+                            Debug.Log(dic["TODONAME"]);
+                            Debug.Log(dic["REWARD"]);
+                            Debug.Log(dic["LOSEREWARD"]);
+                            Debug.Log(dic["STATREWARD"]);
 
-                    todoNameTxtComponent.text = todoName +
-                                                "\n보상: " + reward +
-                                                "\n소모 재화: " + loseReward +
-                                                "\n얻는 스탯: " + statReward;
-                }
+                            string todoName = dic["TODONAME"].ToString();
+                            int reward = Convert.ToInt32(dic["REWARD"]);
+                            int loseReward = Convert.ToInt32(dic["LOSEREWARD"]);
+                            int statRewardI = Convert.ToInt32(dic["STATREWARD"]);
+                            int todoNo = Convert.ToInt32(dic["TODONO"]);
 
-                index++;
-            }
+                            // 값 초기화
+                            string statReward = "";
+                            _ltgo.TodoListInstance.name = "TodoBtn" + todoNo;
+                            // TODOList의 각 요소에 컴포넌트 추가
+                            TodoNameComponentVo todoNameComponent =
+                                _ltgo.TodoListInstance.GetComponent<TodoNameComponentVo>();
 
-            // 부모 오브젝트 비활성화
-            _ltgo.TodoList.SetActive(false);
-            // 첫 날 선택
-            GameObject.Find(_ltvo.IsSelectDate).GetComponent<Outline>().enabled = true;
+                            statReward = (statRewardI % 2) switch
+                            {
+                                // statReward의 마지막 숫자가 0이면 힘, 1이면 마력
+                                0 => "힘 " + (statRewardI / 10),
+                                1 => "마력 " + (statRewardI / 10),
+                                _ => statReward
+                            };
+                            // 컴포넌트에 값 저장
+                            todoNameComponent.todoName = todoName;
+                            todoNameComponent.reward = reward;
+                            todoNameComponent.loseReward = loseReward;
+                            todoNameComponent.statReward = statReward;
+                            todoNameComponent.index = index;
+
+                            todoNameTxtComponent.text = todoName +
+                                                        "\n보상: " + reward +
+                                                        "\n소모 재화: " + loseReward +
+                                                        "\n얻는 스탯: " + statReward;
+                        }
+
+                        index++;
+                    }
+
+                    // 부모 오브젝트 비활성화
+                    _ltgo.TodoList.SetActive(false);
+                    // 첫 날 선택
+                    Destroy(GameObject.Find("CalenderOutline"));
+                    GameObject.Find("CalenderOutline").transform.SetAsFirstSibling();
+                    GameObject.Find(_ltvo.IsSelectDate).GetComponent<Outline>().enabled = true;
+                }));
+            }));
         }
 
 
