@@ -6,13 +6,14 @@ namespace Script.UI.Outing.SmithyScript
         public class SmithyController : MonoBehaviour
 
     {
+        //UI 인스턴스화ㄴ
         private static SmithyController instance;
-        public GameObject SmeltMenu;
-        public GameObject SellMenu;
-        public GameObject BuyMenu;
-        public GameObject ChiceUi;
-        public GameObject BuyComple;
-        public GameObject BuyFail;
+        public GameObject SmeltMenu; //제작 목록
+        public GameObject SellMenu; //판매목록
+        public GameObject BuyMenu; //구매목록
+        public GameObject ChoiceUI; //구매 여부 선택
+        public GameObject BuyComple; //구매성공 시
+        public GameObject BuyFail; // 구매실패 시
 
         private void Awake()
         {
@@ -64,14 +65,14 @@ namespace Script.UI.Outing.SmithyScript
             DeactivateMenu(BuyMenu);
         }
 
-        public void OnClickChiceUi()
+        public void OnClickChoiceUI()
         {
-            ActivateMenu(ChiceUi);
+            ActivateMenu(ChoiceUI);
         }
 
-        public void OnClickChiceUiOut()
+        public void OnClickChoiceUIOut()
         {
-            DeactivateMenu(ChiceUi);
+            DeactivateMenu(ChoiceUI);
         }
         public void OnClickBuyComple()
         {

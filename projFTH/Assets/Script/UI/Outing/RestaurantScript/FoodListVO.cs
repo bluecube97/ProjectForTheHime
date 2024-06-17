@@ -1,18 +1,10 @@
 namespace Script.UI.Outing.RestaurantScript
 {
-    public class FoodListVO { 
-        public string FoodNo { get; set; }
-        public string FoodNm { get; set; }
-        public string FoodPr { get; set; }
+    public class FoodListVO
+    {
+        public string FoodNo { get; set; } //ItemId
+        public string FoodNm { get; set; } //음식이름
+        public string FoodPr { get; set; } // 음식가격
 
-        public FoodListVO()
-        {
-        }
-        public FoodListVO(string foodNo, string foodNm, string foodPr)
-        {
-            FoodNo = foodNo;
-            FoodNm = foodNm;
-            FoodPr = foodPr;
-        }
     }
 }
