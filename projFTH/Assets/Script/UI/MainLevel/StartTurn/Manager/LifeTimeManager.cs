@@ -32,10 +32,10 @@ namespace Script.UI.MainLevel.StartTurn.Manager
         {
             _ltvo.IsSelectable = true; // TODO 버튼 클릭 가능
             // 원래 선택되어 있던 버튼 테두리 비활성화
-            GameObject.Find(_ltvo.IsSelectDate).GetComponent<Outline>().enabled = false;
+            DisableOutline(GameObject.Find(_ltvo.IsSelectDate));
             // 선택된 버튼 테두리 활성화
             _ltvo.IsSelectDate = button.name;
-            GameObject.Find(_ltvo.IsSelectDate).GetComponent<Outline>().enabled = true;
+            SetOutline(GameObject.Find(_ltvo.IsSelectDate));
         }
 
         // TODO 버튼 OnClick 이벤트
@@ -61,13 +61,13 @@ namespace Script.UI.MainLevel.StartTurn.Manager
             // 다음 날짜로 넘어가기
             if (int.Parse(_ltvo.IsSelectDate[3..]) < 20)
             {
-                GameObject.Find(_ltvo.IsSelectDate).GetComponent<Outline>().enabled = false;
+                DisableOutline(GameObject.Find(_ltvo.IsSelectDate));
                 _ltvo.IsSelectDate = _ltvo.IsSelectDate[..3] + (int.Parse(_ltvo.IsSelectDate[3..]) + 1);
-                GameObject.Find(_ltvo.IsSelectDate).GetComponent<Outline>().enabled = true;
+                SetOutline(GameObject.Find(_ltvo.IsSelectDate));
             }
             else
             {
-                GameObject.Find(_ltvo.IsSelectDate).GetComponent<Outline>().enabled = false;
+                DisableOutline(GameObject.Find(_ltvo.IsSelectDate));
                 _ltvo.IsSelectable = false;
             }
         }
@@ -157,6 +157,7 @@ namespace Script.UI.MainLevel.StartTurn.Manager
             StartCoroutine(_std.GetTodoNo(_ltvo.NowYear, _ltvo.NowMonth, list =>
             {
                 noList = list;
+
                 // TodoNO를 이용하여 TodoList를 가져와 리스트에 저장
                 StartCoroutine(_std.GetTodoList(noList, list =>
                 {
@@ -177,11 +178,6 @@ namespace Script.UI.MainLevel.StartTurn.Manager
                         Text todoNameTxtComponent = _ltgo.TodoListInstance.GetComponentInChildren<Text>();
                         if (todoNameTxtComponent != null)
                         {
-                            Debug.Log(dic["TODONAME"]);
-                            Debug.Log(dic["REWARD"]);
-                            Debug.Log(dic["LOSEREWARD"]);
-                            Debug.Log(dic["STATREWARD"]);
-
                             string todoName = dic["TODONAME"].ToString();
                             int reward = Convert.ToInt32(dic["REWARD"]);
                             int loseReward = Convert.ToInt32(dic["LOSEREWARD"]);
@@ -221,11 +217,51 @@ namespace Script.UI.MainLevel.StartTurn.Manager
                     // 부모 오브젝트 비활성화
                     _ltgo.TodoList.SetActive(false);
                     // 첫 날 선택
-                    Destroy(GameObject.Find("CalenderOutline"));
-                    GameObject.Find("CalenderOutline").transform.SetAsFirstSibling();
-                    GameObject.Find(_ltvo.IsSelectDate).GetComponent<Outline>().enabled = true;
+                    SetOutline(GameObject.Find(_ltvo.IsSelectDate));
                 }));
             }));
+        }
+
+        private void SetOutline(GameObject obj)
+        {
+            const string outlineName = "OutlineCanvas";
+            const string holeName = "HoleCanvas";
+
+            Transform outline = obj.transform.Find(outlineName);
+            Transform hole = obj.transform.Find(holeName);
+
+            if (outline != null && hole != null)
+            {
+                GameObject outlineObj = outline.gameObject;
+                GameObject holeObj = hole.gameObject;
+                outlineObj.SetActive(true);
+                holeObj.SetActive(true);
+            }
+            else
+            {
+                Debug.LogError("OutlineCanvas or HoleCanvas is null.");
+            }
+        }
+
+        private void DisableOutline(GameObject obj)
+        {
+            const string outlineName = "OutlineCanvas";
+            const string holeName = "HoleCanvas";
+
+            Transform outline = obj.transform.Find(outlineName);
+            Transform hole = obj.transform.Find(holeName);
+
+            if (outline != null && hole != null)
+            {
+                GameObject outlineObj = outline.gameObject;
+                GameObject holeObj = hole.gameObject;
+                outlineObj.SetActive(false);
+                holeObj.SetActive(false);
+            }
+            else
+            {
+                Debug.LogError("OutlineCanvas or HoleCanvas is null.");
+            }
         }
 
 
