@@ -1,111 +1,162 @@
+using Newtonsoft.Json;
+using System;
+using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using System;
 using UnityEngine;
-using UnityEngine.UI;
-using Newtonsoft.Json;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
-using System.Collections.Generic;
+using UnityEngine.UI;
+using Debug = UnityEngine.Debug;
 
-public class SendDataToPython : MonoBehaviour
+namespace Script.UI.System
 {
-    public InputField inputDataField;  // Inspector에서 할당
-    public Text outputDataText;        // Inspector에서 할당
-
-    // JSON 직렬화를 위한 클래스
-    [System.Serializable]
-    public class MessageData
+    public class SendDataToPython : MonoBehaviour
     {
-        public string user_ment;
-    }
+        public InputField inputDataField; // Inspector에서 할당
+        public Text outputDataText; // Inspector에서 할당
 
-    // JSON 역직렬화를 위한 클래스
-    [System.Serializable]
-    public class ResponseData
-    {
-        public string gpt_ment;
-    }
-
-    public void OnButtonClick()
-    {
-        // 필드 검증
-        if (inputDataField == null || outputDataText == null)
+        // JSON 직렬화를 위한 클래스
+        [global::System.Serializable]
+        public class MessageData
         {
-            UnityEngine.Debug.LogError("InputField or OutputText is not assigned in the Inspector");
-            return;
+            public string user_ment;
         }
 
-        // 사용자 입력 검증
-        if (string.IsNullOrEmpty(inputDataField.text))
+        // JSON 역직렬화를 위한 클래스
+        [global::System.Serializable]
+        public class ResponseData
         {
-            UnityEngine.Debug.LogError("Input field is empty");
-            return;
+            public string gpt_ment;
         }
 
-        // JSON 데이터 생성
-        MessageData dataToSend = new MessageData { user_ment = inputDataField.text };
-        string json = JsonUtility.ToJson(dataToSend);
-
-        try
+        public void OnButtonClick()
         {
-            Process process = new Process();
-            string scriptPath = Application.dataPath + "/JSON/connectionManager.py"; 
-
-            process.StartInfo.FileName = "python";
-            process.StartInfo.Arguments = "\"" + scriptPath + "\"";  
-            process.StartInfo.WorkingDirectory = Application.dataPath;  // 'Assets' 폴더를 작업 디렉토리로 설정
-            process.StartInfo.RedirectStandardOutput = true;
-            process.StartInfo.RedirectStandardInput = true;
-            process.StartInfo.UseShellExecute = false;
-            process.StartInfo.CreateNoWindow = true;
-            process.Start();
-
-            UnityEngine.Debug.Log("Script path: " + scriptPath);
-            UnityEngine.Debug.Log("Working directory: " + Application.dataPath);
-
-            // Python 스크립트에 데이터 전송
-            using (StreamWriter sw = new StreamWriter(process.StandardInput.BaseStream, Encoding.UTF8))
+            // 필드 검증
+            if (inputDataField == null || outputDataText == null)
             {
-                sw.WriteLine(json);
-                sw.WriteLine("END_OF_INPUT");  // 종료 신호
+                Debug.LogError("InputField or OutputText is not assigned in the Inspector");
+                return;
             }
 
-            // Python 스크립트 출력 받기
-            using (StreamReader sr = new StreamReader(process.StandardOutput.BaseStream, Encoding.UTF8))
+            // 사용자 입력 검증
+            if (string.IsNullOrEmpty(inputDataField.text))
             {
-                string output = sr.ReadToEnd();
-                UnityEngine.Debug.Log("Received Raw Data: " + output);  // 받은 데이터 로깅
-                try
+                Debug.LogError("Input field is empty");
+                return;
+            }
+
+            // JSON 데이터 생성
+            MessageData dataToSend = new MessageData { user_ment = inputDataField.text };
+            string json = JsonUtility.ToJson(dataToSend);
+
+            StartCoroutine(GetPythonPath(path =>
+            {
+                StartCoroutine(GetPythonWorkSpace(pythonWorkSpace =>
                 {
-                    ResponseData response = JsonConvert.DeserializeObject<ResponseData>(output);
-                    if (response == null || string.IsNullOrEmpty(response.gpt_ment))
+                    if (string.IsNullOrEmpty(pythonWorkSpace))
                     {
-                        UnityEngine.Debug.LogError("Failed to parse response or response is empty");
+                        Debug.LogError("Failed to get Python workspace");
                         return;
                     }
-                    outputDataText.text = response.gpt_ment;
-                }
-                catch (Exception e)
-                {
-                    UnityEngine.Debug.LogError("JSON 파싱 오류: " + e.Message);
-                    string[] dummyResponse = new string[4] {"뭐라구요?","다시 말해줘요!","뭐라는거야!","흥~"};
-                    int randomIndex = UnityEngine.Random.Range(0, dummyResponse.Length);
-                    outputDataText.text = dummyResponse[randomIndex];
-                }
-            }
+                    try
+                    {
+                        Process process = new();
+                        Debug.Log("scriptPath " + path);
 
-            process.WaitForExit();
-            process.Close();
+                        process.StartInfo.FileName = "python";
+                        process.StartInfo.Arguments = "\"" + path + "\"";
+                        process.StartInfo.WorkingDirectory = pythonWorkSpace; // 'Assets' 폴더를 작업 디렉토리로 설정
+                        process.StartInfo.RedirectStandardOutput = true;
+                        process.StartInfo.RedirectStandardInput = true;
+                        process.StartInfo.UseShellExecute = false;
+                        process.StartInfo.CreateNoWindow = true;
+                        process.Start();
+
+                        Debug.Log("Script path: " + path);
+                        Debug.Log("Working directory: " + pythonWorkSpace);
+
+                        // Python 스크립트에 데이터 전송
+                        using (StreamWriter sw = new(process.StandardInput.BaseStream, Encoding.UTF8))
+                        {
+                            sw.WriteLine(json);
+                            sw.WriteLine("END_OF_INPUT"); // 종료 신호
+                        }
+
+                        // Python 스크립트 출력 받기
+                        using (StreamReader sr = new(process.StandardOutput.BaseStream, Encoding.UTF8))
+                        {
+                            string output = sr.ReadToEnd();
+                            Debug.Log("Received Raw Data: " + output); // 받은 데이터 로깅
+                            try
+                            {
+                                ResponseData response = JsonConvert.DeserializeObject<ResponseData>(output);
+                                if (response == null || string.IsNullOrEmpty(response.gpt_ment))
+                                {
+                                    Debug.LogError("Failed to parse response or response is empty");
+                                    return;
+                                }
+
+                                outputDataText.text = response.gpt_ment;
+                            }
+                            catch (Exception e)
+                            {
+                                Debug.LogError("JSON 파싱 오류: " + e.Message);
+                                string[] dummyResponse = new string[4] { "뭐라구요?", "다시 말해줘요!", "뭐라는거야!", "흥~" };
+                                int randomIndex = UnityEngine.Random.Range(0, dummyResponse.Length);
+                                outputDataText.text = dummyResponse[randomIndex];
+                            }
+                        }
+
+                        process.WaitForExit();
+                        process.Close();
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogError("Error: " + e.Message);
+                    }
+                }));
+            }));
         }
-        catch (Exception e)
+
+        private IEnumerator GetPythonPath(Action<string> callback)
         {
-            UnityEngine.Debug.LogError("Error: " + e.Message);
-        }
-    }
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/conv/pythonPath");
+            yield return request.SendWebRequest();
 
-    public void returnMainLevle()
-    {
-        SceneManager.LoadScene("MainLevelScene");
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string pythonPath = request.downloadHandler.text;
+                Debug.Log("IEnumerator " + pythonPath);
+                callback(pythonPath);
+            }
+            else
+            {
+                Debug.LogError("Error: " + request.error);
+            }
+        }
+
+        private IEnumerator GetPythonWorkSpace(Action<string> callback)
+        {
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/conv/pythonWorkSpace");
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string pythonWorkSpace = request.downloadHandler.text;
+                Debug.Log("IEnumerator " + pythonWorkSpace);
+                callback(pythonWorkSpace);
+            }
+            else
+            {
+                Debug.LogError("Error: " + request.error);
+            }
+        }
+
+        public void ReturnMainLevel()
+        {
+            SceneManager.LoadScene("MainLevelScene");
+        }
     }
 }

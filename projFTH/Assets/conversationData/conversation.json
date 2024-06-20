@@ -182,5 +182,9 @@
     {
         "user_ment": "﻿{\"user_ment\":\"해위\"}",
         "gpt_ment": "안녕하세요, 해위! 어떻게 지내세요?"
+    },
+    {
+        "user_ment": "﻿{\"user_ment\":\"dd\"}",
+        "gpt_ment": "안녕하세요, dd. 최근에 어떤 일 있었나요?"
     }
 ]

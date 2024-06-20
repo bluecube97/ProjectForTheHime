@@ -854,8 +854,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1543371829}
-        m_TargetAssemblyTypeName: SendDataToPython, Assembly-CSharp
-        m_MethodName: returnMainLevle
+        m_TargetAssemblyTypeName: Script.UI.System.SendDataToPython, Assembly-CSharp
+        m_MethodName: ReturnMainLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
