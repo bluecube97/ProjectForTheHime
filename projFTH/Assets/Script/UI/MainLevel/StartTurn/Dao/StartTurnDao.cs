@@ -71,7 +71,7 @@ namespace Script.UI.MainLevel.StartTurn.Dao
             byte[] jsonToSend = Encoding.UTF8.GetBytes(jsonBody);
 
             // UnityWebRequest를 사용하여 POST 요청 생성
-            UnityWebRequest request = new UnityWebRequest(url, "POST")
+            UnityWebRequest request = new(url, "POST")
             {
                 uploadHandler = new UploadHandlerRaw(jsonToSend),
                 downloadHandler = new DownloadHandlerBuffer()

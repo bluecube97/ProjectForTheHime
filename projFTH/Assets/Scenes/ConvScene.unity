@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 74186624}
   - component: {fileID: 74186623}
   m_Layer: 5
-  m_Name: TestJsonBackGround
+  m_Name: ConvBackGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -783,7 +783,7 @@ GameObject:
   - component: {fileID: 984297424}
   - component: {fileID: 984297423}
   m_Layer: 5
-  m_Name: return_Btn
+  m_Name: ReturnBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1237,7 +1237,7 @@ GameObject:
   - component: {fileID: 1543371828}
   - component: {fileID: 1543371829}
   m_Layer: 0
-  m_Name: TestJsonManager
+  m_Name: ConvManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1356,8 +1356,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1543371829}
-        m_TargetAssemblyTypeName: Script.UI.System.ConvJson, Assembly-CSharp
-        m_MethodName: OnButtonClick
+        m_TargetAssemblyTypeName: Script.UI.System.ConvGpt, Assembly-CSharp
+        m_MethodName: OnClickSubmitButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

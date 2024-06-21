@@ -12,7 +12,7 @@ using Debug = UnityEngine.Debug;
 
 namespace Script.UI.System
 {
-    public class SendDataToPython : MonoBehaviour
+    public class _SendDataToPython : MonoBehaviour
     {
         public InputField inputDataField; // Inspector에서 할당
         public Text outputDataText; // Inspector에서 할당
@@ -63,7 +63,8 @@ namespace Script.UI.System
                     try
                     {
                         Process process = new();
-                        Debug.Log("scriptPath " + path);
+                        Debug.Log("Script path: " + path);
+                        Debug.Log("Working directory: " + pythonWorkSpace);
 
                         process.StartInfo.FileName = "python";
                         process.StartInfo.Arguments = "\"" + path + "\"";
@@ -73,9 +74,6 @@ namespace Script.UI.System
                         process.StartInfo.UseShellExecute = false;
                         process.StartInfo.CreateNoWindow = true;
                         process.Start();
-
-                        Debug.Log("Script path: " + path);
-                        Debug.Log("Working directory: " + pythonWorkSpace);
 
                         // Python 스크립트에 데이터 전송
                         using (StreamWriter sw = new(process.StandardInput.BaseStream, Encoding.UTF8))
