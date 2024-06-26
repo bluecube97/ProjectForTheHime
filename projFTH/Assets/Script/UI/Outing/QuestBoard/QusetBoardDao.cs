@@ -1,7 +1,11 @@
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 using Script.UI.System;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace Script.UI.Outing.QuestBoard
 {
@@ -121,5 +125,45 @@ namespace Script.UI.Outing.QuestBoard
 
 
         }
+
+       
+        public IEnumerator GetQuestBoardLists(Action<List<Dictionary<string, object>>> callback)
+        {
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/outing/quest/list");
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string json = request.downloadHandler.text;
+                List<Dictionary<string, object>> clothingList = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
+                callback(clothingList);
+            }
+            else
+            {
+                Debug.LogError("Error: " + request.error);
+            }
+        }
+        public IEnumerator UpdateFlag(string sflag, string cflag, int questno)
+        {
+            string url = "http://localhost:8080/outing/quest/flag";
+
+            // WWWForm 생성
+            WWWForm form = new WWWForm();
+            form.AddField("pid", "ejwhdms502");
+            form.AddField("sflag", sflag);
+            form.AddField("cflag", cflag);
+            form.AddField("questno", questno);
+
+            using (UnityWebRequest request = UnityWebRequest.Post(url, form))
+            {
+                yield return request.SendWebRequest();
+
+                if (request.result != UnityWebRequest.Result.Success)
+                {
+                    Debug.LogError("Error: " + request.error);
+                }
+            }
+        }
+        
     }
 }

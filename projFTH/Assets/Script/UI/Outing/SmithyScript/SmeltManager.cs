@@ -1,9 +1,9 @@
 using Script.UI.MainLevel.Inventory;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using NotImplementedException = System.NotImplementedException;
 
 namespace Script.UI.Outing.SmithyScript
 {
@@ -17,135 +17,223 @@ namespace Script.UI.Outing.SmithyScript
         public GameObject buyList; // 구매이미지 참조
         public Transform buyListLayout; //구매 이미지 레이아웃 참조
 
+        public GameObject sellListPrefab; //판매 이미지 참조
+        public GameObject sellList; // 판매이미지 참조
+        public Transform sellListLayout; //판매 이미지 레이아웃 참조
+
+        //구매에 대한 정보 담음
+        private List<Dictionary<string, object>> BuyList = new();
+
+        private readonly List<GameObject> buyListInstances = new();
+
+        //구매 시 구매 가격을 담음
+        private int Buyprice;
+
         //인벤토리 정보를 담음
         private List<InventoryVO> invenList = new();
-
-        
-        private SmeltDao smeltDao;
         private InventoryDao inventoryDao;
 
-        //재련에 대한 정보 담음
-        private List<Dictionary<string, object>> SmeltList = new List<Dictionary<string, object>>();
-        //구매에 대한 정보 담음
-        private List<Dictionary<string, object>> BuyList = new List<Dictionary<string, object>>();
+        private List<Dictionary<string, object>> inventoryList = new();
 
-        private List<GameObject> smeltListInstances = new List<GameObject>();
-        private List<GameObject> buyListInstances = new List<GameObject>();
-        
         //구매나 제련 시 얻게되는 아이템 아이디를 담음
         private string itemid;
+
+        //나중에 세션등으로 받을 유저 아이디값
+        private readonly string pid = "ejwhdms502";
+
         //재련 시 요구 아이템 아이디를 담음
         private string reqitem;
+
         //재련 시 요구 아이템의 갯수를 담음
         private string reqitem_cnt;
 
+        private readonly List<GameObject> sellListInstances = new();
+
+        //판매 시 판매가격을 담음
+        private string Sellprice;
+
+
+        private SmeltDao smeltDao;
+
+        //재련에 대한 정보 담음
+        private List<Dictionary<string, object>> SmeltList = new();
+
+        private readonly List<GameObject> smeltListInstances = new();
+
+        private SmithyController smithyui;
+
         private void Start()
         {
+            // Dao 컴포넌트들 초기화
             smeltDao = GetComponent<SmeltDao>();
             inventoryDao = GetComponent<InventoryDao>();
+            smithyui = GetComponent<SmithyController>();
 
-            BuyList = smeltDao.GetBuyList();
-            SmeltList = smeltDao.GetSmeltList();
-            invenList = inventoryDao.GetInvenList();
+            // 서버에서 BuyList 데이터 가져오기
+            StartCoroutine(smeltDao.GetBuyLists(list =>
+            {
+                BuyList = list;
+                // BuyList 세팅 후 BuyList 화면에 출력
+                SetBuyList(BuyList);
+            }));
 
-            
-            SelSmeltList(SmeltList);
-            SetBuyList(BuyList);
+            // 서버에서 SmeltList 데이터 가져오기
+            StartCoroutine(smeltDao.GetSmeltLists(list =>
+            {
+                SmeltList = list;
+                // SmeltList 세팅 후 SmeltList 화면에 출력
+                SetSmeltList(SmeltList);
+            }));
+
+            // 서버에서 인벤토리 데이터 가져오기
+            StartCoroutine(inventoryDao.GetInventoryList(list =>
+            {
+                inventoryList = list;
+                // SmeltList 세팅 (인벤토리 데이터 필요)
+                SetSellList(inventoryList);
+            }));
         }
 
-        //재련 리스트 출력(재료로 구매)
-        public void SelSmeltList(List<Dictionary<string, object>> sList)
+        // SmeltList 화면에 출력하는 함수
+        public void SetSmeltList(List<Dictionary<string, object>> sList)
         {
             smeltList.SetActive(true);
+
+            // 기존에 생성된 SmeltList 객체들 삭제
             foreach (GameObject smeltInstance in smeltListInstances)
             {
                 Destroy(smeltInstance);
             }
+
             smeltListInstances.Clear();
-            foreach (var dic in sList)
+
+            // SmeltList 데이터로 새로운 객체들 생성 및 텍스트 세팅
+            foreach (Dictionary<string, object> dic in sList)
             {
-                //인벤토리에 제작 시 요구 아이템 보유 여부를 찾음
-                InventoryVO have =  invenList.Find(p => p.ItemNo.Equals(dic["req_item"]));
-                string havecnt; //소지갯수를 담음
-                if (have == null)
-                {
-                    havecnt = "0";
-                }
-                else
-                {
-                    havecnt = have.ItemCnt;
-                }
-                //재련리스트 인스턴스화
+                // 인벤토리에서 해당 아이템의 보유 개수 확인
+                Dictionary<string, object> have = inventoryList.Find(p => p["itemid"].Equals(dic["req_item"]));
+                string havecnt = have == null ? "0" : have["itemcnt"].ToString();
+
+                // 프리팹으로부터 인스턴스 생성 후 리스트에 추가
                 GameObject smeltListInstance = Instantiate(smeltListPrefab, smeltListLayout);
-                smeltListInstance.name = "list" + dic["itemId"];
+                smeltListInstance.name = "list" + dic["itemid"];
                 smeltListInstances.Add(smeltListInstance);
 
+                // 텍스트 컴포넌트에 정보 표시
                 Text textComponent = smeltListInstance.GetComponentInChildren<Text>();
-
                 if (textComponent != null)
                 {
-                    textComponent.text = dic["itemNm"] + "\r\n" +
-                                         dic["itemDesc"] + "\r\n"+
+                    textComponent.text = dic["itemnm"] + "\r\n" +
+                                         dic["itemdesc"] + "\r\n" +
                                          "소재 :  " + dic["req_name"] + "\r\n" +
                                          "필요 갯수 : " + dic["req_itemcnt"] + "\r\n" +
                                          "소지 갯수 : " + havecnt;
                 }
             }
+
             smeltList.SetActive(false);
         }
-        
+
         //구매 목록 출력
         public void SetBuyList(List<Dictionary<string, object>> bList)
         {
-            foreach (var dic in bList)
+            // 기존에 생성된 BuyList 객체들 삭제
+            foreach (GameObject instance in buyListInstances)
             {
-                //구매 목록 인스턴스화
-                GameObject buyListInstance = Instantiate(buyListPrefab, buyListLayout);
-                buyListInstance.name = "weaponlist" + dic["itemId"];
-                buyListInstances.Add(buyListInstance);
-                Text textComponent = buyListInstance.GetComponentInChildren<Text>();
+                Destroy(instance);
+            }
 
+            buyListInstances.Clear();
+
+            // BuyList 데이터로 새로운 객체들 생성 및 텍스트 세팅
+            foreach (Dictionary<string, object> dic in bList)
+            {
+                // 프리팹으로부터 인스턴스 생성 후 리스트에 추가
+                GameObject buyListInstance = Instantiate(buyListPrefab, buyListLayout);
+                buyListInstance.name = "weaponlist" + dic["itemid"];
+                buyListInstances.Add(buyListInstance);
+
+                // 텍스트 컴포넌트에 정보 표시
+                Text textComponent = buyListInstance.GetComponentInChildren<Text>();
                 if (textComponent != null)
                 {
-                    textComponent.text = dic["itemNm"] + "\r\n" +
-                                         dic["itemDesc"] + "\r\n" +
-                                         "가격 : " + dic["itemSellPr"];
+                    textComponent.text = dic["itemnm"] + "\r\n" +
+                                         dic["itemdesc"] + "\r\n" +
+                                         "가격 : " + dic["buyprice"];
                 }
             }
+
             buyList.SetActive(false);
         }
-        
+
+        private void SetSellList(List<Dictionary<string, object>> iList)
+        {
+            sellList.SetActive(true);
+
+            foreach (GameObject SellInstance in sellListInstances)
+            {
+                Destroy(SellInstance);
+            }
+
+            sellListInstances.Clear();
+
+            foreach (Dictionary<string, object> cls in iList)
+            {
+                GameObject SellInstance = Instantiate(sellListPrefab, sellListLayout);
+                cls.TryGetValue("itemid", out object itemId);
+                SellInstance.name = "selllist" + itemId;
+                sellListInstances.Add(SellInstance);
+
+                Text textComponent = SellInstance.GetComponentInChildren<Text>();
+                if (textComponent == null)
+                {
+                    return;
+                }
+
+                cls.TryGetValue("itemnm", out object itemNm);
+                cls.TryGetValue("itemdesc", out object itemDesc);
+                cls.TryGetValue("itemcnt", out object itemcnt);
+                cls.TryGetValue("sellprice", out object sellprice);
+                textComponent.text = itemNm + "\r\n" +
+                                     itemDesc + "\r\n" +
+                                     "보유 갯수 : " + itemcnt + "\r\n" +
+                                     "판매 가격 : " + sellprice;
+            }
+
+            sellList.SetActive(false);
+        }
+
         //구매하기 버튼 클릭 시 
-        public void OnClickSubmit()
+        public void GetclickBuyList()
         {
             GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
             GameObject parentObject = clickedButton.transform.parent.gameObject;
             string parentObjectName = parentObject.name;
             itemid = parentObjectName.Replace("weaponlist", "");
-            
+
             //구매 목록 중 itemid와  동일한 item을 찾아 그 값을 담음
             Dictionary<string, object> selectedItem = BuyList.Find
-                (dic => dic["itemId"].ToString() == itemid);
+                (dic => dic["itemid"].ToString() == itemid);
 
             //itemid 가 있다면 itemSellPr의 값을 추출해 int형으로 price에 담음
-            if (selectedItem != null && selectedItem.TryGetValue("itemSellPr", out object priceObj)
+            if (selectedItem != null && selectedItem.TryGetValue("buyprice", out object priceObj)
                                      && priceObj is string priceStr
-                                     && int.TryParse(priceStr, out int price))
+                                     && int.TryParse(priceStr, out Buyprice))
             {
-                //값 지불하는 메서드
-                ProcessPayment(price);
+                ;
             }
         }
+
         //구매 리스트 선택 시 구매 리스트 정보 받아오기(현금 구매)
         public void GetclickWeaponList()
         {
             GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
             GameObject parentObject = clickedButton.transform.parent.gameObject;
             string parentObjectName = parentObject.name;
-            itemid= parentObjectName.Replace("list", "");
+            itemid = parentObjectName.Replace("list", "");
             //SmeltList에 itmeid이 있는 지 찾아 값을 담음
             Dictionary<string, object> sw = SmeltList.Find
-                (dic => dic["itemId"].ToString() == itemid);
+                (dic => dic["itemid"].ToString() == itemid);
             //요구 itemid를 담음
             reqitem = sw["req_item"].ToString();
             //요구 itemid의 갯수를 담음
@@ -153,110 +241,205 @@ namespace Script.UI.Outing.SmithyScript
             Debug.Log(reqitem);
             Debug.Log(reqitem_cnt);
         }
-        
-        //구매 시 값을 지불하는 메서드
-        public void ProcessPayment(int weaponPrice)
+
+        //물품 판매 시 판매물품 가격 받아오는 구문
+        public void GetclickSellValue()
         {
-            string _userCash = smeltDao.GetUserInfoFromDB();
-            int _NowCash = int.Parse(_userCash) - weaponPrice;
-            
-            //DB에 값을 넣을 때 update와 insert문을 구별 하기 위해
-            // 구매 시 얻게 되는 itemid가 있는 지 확인
-            InventoryVO buyitem = invenList.Find(p => p.ItemNo.Equals(itemid));
+            GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
+            GameObject parentObject = clickedButton.transform.parent.gameObject;
+            string parentObjectName = parentObject.name;
+            itemid = parentObjectName.Replace("selllist", "");
 
-            Debug.Log("DB 유저 현금 " + _userCash);
-            Debug.Log("계산 후 금액 " + _NowCash);
-            
-            //인벤토리에 구매 아이템이 없다면
-            if (buyitem == null)
+            Dictionary<string, object> clv = inventoryList.Find(p => p["itemid"].ToString() == itemid);
+
+            clv.TryGetValue("sellprice", out object tempSellPrice);
+            Sellprice = tempSellPrice?.ToString();
+
+            Debug.Log(Sellprice);
+        }
+
+        public void ProcessPayment()
+        {
+            StartCoroutine(ProcessPaymentCoroutine());
+        }
+
+        private IEnumerator ProcessPaymentCoroutine()
+        {
+            bool userInfoFetched = false;
+            int userCash = 0;
+
+            // 사용자 정보 비동기적으로 가져오기
+            StartCoroutine(inventoryDao.GetUserInfoFromDB(userinfo =>
             {
-                //인서트 구문을 사용해 인벤토리DB에 넣어줌
-                inventoryDao.InsertBuyThing(itemid);
-                //값 갱신
-                invenList = inventoryDao.GetInvenList();
-            }
-            else
+                Dictionary<string, object> dic = new Dictionary<string, object>();
+                dic = userinfo;
+                userCash = int.Parse((string)dic["cash"]);
+                userInfoFetched = true;
+            }));
+
+            yield return new WaitUntil(() => userInfoFetched);
+
+
+            if (userCash >= Buyprice)
             {
-                //인벤토리에 구매아이템이 있다면 
-                // 인벤토리에 구매아이템의 갯수를 담고
-                //계산을 위해 형변환
-                string _item = buyitem.ItemCnt;
-                int item = int.Parse(_item);
-                string bitem = (item + 1).ToString();
-                string NowCash = _NowCash.ToString();
-                
-                //계산 후 금액이 0보다 크면
-                if (_NowCash > 0)
+                int newCash = userCash - Buyprice;
+                StartCoroutine(inventoryDao.UpdateUserCashs(newCash.ToString()));
+
+                Dictionary<string, object> buyItem =
+                    inventoryList.Find(p => p["itemid"].ToString().Equals(itemid));
+                smithyui.OnClickBuyComple(); // 구매 성공 UI 표시
+
+                if (buyItem == null)
                 {
-                    //DB에 값을 update함
-                    inventoryDao.UpdateBuyThing(bitem, itemid);
-                    smeltDao.UpdateUserCash(NowCash);
-                    invenList = inventoryDao.GetInvenList();
-
+                    string cnt = "1";
+                    // 인벤토리에 구매 아이템이 없으면 추가
+                    StartCoroutine(inventoryDao.InsertBuyThings(itemid, cnt, pid));
                 }
                 else
                 {
-                    Debug.Log("Not enough cash!");
+                    // 인벤토리에 구매 아이템이 있으면 업데이트
+                    int itemCount = int.Parse(buyItem["itemcnt"].ToString()) + 1;
+                    StartCoroutine(inventoryDao.UpdateBuyThings(itemCount.ToString(), itemid, pid));
                 }
+
+                // 사용자 현금 업데이트
+
+                // 인벤토리 목록 업데이트
+                StartCoroutine(inventoryDao.GetInventoryList(list =>
+                {
+                    inventoryList = list;
+                }));
+            }
+            else
+            {
+                Debug.Log("돈이 부족합니다!");
+                smithyui.OnClickBuyFail(); // 구매 실패 UI 표시
+            }
+        }
+
+        // 재련 시 결제 처리 메서드 시작
+        public void ProcessPayItem()
+        {
+            StartCoroutine(ProcessPayItemCoroutine());
+        }
+
+        private IEnumerator ProcessPayItemCoroutine()
+        {
+            bool inventoryFetched = false;
+            List<Dictionary<string, object>> inventoryList = new();
+
+            // 인벤토리 목록 비동기적으로 가져오기
+            StartCoroutine(inventoryDao.GetInventoryList(list =>
+            {
+                inventoryList = list;
+                inventoryFetched = true;
+            }));
+
+            yield return new WaitUntil(() => inventoryFetched);
+
+            Dictionary<string, object> checkVal = inventoryList.Find(p => p["itemid"].Equals(itemid));
+            Dictionary<string, object> giveItem = inventoryList.Find(p => p["itemid"].Equals(reqitem));
+
+            if (giveItem == null)
+            {
+                Debug.Log("호갱님 가진 것이 없으시네요");
+                yield break;
+            }
+
+            int gitemCnt = int.Parse(giveItem["itemcnt"].ToString());
+            int reqItemCnt = int.Parse(reqitem_cnt);
+            int result = gitemCnt - reqItemCnt;
+
+            if (result >= 0)
+            {
+                // 재련에 필요한 아이템 갯수 업데이트
+                StartCoroutine(inventoryDao.ItemCraftPayments(giveItem["itemid"].ToString(), result.ToString()));
+
+                if (checkVal != null)
+                {
+                    // 재련 성공 시 아이템 갯수 업데이트
+                    int cnt = int.Parse(checkVal["itemcnt"].ToString()) + 1;
+                    StartCoroutine(inventoryDao.ItemCraftUpdates(cnt.ToString(), itemid));
+                }
+                else
+                {
+                    // 인벤토리에 아이템 추가
+                    StartCoroutine(inventoryDao.ItemCraftInserts(itemid, "1"));
+                }
+
+                // 인벤토리 목록 업데이트
+                StartCoroutine(inventoryDao.GetInventoryList(list =>
+                {
+                    inventoryList = list;
+                    smithyui.OnClickSmithyComplete(); // 재련 성공 UI 표시
+                }));
+            }
+            else
+            {
+                Debug.Log("호갱님 재료가 부족해요");
+                smithyui.OnClickSmithyFail(); // 재련 실패 UI 표시
             }
         }
         
-        //재련 시 값을 지불하는 메서드
-        public void ProcessPayItem()
+        public void SellThing()
         {
-            //인벤토리에 구매 물품 보유 여부 확인
-            InventoryVO checkVal = invenList.Find(p => p.ItemNo.Equals(itemid));
-            
-            //구매 시 소모 아이템 보유 여부, 갯수 확인
-            InventoryVO giveitem = invenList.Find(p => p.ItemNo.Equals(reqitem));
-            //아이템이 없으면
-            if (giveitem == null)
+            // Get the inventory list and user info synchronously
+            StartCoroutine(SellThingCoroutine());
+        }
+
+        private IEnumerator SellThingCoroutine()
+        {
+            // Fetch the user info
+            bool userInfoFetched = false;
+            int cash = 0;
+            StartCoroutine(inventoryDao.GetUserInfoFromDB(userinfo =>
             {
-                Debug.Log("호갱님 가진것이 없으시네요");
+                Dictionary<string, object> dic = new Dictionary<string, object>();
+                dic = userinfo;
+                cash = int.Parse((string)dic["cash"]);
+                userInfoFetched = true;
+            }));
+
+            // Wait until the user info is fetched
+            yield return new WaitUntil(() => userInfoFetched);
+
+            int price = int.Parse(Sellprice);
+            Dictionary<string, object> checkVal = inventoryList.Find(dic => dic["itemid"].ToString().Equals(itemid));
+            if (checkVal != null)
+            {
+                int payment = cash + price;
+                string result = payment.ToString();
+
+                string _cnt = checkVal["itemcnt"].ToString();
+                int cnt = int.Parse(_cnt);
+                int _bitem = cnt - 1;
+                string bitem = _bitem.ToString();
+
+                // Update user cash
+                yield return StartCoroutine(inventoryDao.UpdateUserCashs(result));
+
+                // Update sell things
+                yield return StartCoroutine(inventoryDao.UpdateSellThings(bitem, itemid, pid));
+
+                smithyui.OnClickSellComplete();
+
+                // Fetch the updated inventory list after selling the item
+                bool updatedInventoryFetched = false;
+                StartCoroutine(inventoryDao.GetInventoryList(updatedList =>
+                {
+                    inventoryList = updatedList;
+                    updatedInventoryFetched = true;
+                }));
+
+                // Wait until the updated inventory list is fetched
+                yield return new WaitUntil(() => updatedInventoryFetched);
+
+                // Update the sell list UI
+                SetSellList(inventoryList);
             }
             else
             {
-                //있다면 int로 변환 하고 계산 
-                string gitemid = giveitem.ItemNo;
-                string _gitemcnt = giveitem.ItemCnt;
-                int gitemcnt = int.Parse(_gitemcnt);
-                int ritemcnt = int.Parse(reqitem_cnt);
-                int result = gitemcnt - ritemcnt;
-                Debug.Log("계산 후 남은 갯수 " + result);
-                //계산 시 로직
-                if (result >= 0)
-                {
-                    //DB에 선언된 값이 varchar이기 때문에 String으로 변환
-                    string _result = result.ToString();
-                    //구매 후 물품 갯수 업데이트 
-                    inventoryDao.ItemCraftPayment(gitemid, _result);
-                    //구매한 물품 넣어주는 구문, DB에 insert와 update구문을 나누는 작업
-                    //인벤에 템이 없다면 insert를 있다면 update 사용
-                    if (checkVal != null)
-                    {
-                        string _cnt = checkVal.ItemCnt;
-                        int cnt = int.Parse(_cnt);
-                        int _uitem = cnt + 1;
-                        string uitem = _uitem.ToString();
-                        inventoryDao.ItemCraftUpdate(uitem, itemid);
-                        invenList = inventoryDao.GetInvenList();
-
-                    }
-                    else
-                    {
-                        string cnt = "1";
-                        Dictionary<string, object> sw = SmeltList.Find
-                            (dic => dic["itemId"].ToString() == itemid);
-                        inventoryDao.ItemCraftInsert(itemid,cnt);
-                        invenList = inventoryDao.GetInvenList();
-
-                    }
-                }
-                else
-                {
-                    Debug.Log("호갱님 재료가 부족해요");
-
-                }
+                smithyui.OnClickSellFail();
             }
         }
     }

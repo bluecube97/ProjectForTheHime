@@ -1,5 +1,3 @@
-using UnityEngine.Serialization;
-
 namespace Script.UI.Outing.ClothingStore
 {
     using UnityEngine;
@@ -8,13 +6,19 @@ namespace Script.UI.Outing.ClothingStore
     public class ClothingUIManager : MonoBehaviour
     {
         private static ClothingUIManager instance; // 메뉴의 인스턴스
+
         public GameObject MakeClothingMenu; // 옷 패널 오브젝트
         public GameObject SellMenu; // 판매 패널 오브젝트
         public GameObject BuyMenu; // 구매 패널 오브젝트
         public GameObject ChoiceUi; //제작여부 확인 오브젝트
-        public GameObject BuyChiceUi; //구매여부 확인 오브젝트
-        public GameObject BuyComple; //구매,제작 성공 시 오브젝트
-        public GameObject BuyFail; //구매,제작 실패 시 오브젝트
+        public GameObject BuyChoiceUi; //구매여부 확인 오브젝트
+        public GameObject SellChoiceUi; //구매여부 확인 오브젝트
+        public GameObject BuyComplete; //구매 성공 시 오브젝트
+        public GameObject BuyFail; //구매 실패 시 오브젝트
+        public GameObject MakeComplete; //제작 성공 시 오브젝트
+        public GameObject MakeFail; //제작 실패 시 오브젝트
+        public GameObject SellComplete; //판매 성공 시 오브젝트
+        public GameObject SellFail; //판매 실패 시 오브젝트
         private void Awake()
         {
             // 인스턴스가 없을 경우 현재 GameObject에 ClothingUIManager 추가합니다.
@@ -27,86 +31,53 @@ namespace Script.UI.Outing.ClothingStore
                 Destroy(gameObject);
             }
         }
+
         public static ClothingUIManager Instance => instance;
 
         public void OnClickReturn()
         {
             SceneManager.LoadScene("OutingScene");
         }
-        public void OnClickMakeClothinging()
+
+        public void ToggleMenu(GameObject menu, bool isActive)
         {
-            ActivateMenu(MakeClothingMenu);
-        }
-        public void OnClickMakeClothingOuting()
-        {
-            DeactivateMenu(MakeClothingMenu);
+            menu.SetActive(isActive);
         }
 
+        public void OnClickMakeClothinging() => ToggleMenu(MakeClothingMenu, true);
+        public void OnClickMakeClothingOuting() => ToggleMenu(MakeClothingMenu, false);
 
-        public void OnClickSelling()
-        {
-            // 판매메뉴가 활성화 되어있지 않다면
-            ActivateMenu(SellMenu);
-        }
-        public void OnClickSellOuting()
+        public void OnClickSelling() => ToggleMenu(SellMenu, true);
+        public void OnClickSellOuting() => ToggleMenu(SellMenu, false);
 
-        {
-            DeactivateMenu(SellMenu);
-        }
-        public void OnClickBuying()
-        {
+        public void OnClickBuying() => ToggleMenu(BuyMenu, true);
+        public void OnClickBuyOuting() => ToggleMenu(BuyMenu, false);
 
-            ActivateMenu(BuyMenu);
-        }
-        public void OnClickBuyOuting()
+        public void OnClickChoiceUi() => ToggleMenu(ChoiceUi, true);
+        public void OnClickChoiceUiOut() => ToggleMenu(ChoiceUi, false);
 
-        {
-            DeactivateMenu(BuyMenu);
-        }
-        public void OnClickChoiceUi()
-        {
-            ActivateMenu(ChoiceUi);
-        }
-        public void OnClickChoiceUiOut()
-        {
-            DeactivateMenu(ChoiceUi);
-        }
-        public void OnClickBuyChoiceUi()
-        {
-            ActivateMenu(BuyChiceUi);
-        }
-        public void OnClickBuyChoiceUiOut()
-        {
-            DeactivateMenu(BuyChiceUi);
-        }
-        public void OnClickBuyComplete()
-        {
-            ActivateMenu(BuyComple);
-        }
+        public void OnClickBuyChoiceUi() => ToggleMenu(BuyChoiceUi, true);
+        public void OnClickBuyChoiceUiOut() => ToggleMenu(BuyChoiceUi, false);
 
-        public void OnClickBuyCompleteOut()
-        {
-            DeactivateMenu(BuyComple);
-            SceneManager.LoadScene("ClothingStoreScene");
+        public void OnClickSellChoiceUi() => ToggleMenu(SellChoiceUi, true);
+        public void OnClickSellChoiceUiOut() => ToggleMenu(SellChoiceUi, false);
+        
+        public void OnClickBuyComplete() => ToggleMenu(BuyComplete, true);
+        public void OnClickBuyCompleteOut() => ToggleMenu(BuyComplete, false);
 
-        }
-        public void OnClickBuyFail()
-        {
-            ActivateMenu(BuyFail);
-        }
+        public void OnClickBuyFail() => ToggleMenu(BuyFail, true);
+        public void OnClickBuyFailOut() => ToggleMenu(BuyFail, false);
 
-        public void OnClickBuyFailOut()
-        {
-            DeactivateMenu(BuyFail);
-        }
-        private void ActivateMenu(GameObject menu)
-        {
-            menu.SetActive(true);
-        }
+        public void OnClickMakeComplete() => ToggleMenu(MakeComplete, true);
+        public void OnClickMakeCompleteOut() => ToggleMenu(MakeComplete, false);
 
-        private void DeactivateMenu(GameObject menu)
-        {
-            menu.SetActive(false);
-        }
+        public void OnClickMakeFail() => ToggleMenu(MakeFail, true);
+        public void OnClickMakeFailOut() => ToggleMenu(MakeFail, false);
+        
+        public void OnClickSellComplete() => ToggleMenu(SellComplete, true);
+        public void OnClickSellCompleteOut() => ToggleMenu(SellComplete, false);
+
+        public void OnClickSellFail() => ToggleMenu(SellFail, true);
+        public void OnClickSellFailOut() => ToggleMenu(SellFail, false);
     }
 }

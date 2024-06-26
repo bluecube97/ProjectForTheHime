@@ -17,6 +17,7 @@ namespace Script.UI.MainLevel.Inventory
 
         private InventoryDao inven;
         private List<InventoryVO> InvenList = new List<InventoryVO>();
+        private List<Dictionary<string,object>> inventoryList = new List<Dictionary<string,object>>();
 
         private void Awake()
         {
@@ -37,10 +38,13 @@ namespace Script.UI.MainLevel.Inventory
         private void Start()
         {
             inven = GetComponent<InventoryDao>();
-            InvenList = inven.GetInvenList();
-            StartInven(InvenList);
+            StartCoroutine(inven.GetInventoryList(list =>
+            {
+               inventoryList = list;
+               StartInven(inventoryList);
+            }));
         }
-        public void StartInven(List<InventoryVO> InvenList)
+        public void StartInven(List<Dictionary<string,object>> InvenList)
         {
             inventory.SetActive(true);
 
@@ -55,16 +59,20 @@ namespace Script.UI.MainLevel.Inventory
             {
                 {
                     GameObject invenInstance = Instantiate(inventoryPrefab, inventorytLayout);
-                    invenInstance.name =  "Inven" + inven.ItemNo;
+                    invenInstance.name =  "Inven" + inven["itemid   "];
                     inventoryInstances.Add(invenInstance);
 
                     Text textComponent = invenInstance.GetComponentInChildren<Text>();
-                    if (textComponent != null)
+                    if (textComponent == null)
                     {
-                        textComponent.text = inven.ItemNm + " X " +
-                                             inven.ItemCnt + "\r\n" +
-                                             inven.ItemDese;
+                        return;
                     }
+                    inven.TryGetValue("itemnm", out object itemnm);
+                    inven.TryGetValue("itemcnt", out object itemcnt);
+                    inven.TryGetValue("itemdesc", out object itemdesc);
+                    textComponent.text = itemnm + " X " +
+                                         itemcnt + "\r\n" +
+                                         itemdesc;
                 }
             }
             inventory.SetActive(false);

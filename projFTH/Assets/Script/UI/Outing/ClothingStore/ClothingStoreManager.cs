@@ -1,4 +1,5 @@
 using Script.UI.MainLevel.Inventory;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -14,19 +15,25 @@ namespace Script.UI.Outing.ClothingStore
         public GameObject Clothing; // 옷 제작 이미지 참조
         public Transform ClothingLayout; // 제작 리스트들이 들어갈 레이아웃 참조
 
-        public GameObject ClotBuyPrefab; // 옷가게 판매 이미지 프리팹 참조
-        public GameObject ClotBuy; // 옷가게 판매 이미지 참조
-        public Transform ClotBuyLayout; // 판매 리스트들이 들어갈 레이아웃 참조
+        public GameObject ClotBuyPrefab; // 옷가게 구매 이미지 프리팹 참조
+        public GameObject ClotBuy; // 옷가게 구매 이미지 참조
+        public Transform ClotBuyLayout; // 구매 리스트들이 들어갈 레이아웃 참조
+
+        public GameObject ClotSellPrefab; // 옷가게 판매 이미지 프리팹 참조
+        public GameObject ClotSell; // 옷가게 판매 이미지 참조
+        public Transform ClotSellLayout; // 판매 리스트들이 들어갈 레이아웃 참조
+
         private readonly List<GameObject> ClotBuyInstances = new();
         private readonly List<GameObject> ClothingInstances = new();
+        private readonly List<GameObject> ClotSellInstances = new();
+
+        private List<ClothingVO> _clothingList = new();
 
         //구매가격을 담는 전역 변수
         private string Buyprice;
 
         //DAO호출을 함
         private ClothingDao clothingDao;
-
-        private List<ClothingVO> _clothingList = new();
 
         //옷 만들기에 들어가는 아이템을 담음
         private List<Dictionary<string, object>> clothingList = new();
@@ -37,17 +44,26 @@ namespace Script.UI.Outing.ClothingStore
         //구매하기에 들어가는 아이템을 담음
         private List<Dictionary<string, object>> cltBuyList = new();
 
+        //판매하기에 들어가는 아이템을 담음
         //인벤토리 값을 담음
         private List<InventoryVO> invenList = new();
 
         private InventoryDao inventoryDao;
+        private List<Dictionary<string, object>> inventoryList = new();
 
         //제작하거나 구매하는 아이템코드를 담음
         private string itemid;
 
+        //나중에 세션등으로 받을 유저 아이디값
+        private readonly string pid = "ejwhdms502";
+
         //옷 제작 시 필요한 아이템코드와 갯수를 담음
         private string reqitem;
+
         private string reqitem_cnt;
+
+        //판매가격을 담는 전역 변수
+        private string Sellprice;
 
 
         private void Start()
@@ -67,12 +83,57 @@ namespace Script.UI.Outing.ClothingStore
                 cltBuyList = list;
                 SetCltBuyList(list);
             }));
+
+            StartCoroutine(inventoryDao.GetInventoryList(list =>
+            {
+                inventoryList = list;
+                SetCltSellList(inventoryList);
+            }));
+
             //cltBuyList = clothingDao.GetClothingBuyList();
             //invenList = inventoryDao.GetInvenList();
 
             //SetClothingList(clothingList);
             //SetCltBuyList(cltBuyList);
         }
+
+        private void SetCltSellList(List<Dictionary<string, object>> clothingList)
+        {
+            ClotSell.SetActive(true);
+
+            foreach (GameObject clotSellInstance in ClotSellInstances)
+            {
+                Destroy(clotSellInstance);
+            }
+
+            ClotSellInstances.Clear();
+
+            foreach (Dictionary<string, object> cls in clothingList)
+            {
+                GameObject clotSellInstance = Instantiate(ClotSellPrefab, ClotSellLayout);
+                cls.TryGetValue("itemid", out object itemId);
+                clotSellInstance.name = "Clothing" + itemId;
+                ClotSellInstances.Add(clotSellInstance);
+
+                Text textComponent = clotSellInstance.GetComponentInChildren<Text>();
+                if (textComponent == null)
+                {
+                    return;
+                }
+
+                cls.TryGetValue("itemnm", out object itemNm);
+                cls.TryGetValue("itemdesc", out object itemDesc);
+                cls.TryGetValue("itemcnt", out object itemcnt);
+                cls.TryGetValue("sellprice", out object sellprice);
+                textComponent.text = itemNm + "\r\n" +
+                                     itemDesc + "\r\n" +
+                                     "보유 갯수 : " + itemcnt + "\r\n" +
+                                     "판매 가격 : " + sellprice;
+            }
+
+            ClotSell.SetActive(false);
+        }
+
 
         //옷가게에서 구매 목록을 세팅하는 메서드
         private void SetCltBuyList(List<Dictionary<string, object>> clothingList)
@@ -92,7 +153,11 @@ namespace Script.UI.Outing.ClothingStore
 
                 Text textComponent = clotBuyInstance.GetComponentInChildren<Text>();
 
-                if (textComponent == null) return;
+                if (textComponent == null)
+                {
+                    return;
+                }
+
                 cls.TryGetValue("itemnm", out object itemNm);
                 cls.TryGetValue("itemdesc", out object itemDesc);
                 cls.TryGetValue("buyprice", out object buyPrice);
@@ -137,7 +202,11 @@ namespace Script.UI.Outing.ClothingStore
 
             Text textComponent = clothingInstance.GetComponentInChildren<Text>();
 
-            if (textComponent == null) return;
+            if (textComponent == null)
+            {
+                return;
+            }
+
             clothingData.TryGetValue("r_name", out object r_name);
             clothingData.TryGetValue("r_desc", out object r_desc);
             clothingData.TryGetValue("req_name", out object req_name);
@@ -154,7 +223,7 @@ namespace Script.UI.Outing.ClothingStore
             itemid = parentObjectName.Replace("Clothing", "");
             Dictionary<string, object> cl = clothingList.Find(p => p["r_itemid"].ToString() == itemid);
 
-            cl.TryGetValue("req_item", out object tempReqItem);
+            cl.TryGetValue("req_itemid", out object tempReqItem);
             reqitem = tempReqItem?.ToString();
             cl.TryGetValue("req_itemcnt", out object tempReqItemCnt);
             reqitem_cnt = tempReqItemCnt?.ToString();
@@ -172,147 +241,238 @@ namespace Script.UI.Outing.ClothingStore
 
             clv.TryGetValue("buyprice", out object tempBuyPrice);
             Buyprice = tempBuyPrice?.ToString();
+
             Debug.Log(Buyprice);
+        }
+
+        //물품 판매 시 판매물품 가격 받아오는 구문
+        public void GetClotSellValue()
+        {
+            GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
+            GameObject parentObject = clickedButton.transform.parent.gameObject;
+            string parentObjectName = parentObject.name;
+            itemid = parentObjectName.Replace("Clothing", "");
+
+            Dictionary<string, object> clv = inventoryList.Find(p => p["itemid"].ToString() == itemid);
+
+            clv.TryGetValue("sellprice", out object tempSellPrice);
+            Sellprice = tempSellPrice?.ToString();
+
+            Debug.Log(Sellprice);
         }
 
         //옷 구매하는 구문
         public void BuyClothing()
         {
-            // 여러 번의 데이터베이스 액세스를 단일 액세스로 변경
-
-            //인벤토리에 요구아이템이 있는지 찾음
-            InventoryVO giveitem = invenList.Find(p => p.ItemNo.Equals(reqitem));
-            //제작 아이템이 인벤토리에 있는지 확인
-            InventoryVO checkVal = invenList.Find(p => p.ItemNo.Equals(itemid));
-
-            //요구 아이템이 없으면
-            if (giveitem == null)
+            StartCoroutine(inventoryDao.GetInventoryList(list =>
             {
-                //구매실패 UI를 여는 구문
-                clothingUIManager.OnClickBuyFail();
-            }
-            else
-            {
-                //보유한 요구 아이템의 이이템코드 받아옴
-                string gitemid = giveitem.ItemNo;
-                //보유한 요구 아이템의 이이템갯수 받아옴
-                string _gitemcnt = giveitem.ItemCnt;
+                inventoryList = list;
 
-                //갯수를 계산하기 위한 형변화
-                int gitemcnt = int.Parse(_gitemcnt);
-                int ritemcnt = int.Parse(reqitem_cnt);
+                // 여러 번의 데이터베이스 액세스를 단일 액세스로 변경
 
-                int result = gitemcnt - ritemcnt;
-                //계산 후 DB에 값을 넣기위해 형변환
-                string _result = result.ToString();
+                //인벤토리에 요구아이템이 있는지 찾음
+                Dictionary<string, object> giveitem = inventoryList.Find(p => p["itemid"].ToString().Equals(reqitem));
+                //제작 아이템이 인벤토리에 있는지 확인
+                Dictionary<string, object> checkVal = inventoryList.Find(p => p["itemid"].ToString().Equals(itemid));
 
-                // 쿼리 결과를 한 번만 사용하도록 변경
-                if (result >= 0)
+                //요구 아이템이 없으면
+                if (giveitem == null)
                 {
-                    //인벤토리에 제작 아이템이 있으면
-                    if (checkVal != null)
-                    {
-                        //인벤토리에 있는 제작아이템의 갯수를 받음
-                        string _cnt = checkVal.ItemCnt;
-
-                        //계산을 위한 형변환
-                        int cnt = int.Parse(_cnt);
-                        int _uitem = cnt + 1;
-                        //DB에 값을 올리기 위한 형변화
-                        string uitem = _uitem.ToString();
-
-                        //값 업데이트
-                        inventoryDao.ItemCraftPayment(gitemid, _result);
-                        inventoryDao.ItemCraftUpdate(uitem, itemid);
-                        //제작 성공 UI을 염
-                        clothingUIManager.OnClickBuyComplete();
-
-                        //인벤토리 갱신
-                        invenList = inventoryDao.GetInvenList();
-                    }
-                    //인벤토리에 제작 아이템이 없다면
-                    else
-                    {
-                        string cnt = "1";
-                        inventoryDao.ItemCraftInsert(itemid, cnt);
-                        clothingUIManager.OnClickBuyComplete();
-                        //값 지불 
-                        inventoryDao.ItemCraftPayment(gitemid, _result);
-                        //DB에 insert구문으로 값을 넣어줌
-                        inventoryDao.ItemCraftInsert(itemid, cnt);
-                        //제작 성공 UI을 염
-                        clothingUIManager.OnClickBuyComplete();
-                        //인벤토리 갱신
-                        invenList = inventoryDao.GetInvenList();
-                    }
+                    //구매실패 UI를 여는 구문
+                    clothingUIManager.OnClickBuyFail();
                 }
                 else
                 {
-                    clothingUIManager.OnClickBuyFail();
+                    //보유한 요구 아이템의 이이템코드 받아옴
+                    string gitemid = giveitem["itemid"].ToString();
+                    Debug.Log("요구아이템 아이디 " + gitemid);
+                    //보유한 요구 아이템의 이이템갯수 받아옴
+                    string _gitemcnt = giveitem["itemcnt"].ToString();
+                    Debug.Log("요구아이템 개수 " + _gitemcnt);
+
+                    //갯수를 계산하기 위한 형변화
+                    int gitemcnt = int.Parse(_gitemcnt);
+                    int ritemcnt = int.Parse(reqitem_cnt);
+
+                    int result = gitemcnt - ritemcnt;
+                    //계산 후 DB에 값을 넣기위해 형변환
+                    string _result = result.ToString();
+
+                    Debug.Log("DB 업뎃되는 계산 후 잔액 " + _result);
+                    // 쿼리 결과를 한 번만 사용하도록 변경
+                    if (result >= 0)
+                    {
+                        //결제처리
+                        StartCoroutine(inventoryDao.ItemCraftPayments(gitemid, _result));
+                        //제작성공 UI open
+                        clothingUIManager.OnClickMakeComplete();
+
+                        //인벤토리에 제작 아이템이 있으면
+                        if (checkVal != null)
+                        {
+                            //인벤토리에 있는 제작아이템의 갯수를 받음
+                            string _cnt = checkVal["itemcnt"].ToString();
+                            Debug.Log("인벤토리 값 " + _cnt);
+
+                            //계산을 위한 형변환
+                            int cnt = int.Parse(_cnt);
+                            int _uitem = cnt + 1;
+                            //DB에 값을 올리기 위한 형변화
+                            string uitem = _uitem.ToString();
+                            Debug.Log("계산 결과 값 " + uitem);
+
+                            //값 업데이트
+                            StartCoroutine(inventoryDao.ItemCraftUpdates(itemid, uitem));
+                        }
+                        //인벤토리에 제작 아이템이 없다면
+                        else
+                        {
+                            string cnt = "1";
+                            //DB에 insert구문으로 값을 넣어줌
+                            StartCoroutine(inventoryDao.ItemCraftInserts(itemid, cnt));
+                        }
+                        // Fetch the inventory list
+                        StartCoroutine(inventoryDao.GetInventoryList(list =>
+                        {
+                            inventoryList = list;
+                        }));
+                    }
+                    else
+                    {
+                        clothingUIManager.OnClickMakeFail();
+                    }
                 }
+            }));
+        }
+
+        public void BuyThing()
+        {
+            // Get the inventory list and user info synchronously
+            StartCoroutine(BuyThingCoroutine());
+        }
+
+        private IEnumerator BuyThingCoroutine()
+        {
+           
+            // Fetch the user info
+            bool userInfoFetched = false;
+            int cash = 0;
+            StartCoroutine(inventoryDao.GetUserInfoFromDB(userinfo =>
+            {
+                Dictionary<string, object> dic = new Dictionary<string, object>();
+                dic = userinfo;
+                cash = int.Parse((string)dic["cash"]);
+                userInfoFetched = true;
+            }));
+
+            // Wait until the user info is fetched
+            yield return new WaitUntil(() => userInfoFetched);
+
+            int price = int.Parse(Buyprice);
+
+
+            if (cash >= price)
+            {
+                int payment = cash - price;
+                string result = payment.ToString();
+
+                Dictionary<string, object>
+                    checkVal = inventoryList.Find(dic => dic["itemid"].ToString().Equals(itemid));
+                StartCoroutine(inventoryDao.UpdateUserCashs(result));
+                clothingUIManager.OnClickBuyComplete();
+
+                if (checkVal != null)
+                {
+                    string _cnt = checkVal["itemcnt"].ToString();
+                    int cnt = int.Parse(_cnt);
+                    int _bitem = cnt + 1;
+                    string bitem = _bitem.ToString();
+
+                    StartCoroutine(inventoryDao.UpdateBuyThings(bitem, itemid, pid));
+                }
+                else
+                {
+                    string cnt = "1";
+                    StartCoroutine(inventoryDao.InsertBuyThings(itemid, cnt, pid));
+                }
+                // Fetch the inventory list
+                bool inventoryFetched = false;
+                StartCoroutine(inventoryDao.GetInventoryList(list =>
+                {
+                    inventoryList = list;
+                    inventoryFetched = true;
+                }));
+
+                // Wait until the inventory list is fetched
+                yield return new WaitUntil(() => inventoryFetched);
+
+            }
+            else
+            {
+                clothingUIManager.OnClickBuyFail();
             }
         }
 
-        //물품 구매하는 메서드
-        public void BuyThing()
+        public void SellThing()
         {
-            string userCash = "";
+            // Get the inventory list and user info synchronously
+            StartCoroutine(SellThingCoroutine());
+        }
 
-            //DB에서 유저의 보유 현금 받아옴
-            StartCoroutine(clothingDao.GetUserInfoFromDB(cash =>
+        private IEnumerator SellThingCoroutine()
+        {
+            // Fetch the user info
+            bool userInfoFetched = false;
+            int cash = 0;
+            StartCoroutine(inventoryDao.GetUserInfoFromDB(userinfo =>
             {
-                userCash = cash;
+                Dictionary<string, object> dic = new Dictionary<string, object>();
+                dic = userinfo;
+                cash = int.Parse((string)dic["cash"]);
+                userInfoFetched = true;
             }));
-            //물품 구매 현금 계산
-            int nowCash = int.Parse(userCash) - int.Parse(Buyprice);
 
-            string NowCash = nowCash.ToString();
+            // Wait until the user info is fetched
+            yield return new WaitUntil(() => userInfoFetched);
 
-            //인벤토리에 구매할 물품 보유 여부 확인, 있다면 구매할 물품에 대한 정보 담음
-            InventoryVO buyitem = invenList.Find(p => p.ItemNo.Equals(itemid));
-            Debug.Log("DB 유저 현금 " + userCash);
-            Debug.Log("계산 후 금액 " + nowCash);
-
-
-            if (nowCash > 0)
+            int price = int.Parse(Sellprice);
+            Dictionary<string, object> checkVal = inventoryList.Find(dic => dic["itemid"].ToString().Equals(itemid));
+            if (checkVal != null)
             {
-                //구매 후 현금으로 업데이트하고 
-                clothingDao.UpdateUserCash(NowCash);
-                //구매 성공 UI를 열음
-                clothingUIManager.OnClickBuyComplete();
+                int payment = cash + price;
+                string result = payment.ToString();
 
-                //구매한 물품이 인벤토리에 없다면
-                if (buyitem == null)
+                string _cnt = checkVal["itemcnt"].ToString();
+                int cnt = int.Parse(_cnt);
+                int _bitem = cnt - 1;
+                string bitem = _bitem.ToString();
+
+                // Update user cash
+                yield return StartCoroutine(inventoryDao.UpdateUserCashs(result));
+
+                // Update sell things
+                yield return StartCoroutine(inventoryDao.UpdateSellThings(bitem, itemid, pid));
+
+                clothingUIManager.OnClickSellComplete();
+
+                // Fetch the updated inventory list after selling the item
+                bool updatedInventoryFetched = false;
+                StartCoroutine(inventoryDao.GetInventoryList(updatedList =>
                 {
-                    //DB에서 insert로 값을 넣어줌
-                    inventoryDao.InsertBuyThing(itemid);
-                    //inventory 갱신
-                    invenList = inventoryDao.GetInvenList();
-                }
+                    inventoryList = updatedList;
+                    updatedInventoryFetched = true;
+                }));
 
-                //구매한 물품이 인벤토리에 있다면
-                else
-                {
-                    //인벤토리에 있는 아이템의 갯수을 받아
-                    string _item = buyitem.ItemCnt;
-                    int item = int.Parse(_item);
+                // Wait until the updated inventory list is fetched
+                yield return new WaitUntil(() => updatedInventoryFetched);
 
-                    //갯수를 추가하고 DB에 없데이트를 위해 형변환함
-                    string bitem = (item + 1).ToString();
-
-                    //DB에 update구문으로 넣어줌
-                    inventoryDao.UpdateBuyThing(bitem, itemid);
-                    //inventory 갱신
-                    invenList = inventoryDao.GetInvenList();
-                }
+                // Update the sell list UI
+                SetCltSellList(inventoryList);
             }
-            //구매가 실패하면
             else
             {
-                Debug.Log("Not enough cash!");
-                clothingUIManager.OnClickBuyFail();
+                clothingUIManager.OnClickSellFail();
             }
-
         }
     }
 }

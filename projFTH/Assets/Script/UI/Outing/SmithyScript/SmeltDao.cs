@@ -1,7 +1,11 @@
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 using Script.UI.System;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace Script.UI.Outing.SmithyScript
 {
@@ -50,6 +54,40 @@ namespace Script.UI.Outing.SmithyScript
             }
             return BuyList;
         }
+        
+        public IEnumerator GetBuyLists(Action<List<Dictionary<string, object>>> callback)
+        {
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/outing/smithy/buy");
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string json = request.downloadHandler.text;
+                List<Dictionary<string, object>> buylist = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
+                callback(buylist);
+            }
+            else
+            {
+                Debug.LogError("Error: " + request.error);
+            }
+        }
+        public IEnumerator GetSmeltLists(Action<List<Dictionary<string, object>>> callback)
+        {
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/outing/smithy/list");
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string json = request.downloadHandler.text;
+                List<Dictionary<string, object>> smeltList = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
+                callback(smeltList);
+            }
+            else
+            {
+                Debug.LogError("Error: " + request.error);
+            }
+        }
+       
         //재련 LIST 받아오기
         public List<Dictionary<string, object>> GetSmeltList()
         {
