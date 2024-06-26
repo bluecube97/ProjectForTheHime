@@ -1,4 +1,5 @@
 using Script.UI.MainLevel.Inventory;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -18,6 +19,7 @@ namespace Script.UI.Outing.Hospital
 
         private HospitalDao hospitalDao;
 
+        private string pid = "ejwhdms502";
         private void Start()
         {
             
@@ -26,18 +28,41 @@ namespace Script.UI.Outing.Hospital
             
             inventoryDao = GetComponent<InventoryDao>();
             hospitalDao = GetComponent<HospitalDao>();
-            //구매목록을 담음
+            
+            /*//구매목록을 담음
             _hpvo.BuyList = hospitalDao.getBuyList();
             //유저정보를 담음(현재 hp,maxHp, cash)
             _hpvo.Userinfo = hospitalDao.GetUserInfo();
             //인벤토리를 담음
-            _hpvo.invenList = inventoryDao.GetInvenList();
+            _hpvo.invenList = inventoryDao.GetInvenList();*/
+            
+            // 서버에서 BuyList 데이터 가져오기
+            StartCoroutine(hospitalDao.GetBuyLists(list =>
+            {
+                _hpvo.BuyList = list;
+              
+            }));
+            // 서버에서 유저 데이터 가져오기
+            StartCoroutine(inventoryDao.GetUserInfoFromDB(list =>
+            {
+                _hpvo.Userinfo = list;
+            }));
+            
+            // 서버에서 인벤토리 데이터 가져오기
+            StartCoroutine(inventoryDao.GetInventoryList(list =>
+            {
+                _hpvo.inventoryList = list;
+                SetSellList(list);
+            }));
             
             //활성화 되어있는 메뉴들 비활성화
             _hpgo.BuyMenu.SetActive(false);
             _hpgo.CureMenu.SetActive(false);
             _hpgo.ChoiceMenu.SetActive(false);
+            _hpgo.SellChoiceMenu.SetActive(false);
             _hpgo.SellMenu.SetActive(false);
+            _hpgo.SellComplete.SetActive(false);
+            _hpgo.SellFail.SetActive(false);
 
         }
 
@@ -54,20 +79,58 @@ namespace Script.UI.Outing.Hospital
                 _hpgo.BuyListInstances = Instantiate(_hpgo.BuyListPrefab, _hpgo.BuyListLayout.transform);
                 
                 //각각의 목록에 이름 부여
-                _hpgo.BuyListInstances.name = "itemList" + dic["itemNo"];
+                _hpgo.BuyListInstances.name = "itemList" + dic["itemid"];
                 
                 Text textComponent = _hpgo.BuyListInstances.GetComponentInChildren<Text>();
 
                 if (textComponent != null)
                 {
-                    textComponent.text = dic["itemNm"] + "\r\n"
-                                                       + "\r\n" + dic["itemDesc"] + "\r\n"
-                                                       + "\r\n" + "가격 : " + dic["itemPrice"];
+                    textComponent.text = dic["itemnm"] + "\r\n"
+                                                       + "\r\n" + dic["itemdesc"] + "\r\n"
+                                                       + "\r\n" + "가격 : " + dic["buyprice"];
                 }
             }
 
             _hpgo.BuyList.SetActive(false);
         }
+        
+        private void SetSellList(List<Dictionary<string, object>> sellList)
+        {
+            _hpgo.SellList.SetActive(true);
+
+            foreach (GameObject sellListInstance in _hpgo.sellListInstances)
+            {
+                Destroy(sellListInstance);
+            }
+
+            _hpgo.sellListInstances.Clear();
+
+            foreach (Dictionary<string, object> cls in sellList)
+            {
+                GameObject sellListInstance = Instantiate(_hpgo.SellListPrefab, _hpgo.SellLayout.transform);
+                cls.TryGetValue("itemid", out object itemId);
+                sellListInstance.name = "itemList" + itemId;
+                _hpgo.sellListInstances.Add(sellListInstance);
+
+                Text textComponent = sellListInstance.GetComponentInChildren<Text>();
+                if (textComponent == null)
+                {
+                    return;
+                }
+
+                cls.TryGetValue("itemnm", out object itemNm);
+                cls.TryGetValue("itemdesc", out object itemDesc);
+                cls.TryGetValue("itemcnt", out object itemcnt);
+                cls.TryGetValue("sellprice", out object sellprice);
+                textComponent.text = itemNm + "\r\n" +
+                                     itemDesc + "\r\n" +
+                                     "보유 갯수 : " + itemcnt + "\r\n" +
+                                     "판매 가격 : " + sellprice;
+            }
+
+            _hpgo.SellList.SetActive(false);
+        }
+
         
         //구매 버튼 클릭 시 
         public void GetclickListValue()
@@ -82,10 +145,10 @@ namespace Script.UI.Outing.Hospital
             string indexString = parentObjectName.Replace("itemList", "");
             //구매목록에서 추출한 이름과 동일한 이름을 가진 값을 찾아 담음 
             Dictionary<string, object> selectedItem = _hpvo.BuyList.Find
-                (dic => dic["itemNo"].ToString() == indexString);
+                (dic => dic["itemid"].ToString() == indexString);
 
             //담은 값에서 itemPrice 의 값을 찾아 형 변환 후 반환
-            if (selectedItem != null && selectedItem.TryGetValue("itemPrice", out object priceObj) 
+            if (selectedItem != null && selectedItem.TryGetValue("buyprice", out object priceObj) 
                                      && priceObj is string priceStr
                                      && int.TryParse(priceStr, out int price))
             {
@@ -96,12 +159,40 @@ namespace Script.UI.Outing.Hospital
                 _hpvo.itemid = indexString;
             }
         }
-        
+        public void GetSellValue()
+        {
+            GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
+            GameObject parentObject = clickedButton.transform.parent.gameObject;
+            string parentObjectName = parentObject.name;
+            _hpvo.itemid = parentObjectName.Replace("itemList", "");
+            Debug.Log("판매할 아이템 아이디 " + _hpvo.itemid);
+            Dictionary<string, object> clv = _hpvo.inventoryList.Find(p => p["itemid"].ToString() == _hpvo.itemid);
+            Debug.Log("판매할 아이템 아이디 값" + clv);
+
+            clv.TryGetValue("sellprice", out object tempSellPrice);
+            _hpvo.sellprice = tempSellPrice?.ToString();
+
+            Debug.Log(_hpvo.price);
+        }
         //구매 시 결제하는 구문
         public void ProcessPayment()
         {
+            StartCoroutine(ProcessPaymentCoroutine());
+        }
+
+        private IEnumerator ProcessPaymentCoroutine()
+        {
+            // 서버에서 유저 데이터 가져오기
+            bool userInfoFetched = false;
+            StartCoroutine(inventoryDao.GetUserInfoFromDB(list =>
+            {
+                _hpvo.Userinfo = list;
+                userInfoFetched = true;
+            }));
+            yield return new WaitUntil(() => userInfoFetched);
+            
             //유저 정보에서 보유현금 담음
-            string _userCash = (string)_hpvo.Userinfo["userCash"];
+            string _userCash = (string)_hpvo.Userinfo["cash"];
             //계산을 위한  형변환
             int userCash = int.Parse(_userCash);
             //GetclickListValue에서 담은 값과 유저현금을 계산
@@ -113,34 +204,41 @@ namespace Script.UI.Outing.Hospital
             Debug.Log("DB 유저 현금 " + userCash);
             Debug.Log("계산 후 금액 " + NowCash);
             //계산된 값이 0이상이면
-            if (NowCash > 0)
+            if (userCash > _hpvo.price)
             {
                 //인벤토리DB에 구매 할 아이템 보유 여부 확인, 있다면 값을 담음
-                InventoryVO buyitem = _hpvo.invenList.Find(p => p.ItemNo.Equals(_hpvo.itemid));
-                hospitalDao.SetBuyAfter(_NowCash);
-                if (buyitem == null)
+                StartCoroutine(inventoryDao.UpdateUserCashs(_NowCash));
+
+                Dictionary<string, object> buyitem =
+                    _hpvo.inventoryList.Find(p => p["itemid"].ToString().Equals(_hpvo.itemid));
+               
+                if (buyitem != null)
                 {
-                    //DB에서 insert로 값을 넣어줌
-                    inventoryDao.InsertBuyThing(_hpvo.itemid);
-                    //inventory 갱신
-                    _hpvo.invenList = inventoryDao.GetInvenList();
+                    string _cnt = buyitem["itemcnt"].ToString();
+                    int cnt = int.Parse(_cnt);
+                    int _bitem = cnt + 1;
+                    string bitem = _bitem.ToString();
+
+                    StartCoroutine(inventoryDao.UpdateBuyThings(bitem, _hpvo.itemid, pid));
+                   
                 }
 
                 //구매한 물품이 인벤토리에 있다면
                 else
                 {
-                    //인벤토리에 있는 아이템의 갯수을 받아
-                    string _item = buyitem.ItemCnt;
-                    int item = int.Parse(_item);
-
-                    //갯수를 추가하고 DB에 없데이트를 위해 형변환함
-                    string bitem = (item + 1).ToString();
-
-                    //DB에 update구문으로 넣어줌
-                    inventoryDao.UpdateBuyThing(bitem, _hpvo.itemid);
-                    //inventory 갱신
-                    _hpvo.invenList = inventoryDao.GetInvenList();
+                    string cnt = "1";
+                    StartCoroutine(inventoryDao.InsertBuyThings(_hpvo.itemid, cnt, pid));
                 }
+                // Fetch the inventory list
+                bool inventoryFetched = false;
+                StartCoroutine(inventoryDao.GetInventoryList(list =>
+                {
+                    _hpvo.inventoryList = list;
+                    inventoryFetched = true;
+                }));
+
+                // Wait until the inventory list is fetched
+                yield return new WaitUntil(() => inventoryFetched);
             }
             else
             {
@@ -151,10 +249,15 @@ namespace Script.UI.Outing.Hospital
         //치료하기 버튼 클릭 시
         public void OnclikHealing()
         {
+            StartCoroutine(OnclikHealingCoroutine());
+        }
+        private IEnumerator OnclikHealingCoroutine()
+
+        {
             //계산을 위한 형변환
-            int userCash = int.Parse((string)_hpvo.Userinfo["userCash"]);
-            int userMaxHP = int.Parse((string)_hpvo.Userinfo["userMaxHP"]);
-            int userHP = int.Parse((string)_hpvo.Userinfo["userHP"]);
+            int userCash = int.Parse((string)_hpvo.Userinfo["cash"]);
+            int userMaxHP = int.Parse((string)_hpvo.Userinfo["maxhp"]);
+            int userHP = int.Parse((string)_hpvo.Userinfo["chp"]);
             //치료에 따른 지불값 설정 후 계산
             int _payCash = userCash - ((userMaxHP - userHP) * 10);
             if (_payCash > 0)
@@ -165,14 +268,21 @@ namespace Script.UI.Outing.Hospital
                 Debug.Log("usercash"+userCash);
                 Debug.Log("userMaxHP"+userMaxHP);
                 Debug.Log("userHP"+userHP);
+                StartCoroutine(hospitalDao.SetAfterHeals(payCash, _userMaxHP));
 
-                hospitalDao.SetAfterHeal(payCash, _userMaxHP);
             }
             else
             {
                 Debug.Log("돈이 부족하시네요");
             }
-           
+            // 서버에서 유저 데이터 가져오기
+            bool userInfoFetched = false;
+            StartCoroutine(inventoryDao.GetUserInfoFromDB(list =>
+            {
+                _hpvo.Userinfo = list;
+                userInfoFetched = true;
+            }));
+            yield return new WaitUntil(() => userInfoFetched);
         }
         
         public void OnClickReturn()
@@ -180,6 +290,67 @@ namespace Script.UI.Outing.Hospital
             SceneManager.LoadScene("OutingScene");
         }
         
+           public void SellThing()
+        {
+            // Get the inventory list and user info synchronously
+            StartCoroutine(SellThingCoroutine());
+        }
+
+        private IEnumerator SellThingCoroutine()
+        {
+            // Fetch the user info
+            bool userInfoFetched = false;
+            int cash = 0;
+            StartCoroutine(inventoryDao.GetUserInfoFromDB(userinfo =>
+            {
+                cash = int.Parse((string)userinfo["cash"]);
+                userInfoFetched = true;
+            }));
+
+            // Wait until the user info is fetched
+            yield return new WaitUntil(() => userInfoFetched);
+
+            int price = int.Parse(_hpvo.sellprice);
+            Dictionary<string, object> checkVal =
+                _hpvo.inventoryList.Find(dic => dic["itemid"].ToString().Equals(_hpvo.itemid));
+            if (checkVal != null)
+            {
+                OnClickSellComplete();
+                int payment = cash + price;
+                string result = payment.ToString();
+
+                string _cnt = checkVal["itemcnt"].ToString();
+                int cnt = int.Parse(_cnt);
+                int _bitem = cnt - 1;
+                string bitem = _bitem.ToString();
+
+                // Update user cash
+                yield return StartCoroutine(inventoryDao.UpdateUserCashs(result));
+
+                // Update sell things
+                yield return StartCoroutine(inventoryDao.UpdateSellThings(bitem, _hpvo.itemid, pid));
+
+
+                // Fetch the updated inventory list after selling the item
+                bool updatedInventoryFetched = false;
+                StartCoroutine(inventoryDao.GetInventoryList(updatedList =>
+                {
+                    _hpvo.inventoryList = updatedList;
+                    updatedInventoryFetched = true;
+                }));
+
+                // Wait until the updated inventory list is fetched
+                yield return new WaitUntil(() => updatedInventoryFetched);
+
+                // Update the sell list UI
+                SetSellList(_hpvo.inventoryList);
+            }
+            else
+            {
+                OnClickSellFail();
+            }
+        }
+
         //메뉴를 on,off하는 구문
         public void ToggleMenu(GameObject menu, bool isActive)
         {
@@ -192,9 +363,15 @@ namespace Script.UI.Outing.Hospital
         public void OnClickCureOut() => ToggleMenu(_hpgo.CureMenu, false);
         public void OnClickChoice() => ToggleMenu(_hpgo.ChoiceMenu, true);
         public void OnClickChoiceOuting() => ToggleMenu(_hpgo.ChoiceMenu, false);
+        public void OnClickSellChoice() => ToggleMenu(_hpgo.SellChoiceMenu, true);
+        public void OnClickSellChoiceOuting() => ToggleMenu(_hpgo.SellChoiceMenu, false);
         public void OnClickBuying() => ToggleMenu(_hpgo.BuyMenu, true);
         public void OnClickBuyOuting() => ToggleMenu(_hpgo.BuyMenu, false);
         public void OnClickSelling() => ToggleMenu(_hpgo.SellMenu, true);
         public void OnClickSellOuting() => ToggleMenu(_hpgo.SellMenu, false);
+        public void OnClickSellComplete() => ToggleMenu(_hpgo.SellComplete, true);
+        public void OnClickSellCompleteOut() => ToggleMenu(_hpgo.SellComplete, false);
+        public void OnClickSellFail() => ToggleMenu(_hpgo.SellFail, true);
+        public void OnClickSellFailOut() => ToggleMenu(_hpgo.SellFail, false);
     }
     }

@@ -20,7 +20,7 @@ namespace Script.UI.Outing.ClothingStore
 
         public IEnumerator GetClothingList(Action<List<Dictionary<string, object>>> callback)
         {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/clothing/list");
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/outing/clothing/list");
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)
@@ -37,7 +37,7 @@ namespace Script.UI.Outing.ClothingStore
 
         public IEnumerator GetClothingBuyList(Action<List<Dictionary<string, object>>> callback)
         {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/clothing/buy");
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/outing/clothing/buy");
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)
@@ -51,7 +51,7 @@ namespace Script.UI.Outing.ClothingStore
                 Debug.LogError("Error: " + request.error);
             }
         }
-
+       
         public List<ClothingVO> _GetClothingBuyList()
         {
             List<ClothingVO> CltBuyList = new();
@@ -109,22 +109,7 @@ namespace Script.UI.Outing.ClothingStore
             }
         }
 
-        public IEnumerator GetUserInfoFromDB(Action<string> callback)
-        {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/clothing/cash");
-            yield return request.SendWebRequest();
-
-            if (request.result == UnityWebRequest.Result.Success)
-            {
-                string json = request.downloadHandler.text;
-                string userCash = JsonConvert.DeserializeObject<string>(json);
-                callback(userCash);
-            }
-            else
-            {
-                Debug.LogError("Error: " + request.error);
-            }
-        }
+      
 
         public string _GetUserInfoFromDB()
         {
@@ -154,6 +139,7 @@ namespace Script.UI.Outing.ClothingStore
             return Usercash;
         }
 
+        
         public void UpdateUserCash(string payment)
         {
             using (MySqlConnection connection = new(ConnDB.Con))
@@ -215,5 +201,7 @@ namespace Script.UI.Outing.ClothingStore
                 }
             }
         }
+
+       
     }
 }

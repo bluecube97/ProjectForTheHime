@@ -30,22 +30,40 @@ namespace Script.UI.Outing.QuestBoard
         
         //인벤토리를 담음
         private List<InventoryVO> invenList;
+        private List<Dictionary<string,object>> inventoryList;
+
         //퀘스트 정보를 담음
         private List<QuestBoardVO> questListData;
+        private List<Dictionary<string,object>> questdata;
+
+        private string sflag;
+        private string cflag;
+
 
         private void Start()
         {
             questBoardDao = GetComponent<QusetBoardDao>();
             inventoryDao = GetComponent<InventoryDao>();
 
-            questListData = questBoardDao.GetQuestBoardList();
-            invenList = inventoryDao.GetInvenList();
+            /*questListData = questBoardDao.GetQuestBoardList();
+            invenList = inventoryDao.GetInvenList();*/
+            StartCoroutine(questBoardDao.GetQuestBoardLists(list =>
+            {
+                questdata = list;
+                // SmeltList 세팅 후 SmeltList 화면에 출력
+                StartQuestList(questdata);
+            }));
 
-            StartQuestList(questListData);
+            // 서버에서 인벤토리 데이터 가져오기
+            StartCoroutine(inventoryDao.GetInventoryList(list =>
+            {
+                inventoryList = list;
+                // SmeltList 세팅 (인벤토리 데이터 필요)
+            }));
         }
         
         //퀘스트보드 진입 시 값을 받아옴
-        public void StartQuestList(List<QuestBoardVO> questListData)
+        public void StartQuestList(List<Dictionary<string, object>> questdata)
         {
             //퀘스트 오브젝트 활성화
             questList.SetActive(true);
@@ -57,25 +75,37 @@ namespace Script.UI.Outing.QuestBoard
             //퀘스트 오브젝트 클리어
             ClearExistingQuestList();
 
-            foreach (var quest in questListData)
+            foreach (var quest in questdata)
             {
-                if (quest.SubmitFlag.Equals("N") && quest.CompleteFlag.Equals("N"))
+                if (quest["submit"].Equals("N") && quest["complete"].Equals("N"))
                 {
                     GameObject questListInstance = Instantiate(questListPrefab, questListLayout);
-                    questListInstance.name = "QuestList" + quest.QuestNo;
+                    questListInstance.name = "QuestList" + quest["questno"];
                     questListInstances.Add(questListInstance);
 
                     //인벤토리에 있는 퀘스트 요구아이템 정보를 담음
-                    InventoryVO giveitem = invenList.Find(p => p.ItemNo.Equals(quest.Qitem));
+                    Dictionary<string,object> giveitem = inventoryList.Find(p => p["itemid"].ToString().Equals(quest["qitemid"]));
                     
                     //요구 아이템이 없다면 0을 있다면 요구아이템의 갯수를 담음
-                    string havecnt = giveitem == null ? "0" : giveitem.ItemCnt;
+                    string havecnt = giveitem == null ? "0" : giveitem["itemcnt"].ToString();
 
                     Text textComponent = questListInstance.GetComponentInChildren<Text>();
-                    if (textComponent != null)
+                    if (textComponent == null)
                     {
-                        textComponent.text = $"{quest.QuestNo}. : {quest.QuestNm}\r\n 내용 : {quest.QuestMemo}\r\n 요구 아이템 : {quest.QitemNm} ( {havecnt} / {quest.Qitem_cnt} )";
+                        return;
                     }
+                    quest.TryGetValue("questno", out object questno);
+                    quest.TryGetValue("questnm", out object questnm);
+                    quest.TryGetValue("questmemo", out object questmemo);
+                    quest.TryGetValue("qitemnm", out object qitemnm);
+                    quest.TryGetValue("qitemcnt", out object qitemcnt); 
+                    quest.TryGetValue("ritemnm", out object ritemnm);
+                    quest.TryGetValue("ritemcnt", out object ritemcnt); 
+                    textComponent.text = $"{questno}. " +
+                                         $": {questnm}\r\n " +
+                                         $"내용 : {questmemo}" +
+                                         $"\r\n 요구 아이템 : {qitemnm} ( {havecnt} / {qitemcnt} )" +
+                                         $"\r\n 보상 아이템 : {ritemnm} {ritemcnt}개";
                 }
             }
             
@@ -88,7 +118,7 @@ namespace Script.UI.Outing.QuestBoard
         }
 
         //수락한 퀘스트 목록을 띄우는 구문
-        public void SubmitQuestList(List<QuestBoardVO> questListData)
+        public void SubmitQuestList(List<Dictionary<string,object>> questdata)
         {
             //퀘스트 오브젝트 활성화
             questList.SetActive(true);
@@ -101,26 +131,38 @@ namespace Script.UI.Outing.QuestBoard
             ClearExistingQuestList();
 
 
-            foreach (var quest in questListData)
+            foreach (var quest in questdata)
             {
-                //퀘스트 목록에서 수락플래그가 Y이고 완료플래그가 N이라면
-                if (quest.SubmitFlag.Equals("Y") && quest.CompleteFlag.Equals("N"))
+                if (quest["submit"].Equals("Y") && quest["complete"].Equals("N"))
                 {
                     GameObject submitQuestListInstance = Instantiate(submitQuestListPrefab, submitQuestListLayout);
-                    submitQuestListInstance.name = "QuestList" + quest.QuestNo;
+                    submitQuestListInstance.name = "QuestList" + quest["questno"];
                     submitQuestListInstances.Add(submitQuestListInstance);
 
                     //인벤토리에 있는 퀘스트 요구아이템 정보를 담음
-                    InventoryVO giveitem = invenList.Find(p => p.ItemNo.Equals(quest.Qitem));
+                    Dictionary<string,object> giveitem = inventoryList.Find(p => p["itemid"].ToString().Equals(quest["qitemid"]));
                     
                     //요구 아이템이 없다면 0을 있다면 요구아이템의 갯수를 담음
-                    string havecnt = giveitem == null ? "0" : giveitem.ItemCnt;
-                    
+                    string havecnt = giveitem == null ? "0" : giveitem["itemcnt"].ToString();
+
                     Text textComponent = submitQuestListInstance.GetComponentInChildren<Text>();
-                    if (textComponent != null)
+                    if (textComponent == null)
                     {
-                        textComponent.text = $"{quest.QuestNo}. : {quest.QuestNm}\r\n 내용 : {quest.QuestMemo} 요구 아이템 : {quest.QitemNm} ( {havecnt} / {quest.Qitem_cnt} )";
+                        return;
                     }
+                    quest.TryGetValue("questno", out object questno);
+                    quest.TryGetValue("questnm", out object questnm);
+                    quest.TryGetValue("questmemo", out object questmemo);
+                    quest.TryGetValue("qitemnm", out object qitemnm);
+                    quest.TryGetValue("qitemcnt", out object qitemcnt); 
+                    quest.TryGetValue("ritemnm", out object ritemnm);
+                    quest.TryGetValue("ritemcnt", out object ritemcnt); 
+                    textComponent.text = $"{questno}. " +
+                                         $": {questnm}\r\n " +
+                                         $"내용 : {questmemo}" +
+                                         $"\r\n 요구 아이템 : {qitemnm} ({qitemcnt} / {havecnt})" +
+                                         $"\r\n 보상 아이템 : {ritemnm} {ritemcnt}개";
+
                 }
             }
             //퀘스트 오브젝트 비활성화
@@ -133,7 +175,7 @@ namespace Script.UI.Outing.QuestBoard
         }
 
         //완료된 퀘스트 목록을 띄우는 메서드
-        public void CompleteQuestList(List<QuestBoardVO> questListData)
+        public void CompleteQuestList(List<Dictionary<string,object>> questdata)
         {
             //퀘스트 오브젝트 활성화
             questList.SetActive(true);
@@ -145,19 +187,26 @@ namespace Script.UI.Outing.QuestBoard
             //퀘스트 오브젝트 클리어
             ClearExistingQuestList();
 
-            foreach (var quest in questListData)
+            foreach (var quest in questdata)
             {
-                if (quest.CompleteFlag.Equals("Y"))
+                if (quest["complete"].Equals("Y"))
                 {
                     GameObject completeQuestListInstance = Instantiate(completeQuestListPrefab, completeQuestListLayout);
-                    completeQuestListInstance.name = "QuestList" + quest.QuestNo;
+                    completeQuestListInstance.name = "QuestList" + quest["questno"];
                     completeQuestListInstances.Add(completeQuestListInstance);
 
                     Text textComponent = completeQuestListInstance.GetComponentInChildren<Text>();
-                    if (textComponent != null)
+                    if (textComponent == null)
                     {
-                        textComponent.text = $"{quest.QuestNo}. : {quest.QuestNm}\r\n 내용 : {quest.QuestMemo} ";
+                        return;
                     }
+                    quest.TryGetValue("questno", out object questno);
+                    quest.TryGetValue("questnm", out object questnm);
+                    quest.TryGetValue("questmemo", out object questmemo);
+                    textComponent.text = $"{questno}. " +
+                                         $": {questnm}\r\n " +
+                                         $"내용 : {questmemo} ";
+                    
                 }
             }
             //퀘스트 오브젝트 비활성화
@@ -197,12 +246,17 @@ namespace Script.UI.Outing.QuestBoard
             GameObject parentObject = clickedButton.transform.parent.gameObject;
             int index = GetQuestIndexFromObjectName(parentObject.name);
             
-            //수락 플래그를 Y로 업데이트
-            questBoardDao.SubmitQuest(index);
-            //퀘스트 정보 갱신
-            questListData = questBoardDao.GetQuestBoardList();
-            //처음 화면으로 보냄
-            StartQuestList(questListData);
+            sflag = "Y";
+            cflag = "N";
+            //수락 플래그를 N으로 업데이트
+            StartCoroutine(questBoardDao.UpdateFlag(sflag,cflag,index));
+
+            StartCoroutine(questBoardDao.GetQuestBoardLists(list =>
+            {
+                questdata = list;
+                // SmeltList 세팅 후 SmeltList 화면에 출력
+                StartQuestList(questdata);
+            }));
         }
 
         //수락한 퀘스트 중 거절 버튼 클릭시
@@ -211,13 +265,33 @@ namespace Script.UI.Outing.QuestBoard
             GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
             GameObject parentObject = clickedButton.transform.parent.gameObject;
             int index = GetQuestIndexFromObjectName(parentObject.name);
-            
+
+            sflag = "N";
+            cflag = "N";
             //수락 플래그를 N으로 업데이트
-            questBoardDao.RefuseSubmitQuest(index);
-            //퀘스트 정보 갱신
-            questListData = questBoardDao.GetQuestBoardList();
-            //처음 화면으로 보냄
-            StartQuestList(questListData);
+            StartCoroutine(questBoardDao.UpdateFlag(sflag,cflag,index));
+
+            StartCoroutine(questBoardDao.GetQuestBoardLists(list =>
+            {
+                questdata = list;
+                // SmeltList 세팅 후 SmeltList 화면에 출력
+                StartQuestList(questdata);
+            }));
+        }
+
+        public void setCompleteFlag(int questno)
+        {
+            sflag = "N";
+            cflag = "N";
+            //수락 플래그를 N으로 업데이트
+            StartCoroutine(questBoardDao.UpdateFlag(sflag,cflag,questno));
+
+            StartCoroutine(questBoardDao.GetQuestBoardLists(list =>
+            {
+                questdata = list;
+                // SmeltList 세팅 후 SmeltList 화면에 출력
+                StartQuestList(questdata);
+            }));
         }
 
         //완료버튼 클릭 시
@@ -228,45 +302,50 @@ namespace Script.UI.Outing.QuestBoard
             int index = GetQuestIndexFromObjectName(parentObject.name);
 
             // 완료 할 퀘스트 목록의 값을 qv에 담음
-            QuestBoardVO qv = questListData.Find(vo => vo.QuestNo.Equals(index));
+            Dictionary<string,object> qv = questdata.Find(p => 
+                p["questno"].Equals(index));
             
             //목록에서 요구 아이템과 아이템 갯수를 담음
-            string requiredItemCount = qv.Qitem_cnt;
-            string requiredItem = qv.Qitem;
+            string requiredItemCount = qv["qitemcnt"].ToString();
+            string requiredItem = qv["qitemid"].ToString();
             
             //인벤토리에 요구 아이템이 있는지 찾고 값을 담음
-            InventoryVO iv = invenList.Find(vo => vo.ItemNo.Equals(requiredItem));
+            Dictionary<string,object>  iv = 
+                inventoryList.Find(p => p["itemid"].Equals(requiredItem));
 
             //요구 아이템이 있다면
             if (iv != null)
             {
                 //보유 아이템 갯수와 요구아이템 갯수 계산
-                int remainingCount = int.Parse(iv.ItemCnt) - int.Parse(requiredItemCount);
+                int remainingCount = int.Parse(iv["itemcnt"].ToString()) - int.Parse(requiredItemCount);
                 //계산 된 아이템갯수가  0보다 크면
                 if (remainingCount >= 0)
                 {
                     //계산된 아이템 갯수로 업테이트하고
-                    inventoryDao.ItemCraftPayment(qv.Qitem, remainingCount.ToString());
-                    
+                    StartCoroutine(inventoryDao.ItemCraftPayments(qv["qitemid"].ToString(), remainingCount.ToString()));
+
                     //퀘스르 완료처리를 함
-                    questBoardDao.CompleteQuest(index);
+                    setCompleteFlag(index);
 
                     //퀘스트 보상아이템이 인벤토리에 있는지 확인하고 있으면 그 값을 담음
-                    InventoryVO rewardItem = invenList.Find(p => p.ItemNo.Equals(qv.Qreward));
+                    Dictionary<string,object> rewardItem = 
+                        inventoryList.Find(p => p["itemid"].ToString().Equals(qv["ritemid"]));
                     
                     //보상아이템이 인벤토리에 있다면
                     if (rewardItem != null)
                     {
                         //그 갯수를 계산하고
-                        int updatedCount = int.Parse(qv.Qreward_cnt) + int.Parse(rewardItem.ItemCnt);
+                        int updatedCount = int.Parse(qv["ritemcnt"].ToString()) + int.Parse(rewardItem["itemcnt"].ToString());
                         //업데이트함
-                        inventoryDao.ItemCraftUpdate(updatedCount.ToString(), qv.Qreward);
+                        StartCoroutine(inventoryDao.ItemCraftUpdates(qv["ritemid"].ToString(), updatedCount.ToString()));
+
                     }
                     //없다면
                     else
                     {
                         //insert해줌
-                        inventoryDao.ItemCraftInsert(qv.Qreward, qv.Qitem_cnt);
+                        StartCoroutine(inventoryDao.ItemCraftInserts(qv["ritemid"].ToString(), qv["ritemcnt"].ToString()));
+
                     }
                     //퀘스트 목록 전체 갱신
                     Start();
@@ -294,19 +373,19 @@ namespace Script.UI.Outing.QuestBoard
             if (buttonName.Equals("PalybleQuest"))
             {
                 //진행가능한 퀘스르 목록을 불러옴
-                StartQuestList(questListData);
+                StartQuestList(questdata);
             }
             //버튼이름이 수락한퀘스트라면
             else if (buttonName.Equals("SubmitQuest"))
             {
                 //수락한 퀘스트 목록을 불러옴
-                SubmitQuestList(questListData);
+                SubmitQuestList(questdata);
             }
             //버튼이름이 완료된 퀘스트라면
             else if (buttonName.Equals("CompleteQuest"))
             {
                 //완료된 퀘스트 목록을 불러옴
-                CompleteQuestList(questListData);
+                CompleteQuestList(questdata);
             }
         }
 

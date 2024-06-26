@@ -6,20 +6,21 @@ namespace Script.UI.Outing.RestaurantScript
         public class RestaurantUIController : MonoBehaviour
 
     {
-        //UI 인스턴스화
-        private static RestaurantUIController instance;
-        public GameObject EatMenu; //식사목록
-        public GameObject SellMenu; //판매목록
-        public GameObject BuyMenu; //구매목록
-        public GameObject ChiceUi; //구매 여부 선택
-        public GameObject BuyComple; //구매성공 시
-        public GameObject BuyFail; // 구매실패 시
+        private static RestaurantUIController instance; // 인스턴스
 
-
+        public GameObject EatMenu; // 식사 목록 UI
+        public GameObject SellMenu; // 판매 목록 UI
+        public GameObject BuyMenu; // 구매 목록 UI
+        public GameObject ChoiceUi; // 구매 여부 선택 UI
+        public GameObject SellChoiceUi; // 판매 여부 선택 UI
+        public GameObject SellComplete; // 판매 성공 UI
+        public GameObject SellFail; // 판매 실패 UI
+        public GameObject BuyComplete; // 구매 성공 UI
+        public GameObject BuyFail; // 구매 실패 UI
 
         private void Awake()
         {
-            // 인스턴스가 없을 경우 현재 GameObject에 RestaurantManager를 추가합니다.
+            // 인스턴스가 없을 경우 현재 GameObject에 RestaurantUIController를 추가합니다.
             if (instance == null)
             {
                 instance = this;
@@ -37,71 +38,36 @@ namespace Script.UI.Outing.RestaurantScript
             SceneManager.LoadScene("OutingScene");
         }
 
-        public void OnClickEating()
+        public void ToggleMenu(GameObject menu, bool isActive)
         {
-            ActivateMenu(EatMenu);
+            menu.SetActive(isActive);
         }
 
-        public void OnClickEatOuting()
-        {
-            DeactivateMenu(EatMenu);
-        }
+        public void OnClickEatMenu() => ToggleMenu(EatMenu, true);
+        public void OnClickEatMenuClose() => ToggleMenu(EatMenu, false);
 
-        public void OnClickSelling()
-        {
-            ActivateMenu(SellMenu);
-        }
+        public void OnClickSellMenu() => ToggleMenu(SellMenu, true);
+        public void OnClickSellMenuClose() => ToggleMenu(SellMenu, false);
 
-        public void OnClickSellOuting()
-        {
-            DeactivateMenu(SellMenu);
-        }
+        public void OnClickBuyMenu() => ToggleMenu(BuyMenu, true);
+        public void OnClickBuyMenuClose() => ToggleMenu(BuyMenu, false);
 
-        public void OnClickBuying()
-        {
-            ActivateMenu(BuyMenu);
-        }
+        public void OnClickChoiceUi() => ToggleMenu(ChoiceUi, true);
+        public void OnClickChoiceUiClose() => ToggleMenu(ChoiceUi, false);
 
-        public void OnClickBuyOuting()
-        {
-            DeactivateMenu(BuyMenu);
-        }
+        public void OnClickSellChoiceUi() => ToggleMenu(SellChoiceUi, true);
+        public void OnClickSellChoiceUiClose() => ToggleMenu(SellChoiceUi, false);
 
-        public void OnClickChiceUi()
-        {
-            ActivateMenu(ChiceUi);
-        }
+        public void OnClickSellComplete() => ToggleMenu(SellComplete, true);
+        public void OnClickSellCompleteClose() => ToggleMenu(SellComplete, false);
 
-        public void OnClickChiceUiOut()
-        {
-            DeactivateMenu(ChiceUi);
-        }
-        public void OnClickBuyComple()
-        {
-            ActivateMenu(BuyComple);
-        }
+        public void OnClickSellFail() => ToggleMenu(SellFail, true);
+        public void OnClickSellFailClose() => ToggleMenu(SellFail, false);
 
-        public void OnClickBuyCompleOut()
-        {
-            DeactivateMenu(BuyComple);
-        }
-        public void OnClickBuyFail()
-        {
-            ActivateMenu(BuyFail);
-        }
+        public void OnClickBuyComplete() => ToggleMenu(BuyComplete, true);
+        public void OnClickBuyCompleteClose() => ToggleMenu(BuyComplete, false);
 
-        public void OnClickBuyFailOut()
-        {
-            DeactivateMenu(BuyFail);
-        }
-        private void ActivateMenu(GameObject menu)
-        {
-            menu.SetActive(true);
-        }
-
-        private void DeactivateMenu(GameObject menu)
-        {
-            menu.SetActive(false);
-        }
+        public void OnClickBuyFail() => ToggleMenu(BuyFail, true);
+        public void OnClickBuyFailClose() => ToggleMenu(BuyFail, false);
     }
 }

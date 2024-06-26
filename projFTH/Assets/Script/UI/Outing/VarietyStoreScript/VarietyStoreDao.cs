@@ -1,7 +1,11 @@
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 using Script.UI.System;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace Script.UI.Outing.VarietyStoreScript
 {
@@ -88,6 +92,23 @@ namespace Script.UI.Outing.VarietyStoreScript
 
                     cmd.ExecuteNonQuery();
                 }
+            }
+        }
+
+        public IEnumerator GetBuyList(Action<List<Dictionary<string, object>>> callback)
+        {
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/outing/varstory/buy");
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string json = request.downloadHandler.text;
+                List<Dictionary<string, object>> buylist = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
+                callback(buylist);
+            }
+            else
+            {
+                Debug.LogError("Error: " + request.error);
             }
         }
     }

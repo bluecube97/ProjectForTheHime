@@ -1,8 +1,12 @@
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 using Script.UI.System;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
+using Object = System.Object;
 
 namespace Script.UI.MainLevel.Inventory
 {
@@ -14,7 +18,22 @@ namespace Script.UI.MainLevel.Inventory
         {
             _connDB = new ConnDB();
         }
+        public IEnumerator GetInventoryList(Action<List<Dictionary<string, object>>> callback)
+        {
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/inven/list");
+            yield return request.SendWebRequest();
 
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string json = request.downloadHandler.text;
+                List<Dictionary<string, object>> inventorylist = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
+                callback(inventorylist);
+            }
+            else
+            {
+                Debug.LogError("Error: " + request.error);
+            }
+        }
         public List<InventoryVO> GetInvenList()
         {
             List<InventoryVO> InvenList = new();
@@ -49,6 +68,101 @@ namespace Script.UI.MainLevel.Inventory
             return InvenList;
         }
 
+        public IEnumerator ItemCraftInserts(string itemid, string itemcnt)
+        {
+            string url = "http://localhost:8080/inven/create/insert";
+
+            // WWWForm 생성
+            WWWForm form = new WWWForm();
+            form.AddField("pid", "ejwhdms502");
+            form.AddField("itemid", itemid);
+            form.AddField("itemcnt", itemcnt);
+
+            using (UnityWebRequest request = UnityWebRequest.Post(url, form))
+            {
+                yield return request.SendWebRequest();
+
+                if (request.result != UnityWebRequest.Result.Success)
+                {
+                    Debug.LogError("Error: " + request.error);
+                }
+            }
+        }
+        public IEnumerator ItemCraftUpdates(string itemid, string itemcnt)
+        {
+            string url = "http://localhost:8080/inven/create/update";
+
+            // WWWForm 생성
+            WWWForm form = new WWWForm();
+            form.AddField("pid", "ejwhdms502");
+            form.AddField("itemid", itemid);
+            form.AddField("itemcnt", itemcnt);
+
+            using (UnityWebRequest request = UnityWebRequest.Post(url, form))
+            {
+                yield return request.SendWebRequest();
+
+                if (request.result != UnityWebRequest.Result.Success)
+                {
+                    Debug.LogError("Error: " + request.error);
+                }
+            }
+        }
+        public IEnumerator ItemCraftPayments(string itemid , string itemcnt)
+        {
+                string url = "http://localhost:8080/inven/create/payment";
+
+            // WWWForm 생성
+            WWWForm form = new WWWForm();
+            form.AddField("pid", "ejwhdms502");
+            form.AddField("itemid", itemid);
+            form.AddField("itemcnt", itemcnt);
+
+            using (UnityWebRequest request = UnityWebRequest.Post(url, form))
+            {
+                yield return request.SendWebRequest();
+
+                if (request.result != UnityWebRequest.Result.Success)
+                {
+                    Debug.LogError("Error: " + request.error);
+                }
+            }
+        }
+        public IEnumerator UpdateUserCashs(string payment)
+        {
+            string url = "http://localhost:8080/inven/purchase/payment";
+
+            // WWWForm 생성
+            WWWForm form = new WWWForm();
+            form.AddField("pid", "ejwhdms502");
+            form.AddField("payment", payment);
+
+            using (UnityWebRequest request = UnityWebRequest.Post(url, form))
+            {
+                yield return request.SendWebRequest();
+
+                if (request.result != UnityWebRequest.Result.Success)
+                {
+                    Debug.LogError("Error: " + request.error);
+                }
+            }
+        }
+        public IEnumerator GetUserInfoFromDB(Action<Dictionary<string, object>> callback)
+        {
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/inven/cash");
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string json = request.downloadHandler.text;
+                Dictionary<string, object> userinfo = JsonConvert.DeserializeObject<Dictionary<string,object>>(json);
+                callback(userinfo);
+            }
+            else
+            {
+                Debug.LogError("Error: " + request.error);
+            }
+        }
         public void ItemCraftInsert( string itemid, string cnt)
         {
             string sql = "  INSERT INTO TBL_INVEN (PID, ITEM_ID , CNT, USBL,USBL_SLOT) " +
@@ -114,7 +228,63 @@ namespace Script.UI.MainLevel.Inventory
                 }
             }
         }
+        public IEnumerator UpdateSellThings(string itemcnt, string itemid, string pid)
+        {
+            WWWForm form = new WWWForm();
+            form.AddField("itemcnt", itemcnt);
+            form.AddField("itemid", itemid);
+            form.AddField("pid",pid);
+            using (UnityWebRequest request = UnityWebRequest.Post("http://localhost:8080/inven/sell", form))
+            {
+                yield return request.SendWebRequest();
 
+                if (request.result != UnityWebRequest.Result.Success)
+                {
+                    Debug.LogError("Error: " + request.error);
+                }
+            }
+        }
+        public IEnumerator UpdateBuyThings(string bitem, string itemid, string pid)
+        {
+            WWWForm form = new WWWForm();
+            form.AddField("bitem", bitem);
+            form.AddField("itemid", itemid);
+            form.AddField("pid",pid);
+            using (UnityWebRequest request = UnityWebRequest.Post("http://localhost:8080/inven/purchase/update", form))
+            {
+                yield return request.SendWebRequest();
+
+                if (request.result != UnityWebRequest.Result.Success)
+                {
+                    Debug.LogError("Error: " + request.error);
+                }
+            }
+        }
+        public IEnumerator InsertBuyThings(string itemid, string cnt,string pid)
+        {
+            string url = "http://localhost:8080/inven/purchase/insert";
+
+            // WWWForm 생성
+            WWWForm form = new WWWForm();
+            form.AddField("pid", pid);
+            form.AddField("itemid", itemid);
+            form.AddField("cnt", cnt);
+            form.AddField("usbl", "0");
+            form.AddField("slot", "");
+
+            using (UnityWebRequest request = UnityWebRequest.Post(url, form))
+            {
+                yield return request.SendWebRequest();
+
+                if (request.result != UnityWebRequest.Result.Success)
+                {
+                    Debug.LogError("Error: " + request.error);
+                }
+                
+            }
+        }
+        
+        
         public void UpdateBuyThing(string bitem, string itemid)
         {
             using (MySqlConnection connection = new(ConnDB.Con))
