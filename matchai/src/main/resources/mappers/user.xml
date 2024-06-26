@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.matchai.board.mapper.UserMapper">
+	<!-- 로그인 시 사용자 정보 가져오기 -->
+	<select id="LoginCheck" parameterType="hashmap" resultType="hashmap">
+		SELECT tun.USEREMAIL as useremail,
+				tun.USERNM as usernm,
+				tun.USERNICKNAME as usernickname,
+				tun.USERAGE as userage
+		from TBL_USER_NT_01 tun
+		WHERE tun.USEREMAIL = #{smail}
+		and tun.USERPW =
+		SHA2(#{spass},256)  
+	</select>
+	
+	<!-- 아이디 존재 유무 확인 -->
+	<select id="UserCheck" parameterType="hashmap" resultType="Integer">
+		SELECT COUNT(tun.USEREMAIL)
+  		 FROM TBL_USER_NT_01 tun
+ 		WHERE USEREMAIL = #{smail}
+	</select>
+	
+	<!-- 아이디 중복 확인 -->
+	<select id="emailCheck" parameterType="string" resultType="int">
+		SELECT COUNT(*) 
+		 FROM TBL_USER_NT_01 
+		WHERE USEREMAIL = #{param} 
+		   AND DELETEFLAG = 'N'
+	</select>
+	
+	<!-- 회원가입 정보 저장 -->
+	<insert id="signUp" parameterType="hashmap">
+		INSERT INTO TBL_USER_NT_01 (USEREMAIL, USERPW, USERNM, USERNICKNAME, USERAGE, DELETEFLAG)
+		VALUES (#{smail}, SHA2(#{smail},256), #{sname}, #{snick}, #{sage}, 'N')
+	</insert>
+
+	<!--  팀정보 가져오기 -->
+	<select id="getTeams" parameterType="string" resultType="hashmap">
+		SELECT TEAM_CODE, TEAMNAME_KR 
+		 FROM TBL_TEAM_MT01 
+		WHERE LEAGUE_CODE = #{league}
+	</select>
+
+	<!-- 사용자별 선호하는 팀 저장-->
+	<insert id="saveUserTeam" parameterType="map" useGeneratedKeys="true" keyProperty="SEQ">
+		INSERT INTO TBL_USER_NT_02 (USEREMAIL, LEAGUE_CODE, TEAM_CODE, TEAMNAME_KR)
+		VALUES (#{smail}, #{league}, #{teamCode}, #{teamName})
+	</insert>
+
+	<!-- 구글 사용자 정보 저장 -->
+	<insert id="saveGoogleUser" parameterType="hashmap">
+		INSERT INTO TBL_USER_NT_01 (USEREMAIL, USERPW, USERNM, USERNICKNAME, USERAGE, DELETEFLAG)
+		VALUES (#{useremail}, SHA2(#{useremail},256), #{usernm}, #{usernickname}, #{userage}, 'N')
+	</insert>
+	
+</mapper>

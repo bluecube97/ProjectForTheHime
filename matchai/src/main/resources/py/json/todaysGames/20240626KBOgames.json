@@ -1,0 +1,27 @@
+[
+    {
+        "away_team": 2002,
+        "home_team": 3001,
+        "game_date": "2024-06-26"
+    },
+    {
+        "away_team": 6002,
+        "home_team": 7002,
+        "game_date": "2024-06-26"
+    },
+    {
+        "away_team": 12001,
+        "home_team": 9002,
+        "game_date": "2024-06-26"
+    },
+    {
+        "away_team": 11001,
+        "home_team": 10001,
+        "game_date": "2024-06-26"
+    },
+    {
+        "away_team": 1001,
+        "home_team": 5002,
+        "game_date": "2024-06-26"
+    }
+]
