@@ -33,15 +33,15 @@ namespace Script.UI.System
             }
 
             string userConv = inputDataField.text;
-            StartCoroutine(GetConv(userConv, map =>
+            StartCoroutine(GetConv(userConv, callback =>
             {
-                string gptConv = map["gpt_ment"].ToString();
-                outputDataText.text = gptConv;
+                //string gptConv = map["gpt_ment"].ToString();
+                outputDataText.text = callback;
             }));
 
         }
 
-        IEnumerator GetConv(string userConv, Action<Dictionary<string, object>> callback)
+        IEnumerator GetConv(string userConv, Action<string> callback)
         {
             const string url = "http://localhost:8080/api/conv/get";
             string jsonBody = JsonConvert.SerializeObject(userConv);
@@ -59,9 +59,9 @@ namespace Script.UI.System
 
             if (request.result == UnityWebRequest.Result.Success)
             {
-                string json = request.downloadHandler.text;
-                Dictionary<string, object> conv =
-                    JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+                string conv = request.downloadHandler.text;
+                //Dictionary<string, object> conv =
+                    //JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
                 callback(conv);
             }
             else
