@@ -59,7 +59,7 @@ namespace Script.UI.MainLevel.Inventory
             {
                 {
                     GameObject invenInstance = Instantiate(inventoryPrefab, inventorytLayout);
-                    invenInstance.name =  "Inven" + inven["itemid   "];
+                    invenInstance.name =  "Inven" + inven["itemid"];
                     inventoryInstances.Add(invenInstance);
 
                     Text textComponent = invenInstance.GetComponentInChildren<Text>();
