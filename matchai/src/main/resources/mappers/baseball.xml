@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.game.baseball.api.mapper.BaseBallMapper">
+
+	<!-- 경기 일정 -->
+		<!-- 임시 MLB 스케줄 테이블 생성 -->
+		<update id="createTemporaryMLBtbl">
+			CREATE TABLE baseball.TBL_MLBSCHEDULE_TTP (
+			SEQ INT
+			PRIMARY KEY AUTO_INCREMENT,
+			TEAM1 TEXT,
+			TEAM2 TEXT,
+			DATE TEXT
+			);
+		</update>
+	
+		<!-- 임시 KBO 스케줄 테이블 생성 -->
+		<update id="createTemporaryKBOtbl">
+			CREATE TABLE baseball.TBL_KBOSCHEDULE_TTP (
+			SEQ INT
+			PRIMARY KEY AUTO_INCREMENT,
+			TEAM1 TEXT,
+			TEAM2 TEXT,
+			DATE TEXT
+			);
+		</update>
+	
+		<!-- MLB 스케줄 테이블 삭제 -->
+		<update id="dropMLBtbl">
+			DROP TABLE IF EXISTS baseball.TBL_MLBSCHEDULE_TTP;
+		</update>
+	
+		<!-- KBO 스케줄 테이블 삭제 -->
+		<update id="dropKBOtbl">
+			DROP TABLE IF EXISTS baseball.TBL_KBOSCHEDULE_TTP;
+		</update>
+	
+		<!-- MLB 스케줄 삽입 -->
+		<insert id="insertTdyMLB">
+			INSERT INTO baseball.TBL_MLBSCHEDULE_TTP (TEAM1, TEAM2, DATE)
+			VALUES (#{TEAM1}, #{TEAM2}, #{DATE})
+		</insert>
+	
+		<!-- KBO 스케줄 삽입 -->
+		<insert id="insertTdyKBO">
+			INSERT INTO baseball.TBL_KBOSCHEDULE_TTP (TEAM1, TEAM2, DATE)
+			VALUES (#{TEAM1}, #{TEAM2}, #{DATE})
+		</insert>
+	<!-- 경기 일정 끝 -->
+
+	<!-- 경기 결과 -->
+		<!-- 임시 MLB 결과 테이블 생성 -->
+		<update id="createTemporaryMLBresulttbl">
+			CREATE TABLE baseball.TBL_MLBRES_TTP (
+			SEQ INT PRIMARY KEY AUTO_INCREMENT,
+			DATE TEXT,
+			WINTEAM TEXT,
+			LOSETEAM TEXT,
+			WINSCORE TEXT,
+			LOSESCORE TEXT
+			);
+		</update>
+	
+		<!-- 임시 KBO 결과 테이블 생성 -->
+		<update id="createTemporaryKBOresulttbl">
+			CREATE TABLE baseball.TBL_KBORES_TTP (
+			SEQ INT PRIMARY KEY AUTO_INCREMENT,
+			DATE TEXT,
+			WINTEAM TEXT,
+			LOSETEAM TEXT,
+			WINSCORE TEXT,
+			LOSESCORE TEXT
+			);
+		</update>
+	
+		<!-- MLB 결과 테이블 삭제 -->
+		<update id="dropMLBResulttbl">
+			DROP TABLE IF EXISTS baseball.TBL_MLBRES_TTP;
+		</update>
+	
+		<!-- KBO 결과 테이블 삭제 -->
+		<update id="dropKBOResulttbl">
+			DROP TABLE IF EXISTS baseball.TBL_KBORES_TTP;
+		</update>
+	
+		<!-- MLB 결과 삽입 -->
+		<insert id="insertResultMLB">
+			INSERT INTO baseball.TBL_MLBRES_TTP (DATE, WINTEAM, LOSETEAM, WINSCORE, LOSESCORE)
+			VALUES (#{DATE}, #{WINTEAM}, #{LOSETEAM}, #{WINSCORE}, #{LOSESCORE})
+		</insert>
+	
+		<!-- KBO 결과 삽입 -->
+		<insert id="insertResultKBO">
+			INSERT INTO baseball.TBL_KBORES_TTP (DATE, WINTEAM, LOSETEAM, WINSCORE, LOSESCORE)
+			VALUES (#{DATE}, #{WINTEAM}, #{LOSETEAM}, #{WINSCORE}, #{LOSESCORE})
+		</insert>
+	<!-- 경기 결과 끝 -->
+	
+	<!-- 임시 테이블 노말 테이블로 데이터 삽입 -->
+		<insert id="moveTempMLBResultToMainTable">
+		    INSERT INTO baseball.TBL_MLBRSLT_NT003 (DATE, WINTEAM, LOSETEAM, WINSCORE, LOSESCORE)
+		    SELECT `DATE`, WINTEAM, LOSETEAM, WINSCORE, LOSESCORE
+		      FROM baseball.TBL_MLBRES_TTP
+		</insert>
+		
+		<insert id="moveTempKBOResultToMainTable">
+			INSERT INTO baseball.TBL_KBORSLT_NT003 (DATE, WINTEAM, LOSETEAM, WINSCORE, LOSESCORE)
+			SELECT `DATE`, WINTEAM, LOSETEAM, WINSCORE, LOSESCORE
+			  FROM baseball.TBL_KBORES_TTP
+		</insert>
+	<!-- 임시 테이블 노말 테이블로 데이터 삽입 끝 -->
+</mapper>
