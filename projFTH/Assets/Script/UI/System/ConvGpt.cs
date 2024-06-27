@@ -18,6 +18,7 @@ namespace Script.UI.System
 
         public void OnClickSubmitButton()
         {
+            outputDataText.text = "대화 생성 중...";
             // 필드 검증
             if (inputDataField == null || outputDataText == null)
             {
