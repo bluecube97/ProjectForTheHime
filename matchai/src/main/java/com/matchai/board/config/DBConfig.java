@@ -18,7 +18,8 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration // 이 클래스가 Spring의 설정 클래스임을 나타냄(pom.xml 대신?)
 @PropertySource("classpath:/application.properties") // application.properties 파일에서 설정을 읽어옴
-@MapperScan(basePackages = "com.test.board.mapper") // MyBatis 매퍼 인터페이스를 스캔할 패키지 지정
+@MapperScan(basePackages = "com.matchai.board.mapper") // MyBatis 매퍼 인터페이스를 스캔할 패키지 지정
+// @MapperScan({"com.matchai.board.mapper", "com.game.baseball.api.mapper", "com.unity.game.mapper"}) // MyBatis 매퍼 인터페이스를 스캔할 패키지 지정
 public class DBConfig {
 
 	@Autowired // Spring이 자동으로 ApplicationContext를 주입, bean의 id갑 가져와서 쓸 수 있다..?

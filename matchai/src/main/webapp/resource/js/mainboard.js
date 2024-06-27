@@ -35,3 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 	}
 });
+
+function startUnity(){
+	window.location.href = '/board/unity';
+}

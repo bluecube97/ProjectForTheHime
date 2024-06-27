@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unity.game.mapper.LifeTimeMapper">
+    <select id="getClothingList" resultType="map">
+        SELECT  tr.RECIPE_ID, ti.ITEM_ID as itemnm, ti.NAME, ti.`DESC` as itemdesc, tr.REQ_ITEM, ti1.NAME AS REQ_ITEM_NAME,  tr.R_ITEM_CNT
+        FROM TBL_UNITY_ITEM ti
+        INNER JOIN TBL_UNITY_RECIPE tr
+        ON ti.ITEM_ID = tr.ITEM_ID
+        LEFT JOIN TBL_UNITY_ITEM ti1
+        ON tr.REQ_ITEM = ti1.ITEM_ID
+        WHERE ti.TYPE_ID = 1002
+        ORDER BY ti.ITEM_ID
+    </select>
+    <select id="getClothingBuyList" resultType="map">
+        SELECT ti.ITEM_ID, ti.NAME, ti.`DESC`, ti.SELL_PRI, ti.BUY_PRI as buyprice
+        FROM TBL_UNITY_ITEM ti
+        WHERE ti.TYPE_ID = 3003
+    </select>
+</mapper>

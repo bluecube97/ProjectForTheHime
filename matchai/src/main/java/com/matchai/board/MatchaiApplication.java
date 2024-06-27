@@ -7,8 +7,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-@MapperScan({"com.matchai.board.mapper", "com.game.baseball.api.mapper"})
-@ComponentScan({"com.matchai.board", "com.game.baseball.api"})
+@MapperScan({"com.matchai.board.mapper", "com.game.baseball.api.mapper", "com.unity.game.mapper"})
+@ComponentScan({"com.matchai.board", "com.game.baseball.api", "com.unity.game"})
 @EnableScheduling // 스케줄링 활성화
 public class MatchaiApplication {
 
