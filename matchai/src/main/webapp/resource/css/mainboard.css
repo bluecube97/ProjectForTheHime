@@ -108,7 +108,7 @@ header {
 }
 
 .menu-btn:hover {
-	background-color: #e0f7fa;
+	background-color: rgb(239, 239, 239);
 	border-radius: 5px;
 	color: #0056b3;
 }
@@ -142,7 +142,7 @@ header {
 }
 
 .auth-buttons button:hover {
-	background-color: #e0f7fa;
+	background-color: rgb(239, 239, 239);
 	/* 마우스를 올렸을 때의 배경색 설정 */
 	border-radius: 5px;
 	/* 테두리 반경 설정 */
