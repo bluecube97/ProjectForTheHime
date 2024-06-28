@@ -20,12 +20,13 @@ namespace Script.UI.MainLevel.Inventory
         }
         public IEnumerator GetInventoryList(Action<List<Dictionary<string, object>>> callback)
         {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/inven/list");
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/inven/list");
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)
             {
                 string json = request.downloadHandler.text;
+                Debug.Log("Inventory JSON : " + json);
                 List<Dictionary<string, object>> inventorylist = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
                 callback(inventorylist);
             }
@@ -70,7 +71,7 @@ namespace Script.UI.MainLevel.Inventory
 
         public IEnumerator ItemCraftInserts(string itemid, string itemcnt)
         {
-            string url = "http://localhost:8080/inven/create/insert";
+            string url = "http://localhost:8080/api/inven/create/insert";
 
             // WWWForm 생성
             WWWForm form = new WWWForm();
@@ -90,7 +91,7 @@ namespace Script.UI.MainLevel.Inventory
         }
         public IEnumerator ItemCraftUpdates(string itemid, string itemcnt)
         {
-            string url = "http://localhost:8080/inven/create/update";
+            string url = "http://localhost:8080/api/inven/create/update";
 
             // WWWForm 생성
             WWWForm form = new WWWForm();
@@ -110,7 +111,7 @@ namespace Script.UI.MainLevel.Inventory
         }
         public IEnumerator ItemCraftPayments(string itemid , string itemcnt)
         {
-                string url = "http://localhost:8080/inven/create/payment";
+                string url = "http://localhost:8080/api/inven/create/payment";
 
             // WWWForm 생성
             WWWForm form = new WWWForm();
@@ -130,7 +131,7 @@ namespace Script.UI.MainLevel.Inventory
         }
         public IEnumerator UpdateUserCashs(string payment)
         {
-            string url = "http://localhost:8080/inven/purchase/payment";
+            string url = "http://localhost:8080/api/inven/purchase/payment";
 
             // WWWForm 생성
             WWWForm form = new WWWForm();
@@ -149,7 +150,7 @@ namespace Script.UI.MainLevel.Inventory
         }
         public IEnumerator GetUserInfoFromDB(Action<Dictionary<string, object>> callback)
         {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/inven/cash");
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/inven/cash");
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)
@@ -234,7 +235,7 @@ namespace Script.UI.MainLevel.Inventory
             form.AddField("itemcnt", itemcnt);
             form.AddField("itemid", itemid);
             form.AddField("pid",pid);
-            using (UnityWebRequest request = UnityWebRequest.Post("http://localhost:8080/inven/sell", form))
+            using (UnityWebRequest request = UnityWebRequest.Post("http://localhost:8080/api/inven/sell", form))
             {
                 yield return request.SendWebRequest();
 
@@ -250,7 +251,7 @@ namespace Script.UI.MainLevel.Inventory
             form.AddField("bitem", bitem);
             form.AddField("itemid", itemid);
             form.AddField("pid",pid);
-            using (UnityWebRequest request = UnityWebRequest.Post("http://localhost:8080/inven/purchase/update", form))
+            using (UnityWebRequest request = UnityWebRequest.Post("http://localhost:8080/api/inven/purchase/update", form))
             {
                 yield return request.SendWebRequest();
 
@@ -262,7 +263,7 @@ namespace Script.UI.MainLevel.Inventory
         }
         public IEnumerator InsertBuyThings(string itemid, string cnt,string pid)
         {
-            string url = "http://localhost:8080/inven/purchase/insert";
+            string url = "http://localhost:8080/api/inven/purchase/insert";
 
             // WWWForm 생성
             WWWForm form = new WWWForm();

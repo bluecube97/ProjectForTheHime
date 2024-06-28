@@ -29,6 +29,7 @@ namespace Script.UI.MainLevel.StartTurn.Dao
             if (request.result == UnityWebRequest.Result.Success)
             {
                 string json = request.downloadHandler.text;
+                Debug.Log("json " + json);
                 List<int> todoNoList = JsonConvert.DeserializeObject<List<int>>(json);
                 callback(todoNoList);
             }

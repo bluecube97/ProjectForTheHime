@@ -129,7 +129,7 @@ namespace Script.UI.Outing.QuestBoard
        
         public IEnumerator GetQuestBoardLists(Action<List<Dictionary<string, object>>> callback)
         {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/outing/quest/list");
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/outing/quest/list");
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)
@@ -145,7 +145,7 @@ namespace Script.UI.Outing.QuestBoard
         }
         public IEnumerator UpdateFlag(string sflag, string cflag, int questno)
         {
-            string url = "http://localhost:8080/outing/quest/flag";
+            string url = "http://localhost:8080/api/outing/quest/flag";
 
             // WWWForm 생성
             WWWForm form = new WWWForm();
