@@ -1,0 +1,37 @@
+[
+    {
+        "DATE": "2024-06-27",
+        "WINTEAM": "3001",
+        "LOSETEAM": "2002",
+        "WINSCORE": "11",
+        "LOSESCORE": "2"
+    },
+    {
+        "DATE": "2024-06-27",
+        "WINTEAM": "7002",
+        "LOSETEAM": "6002",
+        "WINSCORE": "8",
+        "LOSESCORE": "3"
+    },
+    {
+        "DATE": "2024-06-27",
+        "WINTEAM": "12001",
+        "LOSETEAM": "9002",
+        "WINSCORE": "16",
+        "LOSESCORE": "8"
+    },
+    {
+        "DATE": "2024-06-27",
+        "WINTEAM": "10001",
+        "LOSETEAM": "11001",
+        "WINSCORE": "9",
+        "LOSESCORE": "7"
+    },
+    {
+        "DATE": "2024-06-27",
+        "WINTEAM": "1001",
+        "LOSETEAM": "5002",
+        "WINSCORE": "2",
+        "LOSESCORE": "1"
+    }
+]
