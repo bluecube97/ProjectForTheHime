@@ -26,39 +26,21 @@ namespace Script.UI.MainLevel.StartTurn.Dao
             UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/lifetime/todono/" + year + "/" + month);
             yield return request.SendWebRequest();
 
+            Debug.Log("IEnumerator: " + year + " " +month);
+
             if (request.result == UnityWebRequest.Result.Success)
             {
+                Debug.Log("11111");
                 string json = request.downloadHandler.text;
+                Debug.Log("json: " + json);
                 List<int> todoNoList = JsonConvert.DeserializeObject<List<int>>(json);
+                Debug.Log("IEnumerator todoNoList: " + todoNoList.Count);
                 callback(todoNoList);
             }
             else
             {
                 Debug.LogError("Error: " + request.error);
             }
-        }
-
-        // 현재 날짜의 연, 월을 입력받아 해당하는 TodoNO를 반환하여 리스트에 저장
-        public List<int> _GetTodoNo(int year, int month)
-        {
-            using MySqlConnection connection = new(ConnDB.Con);
-            connection.Open();
-            using MySqlCommand cmd = connection.CreateCommand();
-            cmd.CommandText = " select distinct TODONO " +
-                              " from tododate " +
-                              " where YEAR = @year and MONTH = @month ";
-
-            cmd.Parameters.Clear();
-            cmd.Parameters.AddWithValue("@year", year);
-            cmd.Parameters.AddWithValue("@month", month);
-            using MySqlDataReader reader = cmd.ExecuteReader();
-            List<int> todoList = new();
-            while (reader.Read())
-            {
-                todoList.Add((int)reader["TODONO"]);
-            }
-
-            return todoList;
         }
 
         // TodoNO를 이용하여 TodoList를 가져와 리스트에 저장
@@ -93,37 +75,6 @@ namespace Script.UI.MainLevel.StartTurn.Dao
             {
                 Debug.LogError("Error: " + request.error);
             }
-        }
-
-        // TodoNO를 이용하여 TodoList를 가져와 리스트에 저장
-        public List<Dictionary<string, object>> _GetTodoList(List<int> noList)
-        {
-            using MySqlConnection connection = new(ConnDB.Con);
-            connection.Open();
-            using MySqlCommand cmd = connection.CreateCommand();
-            cmd.CommandText = " select TODONAME, REWARD, LOSEREWARD, STATREWARD " +
-                              " from todolist " +
-                              " where TODONO = @todono ";
-
-            List<Dictionary<string, object>> todoList = new();
-            foreach (int num in noList)
-            {
-                cmd.Parameters.Clear();
-                cmd.Parameters.AddWithValue("@todono", num);
-                using MySqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    Dictionary<string, object> dic = new();
-                    dic.Add("TODONAME", reader["TODONAME"]);
-                    dic.Add("REWARD", reader["REWARD"]);
-                    dic.Add("LOSEREWARD", reader["LOSEREWARD"]);
-                    dic.Add("STATREWARD", reader["STATREWARD"]);
-                    dic.Add("TODONO", num);
-                    todoList.Add(dic);
-                }
-            }
-
-            return todoList;
         }
     }
 }

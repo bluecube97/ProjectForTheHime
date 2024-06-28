@@ -11,7 +11,7 @@ public class BatchJob {
 
 	@Autowired
 	private BatchConfig batchConfig;
-	
+
 	// 배치 실행 시간 설정은 application.properties
 	@Scheduled(cron = "${schedule.cron}")
 	public void runBatch() {

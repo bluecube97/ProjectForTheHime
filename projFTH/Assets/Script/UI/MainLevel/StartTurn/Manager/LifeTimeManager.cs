@@ -152,6 +152,8 @@ namespace Script.UI.MainLevel.StartTurn.Manager
             _ltgo.StartTurn.SetActive(false);
             _ltgo.TodoList.SetActive(true);
 
+            Debug.Log("InitTodoList() 실행");
+
             // 현재 날짜의 연, 월을 입력받아 해당하는 TodoNO를 반환하여 리스트에 저장
             List<int> noList = new();
             StartCoroutine(_std.GetTodoNo(_ltvo.NowYear, _ltvo.NowMonth, list =>
