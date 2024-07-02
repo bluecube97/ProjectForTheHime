@@ -97,7 +97,7 @@ namespace Script.UI.Outing.VarietyStoreScript
 
         public IEnumerator GetBuyList(Action<List<Dictionary<string, object>>> callback)
         {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/outing/varstory/buy");
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/outing/varstory/buy");
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)

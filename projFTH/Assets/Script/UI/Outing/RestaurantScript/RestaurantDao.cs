@@ -97,7 +97,7 @@ namespace Script.UI.Outing.RestaurantScript
         }
         public IEnumerator GetFoodList(Action<List<Dictionary<string, object>>> callback)
         {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/outing/restaurant/list");
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/outing/restaurant/list");
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)

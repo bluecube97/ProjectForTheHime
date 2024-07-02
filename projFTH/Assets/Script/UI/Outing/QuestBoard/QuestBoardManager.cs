@@ -1,4 +1,5 @@
 using Script.UI.MainLevel.Inventory;
+using Script.UI.StartLevel.Dao;
 
 namespace Script.UI.Outing.QuestBoard
 {
@@ -39,11 +40,15 @@ namespace Script.UI.Outing.QuestBoard
         private string sflag;
         private string cflag;
 
-
+        private Dictionary<string, object> userinfo = new();
+        private StartLevelDao _sld; // StartLevelDao를 사용하기 위한 변수
+        private string pid;
+        
         private void Start()
         {
             questBoardDao = GetComponent<QusetBoardDao>();
             inventoryDao = GetComponent<InventoryDao>();
+            _sld = GetComponent<StartLevelDao>();
 
             /*questListData = questBoardDao.GetQuestBoardList();
             invenList = inventoryDao.GetInvenList();*/
@@ -55,10 +60,14 @@ namespace Script.UI.Outing.QuestBoard
             }));
 
             // 서버에서 인벤토리 데이터 가져오기
-            StartCoroutine(inventoryDao.GetInventoryList(list =>
+            StartCoroutine(_sld.GetUserEmail(info =>
             {
-                inventoryList = list;
-                // SmeltList 세팅 (인벤토리 데이터 필요)
+                userinfo = info;
+                pid = userinfo["useremail"].ToString();
+                StartCoroutine(inventoryDao.GetInventoryList(pid, list =>
+                {
+                    inventoryList = list;
+                }));
             }));
         }
         
@@ -249,7 +258,7 @@ namespace Script.UI.Outing.QuestBoard
             sflag = "Y";
             cflag = "N";
             //수락 플래그를 N으로 업데이트
-            StartCoroutine(questBoardDao.UpdateFlag(sflag,cflag,index));
+            StartCoroutine(questBoardDao.UpdateFlag(pid, sflag,cflag,index));
 
             StartCoroutine(questBoardDao.GetQuestBoardLists(list =>
             {
@@ -269,7 +278,7 @@ namespace Script.UI.Outing.QuestBoard
             sflag = "N";
             cflag = "N";
             //수락 플래그를 N으로 업데이트
-            StartCoroutine(questBoardDao.UpdateFlag(sflag,cflag,index));
+            StartCoroutine(questBoardDao.UpdateFlag(pid, sflag,cflag,index));
 
             StartCoroutine(questBoardDao.GetQuestBoardLists(list =>
             {
@@ -284,7 +293,7 @@ namespace Script.UI.Outing.QuestBoard
             sflag = "N";
             cflag = "N";
             //수락 플래그를 N으로 업데이트
-            StartCoroutine(questBoardDao.UpdateFlag(sflag,cflag,questno));
+            StartCoroutine(questBoardDao.UpdateFlag(pid, sflag,cflag,questno));
 
             StartCoroutine(questBoardDao.GetQuestBoardLists(list =>
             {
@@ -322,7 +331,7 @@ namespace Script.UI.Outing.QuestBoard
                 if (remainingCount >= 0)
                 {
                     //계산된 아이템 갯수로 업테이트하고
-                    StartCoroutine(inventoryDao.ItemCraftPayments(qv["qitemid"].ToString(), remainingCount.ToString()));
+                    StartCoroutine(inventoryDao.ItemCraftPayments(pid, qv["qitemid"].ToString(), remainingCount.ToString()));
 
                     //퀘스르 완료처리를 함
                     setCompleteFlag(index);
@@ -337,14 +346,14 @@ namespace Script.UI.Outing.QuestBoard
                         //그 갯수를 계산하고
                         int updatedCount = int.Parse(qv["ritemcnt"].ToString()) + int.Parse(rewardItem["itemcnt"].ToString());
                         //업데이트함
-                        StartCoroutine(inventoryDao.ItemCraftUpdates(qv["ritemid"].ToString(), updatedCount.ToString()));
+                        StartCoroutine(inventoryDao.ItemCraftUpdates(pid, qv["ritemid"].ToString(), updatedCount.ToString()));
 
                     }
                     //없다면
                     else
                     {
                         //insert해줌
-                        StartCoroutine(inventoryDao.ItemCraftInserts(qv["ritemid"].ToString(), qv["ritemcnt"].ToString()));
+                        StartCoroutine(inventoryDao.ItemCraftInserts(pid, qv["ritemid"].ToString(), qv["ritemcnt"].ToString()));
 
                     }
                     //퀘스트 목록 전체 갱신

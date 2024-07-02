@@ -1,4 +1,5 @@
 ﻿using Script.UI.MainLevel.Inventory;
+using Script.UI.StartLevel.Dao;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,7 +21,6 @@ namespace Script.UI.Outing.RestaurantScript
 
         private List<Dictionary<string, object>> FoodList; //List 형식으로 foodlist를 담음
         private List<Dictionary<string, object>> inventoryList; //List 형식으로 foodlist를 담음
-        private Dictionary<string, object> userinfo; //List 형식으로 foodlist를 담음
 
         private FoodListVO foodlistVO; // foodlist를 담음
         private RestaurantDao restaurantDao;
@@ -29,26 +29,36 @@ namespace Script.UI.Outing.RestaurantScript
         private RestaurantUIController RestaurantUIController;
         private string FoodPr; //음식 가격을 담음
         //나중에 세션등으로 받을 유저 아이디값
-        private readonly string pid = "ejwhdms502";
+        private Dictionary<string, object> userinfo = new();
+        private StartLevelDao _sld; // StartLevelDao를 사용하기 위한 변수
+        private string pid;
         private string itemid;
         private string Sellprice;
 
         private void Start()
-        {
+        {            
+            _sld = GetComponent<StartLevelDao>();
             restaurantDao = GetComponent<RestaurantDao>(); // RestaurantDao 컴포넌트를 가져와서 초기화합니다.
             inventoryDao = GetComponent<InventoryDao>(); // RestaurantDao 컴포넌트를 가져와서 초기화합니다.
             RestaurantUIController = FindObjectOfType<RestaurantUIController>(); // RestaurantManager를 찾아서 초기화합니다.
+           
             StartCoroutine(restaurantDao.GetFoodList(list =>
             {
                 FoodList = list;
             }));
-            StartCoroutine(inventoryDao.GetInventoryList(list =>
+            
+            // 서버에서 인벤토리 데이터 가져오기
+            StartCoroutine(_sld.GetUserEmail(info =>
             {
-                inventoryList = list;
-                SetSellList(inventoryList);
+                userinfo = info;
+                pid = userinfo["useremail"].ToString();
+                StartCoroutine(inventoryDao.GetInventoryList(pid, list =>
+                {
+                    inventoryList = list;
+                    SetSellList(inventoryList);
 
+                }));
             }));
-
         }
 
         //밥먹기 클릭 시 실행되는 메서드
@@ -130,7 +140,7 @@ namespace Script.UI.Outing.RestaurantScript
                 FoodList.Find(p => p["itemid"].ToString().Equals(indexString));
 
             //추출한 값을 전역변수로 담음
-            FoodPr = fv["sellpr"].ToString();
+            FoodPr = fv["sellprice"].ToString();
 
             Debug.Log("계산 금액 " + FoodPr);
         }
@@ -161,9 +171,9 @@ namespace Script.UI.Outing.RestaurantScript
 
             //유저 정보 들고옴
             bool userInfoFetched = false;
-            StartCoroutine(inventoryDao.GetUserInfoFromDB(list =>
+            StartCoroutine(_sld.GetUser(pid,info =>
             {
-                userinfo = list;
+                userinfo = info;
                 userInfoFetched = true;
             }));
             yield return new WaitUntil(() => userInfoFetched);
@@ -182,7 +192,7 @@ namespace Script.UI.Outing.RestaurantScript
             if (userCash > _FoorPr)
             {
                 //결제 된 금액을 업데이트 하고
-                StartCoroutine(inventoryDao.UpdateUserCashs(NowCash));
+                StartCoroutine(inventoryDao.UpdateUserCashs(pid, NowCash));
 
                 //구매성공 UI를 연다
                 RestaurantUIController.OnClickBuyComplete();
@@ -206,11 +216,10 @@ namespace Script.UI.Outing.RestaurantScript
             // Fetch the user info
             bool userInfoFetched = false;
             int cash = 0;
-            StartCoroutine(inventoryDao.GetUserInfoFromDB(userinfo =>
+            StartCoroutine(_sld.GetUser(pid,info =>
             {
-                Dictionary<string, object> dic = new Dictionary<string, object>();
-                dic = userinfo;
-                cash = int.Parse((string)dic["cash"]);
+             
+                cash = int.Parse((string)info["cash"]);
                 userInfoFetched = true;
             }));
 
@@ -231,7 +240,7 @@ namespace Script.UI.Outing.RestaurantScript
                 string bitem = _bitem.ToString();
 
                 // Update user cash
-                yield return StartCoroutine(inventoryDao.UpdateUserCashs(result));
+                yield return StartCoroutine(inventoryDao.UpdateUserCashs(pid, result));
 
                 // Update sell things
                 yield return StartCoroutine(inventoryDao.UpdateSellThings(bitem, itemid, pid));
@@ -239,7 +248,7 @@ namespace Script.UI.Outing.RestaurantScript
 
                 // Fetch the updated inventory list after selling the item
                 bool updatedInventoryFetched = false;
-                StartCoroutine(inventoryDao.GetInventoryList(updatedList =>
+                StartCoroutine(inventoryDao.GetInventoryList(pid,updatedList =>
                 {
                     inventoryList = updatedList;
                     updatedInventoryFetched = true;

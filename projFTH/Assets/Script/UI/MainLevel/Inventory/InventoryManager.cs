@@ -1,4 +1,4 @@
-using Script.UI.System;
+using Script.UI.StartLevel.Dao;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,6 +19,11 @@ namespace Script.UI.MainLevel.Inventory
         private List<InventoryVO> InvenList = new List<InventoryVO>();
         private List<Dictionary<string,object>> inventoryList = new List<Dictionary<string,object>>();
 
+        private Dictionary<string, object> userinfo = new();
+        private StartLevelDao _sld; // StartLevelDao를 사용하기 위한 변수
+        private string pid;
+
+        
         private void Awake()
         {
             // 인스턴스가 없을 경우 현재 GameObject에 RestaurantManager를 추가합니다.
@@ -36,15 +41,21 @@ namespace Script.UI.MainLevel.Inventory
 
 
         private void Start()
-        {
+        {            
+            _sld = GetComponent<StartLevelDao>();
             inven = GetComponent<InventoryDao>();
-            StartCoroutine(inven.GetInventoryList(list =>
+            StartCoroutine(_sld.GetUserEmail(info =>
             {
-               inventoryList = list;
-               StartInven(inventoryList);
+                userinfo = info;
+                pid = userinfo["useremail"].ToString();
+                StartCoroutine(inven.GetInventoryList(pid, list =>
+                {
+                    inventoryList = list;
+                    StartInven(inventoryList);
+                }));
             }));
         }
-        public void StartInven(List<Dictionary<string,object>> InvenList)
+        public void StartInven(List<Dictionary<string,object>> inventoryList)
         {
             inventory.SetActive(true);
 
@@ -55,7 +66,7 @@ namespace Script.UI.MainLevel.Inventory
             }
             inventoryInstances.Clear();
             // 새로운 QuestList 오브젝트를 생성하고 설정합니다.
-            foreach (var inven in InvenList)
+            foreach (var inven in inventoryList)
             {
                 {
                     GameObject invenInstance = Instantiate(inventoryPrefab, inventorytLayout);
