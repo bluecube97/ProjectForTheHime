@@ -24,7 +24,8 @@
 					<li><button type="button" class="menu-btn" id="aipick-menu">AI'sPick</button></li>
 					<li><button type="button" class="menu-btn" id="board-menu">게시판</button></li>
 					<li><button type="button" class="menu-btn" id="minigame-menu">미니게임</button></li>
-					<li><button type="button" class="menu-btn" id="unity-game-menu" onclick="startUnity()">게임 실행</button></li>				</ul>
+					<li><button type="button" class="menu-btn" id="unity-game-menu" onclick="startUnity()">게임 실행</button></li>
+				</ul>
 			</div>
 		</nav>
 		<div class="auth-buttons">

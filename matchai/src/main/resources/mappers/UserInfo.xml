@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unity.game.mapper.UserInfoMapper">
+
+    <select id="searchUserInfo" parameterType="string" resultType="integer">
+        SELECT COUNT(*)
+        FROM TBL_UNITY_USERINFO tuu
+        WHERE tuu.PID = #{param};
+    </select>
+
+    <insert id="insertUserInfo" parameterType="map">
+        INSERT INTO TBL_UNITY_USERINFO (PID,PNM,PSEX)
+        values (#{PID},#{PNM},#{PSEX})
+    </insert>
+
+    <select id="getUserInfo" parameterType="string" resultType="map">
+        SELECT PID AS pid ,
+               PNM AS pnm ,
+               PSEX AS psex ,
+               CASH AS cash ,
+               PLVL AS plvl ,
+               MAXHP AS maxhp ,
+               CHP AS chp
+        FROM TBL_UNITY_USERINFO tuu
+        WHERE tuu.PID =#{param}
+    </select>
+</mapper>

@@ -1,4 +1,5 @@
 using Newtonsoft.Json.Linq;
+using Script.UI.StartLevel.Dao;
 using System.IO;
 using System.Text;
 using UnityEngine;
@@ -40,8 +41,12 @@ namespace Script.UI.StartLevel.Manager
 
         public static DStateManager Instance => instance;
 
+        private StartLevelDao _sld; // StartLevelDao를 사용하기 위한 변수
+
         private void Awake()
-        {
+        {            
+            _sld = GetComponent<StartLevelDao>();
+
             // 인스턴스가 없을 경우 현재 GameObject에 DStateManager 추가합니다.
             if (instance == null)
             {
@@ -174,6 +179,9 @@ namespace Script.UI.StartLevel.Manager
 
             var finaljson = new JObject();
             finaljson.Add("daughter", json);
+            string jsontext = finaljson.ToString();
+            StartCoroutine(_sld.SetDstate(jsontext));
+            /*Debug.Log("DataPath : " + Application.dataPath);
             var filePath = Application.dataPath + "/JSON/conversationData/daughter_status.json";
 
             // daughter_status.json 파일이 존재하는지 확인하고 삭제합니다.
@@ -189,7 +197,7 @@ namespace Script.UI.StartLevel.Manager
                 var jsonText = finaljson.ToString();
                 var bytes = Encoding.UTF8.GetBytes(jsonText);
                 fileStream.Write(bytes, 0, bytes.Length);
-            }
+            }*/
 
             // MainLevelScene을 로드합니다.
             SceneManager.LoadScene("MainLevelScene");

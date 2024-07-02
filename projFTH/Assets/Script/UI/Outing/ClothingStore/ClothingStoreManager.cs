@@ -1,4 +1,5 @@
 using Script.UI.MainLevel.Inventory;
+using Script.UI.StartLevel.Dao;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,6 +35,7 @@ namespace Script.UI.Outing.ClothingStore
 
         //DAO호출을 함
         private ClothingDao clothingDao;
+        private StartLevelDao _sld; // StartLevelDao를 사용하기 위한 변수
 
         //옷 만들기에 들어가는 아이템을 담음
         private List<Dictionary<string, object>> clothingList = new();
@@ -50,12 +52,12 @@ namespace Script.UI.Outing.ClothingStore
 
         private InventoryDao inventoryDao;
         private List<Dictionary<string, object>> inventoryList = new();
+        private Dictionary<string, object> userinfo = new();
 
         //제작하거나 구매하는 아이템코드를 담음
         private string itemid;
 
         //나중에 세션등으로 받을 유저 아이디값
-        private readonly string pid = "ejwhdms502";
 
         //옷 제작 시 필요한 아이템코드와 갯수를 담음
         private string reqitem;
@@ -64,6 +66,7 @@ namespace Script.UI.Outing.ClothingStore
 
         //판매가격을 담는 전역 변수
         private string Sellprice;
+        private string pid;
 
 
         private void Start()
@@ -71,6 +74,7 @@ namespace Script.UI.Outing.ClothingStore
             clothingDao = GetComponent<ClothingDao>();
             inventoryDao = GetComponent<InventoryDao>();
             clothingUIManager = FindObjectOfType<ClothingUIManager>();
+            _sld = GetComponent<StartLevelDao>();
 
             //clothingList = clothingDao._GetClothingList();
             StartCoroutine(clothingDao.GetClothingList(list =>
@@ -78,18 +82,25 @@ namespace Script.UI.Outing.ClothingStore
                 clothingList = list;
                 UpdateClothingUI(list);
             }));
+            
             StartCoroutine(clothingDao.GetClothingBuyList(list =>
             {
                 cltBuyList = list;
                 SetCltBuyList(list);
             }));
-
-            StartCoroutine(inventoryDao.GetInventoryList(list =>
+            
+            StartCoroutine(_sld.GetUserEmail(info =>
             {
-                inventoryList = list;
-                SetCltSellList(inventoryList);
+                userinfo = info;
+                pid = userinfo["useremail"].ToString();
+                StartCoroutine(inventoryDao.GetInventoryList(pid, list =>
+                {
+                    inventoryList = list;
+                    SetCltSellList(inventoryList);
+                }));
             }));
-
+           
+          
             //cltBuyList = clothingDao.GetClothingBuyList();
             //invenList = inventoryDao.GetInvenList();
 
@@ -264,7 +275,8 @@ namespace Script.UI.Outing.ClothingStore
         //옷 구매하는 구문
         public void BuyClothing()
         {
-            StartCoroutine(inventoryDao.GetInventoryList(list =>
+            
+            StartCoroutine(inventoryDao.GetInventoryList(pid, list =>
             {
                 inventoryList = list;
 
@@ -303,7 +315,7 @@ namespace Script.UI.Outing.ClothingStore
                     if (result >= 0)
                     {
                         //결제처리
-                        StartCoroutine(inventoryDao.ItemCraftPayments(gitemid, _result));
+                        StartCoroutine(inventoryDao.ItemCraftPayments(pid, gitemid, _result));
                         //제작성공 UI open
                         clothingUIManager.OnClickMakeComplete();
 
@@ -322,17 +334,17 @@ namespace Script.UI.Outing.ClothingStore
                             Debug.Log("계산 결과 값 " + uitem);
 
                             //값 업데이트
-                            StartCoroutine(inventoryDao.ItemCraftUpdates(itemid, uitem));
+                            StartCoroutine(inventoryDao.ItemCraftUpdates(pid, itemid, uitem));
                         }
                         //인벤토리에 제작 아이템이 없다면
                         else
                         {
                             string cnt = "1";
                             //DB에 insert구문으로 값을 넣어줌
-                            StartCoroutine(inventoryDao.ItemCraftInserts(itemid, cnt));
+                            StartCoroutine(inventoryDao.ItemCraftInserts(pid, itemid, cnt));
                         }
                         // Fetch the inventory list
-                        StartCoroutine(inventoryDao.GetInventoryList(list =>
+                        StartCoroutine(inventoryDao.GetInventoryList(pid, list =>
                         {
                             inventoryList = list;
                         }));
@@ -357,11 +369,9 @@ namespace Script.UI.Outing.ClothingStore
             // Fetch the user info
             bool userInfoFetched = false;
             int cash = 0;
-            StartCoroutine(inventoryDao.GetUserInfoFromDB(userinfo =>
+            StartCoroutine(_sld.GetUser(pid, info =>
             {
-                Dictionary<string, object> dic = new Dictionary<string, object>();
-                dic = userinfo;
-                cash = int.Parse((string)dic["cash"]);
+                cash = int.Parse((string)info["cash"]);
                 userInfoFetched = true;
             }));
 
@@ -378,7 +388,7 @@ namespace Script.UI.Outing.ClothingStore
 
                 Dictionary<string, object>
                     checkVal = inventoryList.Find(dic => dic["itemid"].ToString().Equals(itemid));
-                StartCoroutine(inventoryDao.UpdateUserCashs(result));
+                StartCoroutine(inventoryDao.UpdateUserCashs(pid, result));
                 clothingUIManager.OnClickBuyComplete();
 
                 if (checkVal != null)
@@ -397,7 +407,7 @@ namespace Script.UI.Outing.ClothingStore
                 }
                 // Fetch the inventory list
                 bool inventoryFetched = false;
-                StartCoroutine(inventoryDao.GetInventoryList(list =>
+                StartCoroutine(inventoryDao.GetInventoryList(pid, list =>
                 {
                     inventoryList = list;
                     inventoryFetched = true;
@@ -424,11 +434,9 @@ namespace Script.UI.Outing.ClothingStore
             // Fetch the user info
             bool userInfoFetched = false;
             int cash = 0;
-            StartCoroutine(inventoryDao.GetUserInfoFromDB(userinfo =>
+            StartCoroutine(_sld.GetUser(pid,info =>
             {
-                Dictionary<string, object> dic = new Dictionary<string, object>();
-                dic = userinfo;
-                cash = int.Parse((string)dic["cash"]);
+                cash = int.Parse((string)info["cash"]);
                 userInfoFetched = true;
             }));
 
@@ -448,7 +456,7 @@ namespace Script.UI.Outing.ClothingStore
                 string bitem = _bitem.ToString();
 
                 // Update user cash
-                yield return StartCoroutine(inventoryDao.UpdateUserCashs(result));
+                yield return StartCoroutine(inventoryDao.UpdateUserCashs(pid, result));
 
                 // Update sell things
                 yield return StartCoroutine(inventoryDao.UpdateSellThings(bitem, itemid, pid));
@@ -457,7 +465,7 @@ namespace Script.UI.Outing.ClothingStore
 
                 // Fetch the updated inventory list after selling the item
                 bool updatedInventoryFetched = false;
-                StartCoroutine(inventoryDao.GetInventoryList(updatedList =>
+                StartCoroutine(inventoryDao.GetInventoryList(pid, updatedList =>
                 {
                     inventoryList = updatedList;
                     updatedInventoryFetched = true;
