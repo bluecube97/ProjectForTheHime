@@ -49,10 +49,17 @@
 		INSERT INTO TBL_USER_NT_02 (USEREMAIL, LEAGUE_CODE, TEAM_CODE, TEAMNAME_KR)
 		VALUES (#{smail}, #{league}, #{teamCode}, #{teamName})
 	</insert>
-
+	
+	<!-- 구글 아이디 존재 유무 확인 -->
+	<select id="GoogleUserCheck" parameterType="hashmap" resultType="Integer">
+		SELECT COUNT(tun.USEREMAIL)
+  		 FROM TBL_USER_NT_03 tun
+ 		WHERE USEREMAIL = #{smail}
+	</select>
+	
 	<!-- 구글 사용자 정보 저장 -->
 	<insert id="saveGoogleUser" parameterType="hashmap">
-		INSERT INTO TBL_USER_NT_01 (USEREMAIL, USERPW, USERNM, USERNICKNAME, USERAGE, DELETEFLAG)
+		INSERT INTO TBL_USER_NT_03 (USEREMAIL, USERPW, USERNM, USERNICKNAME, USERAGE, DELETEFLAG)
 		VALUES (#{useremail}, SHA2(#{useremail},256), #{usernm}, #{usernickname}, #{userage}, 'N')
 	</insert>
 	
