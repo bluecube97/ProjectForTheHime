@@ -8,14 +8,16 @@
 	<select id="kboCnt" resultType="Integer">
 		SELECT COUNT(tkt.DATE) 
 		FROM TBL_KBOSCHEDULE_TTP tkt
-		WHERE tkt.DATE = CURDATE(); 
+		WHERE tkt.DATE = '2024-07-02'; <!-- 데이터 없어서 날자 지정해놓음, 수정되면 아래 줄로 수정 -->
+		<!-- WHERE tkt.DATE = CURDATE(); -->
 	</select>
 	
 	<!-- mlb 당일 경기 개수 확인 -->
 	<select id="mlbCnt" resultType="Integer">
 		SELECT COUNT(tmt.DATE) 
 		FROM TBL_MLBSCHEDULE_TTP tmt
-		WHERE tmt.DATE = DATE_ADD(CURDATE(), INTERVAL 1 DAY);
+		WHERE tmt.DATE = '2024-07-03'; <!-- 데이터 없어서 날자 지정해놓음, 수정되면 아래 줄로 수정 -->
+		<!-- WHERE tmt.DATE = DATE_ADD(CURDATE(), INTERVAL 1 DAY); -->
 	</select>
 	
 	<!-- kbo 당일 경기 목록 가져오기 -->
@@ -30,7 +32,8 @@
 		JOIN 
 		    TBL_TEAM_MT01 ttm2 ON tkt.TEAM2 = ttm2.TEAM_CODE
 		WHERE  
-		    tkt.`DATE` = CURDATE();  
+		    tkt.DATE = '2024-07-02'; <!-- 데이터 없어서 날자 지정해놓음, 수정되면 아래 줄로 수정 -->
+		    <!-- tkt.DATE = CURDATE(); -->
 	</select>
 	
 	<!-- mlb 당일 경기 목록 가져오기 -->
@@ -45,6 +48,7 @@
 		JOIN 
 		    TBL_TEAM_MT01 ttm2 ON tmt.TEAM2 = ttm2.TEAM_CODE
 		WHERE   
-		    tmt.`DATE` = DATE_ADD(CURDATE(), INTERVAL 1 DAY);  
+		    tmt.DATE = '2024-07-03'; <!-- 데이터 없어서 날자 지정해놓음, 수정되면 아래 줄로 수정 --> 
+		   <!-- tmt.DATE = DATE_ADD(CURDATE(), INTERVAL 1 DAY); -->
 	</select>
 </mapper>
