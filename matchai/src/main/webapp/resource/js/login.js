@@ -47,3 +47,16 @@ function closeModal() {
 		window.location.href = redirectUrl; // 저장된 리다이렉트 URL로 이동
 	}
 }
+
+fetch('/board/main', {
+	method: 'GET',
+	// ... 기타 옵션 ...
+})
+	.then(response => {
+		// 헤더에서 토큰 읽기
+		const token = response.headers.get('Authorization');
+
+		// 콘솔에 토큰 출력
+		console.log('Token:', token);
+	})
+	.catch(error => console.error('Error:', error));

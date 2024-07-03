@@ -28,7 +28,7 @@ public class SecurityConfig implements WebMvcConfigurer {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 // 인증 없이 접근 허용되는 경로 설정
-                .antMatchers("/", "/user/**", "/board/**", "/resource/**").permitAll()
+                .antMatchers("/", "/user/**", "/board/**", "/resource/**", "/api/**").permitAll()
                 // 그 외의 모든 요청은 인증 필요
                 .anyRequest().authenticated().and().oauth2Login()
                 // 사용자 정의 로그인 페이지
