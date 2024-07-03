@@ -7,13 +7,16 @@
 <title>MATCHAI</title>
 <link rel="stylesheet" type="text/css" href="/resource/css/mainboard.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="/resource/js/mainboard.js" defer></script>
 </head>
 <body>
 	<header>
 		<div class="logo">
 			<button type="button" class="btn-logo" id="btn-logo">
-				<img src="/resource/images/MATCHAI(Board).png" alt="로고" class="logo-img">
+				<img src="/resource/images/MATCHAI(Board).png" alt="로고"
+					class="logo-img">
 			</button>
 		</div>
 		<nav>
@@ -74,20 +77,21 @@
 												<div class="versus">VS</div>
 												<div class="team team-b">${game.team2}</div>
 											</div>
-											<div class="summary">경기 분석</div>
+											<button type="button" class="summary" id="summarybtn">경기 분석</button>
 										</div>
 									</c:forEach>
 								</div>
 							</c:when>
 							<c:otherwise>
-								<div class="no-games">${ment}</div>
+								<div class="no-games">${kment}</div>
 							</c:otherwise>
 						</c:choose>
 					</div>
 					<div id="mlb-content" style="display: none;">
+						<div class="mlbment">MLB 경기는 다음 날 기준입니다.</div>
+
 						<c:choose>
 							<c:when test="${not empty mlist}">
-								<div class="mlbment">MLB 경기는 다음 날 기준입니다.</div>
 								<div class="games-row">
 									<c:forEach var="game" items="${mlist}">
 										<div class="game">
@@ -96,13 +100,13 @@
 												<div class="versus">VS</div>
 												<div class="team team-b">${game.team2}</div>
 											</div>
-											<div class="summary">경기 분석</div>
+											<button type="button" class="summary" id="summarybtn">경기 분석</button>
 										</div>
 									</c:forEach>
 								</div>
 							</c:when>
 							<c:otherwise>
-								<div class="no-games">${ment}</div>
+								<div class="no-games">${mment}</div>
 							</c:otherwise>
 						</c:choose>
 					</div>
@@ -196,5 +200,30 @@
 			</div>
 		</div>
 	</footer>
+	<!-- 모달 추가 -->
+	<div class="modal fade" id="summaryModal" tabindex="-1"
+		aria-labelledby="summaryModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="summaryModalLabel">경기 요약 분석</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="modal-body_row">
+						<div class="col-md-6">
+							<canvas id="summaryChart" width="300" height="350"></canvas>
+						</div>
+						<div class="col-md-6">
+							<img src="/resource/images/modaltop.jpg" alt="모달"
+								class="modal_top">
+							<div id="summaryText"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

@@ -6,13 +6,19 @@ document.getElementById('btn-logo').addEventListener('click', function() {
 // 이메일 중복 확인 함수
 async function mailCheck() {
 	let smail = document.getElementById('smail').value;
+	let mregex = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+
 
 	// 이메일 입력 여부 확인
 	if (smail === "" || smail.length <= 0) {
-		alert("이메일을 입력해주세요");
+		return false; // 유효성 검사 실패 시 함수 종료
+	}
+	
+	// 이메일 정규식 확인
+	if (!mregex.test(smail)) {
 		document.getElementById('smail').classList.remove('valid');
 		document.getElementById('smail').classList.add('invalid');
-		return; // 유효성 검사 실패 시 함수 종료
+		return false; // 유효성 검사 실패 반환
 	}
 
 	try {
@@ -28,7 +34,6 @@ async function mailCheck() {
 			document.getElementById('smail').classList.add('valid');
 			return true; // 유효성 검사 성공 시 true 반환
 		} else {
-			alert(resp.ment);
 			document.getElementById('smail').classList.remove('valid');
 			document.getElementById('smail').classList.add('invalid');
 			return false; // 유효성 검사 실패 시 false 반환
@@ -46,12 +51,10 @@ function passCheck() {
 
 	// 비밀번호가 유효한지 정규식을 사용해 확인
 	if (spass == "" || spass <= 0) {
-		alert("비밀번호를 입력하세요.");
 		document.getElementById('spass').classList.remove('valid');
 		document.getElementById('spass').classList.add('invalid');
 		return false; // 유효성 검사 실패 반환
 	} else if (!regex.test(spass)) {
-		alert("8자리 이상 특수문자를 사용한 비밀번호만 사용 가능 합니다.");
 		document.getElementById('spass').classList.remove('valid');
 		document.getElementById('spass').classList.add('invalid');
 		return false; // 유효성 검사 실패 반환
@@ -71,7 +74,6 @@ function repassCheck() {
 
 	// 비밀번호와 비밀번호 확인 필드가 일치하는지 확인
 	if (srepass == "" || srepass <= 0) {
-		alert("비밀번호 확인을 입력하세요.");
 		document.getElementById('srepass').classList.remove('valid');
 		document.getElementById('srepass').classList.add('invalid');
 		return false; // 유효성 검사 실패 반환
@@ -80,7 +82,6 @@ function repassCheck() {
 		document.getElementById('srepass').classList.add('valid');
 		return true; // 유효성 검사 성공 반환
 	} else {
-		alert("비밀번호를 다시 입력해주세요.");
 		document.getElementById('srepass').classList.remove('valid');
 		document.getElementById('srepass').classList.add('invalid');
 		return false; // 유효성 검사 실패 반환
@@ -96,12 +97,10 @@ function nameCheck() {
 
 	// 이름이 입력되었는지 및 길이 조건을 확인
 	if (sname == "" || leng <= 0) {
-		alert("이름을 입력하세요.");
 		document.getElementById('sname').classList.remove('valid');
 		document.getElementById('sname').classList.add('invalid');
 		return false; // 유효성 검사 실패 반환
 	} else if (leng > 20) {
-		alert("이름을 20글자 이내로 입력하세요.");
 		document.getElementById('sname').classList.remove('valid');
 		document.getElementById('sname').classList.add('invalid');
 		return false; // 유효성 검사 실패 반환
@@ -121,12 +120,10 @@ function nickCheck() {
 
 	// 닉네임이 입력되었는지 및 길이 조건을 확인
 	if (snick == "" || leng <= 0) {
-		alert("닉네임을 입력하세요.");
 		document.getElementById('snick').classList.remove('valid');
 		document.getElementById('snick').classList.add('invalid');
 		return false; // 유효성 검사 실패 반환
 	} else if (leng > 20) {
-		alert("닉네임을 20글자 이내로 입력하세요.");
 		document.getElementById('snick').classList.remove('valid');
 		document.getElementById('snick').classList.add('invalid');
 		return false; // 유효성 검사 실패 반환
@@ -139,20 +136,35 @@ function nickCheck() {
 
 async function signUp() {
 	//유효성 검사 함수들 호출
-	let emailValid = mailCheck();
-	if (!emailValid) return;
+	let emailValid = await mailCheck();
+	if (!emailValid) {
+		alert('이메일을 확인하세요.')
+		return;
+	}
 
 	let passValid = passCheck();
-	if (!passValid) return;
+	if (!passValid) {
+		alert('비밀번호을 확인하세요.')
+		return;
+	}
 
 	let repassValid = repassCheck();
-	if (!repassValid) return;
+	if (!repassValid) {
+		alert('비밀번호 재확인을 확인하세요.')
+		return;
+	}
 
 	let nameValid = nameCheck();
-	if (!nameValid) return;
+	if (!nameValid) {
+		alert('이름을 확인하세요.')
+		return;
+	}
 
 	let nickValid = nickCheck();
-	if (!nickValid) return;
+	if (!nickValid) {
+		alert('닉네임을 확인하세요.')
+		return;
+	}
 
 	// 모든 필드가 유효한 경우에만 회원가입 요청을 서버에 전송
 	let smail = document.getElementById('smail').value;

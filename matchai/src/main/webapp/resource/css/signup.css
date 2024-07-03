@@ -3,7 +3,9 @@
 /* WavvePADO-Regular 폰트 정의 */
 @font-face {
 	font-family: 'WavvePADO-Regular';
-	src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2404@1.0/WavvePADO-Regular.woff2') format('woff2');
+	src:
+		url('https://fastly.jsdelivr.net/gh/projectnoonnu/2404@1.0/WavvePADO-Regular.woff2')
+		format('woff2');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -69,22 +71,20 @@ body {
 	margin-bottom: 20px;
 }
 
-.form-param label,
-.email-param .label {
+.form-param label, .email-param .label {
 	font-family: 'WavvePADO-Regular';
 	font-weight: 500;
 	display: block;
 	margin-bottom: 5px;
-	color: #007bff;
+	color: #002851;
 	/* 파란색 폰트 */
 }
 
-.form-param input,
-.form-param select {
+.form-param input, .form-param select {
 	font-family: 'WavvePADO-Regular';
 	width: 100%;
 	padding: 10px;
-	border: 1px solid #007bff;
+	border: 1px solid #002851;
 	/* 파란색 테두리 */
 	border-radius: 5px;
 	font-size: 16px;
@@ -113,7 +113,7 @@ body {
 	/* 너비 계산하여 설정 */
 	padding: 10px;
 	/* 안쪽 여백 설정 */
-	border: 1px solid #007bff;
+	border: 1px solid #002851;
 	/* 파란색 테두리 */
 	border-radius: 5px;
 	/* 테두리 반경 설정 */
@@ -130,7 +130,7 @@ body {
 	/* 테두리가 겹치지 않도록 설정 */
 	padding: 0 16px;
 	/* 안쪽 여백 설정 */
-	background-color: #007bff;
+	background-color: #002851;
 	/* 배경색 설정 */
 	color: #fff;
 	/* 글자색 설정 */
@@ -147,7 +147,7 @@ body {
 }
 
 .email-param .input-group-btn:hover {
-	background-color: #0056b3;
+	background-color: #cce5ff;
 	/* 호버 시 배경색 변경 */
 }
 
@@ -159,7 +159,7 @@ body {
 	text-align: center;
 	margin-top: 30px;
 	margin-bottom: 5px;
-	color: #007bff;
+	color: #002851;
 	/* 파란색 폰트 */
 }
 
@@ -171,7 +171,7 @@ body {
 	font-family: 'WavvePADO-Regular';
 	font-weight: 600;
 	margin-right: 10px;
-	color: #007bff;
+	color: #002851;
 	/* 파란색 폰트 */
 }
 
@@ -179,7 +179,7 @@ body {
 	font-family: 'WavvePADO-Regular';
 	width: 100%;
 	padding: 10px;
-	border: 1px solid #007bff;
+	border: 1px solid #002851;
 	/* 파란색 테두리 */
 	border-radius: 5px;
 	font-size: 16px;
@@ -202,7 +202,7 @@ body {
 	display: block;
 	margin-top: 5px;
 	margin-bottom: 5px;
-	color: #007bff;
+	color: #002851;
 	/* 파란색 폰트 */
 	text-align: center;
 	/* 레이블을 중앙 정렬 */
@@ -214,7 +214,7 @@ body {
 	height: 250px;
 	margin: 0 10px;
 	padding: 10px;
-	border: 1px solid #007bff;
+	border: 1px solid #002851;
 	/* 파란색 테두리 */
 	border-radius: 5px;
 	/* 테두리 반경 설정 */
@@ -239,7 +239,7 @@ body {
 	width: 60px;
 	margin: 5px 0;
 	padding: 8px;
-	background-color: #007bff;
+	background-color: #002851;
 	color: #fff;
 	border: none;
 	border-radius: 5px;
@@ -247,7 +247,7 @@ body {
 }
 
 .dual-list-buttons button:hover {
-	background-color: #0056b3;
+	background-color: #cce5ff;
 }
 
 /* 폼 액션 버튼 스타일 */
@@ -264,7 +264,7 @@ body {
 	/* 배경 제거 */
 	border: none;
 	/* 테두리 제거 */
-	color: #007bff;
+	color: #002851;
 	/* 파란색 폰트 */
 	cursor: pointer;
 	width: 100px;
@@ -273,8 +273,8 @@ body {
 }
 
 .valbtn button:hover {
-	color: #007bff;
 	background-color: rgb(240, 240, 240);
+	color: #0056b3;
 }
 
 /* 메시지 텍스트 스타일 */

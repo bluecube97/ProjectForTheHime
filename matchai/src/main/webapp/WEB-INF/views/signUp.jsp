@@ -30,7 +30,7 @@
 				</div>
 				<div class="form-param">
 					<label for="spass">비밀번호</label>
-					<input type="password" id="spass" class="spass" name="spass" placeholder="특수문자 사용, 8자리 이상 가능" onblur="passCheck()" />
+					<input type="password" id="spass" class="spass" name="spass" placeholder="특수문자, 숫자 포함한 8자리 이상 비밀번호 사용 가능" onblur="passCheck()" />
 				</div>
 				<div class="form-param">
 					<label for="srepass">비밀번호 확인</label>

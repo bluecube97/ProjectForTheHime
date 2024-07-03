@@ -39,18 +39,18 @@ public class BoardController {
 		if (kboCnt >= 1) {
 			// 경기 목록 들고오기
 			List<HashMap<String, Object>> kboList = boardsvc.kboMatchList();
+			System.out.println(kboList);
 			mv.addObject("klist", kboList);
 		} else {
-			mv.addObject("ment", "오늘 KBO 경기는 없습니다.");
+			mv.addObject("kment", "오늘 KBO 경기는 없습니다.");
 		}
-
 		if (mlbCnt >= 1) {
 			// 경기 목록 들고오기
 			List<HashMap<String, Object>> mlbList = boardsvc.mlbMatchList();
 			System.out.println(mlbList);
 			mv.addObject("mlist", mlbList);
 		} else {
-			mv.addObject("ment", "오늘 MLB 경기는 없습니다.");
+			mv.addObject("mment", "다음날 MLB 경기는 없습니다.");
 		}
 
 		mv.setViewName("mainboard");
