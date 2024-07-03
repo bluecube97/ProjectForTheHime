@@ -5,7 +5,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import com.matchai.board.config.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -20,6 +23,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	UserDetailsService userDetailsService;
+
+	@Autowired
+	JwtUtil jwtUtil;
 
 	// OAuth2 사용자 정보를 로드하고 처리하는 메서드
 	@Override
@@ -64,6 +73,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
 		// 세션에 사용자 정보 저장
 		session.setAttribute("userInfo", userInfo);
+		session = jwtUtil.setToken(session, userInfo);
+
+		System.out.println("userinfo: " + session.getAttribute("userInfo"));
+		System.out.println("token: " + session.getAttribute("token"));
 
 		// OAuth2User 객체를 반환
 		return oAuth2User;

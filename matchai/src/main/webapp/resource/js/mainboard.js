@@ -39,3 +39,17 @@ document.addEventListener('DOMContentLoaded', function() {
 function startUnity(){
 	window.location.href = '/board/unity';
 }
+
+
+fetch('/main', {
+	method: 'GET',
+	// ... 기타 옵션 ...
+})
+	.then(response => {
+		// 헤더에서 토큰 읽기
+		const token = response.headers.get('Authorization');
+
+		// 콘솔에 토큰 출력
+		console.log('Token:', token);
+	})
+	.catch(error => console.error('Error:', error));

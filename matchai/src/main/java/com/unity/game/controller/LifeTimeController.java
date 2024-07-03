@@ -16,13 +16,7 @@ public class LifeTimeController {
 
     @GetMapping("/todono/{year}/{month}")
     public List<Integer> GetTodoNo(@PathVariable("year") int year, @PathVariable("month") int month){
-        System.out.println("year: " + year + ", month: " + month);
-        List<Integer> todoNo = lifeTimeService.getTodoNo(year, month);
-        for (int no : todoNo) {
-            System.out.println("todono: " + no);
-        }
-        return todoNo;
-        //return lifeTimeService.getTodoNo(year, month);
+        return lifeTimeService.getTodoNo(year, month);
     }
 
     @PostMapping("/todolist")

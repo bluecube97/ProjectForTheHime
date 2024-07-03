@@ -24,10 +24,9 @@ namespace Script.UI.MainLevel.StartTurn.Dao
         public IEnumerator GetTodoNo(int year, int month, Action<List<int>> callback)
         {
             UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/lifetime/todono/" + year + "/" + month);
-            request.SetRequestHeader("Autorization", "Bearer " + PlayerPrefs.GetString("token"));
             yield return request.SendWebRequest();
 
-
+            //request.SetRequestHeader("Autorization", "Bearer " + PlayerPrefs.GetString("token"));
             if (request.result == UnityWebRequest.Result.Success)
             {
                 string json = request.downloadHandler.text;
