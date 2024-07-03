@@ -7,15 +7,19 @@ document.getElementById('btn-logo').addEventListener('click', function() {
 async function mailCheck() {
 	let smail = document.getElementById('smail').value;
 	let mregex = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-
+	let mailment = document.querySelector('.ment-mail'); // ment-mail 요소 선택
 
 	// 이메일 입력 여부 확인
 	if (smail === "" || smail.length <= 0) {
+		mailment.innerHTML = '이메일을 입력해주세요.';
+		document.getElementById('smail').classList.remove('valid');
+		document.getElementById('smail').classList.add('invalid');
 		return false; // 유효성 검사 실패 시 함수 종료
 	}
-	
+
 	// 이메일 정규식 확인
 	if (!mregex.test(smail)) {
+		mailment.innerHTML = '이메일 형식이 맞지 않습니다.';
 		document.getElementById('smail').classList.remove('valid');
 		document.getElementById('smail').classList.add('invalid');
 		return false; // 유효성 검사 실패 반환
@@ -30,10 +34,12 @@ async function mailCheck() {
 		let resp = await response.json();
 
 		if (resp.connection === "O") {
+			mailment.innerHTML = '사용 가능한 이메일입니다.';
 			document.getElementById('smail').classList.remove('invalid');
 			document.getElementById('smail').classList.add('valid');
 			return true; // 유효성 검사 성공 시 true 반환
 		} else {
+			mailment.innerHTML = '중복된 이메일입니다.';
 			document.getElementById('smail').classList.remove('valid');
 			document.getElementById('smail').classList.add('invalid');
 			return false; // 유효성 검사 실패 시 false 반환
@@ -48,17 +54,21 @@ async function mailCheck() {
 function passCheck() {
 	let spass = document.querySelector('#spass').value;
 	let regex = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
+	let passment = document.querySelector('.ment-pass');
 
 	// 비밀번호가 유효한지 정규식을 사용해 확인
 	if (spass == "" || spass <= 0) {
+		passment.innerHTML = '비밀번호를 입력해주세요.';
 		document.getElementById('spass').classList.remove('valid');
 		document.getElementById('spass').classList.add('invalid');
 		return false; // 유효성 검사 실패 반환
 	} else if (!regex.test(spass)) {
+		passment.innerHTML = '특수문자, 숫자를 포함한 8자리 이상을 입력해주세요.';
 		document.getElementById('spass').classList.remove('valid');
 		document.getElementById('spass').classList.add('invalid');
 		return false; // 유효성 검사 실패 반환
 	} else {
+		passment.innerHTML = '';
 		document.getElementById('spass').classList.remove('invalid');
 		document.getElementById('spass').classList.add('valid');
 		return true; // 유효성 검사 성공 반환
@@ -71,20 +81,28 @@ function passCheck() {
 function repassCheck() {
 	let srepass = document.querySelector('#srepass').value;
 	let spass = document.querySelector('#spass').value;
+	let repassment = document.querySelector('.ment-repass');
 
 	// 비밀번호와 비밀번호 확인 필드가 일치하는지 확인
 	if (srepass == "" || srepass <= 0) {
+		repassment.innerHTML = '비밀번호 확인을 입력해주세요.';
+		document.getElementById('srepass').classList.remove('valid');
+		document.getElementById('srepass').classList.add('invalid');
+		return false; // 유효성 검사 실패 반환
+	} else if (srepass !== spass) {
+		repassment.innerHTML = '비밀번호와 일치하지 않습니다.';
 		document.getElementById('srepass').classList.remove('valid');
 		document.getElementById('srepass').classList.add('invalid');
 		return false; // 유효성 검사 실패 반환
 	} else if (srepass === spass) {
+		repassment.innerHTML = '';
 		document.getElementById('srepass').classList.remove('invalid');
 		document.getElementById('srepass').classList.add('valid');
 		return true; // 유효성 검사 성공 반환
 	} else {
 		document.getElementById('srepass').classList.remove('valid');
 		document.getElementById('srepass').classList.add('invalid');
-		return false; // 유효성 검사 실패 반환
+		return false;
 	}
 }
 
@@ -94,40 +112,48 @@ function repassCheck() {
 function nameCheck() {
 	let sname = document.querySelector('#sname').value;
 	let leng = sname.length;
+	let namement = document.querySelector('.ment-name');
+
 
 	// 이름이 입력되었는지 및 길이 조건을 확인
 	if (sname == "" || leng <= 0) {
+		namement.innerHTML = '이름을 입력해주세요.';
 		document.getElementById('sname').classList.remove('valid');
 		document.getElementById('sname').classList.add('invalid');
 		return false; // 유효성 검사 실패 반환
 	} else if (leng > 20) {
+		namement.innerHTML = '20자 이내로 입력 가능합니다.';
 		document.getElementById('sname').classList.remove('valid');
 		document.getElementById('sname').classList.add('invalid');
 		return false; // 유효성 검사 실패 반환
 	} else {
+		namement.innerHTML = '';
 		document.getElementById('sname').classList.remove('invalid');
 		document.getElementById('sname').classList.add('valid');
 		return true; // 유효성 검사 성공 반환
 	}
 }
 
-/**
- * 닉네임 유효성 검사 함수
- */
+
+// 닉네임 유효성 검사 함수
 function nickCheck() {
 	let snick = document.querySelector('#snick').value;
 	let leng = snick.length;
+	let nickment = document.querySelector('.ment-nick');
 
 	// 닉네임이 입력되었는지 및 길이 조건을 확인
 	if (snick == "" || leng <= 0) {
+		nickment.innerHTML = '닉네임을 입력해주세요.';
 		document.getElementById('snick').classList.remove('valid');
 		document.getElementById('snick').classList.add('invalid');
 		return false; // 유효성 검사 실패 반환
 	} else if (leng > 20) {
+		nickment.innerHTML = '20자 이내로 입력 가능합니다.';
 		document.getElementById('snick').classList.remove('valid');
 		document.getElementById('snick').classList.add('invalid');
 		return false; // 유효성 검사 실패 반환
 	} else {
+		nickment.innerHTML = '';
 		document.getElementById('snick').classList.remove('invalid');
 		document.getElementById('snick').classList.add('valid');
 		return true; // 유효성 검사 성공 반환
@@ -235,6 +261,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		getTeams(selectedLeague); // 선택된 리그에 따른 팀 목록 가져오기
 	});
 });
+
 
 /**
  * 서버에 리그에 해당하는 팀 정보를 요청하는 함수

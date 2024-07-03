@@ -66,6 +66,20 @@ body {
 	height: auto;
 }
 
+.ment-mail {
+    color: #333 !important;
+    font-size: 14px !important;
+    margin-top: 5px !important;
+    margin-left: 10px !important;
+}
+
+.ment-pass, .ment-repass, .ment-name, .ment-nick {
+    color: #333;
+    font-size: 14px;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
 /* 폼 레이블 및 입력 필드 스타일 */
 .form-param {
 	margin-bottom: 20px;
@@ -126,8 +140,6 @@ body {
 
 .email-param .input-group-btn {
 	font-family: 'WavvePADO-Regular';
-	margin-left: 10px;
-	/* 테두리가 겹치지 않도록 설정 */
 	padding: 0 16px;
 	/* 안쪽 여백 설정 */
 	background-color: #002851;

@@ -269,6 +269,10 @@ main {
 	font-weight: 500;
 }
 
+#kbo-tab:hover, #mlb-tab:hover {
+	color: #cce5ff;
+}
+
 /* ment 스타일 설정 */
 .no-games {
 	font-size: 30px;

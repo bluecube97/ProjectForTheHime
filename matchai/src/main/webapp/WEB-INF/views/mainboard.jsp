@@ -77,7 +77,8 @@
 												<div class="versus">VS</div>
 												<div class="team team-b">${game.team2}</div>
 											</div>
-											<button type="button" class="summary" id="summarybtn">경기 분석</button>
+											<button type="button" class="summary" id="summarybtn">경기
+												분석</button>
 										</div>
 									</c:forEach>
 								</div>
@@ -89,7 +90,6 @@
 					</div>
 					<div id="mlb-content" style="display: none;">
 						<div class="mlbment">MLB 경기는 다음 날 기준입니다.</div>
-
 						<c:choose>
 							<c:when test="${not empty mlist}">
 								<div class="games-row">

@@ -26,23 +26,27 @@
 					<div class="input-group">
 						<input type="email" id="smail" class="smail" name="smail" placeholder="name@example.com" />
 						<button type="button" class="input-group-btn" onclick="mailCheck()">아이디 확인</button>
+						<div class="ment-mail"></div>
 					</div>
 				</div>
 				<div class="form-param">
 					<label for="spass">비밀번호</label>
 					<input type="password" id="spass" class="spass" name="spass" placeholder="특수문자, 숫자 포함한 8자리 이상 비밀번호 사용 가능" onblur="passCheck()" />
+					<div class="ment-pass"></div>
 				</div>
 				<div class="form-param">
 					<label for="srepass">비밀번호 확인</label>
-					<input type="password" id="srepass" class="srepass" name="srepass" placeholder="비밀번호를 다시 입력하세요."  onblur="repassCheck()" />
+					<input type="password" id="srepass" class="srepass" name="srepass" placeholder="비밀번호를 다시 입력하세요." onblur="repassCheck()" />
+					<div class="ment-repass"></div>
 				</div>
 				<div class="form-param">
 					<label for="sname">이름</label>
 					<input type="text" id="sname" class="sname" name="sname" placeholder="이름"  onblur="nameCheck()" />
+					<div class="ment-name"></div>
 				</div>
 				<div class="form-param">
-					<label for="snick">닉네임</label>
-					<input type="text" id="snick" class="snick" name="snick" placeholder="닉네임"  onblur="nickCheck()" />
+					<label for="snick">닉네임</label> <input type="text" id="snick" class="snick" name="snick" placeholder="닉네임" onblur="nickCheck()" />
+					<div class="ment-nick"></div>
 				</div>
 				<div class="form-param">
 					<label for="sage">나이</label>
