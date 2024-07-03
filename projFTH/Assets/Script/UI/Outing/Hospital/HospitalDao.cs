@@ -170,7 +170,7 @@ namespace Script.UI.Outing.Hospital
 
         public IEnumerator GetBuyLists(Action<List<Dictionary<string, object>>> callback)
         {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/outing/hospital/buy");
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/outing/hospital/buy");
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)
@@ -184,13 +184,13 @@ namespace Script.UI.Outing.Hospital
                 Debug.LogError("Error: " + request.error);
             }
         }
-        public IEnumerator SetAfterHeals(string payCash, string userMaxHP)
+        public IEnumerator SetAfterHeals(string pid, string payCash, string userMaxHP)
         {
-            string url = "http://localhost:8080/outing/hospital/heal";
+            string url = "http://localhost:8080/api/outing/hospital/heal";
 
             // WWWForm 생성
             WWWForm form = new WWWForm();
-            form.AddField("pid", "ejwhdms502");
+            form.AddField("pid", pid);
             form.AddField("payment", payCash);
             form.AddField("maxhp", userMaxHP);
 

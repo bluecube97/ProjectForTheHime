@@ -22,7 +22,11 @@ public interface UserDao {
 
 	// 사용자별 선호하는 팀 저장
 	int saveUserTeam(Map<String, Object> param);
+	
+	// 구글 아이디 존재 유무 확인
+	int GoogleUserCheck(HashMap<String, Object> param);
 
 	// 구글 사용자 정보 저장
 	void saveGoogleUser(Map<String, Object> param);
+
 }

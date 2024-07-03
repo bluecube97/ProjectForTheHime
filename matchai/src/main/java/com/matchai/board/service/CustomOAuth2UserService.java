@@ -64,7 +64,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 		// 사용자 정보가 DB에 존재하는지 확인
 		HashMap<String, Object> param = new HashMap<>();
 		param.put("smail", useremail);
-		int userCount = userService.UserCheck(param);
+		int userCount = userService.GoogleUserCheck(param);
 
 		// 사용자 정보가 데이터베이스에 존재하지 않는 경우에만 저장
 		if (userCount == 0) {

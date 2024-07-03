@@ -51,6 +51,12 @@ public class UserDaoImpl implements UserDao {
 		return userMapper.saveUserTeam(param);
 	}
 	
+	// 구글 아이디 존재 유무 확인
+	@Override
+	public int GoogleUserCheck(HashMap<String, Object> param) {
+		return userMapper.GoogleUserCheck(param);
+	}
+	
 	// 구글 사용자 정보 저장
 	@Override
 	public void saveGoogleUser(Map<String, Object> param) {

@@ -20,7 +20,7 @@ namespace Script.UI.Outing.ClothingStore
 
         public IEnumerator GetClothingList(Action<List<Dictionary<string, object>>> callback)
         {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/outing/clothing/list");
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/outing/clothing/list");
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)
@@ -37,7 +37,7 @@ namespace Script.UI.Outing.ClothingStore
 
         public IEnumerator GetClothingBuyList(Action<List<Dictionary<string, object>>> callback)
         {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/outing/clothing/buy");
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/outing/clothing/buy");
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)

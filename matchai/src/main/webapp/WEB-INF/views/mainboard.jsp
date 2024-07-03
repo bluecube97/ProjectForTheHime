@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>메인화면</title>
+<title>MATCHAI</title>
 <link rel="stylesheet" type="text/css" href="/resource/css/mainboard.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <script src="/resource/js/mainboard.js" defer></script>
@@ -24,7 +24,7 @@
 					<li><button type="button" class="menu-btn" id="aipick-menu">AI'sPick</button></li>
 					<li><button type="button" class="menu-btn" id="board-menu">게시판</button></li>
 					<li><button type="button" class="menu-btn" id="minigame-menu">미니게임</button></li>
-					<li><button type="button" class="menu-btn" id="unity-game-menu" onclick="startUnity()">게임 실행</button></li>				</ul>
+				</ul>
 			</div>
 		</nav>
 		<div class="auth-buttons">
@@ -58,48 +58,53 @@
 		</aside>
 		<main>
 			<div class="today-games">
-				<!-- 오늘 진행하는 경기 표시 -->
 				<h2>오늘의 경기</h2>
 				<div class="leagues">
-					<!-- 각 리그를 클릭 or 자동으로 움직이도록 -->
-					<span>KBO</span> | <span>MLB(AL)</span> | <span>MLB(NL)</span>
+					<span id="kbo-tab">KBO</span> | <span id="mlb-tab">MLB</span>
 				</div>
-				<div class="games-container">
-					<div class="games-row">
-						<!-- 각 팀 클릭 시, 네이버 야구 전력 페이지 https://m.sports.naver.com/game/20240625HTLT02024/preview 여기로 -->
-						<div class="game">
-							<div class="team team-a">A팀</div>
-							<div class="versus">VS</div>
-							<div class="team team-b">B팀</div>
-							<div class="summary">경기 요약 분석</div>
-							<!-- 우리 페이지에서 경기 요약 분석한 결과 modal 방식으로 띄우기 -->
-						</div>
-						<div class="game">
-							<div class="team team-a">A팀</div>
-							<div class="versus">VS</div>
-							<div class="team team-b">B팀</div>
-							<div class="summary">경기 요약 분석</div>
-						</div>
-						<div class="game">
-							<div class="team team-a">A팀</div>
-							<div class="versus">VS</div>
-							<div class="team team-b">B팀</div>
-							<div class="summary">경기 요약 분석</div>
-						</div>
+				<div class="games-container" id="games-container">
+					<div id="kbo-content">
+						<c:choose>
+							<c:when test="${not empty klist}">
+								<div class="games-row">
+									<c:forEach var="game" items="${klist}">
+										<div class="game">
+											<div class="teams">
+												<div class="team team-a">${game.team1}</div>
+												<div class="versus">VS</div>
+												<div class="team team-b">${game.team2}</div>
+											</div>
+											<div class="summary">경기 분석</div>
+										</div>
+									</c:forEach>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<div class="no-games">${ment}</div>
+							</c:otherwise>
+						</c:choose>
 					</div>
-					<div class="games-row">
-						<div class="game">
-							<div class="team team-a">A팀</div>
-							<div class="versus">VS</div>
-							<div class="team team-b">B팀</div>
-							<div class="summary">경기 요약 분석</div>
-						</div>
-						<div class="game">
-							<div class="team team-a">A팀</div>
-							<div class="versus">VS</div>
-							<div class="team team-b">B팀</div>
-							<div class="summary">경기 요약 분석</div>
-						</div>
+					<div id="mlb-content" style="display: none;">
+						<c:choose>
+							<c:when test="${not empty mlist}">
+								<div class="mlbment">MLB 경기는 다음 날 기준입니다.</div>
+								<div class="games-row">
+									<c:forEach var="game" items="${mlist}">
+										<div class="game">
+											<div class="teams">
+												<div class="team team-a">${game.team1}</div>
+												<div class="versus">VS</div>
+												<div class="team team-b">${game.team2}</div>
+											</div>
+											<div class="summary">경기 분석</div>
+										</div>
+									</c:forEach>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<div class="no-games">${ment}</div>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
 			</div>
@@ -107,41 +112,39 @@
 	</div>
 	<section class="details-section">
 		<!-- 각 게시판의 가장 최신 글 3개 미리 보기 -->
-		<div class="details-box">
-			<h3>경기 일정</h3>
+		<div class="details-box large">
+			<h3>AI's Picks</h3>
 			<ul>
-				<li>세부 항목 1</li>
 				<!-- 글을 누르면 해당 게시글로 이동 -->
-				<li>세부 항목 2</li>
-				<li>세부 항목 3</li>
+				<li>AI의 경기 결과 예측 내용, 칸이 넘어가면 ...</li>
+				<li>AI가 예측한 결과 성공 여부에 대한 게시판, 칸이 넘어가면 ...</li>
+				<li>날짜 별로 계산해서 매일 자동으로 작성, 칸이 넘어가면 ...</li>
+				<li>KBO와 MLB 경기에 대한 승률 보여주기, 칸이 넘어가면 ...</li>
+				<li>경기 예측에 대한 성공 유무 보여주기, 칸이 넘어가면 ...</li>
+				<li>AI의 경기 결과 예측 내용, 칸이 넘어가면 ...</li>
+				<li>AI의 경기 결과 예측 내용, 칸이 넘어가면 ...</li>
+				<li>AI의 경기 결과 예측 내용, 칸이 넘어가면 ...</li>
+				<li>AI의 경기 결과 예측 내용, 칸이 넘어가면 ...</li>
+			</ul>
+			<div class="plus-icon">+</div>
+		</div>
+		<div class="details-box small">
+			<h3>공지 사항</h3>
+			<ul>
+				<!-- 글을 누르면 해당 게시글로 이동 -->
+				<li>관리자가 게시한 공시사항 게시판, 칸이 넘어가면 ...</li>
+				<li>공지 한 글이 최신순으로 정렬, 칸이 넘어가면 ...</li>
+				<li>공시사항 게시판 내용, 칸이 넘어가면 ...</li>
 			</ul>
 			<div class="plus-icon">+</div>
 			<!-- + 버튼을 누르면 게시판으로 이동 -->
 		</div>
-		<div class="details-box">
-			<h3>경기 결과</h3>
-			<ul>
-				<li>세부 항목 1</li>
-				<li>세부 항목 2</li>
-				<li>세부 항목 3</li>
-			</ul>
-			<div class="plus-icon">+</div>
-		</div>
-		<div class="details-box">
-			<h3>AI's Picks</h3>
-			<ul>
-				<li>세부 항목 1</li>
-				<li>세부 항목 2</li>
-				<li>세부 항목 3</li>
-			</ul>
-			<div class="plus-icon">+</div>
-		</div>
-		<div class="details-box">
+		<div class="details-box small">
 			<h3>자유게시판</h3>
 			<ul>
-				<li>세부 항목 1</li>
-				<li>세부 항목 2</li>
-				<li>세부 항목 3</li>
+				<li>사용자들이 작성한 자유게시판 내용, 칸이 넘어가면 ...</li>
+				<li>자유게시판에 들어가면 최근 공지 3~5개 항목이 최상단 고정, 칸이 넘어가면 ...</li>
+				<li>자유게시판 내용, 칸이 넘어가면 ...</li>
 			</ul>
 			<div class="plus-icon">+</div>
 		</div>

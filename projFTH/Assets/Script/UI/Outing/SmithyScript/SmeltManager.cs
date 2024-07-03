@@ -1,4 +1,5 @@
 using Script.UI.MainLevel.Inventory;
+using Script.UI.StartLevel.Dao;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,12 +35,14 @@ namespace Script.UI.Outing.SmithyScript
         private InventoryDao inventoryDao;
 
         private List<Dictionary<string, object>> inventoryList = new();
+        private Dictionary<string, object> userinfo = new();
+        private StartLevelDao _sld; // StartLevelDao를 사용하기 위한 변수
 
         //구매나 제련 시 얻게되는 아이템 아이디를 담음
         private string itemid;
 
         //나중에 세션등으로 받을 유저 아이디값
-        private readonly string pid = "ejwhdms502";
+        private string pid;
 
         //재련 시 요구 아이템 아이디를 담음
         private string reqitem;
@@ -68,6 +71,7 @@ namespace Script.UI.Outing.SmithyScript
             smeltDao = GetComponent<SmeltDao>();
             inventoryDao = GetComponent<InventoryDao>();
             smithyui = GetComponent<SmithyController>();
+            _sld = GetComponent<StartLevelDao>();
 
             // 서버에서 BuyList 데이터 가져오기
             StartCoroutine(smeltDao.GetBuyLists(list =>
@@ -86,11 +90,15 @@ namespace Script.UI.Outing.SmithyScript
             }));
 
             // 서버에서 인벤토리 데이터 가져오기
-            StartCoroutine(inventoryDao.GetInventoryList(list =>
+            StartCoroutine(_sld.GetUserEmail(info =>
             {
-                inventoryList = list;
-                // SmeltList 세팅 (인벤토리 데이터 필요)
-                SetSellList(inventoryList);
+                userinfo = info;
+                pid = userinfo["useremail"].ToString();
+                StartCoroutine(inventoryDao.GetInventoryList(pid, list =>
+                {
+                    inventoryList = list;
+                    SetSellList(inventoryList);
+                }));
             }));
         }
 
@@ -220,7 +228,7 @@ namespace Script.UI.Outing.SmithyScript
                                      && priceObj is string priceStr
                                      && int.TryParse(priceStr, out Buyprice))
             {
-                ;
+
             }
         }
 
@@ -269,11 +277,9 @@ namespace Script.UI.Outing.SmithyScript
             int userCash = 0;
 
             // 사용자 정보 비동기적으로 가져오기
-            StartCoroutine(inventoryDao.GetUserInfoFromDB(userinfo =>
+            StartCoroutine(_sld.GetUser(pid,info =>
             {
-                Dictionary<string, object> dic = new Dictionary<string, object>();
-                dic = userinfo;
-                userCash = int.Parse((string)dic["cash"]);
+                userCash = int.Parse((string)info["cash"]);
                 userInfoFetched = true;
             }));
 
@@ -283,7 +289,7 @@ namespace Script.UI.Outing.SmithyScript
             if (userCash >= Buyprice)
             {
                 int newCash = userCash - Buyprice;
-                StartCoroutine(inventoryDao.UpdateUserCashs(newCash.ToString()));
+                StartCoroutine(inventoryDao.UpdateUserCashs(pid, newCash.ToString()));
 
                 Dictionary<string, object> buyItem =
                     inventoryList.Find(p => p["itemid"].ToString().Equals(itemid));
@@ -305,7 +311,7 @@ namespace Script.UI.Outing.SmithyScript
                 // 사용자 현금 업데이트
 
                 // 인벤토리 목록 업데이트
-                StartCoroutine(inventoryDao.GetInventoryList(list =>
+                StartCoroutine(inventoryDao.GetInventoryList(pid, list =>
                 {
                     inventoryList = list;
                 }));
@@ -326,10 +332,9 @@ namespace Script.UI.Outing.SmithyScript
         private IEnumerator ProcessPayItemCoroutine()
         {
             bool inventoryFetched = false;
-            List<Dictionary<string, object>> inventoryList = new();
 
             // 인벤토리 목록 비동기적으로 가져오기
-            StartCoroutine(inventoryDao.GetInventoryList(list =>
+            StartCoroutine(inventoryDao.GetInventoryList(pid, list =>
             {
                 inventoryList = list;
                 inventoryFetched = true;
@@ -353,22 +358,22 @@ namespace Script.UI.Outing.SmithyScript
             if (result >= 0)
             {
                 // 재련에 필요한 아이템 갯수 업데이트
-                StartCoroutine(inventoryDao.ItemCraftPayments(giveItem["itemid"].ToString(), result.ToString()));
+                StartCoroutine(inventoryDao.ItemCraftPayments(pid, giveItem["itemid"].ToString(), result.ToString()));
 
                 if (checkVal != null)
                 {
                     // 재련 성공 시 아이템 갯수 업데이트
                     int cnt = int.Parse(checkVal["itemcnt"].ToString()) + 1;
-                    StartCoroutine(inventoryDao.ItemCraftUpdates(cnt.ToString(), itemid));
+                    StartCoroutine(inventoryDao.ItemCraftUpdates(pid, cnt.ToString(), itemid));
                 }
                 else
                 {
                     // 인벤토리에 아이템 추가
-                    StartCoroutine(inventoryDao.ItemCraftInserts(itemid, "1"));
+                    StartCoroutine(inventoryDao.ItemCraftInserts(pid, itemid, "1"));
                 }
 
                 // 인벤토리 목록 업데이트
-                StartCoroutine(inventoryDao.GetInventoryList(list =>
+                StartCoroutine(inventoryDao.GetInventoryList(pid, list =>
                 {
                     inventoryList = list;
                     smithyui.OnClickSmithyComplete(); // 재련 성공 UI 표시
@@ -392,11 +397,9 @@ namespace Script.UI.Outing.SmithyScript
             // Fetch the user info
             bool userInfoFetched = false;
             int cash = 0;
-            StartCoroutine(inventoryDao.GetUserInfoFromDB(userinfo =>
+            StartCoroutine(_sld.GetUser(pid,info =>
             {
-                Dictionary<string, object> dic = new Dictionary<string, object>();
-                dic = userinfo;
-                cash = int.Parse((string)dic["cash"]);
+                cash = int.Parse((string)info["cash"]);
                 userInfoFetched = true;
             }));
 
@@ -416,7 +419,7 @@ namespace Script.UI.Outing.SmithyScript
                 string bitem = _bitem.ToString();
 
                 // Update user cash
-                yield return StartCoroutine(inventoryDao.UpdateUserCashs(result));
+                yield return StartCoroutine(inventoryDao.UpdateUserCashs(pid, result));
 
                 // Update sell things
                 yield return StartCoroutine(inventoryDao.UpdateSellThings(bitem, itemid, pid));
@@ -425,7 +428,7 @@ namespace Script.UI.Outing.SmithyScript
 
                 // Fetch the updated inventory list after selling the item
                 bool updatedInventoryFetched = false;
-                StartCoroutine(inventoryDao.GetInventoryList(updatedList =>
+                StartCoroutine(inventoryDao.GetInventoryList(pid, updatedList =>
                 {
                     inventoryList = updatedList;
                     updatedInventoryFetched = true;
