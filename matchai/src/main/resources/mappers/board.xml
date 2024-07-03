@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.matchai.board.mapper.BoardMapper">
+	<!-- kbo 당일 경기 개수 확인 -->
+	<select id="kboCnt" resultType="Integer">
+		SELECT COUNT(tkt.DATE) 
+		FROM TBL_KBOSCHEDULE_TTP tkt
+		WHERE tkt.DATE = CURDATE(); 
+	</select>
+	
+	<!-- mlb 당일 경기 개수 확인 -->
+	<select id="mlbCnt" resultType="Integer">
+		SELECT COUNT(tmt.DATE) 
+		FROM TBL_MLBSCHEDULE_TTP tmt
+		WHERE tmt.DATE = DATE_ADD(CURDATE(), INTERVAL 1 DAY);
+	</select>
+	
+	<!-- kbo 당일 경기 목록 가져오기 -->
+	<select id="kboMatchList" resultType="hashmap">
+		SELECT 
+		    ttm1.`TEAMNAME_KR` AS team1,
+		    ttm2.`TEAMNAME_KR` AS team2
+		FROM 
+		    TBL_KBOSCHEDULE_TTP tkt
+		JOIN 
+		    TBL_TEAM_MT01 ttm1 ON tkt.TEAM1 = ttm1.TEAM_CODE
+		JOIN 
+		    TBL_TEAM_MT01 ttm2 ON tkt.TEAM2 = ttm2.TEAM_CODE
+		WHERE  
+		    tkt.`DATE` = CURDATE();  
+	</select>
+	
+	<!-- mlb 당일 경기 목록 가져오기 -->
+	<select id="mlbMatchList" resultType="hashmap">
+		SELECT 
+		    ttm1.`TEAMNAME_KR` AS team1,
+		    ttm2.`TEAMNAME_KR` AS team2
+		FROM 
+		    TBL_MLBSCHEDULE_TTP tmt
+		JOIN 
+		    TBL_TEAM_MT01 ttm1 ON tmt.TEAM1 = ttm1.TEAM_CODE
+		JOIN 
+		    TBL_TEAM_MT01 ttm2 ON tmt.TEAM2 = ttm2.TEAM_CODE
+		WHERE   
+		    tmt.`DATE` = DATE_ADD(CURDATE(), INTERVAL 1 DAY);  
+	</select>
+</mapper>

@@ -36,6 +36,19 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+	document.getElementById('kbo-tab').addEventListener('click', function() {
+		document.getElementById('kbo-content').style.display = 'block';
+		document.getElementById('mlb-content').style.display = 'none';
+	});
+
+	document.getElementById('mlb-tab').addEventListener('click', function() {
+		document.getElementById('kbo-content').style.display = 'none';
+		document.getElementById('mlb-content').style.display = 'block';
+	});
+});
+
+
 function startUnity() {
 	window.location.href = '/board/unity';
 }
