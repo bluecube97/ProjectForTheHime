@@ -86,18 +86,19 @@ document.addEventListener('DOMContentLoaded', function() {
 			// 여기에 원하는 텍스트 추가
 			const gptment = ' 분석a 끗입니다요 끗끗끗';
 			const GPTMENT = document.getElementById('summaryText');
-			GPTMENT.innerText = gptment; // gptment는 예시로 표시된 변수입니다.
+			GPTMENT.innerText = gptment;
 			GPTMENT.scrollTop = 0;
 		});
 	});
 });
 
 document.addEventListener('DOMContentLoaded', function() {
+	// 오늘의 경기 KBO 클릭 시, KBO컨텐츠 ON, MLB컨텐츠 OFF
 	document.getElementById('kbo-tab').addEventListener('click', function() {
 		document.getElementById('kbo-content').style.display = 'block';
 		document.getElementById('mlb-content').style.display = 'none';
 	});
-
+	// 오늘의 경기 MLB 클릭 시, MLBO컨텐츠 ON, KBO컨텐츠 OFF
 	document.getElementById('mlb-tab').addEventListener('click', function() {
 		document.getElementById('kbo-content').style.display = 'none';
 		document.getElementById('mlb-content').style.display = 'block';

@@ -6,8 +6,8 @@ document.getElementById('btn-logo').addEventListener('click', function() {
 // 이메일 중복 확인 함수
 async function mailCheck() {
 	let smail = document.getElementById('smail').value;
-	let mregex = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-	let mailment = document.querySelector('.ment-mail'); // ment-mail 요소 선택
+	let mregex = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i; // 이메일 정규식
+	let mailment = document.querySelector('.ment-mail'); // 이메일 멘트
 
 	// 이메일 입력 여부 확인
 	if (smail === "" || smail.length <= 0) {
@@ -75,9 +75,7 @@ function passCheck() {
 	}
 }
 
-/**
- * 비밀번호 확인 함수
- */
+// 비밀번호 확인 함수
 function repassCheck() {
 	let srepass = document.querySelector('#srepass').value;
 	let spass = document.querySelector('#spass').value;
@@ -88,17 +86,17 @@ function repassCheck() {
 		repassment.innerHTML = '비밀번호 확인을 입력해주세요.';
 		document.getElementById('srepass').classList.remove('valid');
 		document.getElementById('srepass').classList.add('invalid');
-		return false; // 유효성 검사 실패 반환
+		return false;
 	} else if (srepass !== spass) {
 		repassment.innerHTML = '비밀번호와 일치하지 않습니다.';
 		document.getElementById('srepass').classList.remove('valid');
 		document.getElementById('srepass').classList.add('invalid');
-		return false; // 유효성 검사 실패 반환
+		return false;
 	} else if (srepass === spass) {
 		repassment.innerHTML = '';
 		document.getElementById('srepass').classList.remove('invalid');
 		document.getElementById('srepass').classList.add('valid');
-		return true; // 유효성 검사 성공 반환
+		return true;
 	} else {
 		document.getElementById('srepass').classList.remove('valid');
 		document.getElementById('srepass').classList.add('invalid');
@@ -106,9 +104,7 @@ function repassCheck() {
 	}
 }
 
-/**
- * 이름 유효성 검사 함수
- */
+// 이름 유효성 검사 함수
 function nameCheck() {
 	let sname = document.querySelector('#sname').value;
 	let leng = sname.length;
@@ -120,17 +116,17 @@ function nameCheck() {
 		namement.innerHTML = '이름을 입력해주세요.';
 		document.getElementById('sname').classList.remove('valid');
 		document.getElementById('sname').classList.add('invalid');
-		return false; // 유효성 검사 실패 반환
+		return false;
 	} else if (leng > 20) {
 		namement.innerHTML = '20자 이내로 입력 가능합니다.';
 		document.getElementById('sname').classList.remove('valid');
 		document.getElementById('sname').classList.add('invalid');
-		return false; // 유효성 검사 실패 반환
+		return false;
 	} else {
 		namement.innerHTML = '';
 		document.getElementById('sname').classList.remove('invalid');
 		document.getElementById('sname').classList.add('valid');
-		return true; // 유효성 검사 성공 반환
+		return true;
 	}
 }
 
@@ -146,17 +142,17 @@ function nickCheck() {
 		nickment.innerHTML = '닉네임을 입력해주세요.';
 		document.getElementById('snick').classList.remove('valid');
 		document.getElementById('snick').classList.add('invalid');
-		return false; // 유효성 검사 실패 반환
+		return false;
 	} else if (leng > 20) {
 		nickment.innerHTML = '20자 이내로 입력 가능합니다.';
 		document.getElementById('snick').classList.remove('valid');
 		document.getElementById('snick').classList.add('invalid');
-		return false; // 유효성 검사 실패 반환
+		return false;
 	} else {
 		nickment.innerHTML = '';
 		document.getElementById('snick').classList.remove('invalid');
 		document.getElementById('snick').classList.add('valid');
-		return true; // 유효성 검사 성공 반환
+		return true;
 	}
 }
 
@@ -248,9 +244,7 @@ async function signUp() {
 }
 
 
-/**
- * 페이지 로드 시 기본 리그의 팀 목록을 가져오는 함수
- */
+// 페이지 로드 시 기본 리그의 팀 목록을 가져오는 함수
 document.addEventListener('DOMContentLoaded', function() {
 	// 페이지 로드될 때 기본 리그의 팀 목록을 가져오기
 	getTeams('KB'); // 예를 들어 KBO 리그의 팀 목록을 초기화로 설정
@@ -263,9 +257,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-/**
- * 서버에 리그에 해당하는 팀 정보를 요청하는 함수
- */
+// 서버에 리그에 해당하는 팀 정보를 요청하는 함수
 function getTeams(league) {
 	fetch('/user/getteams', {
 		method: 'POST',
@@ -293,9 +285,7 @@ function getTeams(league) {
 		.catch(error => console.error('Error', error)); // 에러가 발생하면 콘솔에 에러 메시지를 출력합니다.
 }
 
-/**
- * 선택된 팀을 추가하는 함수
- */
+// 선택된 팀을 추가하는 함수
 function addteam() {
 	let listleagues = document.getElementById('listleagues');
 	let chsleagues = document.getElementById('chsleagues');  // 선택한 리그가 담길 변수
@@ -312,7 +302,6 @@ function addteam() {
 					break;
 				}
 			}
-
 			// 존재하지 않을 때만 추가
 			if (!exists) {
 				let newOption = document.createElement('option');
@@ -324,9 +313,7 @@ function addteam() {
 	}
 }
 
-/**
- * 선택된 팀을 삭제하는 함수
- */
+// 선택된 팀을 삭제하는 함수
 function delteam() {
 	var right_list = document.getElementById("chsleagues");
 

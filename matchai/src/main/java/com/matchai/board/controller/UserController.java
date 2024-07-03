@@ -28,7 +28,7 @@ public class UserController {
 	@Autowired
 	UserService usersvc;
 
-	// 구글 로그인 성공 시 호출되는 메서드
+	// 구글 로그인 성공 시 호출되는 메서드(사용 안하는거 같음)
 	@GetMapping("/loginSuccess")
 	public String loginSuccess(Principal principal, HttpSession session) {
 
@@ -60,7 +60,7 @@ public class UserController {
 		return "redirect:/board/main";
 	}
 
-	// 구글 로그인 실패
+	// 구글 로그인 실패(사용 안하는거 같음)
 	@GetMapping("/loginFailure")
 	public ModelAndView loginFailure(ModelAndView mv) {
 

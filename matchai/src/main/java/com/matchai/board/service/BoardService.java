@@ -5,7 +5,6 @@ import java.util.List;
 
 
 public interface BoardService {
-	
 	// kbo 당일 경기 수
 	int kboCnt();
 	
