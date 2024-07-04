@@ -26,7 +26,7 @@
 					<li><button type="button" class="menu-btn" id="data-menu">데이터센터</button></li>
 					<li><button type="button" class="menu-btn" id="aipick-menu">AI'sPick</button></li>
 					<li><button type="button" class="menu-btn" id="board-menu">게시판</button></li>
-					<li><button type="button" class="menu-btn" id="minigame-menu">미니게임</button></li>
+					<li><button type="button" class="menu-btn" id="minigame-menu" onclick="startUnity()">미니게임</button></li>
 				</ul>
 			</div>
 		</nav>
@@ -77,8 +77,7 @@
 												<div class="versus">VS</div>
 												<div class="team team-b">${game.team2}</div>
 											</div>
-											<button type="button" class="summary" id="summarybtn">경기
-												분석</button>
+											<button type="button" class="summary" id="summarybtn">경기 분석</button>
 										</div>
 									</c:forEach>
 								</div>
