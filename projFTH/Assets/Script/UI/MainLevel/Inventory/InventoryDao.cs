@@ -19,15 +19,15 @@ namespace Script.UI.MainLevel.Inventory
         }
         public IEnumerator GetInventoryList(string pid, Action<List<Dictionary<string, object>>> callback)
         {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/inven/list");
-            WWWForm form = new WWWForm();
-            form.AddField("pid", pid);
-            
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/inven/list?pid="+pid);
+   
+            Debug.Log("인벤 리스트 출력 아이디 : "+ pid);
             yield return request.SendWebRequest();
-
+            Debug.Log("12341234");
             if (request.result == UnityWebRequest.Result.Success)
             {
                 string json = request.downloadHandler.text;
+                Debug.Log("인벤 리스트 값 "+json);
                 List<Dictionary<string, object>> inventorylist = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
                 callback(inventorylist);
             }

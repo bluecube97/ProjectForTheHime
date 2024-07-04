@@ -55,5 +55,6 @@
 		INSERT INTO TBL_USER_NT_01 (USEREMAIL, USERPW, USERNM, USERNICKNAME, USERAGE, DELETEFLAG)
 		VALUES (#{useremail}, SHA2(#{useremail},256), #{usernm}, #{usernickname}, #{userage}, 'N')
 	</insert>
-	
+
+
 </mapper>

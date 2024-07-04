@@ -6,12 +6,13 @@
 
     <select id="searchUserInfo" parameterType="string" resultType="integer">
         SELECT COUNT(*)
-        FROM TBL_UNITY_USERINFO tuu
-        WHERE tuu.PID = #{param};
+        FROM TBL_UNT_USERINFO_NT01 tuu
+        WHERE tuu.PID = #{param}
+          AND D_FLAG = 'N'
     </select>
 
     <insert id="insertUserInfo" parameterType="map">
-        INSERT INTO TBL_UNITY_USERINFO (PID,PNM,PSEX)
+        INSERT INTO TBL_UNT_USERINFO_NT01 (PID,PNM,PSEX)
         values (#{PID},#{PNM},#{PSEX})
     </insert>
 
@@ -23,7 +24,12 @@
                PLVL AS plvl ,
                MAXHP AS maxhp ,
                CHP AS chp
-        FROM TBL_UNITY_USERINFO tuu
+        FROM TBL_UNT_USERINFO_NT01 tuu
         WHERE tuu.PID =#{param}
+          AND D_FLAG = 'N'
     </select>
+    <insert id="setDstate" parameterType="map">
+        INSERT INTO TBL_UNT_MBTISTATS_NT01 (PID, D_NAME, I, E, S, N, T, F, J, P, MOOD, STREES, FATIGUE)
+        VALUES(#{pid},#{name},#{I},#{E},#{S},#{N},#{T},#{F},#{J},#{P},#{mood} ,#{stress} ,#{fatigue} )
+    </insert>
 </mapper>

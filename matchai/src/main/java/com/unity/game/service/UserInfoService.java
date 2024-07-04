@@ -1,5 +1,6 @@
 package com.unity.game.service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public interface UserInfoService {
@@ -8,4 +9,6 @@ public interface UserInfoService {
     void insertUserInfo(Map<String, Object> map);
 
     Map<String, Object> getUserInfo(String param);
+
+    void setDstate(HashMap<String, Object> dstats);
 }

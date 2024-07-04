@@ -5,6 +5,7 @@ import com.unity.game.dao.UserInfoDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -26,5 +27,10 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Override
     public Map<String, Object> getUserInfo(String param) {
         return userInfoDao.getUserInfo(param);
+    }
+
+    @Override
+    public void setDstate(HashMap<String, Object> dstats) {
+        userInfoDao.setDstate(dstats);
     }
 }
