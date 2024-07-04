@@ -12,10 +12,10 @@
                tr.REQ_ITEM   AS req_itemid,
                ti1.NAME      AS req_name,
                tr.R_ITEM_CNT as req_itemcnt
-        FROM TBL_UNITY_ITEM ti
-                 INNER JOIN TBL_UNITY_RECIPE tr
+        FROM TBL_UNT_ITEM_MT01 ti
+                 INNER JOIN TBL_UNT_RECIPE_NT01 tr
                             ON ti.ITEM_ID = tr.ITEM_ID
-                 LEFT JOIN TBL_UNITY_ITEM ti1
+                 LEFT JOIN TBL_UNT_ITEM_MT01 ti1
                            ON tr.REQ_ITEM = ti1.ITEM_ID
         WHERE ti.TYPE_ID = 1002
         ORDER BY ti.ITEM_ID
@@ -23,7 +23,7 @@
 
     <select id="getClothingBuyList" resultType="map">
         SELECT ti.ITEM_ID as itemid, ti.NAME as itemnm, ti.`DESC` as itemdesc, ti.SELL_PRI, ti.BUY_PRI as buyprice
-        FROM TBL_UNITY_ITEM ti
+        FROM TBL_UNT_ITEM_MT01 ti
         WHERE ti.TYPE_ID = 3003
     </select>
 
@@ -35,10 +35,10 @@
                tr.REQ_ITEM AS req_item,
                ti1.NAME AS req_name,
                tr.R_ITEM_CNT As req_itemcnt
-          FROM TBL_UNITY_ITEM ti
-         INNER JOIN TBL_UNITY_RECIPE tr
+          FROM TBL_UNT_ITEM_MT01 ti
+         INNER JOIN TBL_UNT_RECIPE_NT01 tr
             ON ti.ITEM_ID = tr.ITEM_ID
-          LEFT JOIN TBL_UNITY_ITEM ti1
+          LEFT JOIN TBL_UNT_ITEM_MT01 ti1
             ON tr.REQ_ITEM = ti1.ITEM_ID
         WHERE ti.TYPE_ID = 1000
            OR ti.TYPE_ID = 1001
@@ -51,7 +51,7 @@
                ti.`DESC` AS itemdesc,
                ti.SELL_PRI AS sellprice,
                ti.BUY_PRI AS buyprice
-        FROM TBL_UNITY_ITEM ti
+        FROM TBL_UNT_ITEM_MT01 ti
         WHERE ti.TYPE_ID = 3000
            OR  ti.TYPE_ID = 3001
            OR  ti.TYPE_ID = 3002
@@ -63,7 +63,7 @@
                ti.`DESC` AS itemdesc,
                ti.SELL_PRI AS sellprice,
                ti.BUY_PRI AS buyprice
-          FROM TBL_UNITY_ITEM ti
+          FROM TBL_UNT_ITEM_MT01 ti
          WHERE TYPE_ID =3004
             or TYPE_ID= 2002
     </select>
@@ -75,7 +75,7 @@
                ti.`DESC` AS itemdesc,
                ti.SELL_PRI AS sellprice,
                ti.BUY_PRI AS buyprice
-          FROM TBL_UNITY_ITEM ti
+          FROM TBL_UNT_ITEM_MT01 ti
          WHERE TYPE_ID =2001
             or TYPE_ID= 3005
     </select>
@@ -87,7 +87,7 @@
                ti.`DESC` AS itemdesc,
                ti.SELL_PRI AS sellprice,
                ti.BUY_PRI AS buyprice
-          FROM TBL_UNITY_ITEM ti
+          FROM TBL_UNT_ITEM_MT01 ti
          WHERE TYPE_ID = 2000
     </select>
 
@@ -103,20 +103,20 @@
                gq.Q_REWARD_CNT AS ritemcnt,
                gq.SFALG AS submit,
                gq.CFLAG AS complete
-          FROM baseball.TBL_UNITY_QUEST gq
-         INNER JOIN projfth.TBL_UNITY_ITEM ti
+          FROM baseball.TBL_UNT_QUEST_NT01 gq
+         INNER JOIN TBL_UNT_ITEM_MT01 ti
             ON ti.ITEM_ID = gq.Q_OBJ
-         INNER JOIN projfth.TBL_UNITY_ITEM ti2
+         INNER JOIN TBL_UNT_ITEM_MT01 ti2
             ON ti2.ITEM_ID = gq.Q_REWARD
     </select>
     <update id="updatequestFlag" parameterType="map">
-        UPDATE baseball.TBL_UNITY_QUEST
+        UPDATE baseball.TBL_UNT_QUEST_NT01
            SET CFLAG = #{cflag},
                SFALG = #{sflag}
          WHERE QNO =  #{questno}
     </update>
     <update id="setafterHeal" parameterType="map">
-        update baseball.TBL_UNITY_USERINFO
+        update baseball.TBL_UNT_USERINFO_NT01
            set CASH = #{payment},
                CHP = #{maxhp}
          where PID = #{pid}

@@ -5,7 +5,7 @@
 <mapper namespace="com.unity.game.mapper.InventoryMapper">
 
     <select id="GetSellThing" parameterType="map">
-        update TBL_UNITY_INVEN
+        update TBL_UNT_INVEN_NT01
         set CNT = #{itemcnt}
         where PID = #{pid}
           AND ITEM_ID = #{itemid}
@@ -13,7 +13,7 @@
 
     <select id="GetUserInfoFromDB" parameterType="string" resultType="map">
         SELECT CASH AS cash, CHP as chp, MAXHP as maxhp
-        FROM TBL_UNITY_USERINFO
+        FROM TBL_UNT_USERINFO_NT01
         where PID = #{param}
     </select>
 
@@ -23,51 +23,51 @@
                i.DESC AS itemdesc,
                inv.CNT AS itemcnt,
                i.SELL_PRI as sellprice
-        FROM TBL_UNITY_INVEN AS inv
-                 INNER JOIN TBL_UNITY_ITEM AS i
+        FROM TBL_UNT_INVEN_NT01 AS inv
+                 INNER JOIN TBL_UNT_ITEM_MT01 AS i
                             ON inv.ITEM_ID = i.ITEM_ID
                                 AND inv.CNT != '0'
                                 AND inv.PID = #{param}
     </select>
 
     <insert id="SetpurchaseInsert" parameterType="map">
-        INSERT INTO TBL_UNITY_INVEN (PID, ITEM_ID , CNT, USBL,USBL_SLOT)
+        INSERT INTO TBL_UNT_INVEN_NT01 (PID, ITEM_ID , CNT, USBL,USBL_SLOT)
         values (#{pid}, #{itemid}, #{cnt}, #{usbl}, #{slot})
     </insert>
 
     <update id="SetpurchaseUpdate" parameterType="map">
-        update TBL_UNITY_INVEN
+        update TBL_UNT_INVEN_NT01
         set CNT = #{bitem}
         where PID = #{pid}
           AND ITEM_ID = #{itemid}
     </update>
 
     <update id="Setpayment" parameterType="map">
-        update TBL_UNITY_USERINFO
+        update TBL_UNT_USERINFO_NT01
         set CASH = #{payment}
         where PID = #{pid}
     </update>
 
     <update id="SetCreatePayment" parameterType="map">
-        update TBL_UNITY_INVEN
+        update TBL_UNT_INVEN_NT01
         set CNT = #{itemcnt}
         where PID = #{pid}
           AND ITEM_ID = #{itemid}
     </update>
 
     <update id="SetCreateUpdate" parameterType="map">
-        update TBL_UNITY_INVEN
+        update TBL_UNT_INVEN_NT01
         set CNT = #{itemcnt}
         where PID = #{pid}
           AND ITEM_ID = #{itemid}
     </update>
 
     <insert id="SetCreateInsert" parameterType="map">
-        INSERT INTO TBL_UNITY_INVEN (PID, ITEM_ID , CNT, USBL,USBL_SLOT)
-        values (#{pid}, #{itemid}, #{itemcnt}, (select USBL from TBL_UNITY_ITEM where TBL_UNITY_ITEM.ITEM_ID =  #{itemid}),
+        INSERT INTO TBL_UNT_INVEN_NT01 (PID, ITEM_ID , CNT, USBL,USBL_SLOT)
+        values (#{pid}, #{itemid}, #{itemcnt}, (select USBL from TBL_UNT_ITEM_MT01 where TBL_UNT_ITEM_MT01.ITEM_ID =  #{itemid}),
                 (SELECT tit.TYPE_NM
-                 FROM TBL_UNITY_ITEM ti
-                          INNER JOIN TBL_UNITY_ITEM_TYPE tit
+                 FROM TBL_UNT_ITEM_MT01 ti
+                          INNER JOIN TBL_UNT_ITEM_TYPE_NT01 tit
                                      ON tit.TYPE_ID = ti.TYPE_ID
                  WHERE ti.ITEM_ID = #{itemid}));
     </insert>
