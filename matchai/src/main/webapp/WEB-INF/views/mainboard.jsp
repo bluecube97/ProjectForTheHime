@@ -7,7 +7,7 @@
 <title>MATCHAI</title>
 <link rel="stylesheet" type="text/css" href="/resource/css/mainboard.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="/resource/js/mainboard.js" defer></script>
 </head>
@@ -15,8 +15,7 @@
 	<header>
 		<div class="logo">
 			<button type="button" class="btn-logo" id="btn-logo">
-				<img src="/resource/images/MATCHAI(Board).png" alt="로고"
-					class="logo-img">
+			    <img src="/resource/images/mainlogo/MATCHAIBoard.png" alt="로고" class="logo-img">
 			</button>
 		</div>
 		<nav>
@@ -73,12 +72,15 @@
 									<c:forEach var="game" items="${klist}">
 										<div class="game">
 											<div class="teams">
-												<div class="team team-a">${game.team1}</div>
+												<div class="team team-a">
+													${game.team1}<img src="/resource/images/teamlogo/KBO/${game.code1}.png" alt="" class="team-logo">
+												</div>
 												<div class="versus">VS</div>
-												<div class="team team-b">${game.team2}</div>
+												<div class="team team-b">
+													<img src="/resource/images/teamlogo/KBO/${game.code2}.png" alt="" class="team-logo">${game.team2}
+												</div>
 											</div>
-											<button type="button" class="summary" id="summarybtn">경기
-												분석</button>
+											<button type="button" class="summary" id="summarybtn">경기 분석</button>
 										</div>
 									</c:forEach>
 								</div>
@@ -96,12 +98,16 @@
 									<c:forEach var="game" items="${mlist}">
 										<div class="game">
 											<div class="teams">
-												<div class="team team-a">${game.team1}</div>
+												<div class="team team-a">
+													${game.team1}<img src="/resource/images/teamlogo/MLB/${game.code1}.png" alt="" class="team-logo">
+												</div>
 												<div class="versus">VS</div>
-												<div class="team team-b">${game.team2}</div>
+												<div class="team team-b">
+													<img src="/resource/images/teamlogo/MLB/${game.code2}.png" alt="" class="team-logo">${game.team2}
+												</div>
 											</div>
 											<button type="button" class="summary" id="summarybtn">경기 분석</button>
-										</div>
+											</div>
 									</c:forEach>
 								</div>
 							</c:when>
@@ -216,8 +222,7 @@
 							<canvas id="summaryChart" width="300" height="350"></canvas>
 						</div>
 						<div class="col-md-6">
-							<img src="/resource/images/modaltop.jpg" alt="모달"
-								class="modal_top">
+							<img src="/resource/images/modal/modaltop.jpg" alt="모달" class="modal_top">
 							<div id="summaryText"></div>
 						</div>
 					</div>
