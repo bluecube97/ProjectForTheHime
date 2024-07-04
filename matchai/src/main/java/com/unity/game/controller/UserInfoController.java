@@ -1,7 +1,7 @@
 package com.unity.game.controller;
 
-import com.unity.game.service.OutingService;
 import com.unity.game.service.UserInfoService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,8 +49,13 @@ public class UserInfoController {
         return userInfoService.getUserInfo(PID);
 
     }
-    @GetMapping("dstate")
-    private void SetDstate(@RequestBody String jsontext){
-        System.out.println(jsontext);
+    @PostMapping("/dstats")
+    private void SetDstate(@RequestParam String pid, @RequestBody HashMap<String,Object> jsontext){
+        System.out.println("딸 스탯에 넣을 유저아이디 값  " + pid);
+        System.out.println("딸 스탯  " + jsontext);
+        HashMap<String,Object> dstats = (HashMap<String, Object>) jsontext.get("daughter");
+         dstats.put("pid",pid);
+        userInfoService.setDstate(dstats);
+
     }
 }
