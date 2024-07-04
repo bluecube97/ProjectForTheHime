@@ -5,12 +5,12 @@
 <mapper namespace="com.unity.game.mapper.LifeTimeMapper">
     <select id="getTodoNo" parameterType="int" resultType="int">
         SELECT DISTINCT TODONO
-        FROM TBL_UNITY_TODODATE
+        FROM TBL_UNT_TODODATE_NT02
         WHERE YEAR = #{year} AND MONTH = #{month}
     </select>
     <select id="getTodoList" parameterType="int" resultType="map">
         SELECT TODONAME, REWARD, LOSEREWARD, STATREWARD, TODONO
-        FROM TBL_UNITY_TODOLIST
+        FROM TBL_UNT_TODOLIST_NT01
         WHERE TODONO = #{todono}
     </select>
 </mapper>

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/inven")
+@RequestMapping("/api/inven/")
 public class InventoryController {
 
     @Autowired
@@ -23,6 +23,8 @@ public class InventoryController {
 
     @GetMapping("/list")
     public List<Map<String, Object>> GetInventoryList(@RequestParam String pid) {
+        System.out.println("인벤 목록 출력 11111111s" );
+        System.out.println("인벤 목록 출력 아이디 " + pid);
         List<Map<String, Object>> inventoryList = inventoryService.GetInventoryList(pid);
         for (Map<String, Object> map : inventoryList) {
         }
@@ -48,7 +50,7 @@ public class InventoryController {
             @RequestParam String cnt,
             @RequestParam String usbl,
             @RequestParam String slot) {
-
+        System.out.println("구매 insert에 들어오는 아이디 값 : "+ pid);
         HashMap<String, Object>map = new HashMap<>();
         map.put("pid", pid);
         map.put("itemid", itemid);
@@ -63,6 +65,8 @@ public class InventoryController {
     @PostMapping("/purchase/payment")
     public void Setpayment(@RequestParam String pid, @RequestParam String payment) {
         HashMap<String, Object>map = new HashMap<>();
+        System.out.println("구매 결제 들어오는 아이디 값 : "+ pid);
+
         map.put("pid", pid);
         map.put("payment", payment);
         inventoryService.Setpayment(map);

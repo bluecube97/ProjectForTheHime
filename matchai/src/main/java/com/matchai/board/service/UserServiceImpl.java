@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.matchai.board.dao.UserDao;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class 	UserServiceImpl implements UserService {
 	@Autowired
 	private UserDao userdao;
 

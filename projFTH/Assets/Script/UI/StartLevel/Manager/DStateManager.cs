@@ -1,5 +1,6 @@
 using Newtonsoft.Json.Linq;
 using Script.UI.StartLevel.Dao;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEngine;
@@ -155,7 +156,7 @@ namespace Script.UI.StartLevel.Manager
         // 버튼 클릭 시 딸 초기 스탯(이름,MBTI) 로그  확인 
         public void LogMBTI()
         {
-            var DaughterName = inputDaughterNameField.text;
+            string DaughterName = inputDaughterNameField.text;
             mbti = m + b + t + i;
 
             var json = new JObject(); 
@@ -180,7 +181,19 @@ namespace Script.UI.StartLevel.Manager
             var finaljson = new JObject();
             finaljson.Add("daughter", json);
             string jsontext = finaljson.ToString();
-            StartCoroutine(_sld.SetDstate(jsontext));
+            Debug.Log("LogMBTI를 찍는 지 확인");
+            StartCoroutine(_sld.GetUserEmail(info =>
+            {
+                Debug.Log("1111111111");
+                Dictionary<string,object> userinfo = info;
+                Debug.Log("딸 스탯에 잘들어오는지 확인" +userinfo);
+                string pid = userinfo["useremail"].ToString();
+                Debug.Log("딸 스탯에 잘들어오는지 id확인" +pid);
+                Debug.Log("딸 스탯" +jsontext);
+
+                StartCoroutine(_sld.SetDstats(pid, jsontext));
+            }));
+            
             /*Debug.Log("DataPath : " + Application.dataPath);
             var filePath = Application.dataPath + "/JSON/conversationData/daughter_status.json";
 
