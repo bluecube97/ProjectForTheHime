@@ -5,6 +5,7 @@ import com.unity.game.mapper.UserInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Repository
@@ -27,5 +28,11 @@ public class UserInfoDaoImpl implements UserInfoDao {
     @Override
     public Map<String, Object> getUserInfo(String param) {
         return userInfoMapper.getUserInfo(param);
+    }
+
+    @Override
+    public void setDstate(HashMap<String, Object> dstats) {
+        userInfoMapper.setDstate(dstats);
+
     }
 }
