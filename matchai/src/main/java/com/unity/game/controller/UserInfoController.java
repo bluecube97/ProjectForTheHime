@@ -56,6 +56,14 @@ public class UserInfoController {
         HashMap<String,Object> dstats = (HashMap<String, Object>) jsontext.get("daughter");
          dstats.put("pid",pid);
         userInfoService.setDstate(dstats);
+    }
+
+    @PostMapping("/log")
+    private void SetChatLong(@RequestParam String pid, @RequestParam String userment, @RequestParam String gptment){
+        System.out.println("채팅 유저 아이디  " + pid);
+        System.out.println("채팅 유저 멘트  " + userment);
+        System.out.println("채팅 GPT 멘트  " + gptment);
+
 
     }
 }

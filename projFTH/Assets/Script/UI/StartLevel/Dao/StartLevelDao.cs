@@ -200,5 +200,25 @@ namespace Script.UI.StartLevel.Dao
                 Debug.Log($"Response: {request.downloadHandler.text}"); // 응답 로그 출력
             }
         }
+
+        public IEnumerator SetChatLog(Dictionary<string, object> chatlog)
+        {
+            string url = "http://localhost:8080/api/user/log";
+
+            // WWWForm 생성
+            WWWForm form = new WWWForm();
+            form.AddField("pid", chatlog["pid"].ToString());
+            form.AddField("userment", chatlog["userment"].ToString());
+            form.AddField("gptment", chatlog["gptment"].ToString());
+
+            using (UnityWebRequest request = UnityWebRequest.Post(url, form))
+            {
+                yield return request.SendWebRequest();
+
+                if (request.result != UnityWebRequest.Result.Success)
+                {
+                    Debug.LogError("Error: " + request.error);
+                }
+            }        }
     }
 }
