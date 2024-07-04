@@ -17,7 +17,7 @@
 	<div class="container">
 		<div class="logo">
 			<button type="button" class="btn-logo" id="btn-logo">
-				<img src="/resource/images/MATCHAI.png" alt="로고" class="logo-img">
+				<img src="/resource/images/mainlogo/MATCHAI.png" alt="로고" class="logo-img">
 			</button>
 		</div>
 		<form id="loginForm">
