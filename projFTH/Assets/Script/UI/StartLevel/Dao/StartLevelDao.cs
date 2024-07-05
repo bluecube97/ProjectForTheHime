@@ -204,6 +204,9 @@ namespace Script.UI.StartLevel.Dao
         public IEnumerator SetChatLog(Dictionary<string, object> chatlog)
         {
             string url = "http://localhost:8080/api/user/log";
+            Debug.Log("유저 정보 : "+chatlog["pid"].ToString());
+            Debug.Log( "유저 멘트 "+chatlog["userment"].ToString());
+            Debug.Log( "GPT 멘트 "+chatlog["gptment"].ToString());
 
             // WWWForm 생성
             WWWForm form = new WWWForm();

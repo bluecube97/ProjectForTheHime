@@ -33,4 +33,10 @@ public class UserInfoServiceImpl implements UserInfoService {
     public void setDstate(HashMap<String, Object> dstats) {
         userInfoDao.setDstate(dstats);
     }
+
+    @Override
+    public void setChatLong(HashMap<String, Object> map) {
+        userInfoDao.setChatLong(map);
+
+    }
 }

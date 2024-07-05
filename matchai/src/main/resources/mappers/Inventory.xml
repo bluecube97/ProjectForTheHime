@@ -13,7 +13,7 @@
 
     <select id="GetUserInfoFromDB" parameterType="string" resultType="map">
         SELECT CASH AS cash, CHP as chp, MAXHP as maxhp
-        FROM TBL_UNT_USERINFO_NT01
+        FROM TBL_UNT_USERINFO_MT01
         where PID = #{param}
     </select>
 
@@ -43,7 +43,7 @@
     </update>
 
     <update id="Setpayment" parameterType="map">
-        update TBL_UNT_USERINFO_NT01
+        update TBL_UNT_USERINFO_MT01
         set CASH = #{payment}
         where PID = #{pid}
     </update>

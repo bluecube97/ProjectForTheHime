@@ -63,7 +63,7 @@ namespace Script.UI.StartLevel.Manager
                     {
                         string userInfo_json = JsonConvert.SerializeObject(userInfo, Formatting.Indented);
                         string scriptPath = Application.dataPath + "/JSON/conversationData/parent_status.json";
-                        File.WriteAllText(scriptPath, userInfo_json);
+//                         File.WriteAllText(scriptPath, userInfo_json);
                         Debug.Log("부모정보 json화 완료");
                     }
                     else 
