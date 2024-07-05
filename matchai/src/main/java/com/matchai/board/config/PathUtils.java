@@ -10,19 +10,24 @@ public class PathUtils {
 
     @Value("${file.path}")
     private String path;
+    
     @Value("${file.mlb-schedule-py-path}")
     private String mlbSchedulePyPath;
+    
     @Value("${file.kbo-schedule-py-path}")
     private String kboSchedulePyPath;
+    
     @Value("${file.mlb-result-py-path}")
     private String mlbResultPyPath;
+    
     @Value("${file.kbo-result-py-path}")
     private String kboResultPyPath;
-
-
+    
+    @Value("${file.gpt-exepect-py-path")
+    private String gptExepectPyPath;
+    
     // 게터 세터 생성. 혹은 lombok사용
-
-    public String getPath() {
+	public String getPath() {
         return path;
     }
 
@@ -61,5 +66,12 @@ public class PathUtils {
     public void setKboResultPyPath(String kboResultPyPath) {
         this.kboResultPyPath = kboResultPyPath;
     }
+    
+    public String getGptExepectPyPath() {
+		return gptExepectPyPath;
+	}
 
+	public void setGptExepectPyPath(String gptExepectPyPath) {
+		this.gptExepectPyPath = gptExepectPyPath;
+	}
 }
