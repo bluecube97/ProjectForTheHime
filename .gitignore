@@ -76,8 +76,8 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # ProjectForTheHime specific path
-ProjectForTheHime/matchai/src/main/webapp/resource/Build/
-ProjectForTheHime/matchai/src/main/webapp/resource/TemplateData/
+matchai/src/main/webapp/resource/Build/
+matchai/src/main/webapp/resource/TemplateData/
 
 # ignore pom.xml
-ProjectForTheHime/matchai/pom.xml
+matchai/pom.xml
