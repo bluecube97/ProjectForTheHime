@@ -77,3 +77,4 @@ crashlytics-build.properties
 
 # ProjectForTheHime specific path
 ProjectForTheHime/matchai/src/main/webapp/resource/Build/
+ProjectForTheHime/matchai/src/main/webapp/resource/TemplateData/
