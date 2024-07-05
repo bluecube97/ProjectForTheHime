@@ -57,7 +57,7 @@ namespace Script.UI.Outing.SmithyScript
         
         public IEnumerator GetBuyLists(Action<List<Dictionary<string, object>>> callback)
         {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/outing/smithy/buy");
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/outing/smithy/buy");
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)
@@ -73,7 +73,7 @@ namespace Script.UI.Outing.SmithyScript
         }
         public IEnumerator GetSmeltLists(Action<List<Dictionary<string, object>>> callback)
         {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/outing/smithy/list");
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/outing/smithy/list");
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)

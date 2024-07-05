@@ -26,8 +26,11 @@ namespace Script.UI.MainLevel.StartTurn.Dao
             UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/lifetime/todono/" + year + "/" + month);
             yield return request.SendWebRequest();
 
+
             Debug.Log("IEnumerator: " + year + " " +month);
 
+
+            //request.SetRequestHeader("Autorization", "Bearer " + PlayerPrefs.GetString("token"));
             if (request.result == UnityWebRequest.Result.Success)
             {
                 Debug.Log("11111");

@@ -1,6 +1,4 @@
-// DOMContentLoaded 이벤트가 발생할 때 실행되는 함수
 document.addEventListener('DOMContentLoaded', function() {
-
 	// 로고 버튼 클릭 시
 	document.getElementById('btn-logo').addEventListener('click', function() {
 		window.location.href = '/board/main';
@@ -34,6 +32,77 @@ document.addEventListener('DOMContentLoaded', function() {
 			window.location.href = '/user/signup';
 		});
 	}
+
+	// summarybtn 클릭 시 모달을 열고 막대 그래프를 표시
+	const summaryButtons = document.querySelectorAll('.summary');
+
+	summaryButtons.forEach(function(button) {
+		button.addEventListener('click', function() {
+			const summaryModal = new bootstrap.Modal(document.getElementById('summaryModal'));
+			summaryModal.show();
+
+			const ctx = document.getElementById('summaryChart').getContext('2d');
+			const chart = new Chart(ctx, {
+				type: 'bar',
+				data: {
+					labels: ['예측 승률'],
+					datasets: [
+						{
+							label: '팀 A',
+							data: [80], // 실제 데이터로 변경
+							backgroundColor: 'rgba(255, 99, 132, 0.2)',
+							borderColor: 'rgba(255, 99, 132, 1)',
+							borderWidth: 1,
+							maxBarThickness: 70
+						},
+						{
+							label: '팀 B',
+							data: [20], // 실제 데이터로 변경
+							backgroundColor: 'rgba(54, 162, 235, 0.2)',
+							borderColor: 'rgba(54, 162, 235, 1)',
+							borderWidth: 1,
+							maxBarThickness: 70
+						}
+					]
+				},
+
+				options: {
+					responsive: false,
+					scales: {
+						y: {
+							beginAtZero: true
+						}
+					},
+					plugins: {
+						tooltip: {
+							backgroundColor: 'rgba(0, 0, 0, 0.4)',
+							bodyFont: { size: 20 },
+						}
+					}
+				}
+			});
+			console.log(chart);
+
+			// 여기에 원하는 텍스트 추가
+			const gptment = ' 분석a 끗입니다요 끗끗끗';
+			const GPTMENT = document.getElementById('summaryText');
+			GPTMENT.innerText = gptment;
+			GPTMENT.scrollTop = 0;
+		});
+	});
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+	// 오늘의 경기 KBO 클릭 시, KBO컨텐츠 ON, MLB컨텐츠 OFF
+	document.getElementById('kbo-tab').addEventListener('click', function() {
+		document.getElementById('kbo-content').style.display = 'block';
+		document.getElementById('mlb-content').style.display = 'none';
+	});
+	// 오늘의 경기 MLB 클릭 시, MLBO컨텐츠 ON, KBO컨텐츠 OFF
+	document.getElementById('mlb-tab').addEventListener('click', function() {
+		document.getElementById('kbo-content').style.display = 'none';
+		document.getElementById('mlb-content').style.display = 'block';
+	});
 });
 
 function startUnity(){

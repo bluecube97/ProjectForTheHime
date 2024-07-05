@@ -1,4 +1,5 @@
 using Script.UI.MainLevel.Inventory;
+using Script.UI.StartLevel.Dao;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,8 +19,10 @@ namespace Script.UI.Outing.Hospital
         private InventoryDao inventoryDao;
 
         private HospitalDao hospitalDao;
+        
+        private StartLevelDao _sld; // StartLevelDao를 사용하기 위한 변수
 
-        private string pid = "ejwhdms502";
+        private string pid;
         private void Start()
         {
             
@@ -28,7 +31,8 @@ namespace Script.UI.Outing.Hospital
             
             inventoryDao = GetComponent<InventoryDao>();
             hospitalDao = GetComponent<HospitalDao>();
-            
+            _sld = GetComponent<StartLevelDao>();
+
             /*//구매목록을 담음
             _hpvo.BuyList = hospitalDao.getBuyList();
             //유저정보를 담음(현재 hp,maxHp, cash)
@@ -42,17 +46,18 @@ namespace Script.UI.Outing.Hospital
                 _hpvo.BuyList = list;
               
             }));
-            // 서버에서 유저 데이터 가져오기
-            StartCoroutine(inventoryDao.GetUserInfoFromDB(list =>
-            {
-                _hpvo.Userinfo = list;
-            }));
             
-            // 서버에서 인벤토리 데이터 가져오기
-            StartCoroutine(inventoryDao.GetInventoryList(list =>
+            // 서버에서 유저 데이터 가져오기
+            StartCoroutine(_sld.GetUserEmail(info =>
             {
-                _hpvo.inventoryList = list;
-                SetSellList(list);
+                _hpvo.Userinfo = info;
+                pid = _hpvo.Userinfo["useremail"].ToString();
+                // 서버에서 인벤토리 데이터 가져오기
+                StartCoroutine(inventoryDao.GetInventoryList(pid, list =>
+                {
+                    _hpvo.inventoryList = list;
+                    SetSellList(list);
+                }));
             }));
             
             //활성화 되어있는 메뉴들 비활성화
@@ -184,7 +189,7 @@ namespace Script.UI.Outing.Hospital
         {
             // 서버에서 유저 데이터 가져오기
             bool userInfoFetched = false;
-            StartCoroutine(inventoryDao.GetUserInfoFromDB(list =>
+            StartCoroutine(_sld.GetUser(pid,list =>
             {
                 _hpvo.Userinfo = list;
                 userInfoFetched = true;
@@ -207,7 +212,7 @@ namespace Script.UI.Outing.Hospital
             if (userCash > _hpvo.price)
             {
                 //인벤토리DB에 구매 할 아이템 보유 여부 확인, 있다면 값을 담음
-                StartCoroutine(inventoryDao.UpdateUserCashs(_NowCash));
+                StartCoroutine(inventoryDao.UpdateUserCashs(pid, _NowCash));
 
                 Dictionary<string, object> buyitem =
                     _hpvo.inventoryList.Find(p => p["itemid"].ToString().Equals(_hpvo.itemid));
@@ -231,7 +236,7 @@ namespace Script.UI.Outing.Hospital
                 }
                 // Fetch the inventory list
                 bool inventoryFetched = false;
-                StartCoroutine(inventoryDao.GetInventoryList(list =>
+                StartCoroutine(inventoryDao.GetInventoryList(pid, list =>
                 {
                     _hpvo.inventoryList = list;
                     inventoryFetched = true;
@@ -254,10 +259,20 @@ namespace Script.UI.Outing.Hospital
         private IEnumerator OnclikHealingCoroutine()
 
         {
+            StartCoroutine(_sld.GetUser(pid,list =>
+            {
+                _hpvo.Userinfo = list;
+            }));
+            Debug.Log("씨방 왜 안됨? "+_hpvo.Userinfo["cash"]);
             //계산을 위한 형변환
+            Debug.Log("파싱전 "+ _hpvo.Userinfo["cash"]);
+
             int userCash = int.Parse((string)_hpvo.Userinfo["cash"]);
             int userMaxHP = int.Parse((string)_hpvo.Userinfo["maxhp"]);
             int userHP = int.Parse((string)_hpvo.Userinfo["chp"]);
+            Debug.Log("usercash"+userCash);
+            Debug.Log("userMaxHP"+userMaxHP);
+            Debug.Log("userHP"+userHP);
             //치료에 따른 지불값 설정 후 계산
             int _payCash = userCash - ((userMaxHP - userHP) * 10);
             if (_payCash > 0)
@@ -268,7 +283,7 @@ namespace Script.UI.Outing.Hospital
                 Debug.Log("usercash"+userCash);
                 Debug.Log("userMaxHP"+userMaxHP);
                 Debug.Log("userHP"+userHP);
-                StartCoroutine(hospitalDao.SetAfterHeals(payCash, _userMaxHP));
+                StartCoroutine(hospitalDao.SetAfterHeals(pid,payCash, _userMaxHP));
 
             }
             else
@@ -277,7 +292,7 @@ namespace Script.UI.Outing.Hospital
             }
             // 서버에서 유저 데이터 가져오기
             bool userInfoFetched = false;
-            StartCoroutine(inventoryDao.GetUserInfoFromDB(list =>
+            StartCoroutine(_sld.GetUser(pid,list =>
             {
                 _hpvo.Userinfo = list;
                 userInfoFetched = true;
@@ -301,7 +316,7 @@ namespace Script.UI.Outing.Hospital
             // Fetch the user info
             bool userInfoFetched = false;
             int cash = 0;
-            StartCoroutine(inventoryDao.GetUserInfoFromDB(userinfo =>
+            StartCoroutine(_sld.GetUser(pid,userinfo =>
             {
                 cash = int.Parse((string)userinfo["cash"]);
                 userInfoFetched = true;
@@ -325,7 +340,7 @@ namespace Script.UI.Outing.Hospital
                 string bitem = _bitem.ToString();
 
                 // Update user cash
-                yield return StartCoroutine(inventoryDao.UpdateUserCashs(result));
+                yield return StartCoroutine(inventoryDao.UpdateUserCashs(pid, result));
 
                 // Update sell things
                 yield return StartCoroutine(inventoryDao.UpdateSellThings(bitem, _hpvo.itemid, pid));
@@ -333,7 +348,7 @@ namespace Script.UI.Outing.Hospital
 
                 // Fetch the updated inventory list after selling the item
                 bool updatedInventoryFetched = false;
-                StartCoroutine(inventoryDao.GetInventoryList(updatedList =>
+                StartCoroutine(inventoryDao.GetInventoryList(pid, updatedList =>
                 {
                     _hpvo.inventoryList = updatedList;
                     updatedInventoryFetched = true;

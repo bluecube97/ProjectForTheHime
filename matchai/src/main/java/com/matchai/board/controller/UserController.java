@@ -5,10 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.matchai.board.config.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
@@ -27,8 +32,14 @@ public class UserController {
 
 	@Autowired
 	UserService usersvc;
+  
+	// 구글 로그인 성공 시 호출되는 메서드(사용 안하는거 같음)
+	@Autowired
+	UserDetailsService userDetailsService;
 
-	// 구글 로그인 성공 시 호출되는 메서드
+	@Autowired
+	JwtUtil jwtUtil;
+  
 	@GetMapping("/loginSuccess")
 	public String loginSuccess(Principal principal, HttpSession session) {
 
@@ -60,7 +71,7 @@ public class UserController {
 		return "redirect:/board/main";
 	}
 
-	// 구글 로그인 실패
+	// 구글 로그인 실패(사용 안하는거 같음)
 	@GetMapping("/loginFailure")
 	public ModelAndView loginFailure(ModelAndView mv) {
 
@@ -117,6 +128,10 @@ public class UserController {
 				// 존재하는 아이디가 있거나, 사용자 정보 map이 null이 아닐 경우,
 				session.setAttribute("userInfo", map);
 				System.out.println("세션 정보: " + session.getAttribute("userInfo"));
+
+				session = jwtUtil.setToken(session, map);
+
+				System.out.println("token(usercon): " + session.getAttribute("token"));
 				response.put("ment", "로그인 성공");
 				response.put("redirect", "/board/main"); // 로그인 성공 시 리다이렉트할 URL
 			}

@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Script.UI.StartLevel.Dao;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,6 +16,9 @@ namespace Script.UI.System
     {
         public InputField inputDataField; // Inspector에서 할당
         public Text outputDataText; // Inspector에서 할당
+        private StartLevelDao _sld; // StartLevelDao를 사용하기 위한 변수
+        private Dictionary<string, object> userinfo = new();//chatLog를 DB에 올리기 위한 userinfo를 담음
+        private Dictionary<string, object> chatlog = new();//채팅로그를 담음
 
         public void OnClickSubmitButton()
         {
@@ -34,6 +38,7 @@ namespace Script.UI.System
             }
 
             string userConv = inputDataField.text;
+            chatlog.Add("userment",userConv);
             StartCoroutine(GetConv(userConv, callback =>
             {
                 //string gptConv = map["gpt_ment"].ToString();
@@ -46,7 +51,7 @@ namespace Script.UI.System
         {
             const string url = "http://localhost:8080/api/conv/get";
             string jsonBody = JsonConvert.SerializeObject(userConv);
-
+            chatlog.Add("gptment",jsonBody);
             byte[] jsonToSend = Encoding.UTF8.GetBytes(jsonBody);
 
             UnityWebRequest request = new(url, "POST")
@@ -69,6 +74,13 @@ namespace Script.UI.System
             {
                 Debug.LogError("Error: " + request.error);
             }
+            StartCoroutine(_sld.GetUserEmail(info =>
+            {
+                userinfo = info;
+                string pid = userinfo["useremail"].ToString();
+                chatlog.Add("pid",pid);
+                StartCoroutine(_sld.SetChatLog(chatlog));
+            }));
         }
 
         public void ReturnMainLevel()

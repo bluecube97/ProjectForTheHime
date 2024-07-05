@@ -17,9 +17,7 @@ import com.matchai.board.config.ScheduleUtils;
 @EnableScheduling // 스케줄링 활성화
 @EnableConfigurationProperties({PathUtils.class, ApiDbUtils.class, ScheduleUtils.class})
 public class MatchaiApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(MatchaiApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(MatchaiApplication.class, args);
+    }
 }

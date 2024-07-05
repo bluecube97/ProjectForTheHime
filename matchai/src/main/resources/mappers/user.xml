@@ -12,8 +12,8 @@
 				tun.USERAGE as userage
 		from TBL_USER_NT_01 tun
 		WHERE tun.USEREMAIL = #{smail}
-		and tun.USERPW =
-		SHA2(#{spass},256)  
+		and tun.USERPW = SHA2(#{spass},256)  
+		and FORMFLAG = 'N'
 	</select>
 	
 	<!-- 아이디 존재 유무 확인 -->
@@ -33,8 +33,8 @@
 	
 	<!-- 회원가입 정보 저장 -->
 	<insert id="signUp" parameterType="hashmap">
-		INSERT INTO TBL_USER_NT_01 (USEREMAIL, USERPW, USERNM, USERNICKNAME, USERAGE, DELETEFLAG)
-		VALUES (#{smail}, SHA2(#{smail},256), #{sname}, #{snick}, #{sage}, 'N')
+		INSERT INTO TBL_USER_NT_01 (USEREMAIL, USERPW, USERNM, USERNICKNAME, USERAGE, DELETEFLAG, FORMFLAG)
+		VALUES (#{smail}, SHA2(#{smail},256), #{sname}, #{snick}, #{sage}, 'N', 'N')
 	</insert>
 
 	<!--  팀정보 가져오기 -->
@@ -49,11 +49,18 @@
 		INSERT INTO TBL_USER_NT_02 (USEREMAIL, LEAGUE_CODE, TEAM_CODE, TEAMNAME_KR)
 		VALUES (#{smail}, #{league}, #{teamCode}, #{teamName})
 	</insert>
-
+	
+	<!-- 구글 아이디 존재 유무 확인 -->
+	<select id="GoogleUserCheck" parameterType="hashmap" resultType="Integer">
+		SELECT COUNT(tun.USEREMAIL)
+  		 FROM TBL_USER_NT_01 tun
+ 		WHERE USEREMAIL = #{smail}
+	</select>
+	
 	<!-- 구글 사용자 정보 저장 -->
 	<insert id="saveGoogleUser" parameterType="hashmap">
-		INSERT INTO TBL_USER_NT_01 (USEREMAIL, USERPW, USERNM, USERNICKNAME, USERAGE, DELETEFLAG)
-		VALUES (#{useremail}, SHA2(#{useremail},256), #{usernm}, #{usernickname}, #{userage}, 'N')
+		INSERT INTO TBL_USER_NT_01 (USEREMAIL, USERPW, USERNM, USERNICKNAME, USERAGE, DELETEFLAG, FORMFLAG)
+		VALUES (#{useremail}, SHA2(#{useremail},256), #{usernm}, #{usernickname}, #{userage}, 'N', 'G')
 	</insert>
 	
 </mapper>

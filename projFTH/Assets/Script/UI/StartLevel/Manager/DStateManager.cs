@@ -1,4 +1,6 @@
 using Newtonsoft.Json.Linq;
+using Script.UI.StartLevel.Dao;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEngine;
@@ -40,8 +42,12 @@ namespace Script.UI.StartLevel.Manager
 
         public static DStateManager Instance => instance;
 
+        private StartLevelDao _sld; // StartLevelDao를 사용하기 위한 변수
+
         private void Awake()
-        {
+        {            
+            _sld = GetComponent<StartLevelDao>();
+
             // 인스턴스가 없을 경우 현재 GameObject에 DStateManager 추가합니다.
             if (instance == null)
             {
@@ -150,7 +156,7 @@ namespace Script.UI.StartLevel.Manager
         // 버튼 클릭 시 딸 초기 스탯(이름,MBTI) 로그  확인 
         public void LogMBTI()
         {
-            var DaughterName = inputDaughterNameField.text;
+            string DaughterName = inputDaughterNameField.text;
             mbti = m + b + t + i;
 
             var json = new JObject(); 
@@ -174,6 +180,21 @@ namespace Script.UI.StartLevel.Manager
 
             var finaljson = new JObject();
             finaljson.Add("daughter", json);
+            string jsontext = finaljson.ToString();
+            Debug.Log("LogMBTI를 찍는 지 확인");
+            StartCoroutine(_sld.GetUserEmail(info =>
+            {
+                Debug.Log("1111111111");
+                Dictionary<string,object> userinfo = info;
+                Debug.Log("딸 스탯에 잘들어오는지 확인" +userinfo);
+                string pid = userinfo["useremail"].ToString();
+                Debug.Log("딸 스탯에 잘들어오는지 id확인" +pid);
+                Debug.Log("딸 스탯" +jsontext);
+
+                StartCoroutine(_sld.SetDstats(pid, jsontext));
+            }));
+            
+            /*Debug.Log("DataPath : " + Application.dataPath);
             var filePath = Application.dataPath + "/JSON/conversationData/daughter_status.json";
 
             // daughter_status.json 파일이 존재하는지 확인하고 삭제합니다.
@@ -189,7 +210,7 @@ namespace Script.UI.StartLevel.Manager
                 var jsonText = finaljson.ToString();
                 var bytes = Encoding.UTF8.GetBytes(jsonText);
                 fileStream.Write(bytes, 0, bytes.Length);
-            }
+            }*/
 
             // MainLevelScene을 로드합니다.
             SceneManager.LoadScene("MainLevelScene");
