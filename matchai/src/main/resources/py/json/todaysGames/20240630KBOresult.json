@@ -1,0 +1,23 @@
+[
+    {
+        "DATE": "2024-06-30",
+        "WINTEAM": "9002",
+        "LOSETEAM": "6002",
+        "WINSCORE": "3",
+        "LOSESCORE": "1"
+    },
+    {
+        "DATE": "2024-06-30",
+        "WINTEAM": "12001",
+        "LOSETEAM": "1001",
+        "WINSCORE": "2",
+        "LOSESCORE": "1"
+    },
+    {
+        "DATE": "2024-06-30",
+        "WINTEAM": "5002",
+        "LOSETEAM": "11001",
+        "WINSCORE": "9",
+        "LOSESCORE": "6"
+    }
+]

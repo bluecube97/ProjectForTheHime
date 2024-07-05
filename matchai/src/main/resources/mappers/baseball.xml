@@ -100,15 +100,56 @@
 	
 	<!-- 임시 테이블 노말 테이블로 데이터 삽입 -->
 		<insert id="moveTempMLBResultToMainTable">
-		    INSERT INTO baseball.TBL_MLBRSLT_NT003 (DATE, WINTEAM, LOSETEAM, WINSCORE, LOSESCORE)
+		    INSERT INTO baseball.TBL_MLBRSLT_NT03 (DATE, WINTEAM, LOSETEAM, WINSCORE, LOSESCORE)
 		    SELECT `DATE`, WINTEAM, LOSETEAM, WINSCORE, LOSESCORE
 		      FROM baseball.TBL_MLBRES_TTP
 		</insert>
 		
 		<insert id="moveTempKBOResultToMainTable">
-			INSERT INTO baseball.TBL_KBORSLT_NT003 (DATE, WINTEAM, LOSETEAM, WINSCORE, LOSESCORE)
+			INSERT INTO baseball.TBL_KBORSLT_NT03 (DATE, WINTEAM, LOSETEAM, WINSCORE, LOSESCORE)
 			SELECT `DATE`, WINTEAM, LOSETEAM, WINSCORE, LOSESCORE
 			  FROM baseball.TBL_KBORES_TTP
+		</insert>
+	<!-- 임시 테이블 노말 테이블로 데이터 삽입 끝 -->
+	
+		<!-- gpt의 예상 결과 -->
+		<update id="createTemporaryGPTAnly">
+			CREATE TABLE baseball.TBL_GPTEXEPECT_TTP (
+			SEQ INT PRIMARY KEY AUTO_INCREMENT,
+			TEAM1 TEXT,
+			TEAM2 TEXT,
+			TEAM1_WINRATE TEXT,
+			TEAM2_WINRATE TEXT,
+			TEAM1_SCORE TEXT,
+			TEAM2_SCORE TEXT,
+			GAME_ANALYSIS TEXT,
+			DATE TEXT
+			);
+		</update>
+	<!-- gpt의 예상 결과 끝 -->
+
+	<!-- gpt예상 임시테이블 drop -->
+		<update id="dropGPTAnlytbl">
+			DROP TABLE IF EXISTS baseball.TBL_GPTEXEPECT_TTP;
+		</update>
+	<!-- gpt예상 임시테이블 drop 끝 -->
+
+	<!-- gpt예상 임시테이블 데이터 삽입 -->
+		<insert id="insertTdyExepect" parameterType="list">
+			INSERT INTO baseball.TBL_GPTEXEPECT_TTP 
+				(TEAM1, TEAM2, TEAM1_WINRATE, TEAM2_WINRATE, TEAM1_SCORE, TEAM2_SCORE, GAME_ANALYSIS, DATE)
+			VALUES 
+				<foreach collection="list" item="item" separator=",">
+					(#{item.TEAM1}, #{item.TEAM2}, #{item.TEAM1_WINRATE}, #{item.TEAM2_WINRATE}, #{item.TEAM1_SCORE}, #{item.TEAM2_SCORE}, #{item.GAME_ANALYSIS}, #{item.DATE})
+				</foreach>
+		</insert>
+	<!-- gpt예상 임시테이블 데이터 삽입 끝 -->
+
+	<!-- 임시 테이블 노말 테이블로 데이터 삽입 -->
+		<insert id="moveTempGPTexepectToMainTable">
+			INSERT INTO baseball.TBL_GPTEXEPECT_NT01 (TEAM1, TEAM2, TEAM1_WINRATE, TEAM2_WINRATE, TEAM1_SCORE, TEAM2_SCORE, GAME_ANALYSIS, DATE)
+			SELECT TEAM1, TEAM2, TEAM1_WINRATE, TEAM2_WINRATE, TEAM1_SCORE, TEAM2_SCORE, GAME_ANALYSIS, `DATE`
+			FROM baseball.TBL_GPTEXEPECT_TTP
 		</insert>
 	<!-- 임시 테이블 노말 테이블로 데이터 삽입 끝 -->
 </mapper>
