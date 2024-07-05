@@ -35,4 +35,10 @@ public class UserInfoDaoImpl implements UserInfoDao {
         userInfoMapper.setDstate(dstats);
 
     }
+
+    @Override
+    public void setChatLong(HashMap<String, Object> map) {
+        userInfoMapper.setChatLong(map);
+
+    }
 }

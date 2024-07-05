@@ -20,6 +20,16 @@ namespace Script.UI.System
         private Dictionary<string, object> userinfo = new();//chatLog를 DB에 올리기 위한 userinfo를 담음
         private Dictionary<string, object> chatlog = new();//채팅로그를 담음
 
+        private void Start()
+        {
+            StartCoroutine(_sld.GetUserEmail(info =>
+            {
+                userinfo = info;
+                string pid = userinfo["useremail"].ToString();
+                chatlog.Add("pid",pid);
+            }));
+        }
+
         public void OnClickSubmitButton()
         {
             outputDataText.text = "대화 생성 중...";
@@ -38,11 +48,16 @@ namespace Script.UI.System
             }
 
             string userConv = inputDataField.text;
-            chatlog.Add("userment",userConv);
+            AddOrUpdateChatlog("userment",userConv);
+            
+            Debug.Log(userConv);
+
             StartCoroutine(GetConv(userConv, callback =>
             {
                 //string gptConv = map["gpt_ment"].ToString();
                 outputDataText.text = callback;
+                AddOrUpdateChatlog("gptment",callback);
+
             }));
 
         }
@@ -51,7 +66,6 @@ namespace Script.UI.System
         {
             const string url = "http://localhost:8080/api/conv/get";
             string jsonBody = JsonConvert.SerializeObject(userConv);
-            chatlog.Add("gptment",jsonBody);
             byte[] jsonToSend = Encoding.UTF8.GetBytes(jsonBody);
 
             UnityWebRequest request = new(url, "POST")
@@ -68,21 +82,31 @@ namespace Script.UI.System
                 string conv = request.downloadHandler.text;
                 //Dictionary<string, object> conv =
                     //JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
-                callback(conv);
+                    Debug.Log(""+conv);
+
+                    callback(conv);
             }
             else
             {
                 Debug.LogError("Error: " + request.error);
             }
-            StartCoroutine(_sld.GetUserEmail(info =>
-            {
-                userinfo = info;
-                string pid = userinfo["useremail"].ToString();
-                chatlog.Add("pid",pid);
-                StartCoroutine(_sld.SetChatLog(chatlog));
-            }));
+           
+            StartCoroutine(_sld.SetChatLog(chatlog));
+
         }
 
+        private void AddOrUpdateChatlog(string key, object value)
+        {
+            if (chatlog.ContainsKey(key))
+            {
+                chatlog[key] = value; // 키가 이미 존재하면 값을 업데이트
+            }
+            else
+            {
+                chatlog.Add(key, value); // 키가 존재하지 않으면 새로 추가
+            }
+        }
+        
         public void ReturnMainLevel()
         {
             SceneManager.LoadScene("MainLevelScene");
