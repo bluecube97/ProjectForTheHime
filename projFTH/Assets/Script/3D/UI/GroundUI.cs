@@ -40,15 +40,14 @@ namespace Script._3D.UI
             playerPositionComponent.posX = startPlayerPosX;
             playerPositionComponent.posZ = startPlayerPosZ;
 
-            player.transform.position = new Vector3(playerPositionComponent.posX, 0, playerPositionComponent.posZ);
+            player.transform.position = new Vector3(playerPositionComponent.posX, 1.1f, playerPositionComponent.posZ);
         }
 
         public void OnClickPlaceBtn(Button button)
         {
             int btnX = button.GetComponent<PositionComponentVo>().posX;
             int btnZ = button.GetComponent<PositionComponentVo>().posZ;
-            player.transform.position = new Vector3(btnX * 5.5f, 0, btnZ * -5.5f);
-
+            player.GetComponent<Player.PlayerManager>().targetPosition = new Vector3(btnX * 5.5f, 1.1f, btnZ * -5.5f);
         }
     }
 }

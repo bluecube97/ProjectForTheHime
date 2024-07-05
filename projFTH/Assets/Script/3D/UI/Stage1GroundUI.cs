@@ -31,12 +31,12 @@ namespace Script._3D.UI
         // 장애물 위치를 설정하는 메서드
         private void BlockedPosition()
         {
-            _blockedPosition.Add(new Vector2Int(0, 0));
-            _blockedPosition.Add(new Vector2Int(0, 1));
-            _blockedPosition.Add(new Vector2Int(0, 2));
             _blockedPosition.Add(new Vector2Int(1, 0));
             _blockedPosition.Add(new Vector2Int(1, 1));
             _blockedPosition.Add(new Vector2Int(1, 2));
+            _blockedPosition.Add(new Vector2Int(2, 0));
+            _blockedPosition.Add(new Vector2Int(2, 1));
+            _blockedPosition.Add(new Vector2Int(2, 2));
         }
     }
 }

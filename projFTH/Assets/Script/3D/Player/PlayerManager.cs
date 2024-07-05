@@ -1,49 +1,60 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Script._3D.Player
 {
     public class PlayerManager : MonoBehaviour
     {
-        public float speed;
-        public float jumpForce;
+        public float speed; // 이동속도
+        public Vector3 targetPosition; // 이동 할 목표 좌표
 
-        private int _jumpCount;
+        public GameObject uiCanvas;
+
+        public GameObject cam; // 카메라
+        private SuperBlur.SuperBlur _blur; // 블러
 
         private Rigidbody _rb;
 
         private void Start()
         {
+            _blur = cam.GetComponent<SuperBlur.SuperBlur>();
             _rb = GetComponent<Rigidbody>();
+            targetPosition = transform.position;
+
+            DicePhase();
         }
 
         private void Update()
         {
-            float horizontal = Input.GetAxis("Horizontal");
-            float vertical = Input.GetAxis("Vertical");
-
-            // 모든 방향의 속도를 일정하게 만들기 위해 정규화
-            Vector3 direction = new Vector3(horizontal, 0, vertical).normalized;
-
+            // 목적지에 근접하면 이동을 멈춤
+            if (IsAtTargetPosition()) return;
             // 플레이어 이동
-            //  transform.Translate(direction * (Time.deltaTime * speed));
-            // 물리 작용을 사용해 이동
-            _rb.MovePosition(_rb.position + (direction * (Time.deltaTime * speed)));
-
-            // 플레이어 점프
-            if (Input.GetKeyDown(KeyCode.Space) && _jumpCount < 2)
-            {
-                // 점프
-                _rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-                // 점프 한 횟수 증가
-                _jumpCount++;
-            }
+            Vector3 direction = (targetPosition - transform.position).normalized;
+            transform.Translate(direction * (Time.deltaTime * speed), Space.World);
         }
 
-        private void OnCollisionEnter(Collision collision)
+        // 목적지와의 거리 차이가 0.2f 이하인지 확인
+        private bool IsAtTargetPosition()
         {
-            // 바닥에 닿았을 때 점프 횟수 초기화
-            if (collision.gameObject.CompareTag("Ground"))
-                _jumpCount = 0;
+            return Vector3.Distance(transform.position, targetPosition) < 0.2f;
+        }
+
+        // blur 비활성화
+        private void DisableBlur()
+        {
+            _blur.interpolation = 0;
+            _blur.downsample = 0;
+        }
+        // blur 활성화
+        private void EnableBlur()
+        {
+            _blur.interpolation = 0.8f;
+            _blur.downsample = 1;
+        }
+
+        private void DicePhase()
+        {
+            EnableBlur();
         }
     }
 }
