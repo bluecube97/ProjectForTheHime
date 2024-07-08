@@ -16,4 +16,7 @@ public interface BoardDao {
 	// mlb 경기목록
 	List<HashMap<String, Object>> mlbMatchList();
 
+	// 
+	HashMap<String, Object> getGameData(HashMap<String, Object> params);
+
 }

@@ -17,4 +17,6 @@ public interface BoardService {
 	// mlb 경기목록
 	List<HashMap<String, Object>> mlbMatchList();
 
+	// 게임예측 데이터
+	HashMap<String, Object> fetchGameData(String code1, String code2);
 }

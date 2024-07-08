@@ -1,5 +1,9 @@
 package com.matchai.board.controller;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,15 +13,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.matchai.board.service.BoardService;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
 
 @RequestMapping("/board/*")
 @Controller
@@ -60,11 +63,29 @@ public class BoardController {
 		return mv;
 	}
 
+	
 	@GetMapping("/unity")
 	public String unity() {
 		return "game";
 	}
 
+    @PostMapping("/fetchGameData")
+    @ResponseBody
+    public HashMap<String, Object> fetchGameData(@RequestBody HashMap<String, String> request) {
+        String team1Code = request.get("team1Code");
+        String team2Code = request.get("team2Code");
+
+        //System.out.println(team1Code + team2Code);
+        HashMap<String, Object> gameData = boardsvc.fetchGameData(team1Code, team2Code);
+        
+        // JSON 응답을 반환
+        if (gameData == null || gameData.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game data not found");
+        }
+        
+        return gameData;
+    }
+    
 	@GetMapping("/resource/Build/UnityBuilder.framework.js.gz")
 	@ResponseBody
 	public ResponseEntity<ClassPathResource> getCompressedFile() throws IOException {
@@ -76,4 +97,5 @@ public class BoardController {
 
 		return new ResponseEntity<>(gzFile, headers, HttpStatus.OK);
 	}
+
 }

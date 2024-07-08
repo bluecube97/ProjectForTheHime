@@ -70,18 +70,18 @@
 							<c:when test="${not empty klist}">
 								<div class="games-row">
 									<c:forEach var="game" items="${klist}">
-										<div class="game">
-											<div class="teams">
-												<div class="team team-a">
-													${game.team1}<img src="/resource/images/teamlogo/KBO/${game.code1}.png" alt="" class="team-logo">
-												</div>
-												<div class="versus">VS</div>
-												<div class="team team-b">
-													<img src="/resource/images/teamlogo/KBO/${game.code2}.png" alt="" class="team-logo">${game.team2}
-												</div>
-											</div>
-											<button type="button" class="summary" id="summarybtn">경기 분석</button>
-										</div>
+									    <div class="game">
+									        <div class="teams">
+									            <div class="team team-a">
+									                ${game.team1}<img src="/resource/images/teamlogo/KBO/${game.code1}.png" alt="" class="team-logo">
+									            </div>
+									            <div class="versus">VS</div>
+									            <div class="team team-b">
+									                <img src="/resource/images/teamlogo/KBO/${game.code2}.png" alt="" class="team-logo">${game.team2}
+									            </div>
+									        </div>
+									        <button type="button" class="summary" id="summarybtn" data-team1="${game.code1}" data-team2="${game.code2}">경기 분석</button>
+									    </div>
 									</c:forEach>
 								</div>
 							</c:when>
@@ -96,18 +96,18 @@
 							<c:when test="${not empty mlist}">
 								<div class="games-row">
 									<c:forEach var="game" items="${mlist}">
-										<div class="game">
-											<div class="teams">
-												<div class="team team-a">
-													${game.team1}<img src="/resource/images/teamlogo/MLB/${game.code1}.png" alt="" class="team-logo">
-												</div>
-												<div class="versus">VS</div>
-												<div class="team team-b">
-													<img src="/resource/images/teamlogo/MLB/${game.code2}.png" alt="" class="team-logo">${game.team2}
-												</div>
-											</div>
-											<button type="button" class="summary" id="summarybtn">경기 분석</button>
-											</div>
+									    <div class="game">
+									        <div class="teams">
+									            <div class="team team-a">
+									                ${game.team1}<img src="/resource/images/teamlogo/MLB/${game.code1}.png" alt="" class="team-logo">
+									            </div>
+									            <div class="versus">VS</div>
+									            <div class="team team-b">
+									                <img src="/resource/images/teamlogo/MLB/${game.code2}.png" alt="" class="team-logo">${game.team2}
+									            </div>
+									        </div>
+									        <button type="button" class="summary" id="summarybtn" data-team1="${game.code1}" data-team2="${game.code2}">경기 분석</button>
+									    </div>
 									</c:forEach>
 								</div>
 							</c:when>
@@ -224,11 +224,17 @@
 						<div class="col-md-6">
 							<img src="/resource/images/modal/modaltop.jpg" alt="모달" class="modal_top">
 							<div id="summaryText"></div>
+							<div id="teamScores">
+                            	<div id="team1Score"></div>
+                            	<div id="team2Score"></div>
+								<div id="exepect-warning">※저는 이때까지의 경기 결과로 분석을 해요! 제 추측은 빗나갈 수도 있어요!※</div>                            	
+                        	</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	<!-- 모달 끝 -->
 </body>
 </html>
