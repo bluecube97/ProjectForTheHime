@@ -9,91 +9,71 @@ namespace Script._3D.Player
         public Vector3 targetPosition; // 이동 할 목표 좌표
         public GameObject player;
 
-        private float _targetX;
-        private float _targetZ;
-        private float _playerX;
-        private float _playerZ;
-        private float _distanceX;
-        private float _distanceZ;
-
-        private bool _isMoveComplete;
-
-        private Rigidbody _rb;
-
         private void Start()
         {
-            _rb = GetComponent<Rigidbody>();
+            // 플레이어의 초기 위치를 목적지로 설정
             targetPosition = transform.position;
-
-            _targetX = targetPosition.x;
-            _targetZ = targetPosition.z;
-            _playerX = player.transform.position.x;
-            _playerZ = player.transform.position.z;
-            _distanceX = Mathf.Abs(_targetX - _playerX);
-            _distanceZ = Mathf.Abs(_targetZ - _playerZ);
-
-            Debug.Log("distanceX: " + _distanceX + ", distanceZ: " + _distanceZ);
-
-            _isMoveComplete = _distanceX < _distanceZ;
         }
 
         private void Update()
         {
             // 목적지에 근접하면 이동을 멈춤
-            if (IsAtTargetPosition()) return;
-            // 플레이어 이동
-
-            if (_distanceX < _distanceZ)
+            if (IsAtTargetPositionX() && IsAtTargetPositionZ()) return;
+            
+            // 플레이어 목표 좌표 설정
+            float targetX = targetPosition.x;
+            float targetZ = targetPosition.z;
+            // 플레이어 현재 위치 설정
+            float playerX = player.transform.position.x;
+            float playerZ = player.transform.position.z;
+            // 목표와 플레이어 사이의 거리 계산
+            float distanceX = Mathf.Abs(targetX - playerX);
+            float distanceZ = Mathf.Abs(targetZ - playerZ);
+            // 이동 방향 선언
+            Vector3 direction;
+            // X축 거리가 짧을 경우
+            if (distanceX <= distanceZ)
             {
-                if (!_isMoveComplete)
+                // 목표에 도달하지 않았을 경우
+                if (!IsAtTargetPositionX() && !IsAtTargetPositionZ())
                 {
-                    Vector3 direction = _targetX > _playerX ? Vector3.right.normalized : Vector3.left.normalized;
+                    direction = targetX > playerX ? Vector3.right.normalized : Vector3.left.normalized;
                     transform.Translate(direction * (Time.deltaTime * speed), Space.World);
-                    if (Mathf.Abs(_playerX - _targetX) < 0.2f)
-                    {
-                        _isMoveComplete = true;
-                    }
                 }
-                else
+                // X축만 목표에 도달했을 경우
+                else if (IsAtTargetPositionX() && !IsAtTargetPositionZ())
                 {
-                    Vector3 direction = _targetZ > _playerZ ? Vector3.forward.normalized : Vector3.back.normalized;
+                    direction = targetZ > playerZ ? Vector3.forward.normalized : Vector3.back.normalized;
                     transform.Translate(direction * (Time.deltaTime * speed), Space.World);
-                    if (Mathf.Abs(_playerZ - _targetZ) < 0.2f)
-                    {
-                        _isMoveComplete = false;
-                    }
                 }
             }
+            // Z축 거리가 짧을 경우
             else
             {
-                if (_isMoveComplete)
+                // 목표에 도달하지 않았을 경우
+                if (!IsAtTargetPositionX() && !IsAtTargetPositionZ())
                 {
-                    Vector3 direction = _targetZ > _playerZ ? Vector3.forward.normalized : Vector3.back.normalized;
+                    direction = targetZ > playerZ ? Vector3.forward.normalized : Vector3.back.normalized;
                     transform.Translate(direction * (Time.deltaTime * speed), Space.World);
-                    if (Mathf.Abs(_playerZ - _targetZ) < 0.2f)
-                    {
-                        _isMoveComplete = false;
-                    }
                 }
-                else
+                // Z축만 목표에 도달했을 경우
+                else if (!IsAtTargetPositionX() && IsAtTargetPositionZ())
                 {
-                    Vector3 direction = _targetX > _playerX ? Vector3.right.normalized : Vector3.left.normalized;
+                    direction = targetX > playerX ? Vector3.right.normalized : Vector3.left.normalized;
                     transform.Translate(direction * (Time.deltaTime * speed), Space.World);
-                    if (Mathf.Abs(_playerX - _targetX) < 0.2f)
-                    {
-                        _isMoveComplete = true;
-                    }
                 }
             }
-
-            //Vector3 direction = (targetPosition - transform.position).normalized;
-            //transform.Translate(direction * (Time.deltaTime * speed), Space.World);
         }
 
-        // 목적지와의 거리 차이가 0.2f 이하인지 확인
-        private bool IsAtTargetPosition()
+        // 목표 좌표의 X, Z축과의 거리가 각각 0.2f 이하인지 확인 (근접 여부)
+        private bool IsAtTargetPositionX()
         {
-            return Vector3.Distance(transform.position, targetPosition) < 0.2f;
+            return Mathf.Abs(transform.position.x - targetPosition.x) < 0.2f;
+        }
+
+        private bool IsAtTargetPositionZ()
+        {
+            return Mathf.Abs(transform.position.z - targetPosition.z) < 0.2f;
         }
     }
 }
