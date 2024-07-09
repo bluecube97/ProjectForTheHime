@@ -38,4 +38,12 @@ public class BoardDaoImpl implements BoardDao {
 		return boardMapper.mlbMatchList();
 	}
 
+    @Override
+    public HashMap<String, Object> getGameData(HashMap<String, Object> params) {
+    	System.out.println("dao Params : " + params);
+    	HashMap<String, Object> result = boardMapper.getGameData(params);
+        System.out.println("select 결과: " + result);
+        return result;
+    }
+
 }
