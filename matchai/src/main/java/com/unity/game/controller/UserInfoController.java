@@ -2,6 +2,7 @@ package com.unity.game.controller;
 
 import com.unity.game.service.UserInfoService;
 
+import org.apache.ibatis.javassist.compiler.Parser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,16 +55,20 @@ public class UserInfoController {
         System.out.println("딸 스탯에 넣을 유저아이디 값  " + pid);
         System.out.println("딸 스탯  " + jsontext);
         HashMap<String,Object> dstats = (HashMap<String, Object>) jsontext.get("daughter");
-         dstats.put("pid",pid);
-        userInfoService.setDstate(dstats);
+        int reple = (int) dstats.get("age");
+        String age = String.valueOf(reple);
+        dstats.replace("age",age);
+        dstats.put("pid",pid);
+       userInfoService.setDstate(dstats);
     }
 
     @PostMapping("/log")
     private void SetChatLong(@RequestParam String pid, @RequestParam String userment, @RequestParam String gptment){
-        System.out.println("채팅 유저 아이디  " + pid);
-        System.out.println("채팅 유저 멘트  " + userment);
-        System.out.println("채팅 GPT 멘트  " + gptment);
-
+      HashMap<String,Object> map = new HashMap<>();
+      map.put("pid",pid);
+      map.put("userment",userment);
+      map.put("gptment",gptment);
+        userInfoService.setChatLong(map);
 
     }
 }

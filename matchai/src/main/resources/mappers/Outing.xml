@@ -116,7 +116,7 @@
          WHERE QNO =  #{questno}
     </update>
     <update id="setafterHeal" parameterType="map">
-        update baseball.TBL_UNT_USERINFO_NT01
+        update baseball.TBL_UNT_USERINFO_MT01
            set CASH = #{payment},
                CHP = #{maxhp}
          where PID = #{pid}

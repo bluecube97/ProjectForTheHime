@@ -1,49 +1,79 @@
+using Script._3D.UI;
 using UnityEngine;
 
 namespace Script._3D.Player
 {
     public class PlayerManager : MonoBehaviour
     {
-        public float speed;
-        public float jumpForce;
-
-        private int _jumpCount;
-
-        private Rigidbody _rb;
+        public float speed; // 이동속도
+        public Vector3 targetPosition; // 이동 할 목표 좌표
+        public GameObject player;
 
         private void Start()
         {
-            _rb = GetComponent<Rigidbody>();
+            // 플레이어의 초기 위치를 목적지로 설정
+            targetPosition = transform.position;
         }
 
         private void Update()
         {
-            float horizontal = Input.GetAxis("Horizontal");
-            float vertical = Input.GetAxis("Vertical");
-
-            // 모든 방향의 속도를 일정하게 만들기 위해 정규화
-            Vector3 direction = new Vector3(horizontal, 0, vertical).normalized;
-
-            // 플레이어 이동
-            //  transform.Translate(direction * (Time.deltaTime * speed));
-            // 물리 작용을 사용해 이동
-            _rb.MovePosition(_rb.position + (direction * (Time.deltaTime * speed)));
-
-            // 플레이어 점프
-            if (Input.GetKeyDown(KeyCode.Space) && _jumpCount < 2)
+            // 목적지에 근접하면 이동을 멈춤
+            if (IsAtTargetPositionX() && IsAtTargetPositionZ()) return;
+            
+            // 플레이어 목표 좌표 설정
+            float targetX = targetPosition.x;
+            float targetZ = targetPosition.z;
+            // 플레이어 현재 위치 설정
+            float playerX = player.transform.position.x;
+            float playerZ = player.transform.position.z;
+            // 목표와 플레이어 사이의 거리 계산
+            float distanceX = Mathf.Abs(targetX - playerX);
+            float distanceZ = Mathf.Abs(targetZ - playerZ);
+            // 이동 방향 선언
+            Vector3 direction;
+            // X축 거리가 짧을 경우
+            if (distanceX <= distanceZ)
             {
-                // 점프
-                _rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-                // 점프 한 횟수 증가
-                _jumpCount++;
+                // 목표에 도달하지 않았을 경우
+                if (!IsAtTargetPositionX() && !IsAtTargetPositionZ())
+                {
+                    direction = targetX > playerX ? Vector3.right.normalized : Vector3.left.normalized;
+                    transform.Translate(direction * (Time.deltaTime * speed), Space.World);
+                }
+                // X축만 목표에 도달했을 경우
+                else if (IsAtTargetPositionX() && !IsAtTargetPositionZ())
+                {
+                    direction = targetZ > playerZ ? Vector3.forward.normalized : Vector3.back.normalized;
+                    transform.Translate(direction * (Time.deltaTime * speed), Space.World);
+                }
+            }
+            // Z축 거리가 짧을 경우
+            else
+            {
+                // 목표에 도달하지 않았을 경우
+                if (!IsAtTargetPositionX() && !IsAtTargetPositionZ())
+                {
+                    direction = targetZ > playerZ ? Vector3.forward.normalized : Vector3.back.normalized;
+                    transform.Translate(direction * (Time.deltaTime * speed), Space.World);
+                }
+                // Z축만 목표에 도달했을 경우
+                else if (!IsAtTargetPositionX() && IsAtTargetPositionZ())
+                {
+                    direction = targetX > playerX ? Vector3.right.normalized : Vector3.left.normalized;
+                    transform.Translate(direction * (Time.deltaTime * speed), Space.World);
+                }
             }
         }
 
-        private void OnCollisionEnter(Collision collision)
+        // 목표 좌표의 X, Z축과의 거리가 각각 0.2f 이하인지 확인 (근접 여부)
+        private bool IsAtTargetPositionX()
         {
-            // 바닥에 닿았을 때 점프 횟수 초기화
-            if (collision.gameObject.CompareTag("Ground"))
-                _jumpCount = 0;
+            return Mathf.Abs(transform.position.x - targetPosition.x) < 0.2f;
+        }
+
+        private bool IsAtTargetPositionZ()
+        {
+            return Mathf.Abs(transform.position.z - targetPosition.z) < 0.2f;
         }
     }
 }

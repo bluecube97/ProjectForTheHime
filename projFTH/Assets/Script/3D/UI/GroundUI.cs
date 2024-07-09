@@ -1,5 +1,8 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace Script._3D.UI
 {
@@ -13,6 +16,14 @@ namespace Script._3D.UI
         public int startPlayerPosX;
         public int startPlayerPosZ;
         public GameObject canvas;
+
+        public GameObject cam; // 카메라
+        private SuperBlur.SuperBlur _blur; // 블러
+
+        public GameObject uiCanvas; // UI 캔버스
+        public Button diceBtn; // 주사위 버튼
+        public Text diceValueTxt; // 주사위 값 텍스트
+        private int _diceValue; // 주사위 값
 
         // protected: 상속받은 클래스에서만 접근 가능
         // virtual: 상속받은 클래스에서 재정의 가능
@@ -40,15 +51,91 @@ namespace Script._3D.UI
             playerPositionComponent.posX = startPlayerPosX;
             playerPositionComponent.posZ = startPlayerPosZ;
 
-            player.transform.position = new Vector3(playerPositionComponent.posX, 0, playerPositionComponent.posZ);
+            Vector3 startPosition = new(playerPositionComponent.posX * 5.5f, 1.1f, playerPositionComponent.posZ * -5.5f);
+            player.transform.position = startPosition;
+            player.GetComponent<Player.PlayerManager>().targetPosition = startPosition;
+
+            _blur = cam.GetComponent<SuperBlur.SuperBlur>();
         }
 
+        private void Start()
+        {
+            // 주사위 페이즈 시작
+            DicePhase();
+        }
+
+        private void Update()
+        {
+            if (_diceValue != 0) return;
+            DicePhase();
+        }
+
+        // 땅 버튼 클릭시 호출
         public void OnClickPlaceBtn(Button button)
         {
             int btnX = button.GetComponent<PositionComponentVo>().posX;
             int btnZ = button.GetComponent<PositionComponentVo>().posZ;
-            player.transform.position = new Vector3(btnX * 5.5f, 0, btnZ * -5.5f);
 
+            player.GetComponent<Player.PlayerManager>().targetPosition = new Vector3(btnX * 5.5f, 1.1f, btnZ * -5.5f);
+        }
+        // blur 비활성화
+        private void DisableBlur()
+        {
+            _blur.interpolation = 0;
+            _blur.downsample = 0;
+        }
+        // blur 활성화
+        private void EnableBlur()
+        {
+            _blur.interpolation = 0.8f;
+            _blur.downsample = 1;
+        }
+        // 주사위 페이즈
+        private void DicePhase()
+        {
+            EnableBlur();
+            uiCanvas.SetActive(true);
+            diceValueTxt.text = "";
+        }
+        // 이동 페이즈
+        private void MovePhase()
+        {
+            DisableBlur();
+            uiCanvas.SetActive(false);
+        }
+        // 주사위 굴리기 버튼 클릭 시 호출
+        public void OnClickDiceBtn(Button button)
+        {
+            if (button.GetComponentInChildren<Text>().text == "확인")
+            {
+                button.GetComponentInChildren<Text>().text = "굴리기!";
+                MovePhase();
+            }
+            else if (button.GetComponentInChildren<Text>().text == "굴리기!")
+            {
+                StartCoroutine(SetDiceValue(0.2f, callback =>
+                {
+                    _diceValue = callback;
+                }));
+            }
+        }
+        // 주사위를 굴리는 코루틴
+        private IEnumerator SetDiceValue(float time, Action<int> callback)
+        {
+            diceBtn.interactable = false;
+            diceValueTxt.text = "주사위를 굴리는 중.";
+            yield return new WaitForSeconds(time);
+            diceValueTxt.text = "주사위를 굴리는 중..";
+            yield return new WaitForSeconds(time);
+            diceValueTxt.text = "주사위를 굴리는 중...";
+            yield return new WaitForSeconds(time);
+
+            int diceValue = Random.Range(1, 7);
+            diceValueTxt.text = diceValue.ToString();
+            diceBtn.interactable = true;
+            diceBtn.GetComponentInChildren<Text>().text = "확인";
+
+            callback(diceValue);
         }
     }
 }

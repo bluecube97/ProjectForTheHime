@@ -25,8 +25,14 @@
 					<li><button type="button" class="menu-btn" id="data-menu">데이터센터</button></li>
 					<li><button type="button" class="menu-btn" id="aipick-menu">AI'sPick</button></li>
 					<li><button type="button" class="menu-btn" id="board-menu">게시판</button></li>
-					<li><button type="button" class="menu-btn" id="minigame-menu" onclick="startUnity()">미니게임</button></li>
-				</ul>
+					<c:choose>
+						<c:when test="${empty sessionScope.userInfo}">
+							<button type="button" class="menu-btn" id="minigame-menu" onclick="loginPlz()">미니게임</button>
+						</c:when>
+						<c:otherwise>
+							<button type="button" class="menu-btn" id="minigame-menu" onclick="startUnity()">미니게임</button>
+						</c:otherwise>
+					</c:choose>				</ul>
 			</div>
 		</nav>
 		<div class="auth-buttons">

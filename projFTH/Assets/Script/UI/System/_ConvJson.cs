@@ -1,6 +1,8 @@
 using Newtonsoft.Json;
+using Script.UI.StartLevel.Dao;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
@@ -16,6 +18,9 @@ namespace Script.UI.System
     {
         public InputField inputDataField; // Inspector에서 할당
         public Text outputDataText; // Inspector에서 할당
+        private StartLevelDao _sld; // StartLevelDao를 사용하기 위한 변수
+        private Dictionary<string, object> userinfo = new();//chatLog를 DB에 올리기 위한 userinfo를 담음
+        private Dictionary<string, object> chatlog = new();//채팅로그를 담음
 
         // JSON 직렬화를 위한 클래스
         [global::System.Serializable]
@@ -86,6 +91,7 @@ namespace Script.UI.System
                         using (StreamReader sr = new(process.StandardOutput.BaseStream, Encoding.UTF8))
                         {
                             string output = sr.ReadToEnd();
+
                             Debug.Log("Received Raw Data: " + output); // 받은 데이터 로깅
                             try
                             {
@@ -106,7 +112,7 @@ namespace Script.UI.System
                                 outputDataText.text = dummyResponse[randomIndex];
                             }
                         }
-
+                      
                         process.WaitForExit();
                         process.Close();
                     }
