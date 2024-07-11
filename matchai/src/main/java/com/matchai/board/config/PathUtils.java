@@ -23,7 +23,7 @@ public class PathUtils {
     @Value("${file.kbo-result-py-path}")
     private String kboResultPyPath;
     
-    @Value("${file.gpt-exepect-py-path")
+    @Value("${file.gpt-exepect-py-path}")
     private String gptExepectPyPath;
     
     // 게터 세터 생성. 혹은 lombok사용

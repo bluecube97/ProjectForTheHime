@@ -36,4 +36,15 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.mlbMatchList();
 	}
 
+	@Override
+	public HashMap<String, Object> fetchGameData(String teamCode1, String teamCode2) {
+		HashMap<String, Object> params = new HashMap<>();
+		params.put("teamCode1", teamCode1);
+		params.put("teamCode2", teamCode2);
+		System.out.println("서비스임플"+params);
+		return boardDao.getGameData(params);
+	}
+
+
+	
 }

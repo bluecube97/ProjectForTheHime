@@ -67,8 +67,8 @@
 						<label for="league">리그 목록</label>
 						<select id="league" class="league" name="league" onchange="getTeams(this.value)">
 							<option value="KB">KBO</option>
-							<option value="AL">AL</option>
-							<option value="NL">NL</option>
+							<option value="AL">AL(American League)</option>
+							<option value="NL">NL(National League)</option>
 						</select>
 					</div>
 					<div class="dual-list-container">

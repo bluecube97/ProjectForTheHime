@@ -558,3 +558,14 @@ main {
 	flex: 1;
 	max-width: 50%;
 }
+
+#teamScores{
+	font-family: 'Pretendard-Regular';
+	margin-top: 30px;
+}
+
+#exepect-warning{
+	margin-top: 30px;
+	font-size: 13px;
+	font: bolder;
+}

@@ -45,4 +45,8 @@ public class ApiCombinedService {
     public String getKboResultPyPath() {
         return pathUtils.getKboResultPyPath();
     }
+    
+    public String getGptExepectPyPath() {
+    	return pathUtils.getGptExepectPyPath();
+    }
 }
