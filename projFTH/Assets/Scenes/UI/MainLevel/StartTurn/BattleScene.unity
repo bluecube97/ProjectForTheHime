@@ -507,9 +507,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94ae7c4da0b248c09e4a46a8937d4dd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groundUI: {fileID: 410525098}
   speed: 30
   targetPosition: {x: 0, y: 0, z: 0}
   player: {fileID: 161005689}
+  isMoving: 0
 --- !u!54 &161005695
 Rigidbody:
   m_ObjectHideFlags: 0

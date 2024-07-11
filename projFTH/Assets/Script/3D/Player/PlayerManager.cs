@@ -1,17 +1,32 @@
 using Script._3D.UI;
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Script._3D.Player
 {
     public class PlayerManager : MonoBehaviour
     {
+        public GroundUI groundUI;
+
         public float speed; // 이동속도
         public Vector3 targetPosition; // 이동 할 목표 좌표
         public GameObject player;
         private PositionComponentVo _playerPositionComponent;
 
-        public int moveCnt = 0; // 이동 가능 횟수
+        public bool isMoving; // 이동중인지 여부
+
+        public static int MoveCnt { get; private set; } = 0;
+
+        public void ChangeMoveCnt(int value)
+        {
+            MoveCnt = value;
+            if (MoveCnt == 0) // moveCnt가 0이 되는 순간 감지
+            {
+                groundUI.DicePhase(); // instance는 PlayerManager의 인스턴스를 가리킵니다.
+            }
+        }
+
 
         private void Start()
         {
@@ -48,11 +63,20 @@ namespace Script._3D.Player
                     direction = targetZ > playerZ ? Vector3.forward.normalized : Vector3.back.normalized;
                     transform.Translate(direction * (Time.deltaTime * speed), Space.World);
                 }
+
                 // 목적지에 근접하면 이동을 멈추고, PositionComponentVo에 좌표 입력
-                else if (IsAtTargetPositionX() && IsAtTargetPositionZ())
+                if (IsAtTargetPositionX() && IsAtTargetPositionZ())
                 {
                     _playerPositionComponent.posX = Convert.ToInt32(targetPosition.x / 5.5f);
                     _playerPositionComponent.posZ = Convert.ToInt32(-targetPosition.z / 5.5f);
+                    if (isMoving)
+                    {
+                        isMoving = false;
+                    }
+                }
+                else
+                {
+                    isMoving = true;
                 }
             }
             // Z축 거리가 짧을 경우

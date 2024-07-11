@@ -9,6 +9,8 @@ namespace Script._3D.UI
 {
     public class GroundUI : MonoBehaviour
     {
+        private PlayerManager _pm;
+
         public GameObject placeBtn;
         public GameObject placeBtnLayout;
         public GameObject placeBtnInstance;
@@ -61,6 +63,7 @@ namespace Script._3D.UI
 
         private void Start()
         {
+            _pm = player.GetComponent<PlayerManager>();
             // 주사위 페이즈 시작
             DicePhase();
         }
@@ -86,6 +89,12 @@ namespace Script._3D.UI
             int btnX = button.GetComponent<PositionComponentVo>().posX;
             int btnZ = button.GetComponent<PositionComponentVo>().posZ;
 
+            // 이동 거리 계산
+            int distance = CalcDistance(btnX, btnZ);
+
+            _pm.ChangeMoveCnt(PlayerManager.MoveCnt - distance);
+            Debug.Log("MoveCnt: " + PlayerManager.MoveCnt);
+
             player.GetComponent<PlayerManager>().targetPosition = new Vector3(btnX * 5.5f, 1.1f, btnZ * -5.5f);
         }
         // blur 비활성화
@@ -101,7 +110,7 @@ namespace Script._3D.UI
             _blur.downsample = 1;
         }
         // 주사위 페이즈
-        private void DicePhase()
+        public void DicePhase()
         {
             _diceValue = 1;
             EnableBlur();
@@ -116,6 +125,13 @@ namespace Script._3D.UI
             DisableBlur();
             uiCanvas.SetActive(false);
         }
+
+        private int CalcDistance(int btnX, int btnZ)
+        {
+            return Mathf.Abs(btnX - player.GetComponent<PositionComponentVo>().posX) +
+                   Mathf.Abs(btnZ - player.GetComponent<PositionComponentVo>().posZ);
+        }
+
         // 주사위 굴리기 버튼 클릭 시 호출
         public void OnClickDiceBtn(Button button)
         {
@@ -145,6 +161,7 @@ namespace Script._3D.UI
 
             int diceValue = Random.Range(1, 7);
             diceValueTxt.text = diceValue.ToString();
+            _pm.ChangeMoveCnt(diceValue);
             diceBtn.interactable = true;
             diceBtn.GetComponentInChildren<Text>().text = "확인";
 
