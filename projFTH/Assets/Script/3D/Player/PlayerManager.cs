@@ -1,4 +1,5 @@
 using Script._3D.UI;
+using System;
 using UnityEngine;
 
 namespace Script._3D.Player
@@ -8,18 +9,19 @@ namespace Script._3D.Player
         public float speed; // 이동속도
         public Vector3 targetPosition; // 이동 할 목표 좌표
         public GameObject player;
+        private PositionComponentVo _playerPositionComponent;
+
+        public int moveCnt = 0; // 이동 가능 횟수
 
         private void Start()
         {
             // 플레이어의 초기 위치를 목적지로 설정
             targetPosition = transform.position;
+            _playerPositionComponent = player.GetComponent<PositionComponentVo>();
         }
 
         private void Update()
         {
-            // 목적지에 근접하면 이동을 멈춤
-            if (IsAtTargetPositionX() && IsAtTargetPositionZ()) return;
-            
             // 플레이어 목표 좌표 설정
             float targetX = targetPosition.x;
             float targetZ = targetPosition.z;
@@ -46,6 +48,12 @@ namespace Script._3D.Player
                     direction = targetZ > playerZ ? Vector3.forward.normalized : Vector3.back.normalized;
                     transform.Translate(direction * (Time.deltaTime * speed), Space.World);
                 }
+                // 목적지에 근접하면 이동을 멈추고, PositionComponentVo에 좌표 입력
+                else if (IsAtTargetPositionX() && IsAtTargetPositionZ())
+                {
+                    _playerPositionComponent.posX = Convert.ToInt32(targetPosition.x / 5.5f);
+                    _playerPositionComponent.posZ = Convert.ToInt32(-targetPosition.z / 5.5f);
+                }
             }
             // Z축 거리가 짧을 경우
             else
@@ -61,6 +69,12 @@ namespace Script._3D.Player
                 {
                     direction = targetX > playerX ? Vector3.right.normalized : Vector3.left.normalized;
                     transform.Translate(direction * (Time.deltaTime * speed), Space.World);
+                }
+                // 목적지에 근접하면 이동을 멈추고, PositionComponentVo에 좌표 입력
+                else if (IsAtTargetPositionX() && IsAtTargetPositionZ())
+                {
+                    _playerPositionComponent.posX = Convert.ToInt32(targetPosition.x / 5.5f);
+                    _playerPositionComponent.posZ = Convert.ToInt32(-targetPosition.z / 5.5f);
                 }
             }
         }

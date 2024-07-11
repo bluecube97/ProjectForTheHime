@@ -1,3 +1,4 @@
+using Script._3D.Player;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -53,7 +54,7 @@ namespace Script._3D.UI
 
             Vector3 startPosition = new(playerPositionComponent.posX * 5.5f, 1.1f, playerPositionComponent.posZ * -5.5f);
             player.transform.position = startPosition;
-            player.GetComponent<Player.PlayerManager>().targetPosition = startPosition;
+            player.GetComponent<PlayerManager>().targetPosition = startPosition;
 
             _blur = cam.GetComponent<SuperBlur.SuperBlur>();
         }
@@ -64,10 +65,19 @@ namespace Script._3D.UI
             DicePhase();
         }
 
-        private void Update()
+        private void SetPlaceBtnDistance()
         {
-            if (_diceValue != 0) return;
-            DicePhase();
+            foreach (Transform child in placeBtnLayout.transform)
+            {
+                PositionComponentVo positionComponent = child.GetComponent<PositionComponentVo>();
+                if (positionComponent == null) continue;
+
+                int distanceX = Mathf.Abs(positionComponent.posX - player.GetComponent<PositionComponentVo>().posX);
+                int distanceZ = Mathf.Abs(positionComponent.posZ - player.GetComponent<PositionComponentVo>().posZ);
+
+                Text childTxt = child.GetComponentInChildren<Text>();
+                childTxt.text = Convert.ToString(distanceX + distanceZ);
+            }
         }
 
         // 땅 버튼 클릭시 호출
@@ -76,7 +86,7 @@ namespace Script._3D.UI
             int btnX = button.GetComponent<PositionComponentVo>().posX;
             int btnZ = button.GetComponent<PositionComponentVo>().posZ;
 
-            player.GetComponent<Player.PlayerManager>().targetPosition = new Vector3(btnX * 5.5f, 1.1f, btnZ * -5.5f);
+            player.GetComponent<PlayerManager>().targetPosition = new Vector3(btnX * 5.5f, 1.1f, btnZ * -5.5f);
         }
         // blur 비활성화
         private void DisableBlur()
@@ -93,9 +103,12 @@ namespace Script._3D.UI
         // 주사위 페이즈
         private void DicePhase()
         {
+            _diceValue = 1;
             EnableBlur();
             uiCanvas.SetActive(true);
             diceValueTxt.text = "";
+
+            SetPlaceBtnDistance();
         }
         // 이동 페이즈
         private void MovePhase()
