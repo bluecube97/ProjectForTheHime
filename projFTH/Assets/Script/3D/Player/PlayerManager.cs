@@ -7,7 +7,7 @@ namespace Script._3D.Player
 {
     public class PlayerManager : MonoBehaviour
     {
-        public GroundUI groundUI;
+        private GroundUI _groundUI;
 
         public float speed; // 이동속도
         public Vector3 targetPosition; // 이동 할 목표 좌표
@@ -16,20 +16,12 @@ namespace Script._3D.Player
 
         public bool isMoving; // 이동중인지 여부
 
-        public static int MoveCnt { get; private set; } = 0;
-
-        public void ChangeMoveCnt(int value)
-        {
-            MoveCnt = value;
-            if (MoveCnt == 0) // moveCnt가 0이 되는 순간 감지
-            {
-                groundUI.DicePhase(); // instance는 PlayerManager의 인스턴스를 가리킵니다.
-            }
-        }
-
+        public int MoveCnt { get; set; }
 
         private void Start()
         {
+            _groundUI = FindObjectOfType<GroundUI>();
+            MoveCnt = 0;
             // 플레이어의 초기 위치를 목적지로 설정
             targetPosition = transform.position;
             _playerPositionComponent = player.GetComponent<PositionComponentVo>();
@@ -63,16 +55,17 @@ namespace Script._3D.Player
                     direction = targetZ > playerZ ? Vector3.forward.normalized : Vector3.back.normalized;
                     transform.Translate(direction * (Time.deltaTime * speed), Space.World);
                 }
-
                 // 목적지에 근접하면 이동을 멈추고, PositionComponentVo에 좌표 입력
                 if (IsAtTargetPositionX() && IsAtTargetPositionZ())
                 {
                     _playerPositionComponent.posX = Convert.ToInt32(targetPosition.x / 5.5f);
                     _playerPositionComponent.posZ = Convert.ToInt32(-targetPosition.z / 5.5f);
-                    if (isMoving)
-                    {
-                        isMoving = false;
-                    }
+
+                    _groundUI.SetPlaceBtnDistance();
+
+                    if (!isMoving) return; // 이동 중이었다면
+                    isMoving = false; // 이동 상태 업데이트
+                    if (MoveCnt == 0) _groundUI.DicePhase(); // MoveCnt가 0이면 DicePhase 호출
                 }
                 else
                 {
@@ -95,10 +88,19 @@ namespace Script._3D.Player
                     transform.Translate(direction * (Time.deltaTime * speed), Space.World);
                 }
                 // 목적지에 근접하면 이동을 멈추고, PositionComponentVo에 좌표 입력
-                else if (IsAtTargetPositionX() && IsAtTargetPositionZ())
+                if (IsAtTargetPositionX() && IsAtTargetPositionZ())
                 {
                     _playerPositionComponent.posX = Convert.ToInt32(targetPosition.x / 5.5f);
                     _playerPositionComponent.posZ = Convert.ToInt32(-targetPosition.z / 5.5f);
+                    _groundUI.SetPlaceBtnDistance();
+
+                    if (!isMoving) return; // 이동 중이었다면
+                    isMoving = false; // 이동 상태 업데이트
+                    if (MoveCnt == 0) _groundUI.DicePhase(); // MoveCnt가 0이면 DicePhase 호출
+                }
+                else
+                {
+                    isMoving = true;
                 }
             }
         }

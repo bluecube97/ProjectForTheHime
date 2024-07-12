@@ -2,6 +2,7 @@ using Script._3D.Player;
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -26,7 +27,9 @@ namespace Script._3D.UI
         public GameObject uiCanvas; // UI 캔버스
         public Button diceBtn; // 주사위 버튼
         public Text diceValueTxt; // 주사위 값 텍스트
-        private int _diceValue; // 주사위 값
+
+        public int DiceValue { get; set; } // 주사위 값
+        public int Distance { get; set; } // 이동 거리
 
         // protected: 상속받은 클래스에서만 접근 가능
         // virtual: 상속받은 클래스에서 재정의 가능
@@ -54,7 +57,8 @@ namespace Script._3D.UI
             playerPositionComponent.posX = startPlayerPosX;
             playerPositionComponent.posZ = startPlayerPosZ;
 
-            Vector3 startPosition = new(playerPositionComponent.posX * 5.5f, 1.1f, playerPositionComponent.posZ * -5.5f);
+            Vector3 startPosition =
+                new(playerPositionComponent.posX * 5.5f, 1.1f, playerPositionComponent.posZ * -5.5f);
             player.transform.position = startPosition;
             player.GetComponent<PlayerManager>().targetPosition = startPosition;
 
@@ -68,7 +72,7 @@ namespace Script._3D.UI
             DicePhase();
         }
 
-        private void SetPlaceBtnDistance()
+        public void SetPlaceBtnDistance()
         {
             foreach (Transform child in placeBtnLayout.transform)
             {
@@ -77,9 +81,19 @@ namespace Script._3D.UI
 
                 int distanceX = Mathf.Abs(positionComponent.posX - player.GetComponent<PositionComponentVo>().posX);
                 int distanceZ = Mathf.Abs(positionComponent.posZ - player.GetComponent<PositionComponentVo>().posZ);
+                int distance = distanceX + distanceZ;
 
                 Text childTxt = child.GetComponentInChildren<Text>();
-                childTxt.text = Convert.ToString(distanceX + distanceZ);
+                if (distance <= _pm.MoveCnt && !positionComponent.isBlock)
+                {
+                    child.GetComponent<Button>().interactable = true;
+                    childTxt.text = Convert.ToString(distance);
+                }
+                else
+                {
+                    child.GetComponent<Button>().interactable = false;
+                    childTxt.text = "";
+                }
             }
         }
 
@@ -90,35 +104,37 @@ namespace Script._3D.UI
             int btnZ = button.GetComponent<PositionComponentVo>().posZ;
 
             // 이동 거리 계산
-            int distance = CalcDistance(btnX, btnZ);
+            Distance = CalcDistance(btnX, btnZ);
 
-            _pm.ChangeMoveCnt(PlayerManager.MoveCnt - distance);
-            Debug.Log("MoveCnt: " + PlayerManager.MoveCnt);
+            _pm.MoveCnt -= Distance;
+            Debug.Log("MoveCnt: " + _pm.MoveCnt);
 
             player.GetComponent<PlayerManager>().targetPosition = new Vector3(btnX * 5.5f, 1.1f, btnZ * -5.5f);
         }
+
         // blur 비활성화
         private void DisableBlur()
         {
             _blur.interpolation = 0;
             _blur.downsample = 0;
         }
+
         // blur 활성화
         private void EnableBlur()
         {
             _blur.interpolation = 0.8f;
             _blur.downsample = 1;
         }
+
         // 주사위 페이즈
         public void DicePhase()
         {
-            _diceValue = 1;
+            DiceValue = 1;
             EnableBlur();
             uiCanvas.SetActive(true);
             diceValueTxt.text = "";
-
-            SetPlaceBtnDistance();
         }
+
         // 이동 페이즈
         private void MovePhase()
         {
@@ -144,10 +160,11 @@ namespace Script._3D.UI
             {
                 StartCoroutine(SetDiceValue(0.2f, callback =>
                 {
-                    _diceValue = callback;
+                    DiceValue = callback;
                 }));
             }
         }
+
         // 주사위를 굴리는 코루틴
         private IEnumerator SetDiceValue(float time, Action<int> callback)
         {
@@ -161,7 +178,7 @@ namespace Script._3D.UI
 
             int diceValue = Random.Range(1, 7);
             diceValueTxt.text = diceValue.ToString();
-            _pm.ChangeMoveCnt(diceValue);
+            _pm.MoveCnt = diceValue;
             diceBtn.interactable = true;
             diceBtn.GetComponentInChildren<Text>().text = "확인";
 

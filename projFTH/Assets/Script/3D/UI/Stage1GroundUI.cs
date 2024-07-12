@@ -23,7 +23,7 @@ namespace Script._3D.UI
 
                 if (!_blockedPosition.Contains(new Vector2Int(positionComponent.posX, positionComponent.posZ))) continue;
                 positionComponent.isBlock = true;
-                positionComponent.GetComponentInChildren<Text>().text += "\nBlock";
+                child.GetComponent<Image>().color = Color.red;
                 positionComponent.GetComponent<Button>().interactable = false;
             }
         }
