@@ -91,7 +91,6 @@ namespace Script.UI.System
                 Debug.LogError("Error: " + request.error);
             }
            
-            StartCoroutine(_sld.SetChatLog(chatlog));
 
         }
 

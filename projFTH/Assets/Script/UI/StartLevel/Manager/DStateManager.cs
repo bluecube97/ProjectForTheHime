@@ -3,6 +3,7 @@ using Script.UI.StartLevel.Dao;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -156,7 +157,12 @@ namespace Script.UI.StartLevel.Manager
         // 버튼 클릭 시 딸 초기 스탯(이름,MBTI) 로그  확인 
         public void LogMBTI()
         {
+            // 입력 필드에서 딸의 이름을 가져옴
             string DaughterName = inputDaughterNameField.text;
+            
+            // 스페이스바와 특수 문자를 제외한 이름 생성
+            DaughterName = Regex.Replace(DaughterName, @"[\s\W]", "");
+
             mbti = m + b + t + i;
 
             var json = new JObject(); 

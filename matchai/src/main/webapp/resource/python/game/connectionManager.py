@@ -61,11 +61,12 @@ def extract_and_save_updated_status(daughter_reply, d):
         stat_str_ = json.loads(stat_str)
 
         d.name = stat_str_["daughter"]["name"]
-        d.sex = stat_str_["daughter"]["sex"]
         d.age = stat_str_["daughter"]["age"]
+        d.sex = stat_str_["daughter"]["sex"]
         d.mbti = stat_str_["daughter"]["mbti"]
         d.hp = stat_str_["daughter"]["hp"]
         d.mp = stat_str_["daughter"]["mp"]
+        d.mood = stat_str_["daughter"]["mood"]
         d.stress = stat_str_["daughter"]["stress"]
         d.fatigue = stat_str_["daughter"]["fatigue"]
         d.E = stat_str_["daughter"]["E"]
@@ -80,11 +81,12 @@ def extract_and_save_updated_status(daughter_reply, d):
         present_status = {
             "daughter": {
                 "name": d.name,
-                "sex": d.sex,
                 "age": d.age,
+                "sex": d.sex,
                 "mbti": d.mbti,
                 "hp": d.hp,
                 "mp": d.mp,
+                "mood": d.mood,
                 "stress": d.stress,
                 "fatigue": d.fatigue,
                 "E": d.E,
@@ -154,7 +156,7 @@ def ConnectionGpt(d_stat, set_d):
 
     stat_json = {
         "daughter": {
-            "name": "더조은",
+            "name": "name",
             "age": "20",
             "sex": "female",
             "mbti": "ISFJ",

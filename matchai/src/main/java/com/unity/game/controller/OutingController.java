@@ -1,5 +1,6 @@
 package com.unity.game.controller;
 
+import com.unity.game.service.InventoryService;
 import com.unity.game.service.OutingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,8 @@ public class OutingController {
     @Autowired
     private OutingService outingService;
 
+    @Autowired
+    private InventoryService inventoryService;
 
     //옷 제작 목록 들고옴
     @GetMapping("/clothing/list")
@@ -74,6 +77,8 @@ public class OutingController {
         map.put("payment", payment);
         map.put("maxhp", maxhp);
         outingService.setafterHeal(map);
+        inventoryService.Setpayment(map);
+
     }
 
 }

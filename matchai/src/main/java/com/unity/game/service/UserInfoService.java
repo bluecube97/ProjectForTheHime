@@ -12,5 +12,4 @@ public interface UserInfoService {
 
     void setDstate(HashMap<String, Object> dstats);
 
-    void setChatLong(HashMap<String, Object> map);
 }
