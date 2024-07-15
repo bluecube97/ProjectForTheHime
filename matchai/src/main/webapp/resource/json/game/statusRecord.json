@@ -1,20 +1,21 @@
 {
     "daughter": {
-        "name": "유리",
-        "sex": "female",
+        "name": "asdasd",
         "age": "10",
-        "mbti": "INTJ",
-        "hp": 100,
+        "sex": "female",
+        "mbti": "INFP",
+        "hp": 40,
         "mp": 100,
-        "stress": "normal",
+        "mood": "happiness",
+        "stress": "high",
         "fatigue": "tired",
-        "E": 40,
-        "I": 60,
-        "S": 20,
-        "N": 80,
-        "T": 80,
-        "F": 20,
-        "J": 60,
-        "P": 40
+        "E": 0,
+        "I": 100,
+        "S": 0,
+        "N": 100,
+        "T": 0,
+        "F": 100,
+        "J": 0,
+        "P": 100
     }
 }

@@ -201,7 +201,7 @@ namespace Script.UI.StartLevel.Dao
             }
         }
 
-        public IEnumerator SetChatLog(Dictionary<string, object> chatlog)
+        /*public IEnumerator SetChatLog(Dictionary<string, object> chatlog)
         {
             string url = "http://localhost:8080/api/user/log";
             Debug.Log("유저 정보 : "+chatlog["pid"].ToString());
@@ -222,6 +222,7 @@ namespace Script.UI.StartLevel.Dao
                 {
                     Debug.LogError("Error: " + request.error);
                 }
-            }        }
+            }        
+        }*/
     }
 }

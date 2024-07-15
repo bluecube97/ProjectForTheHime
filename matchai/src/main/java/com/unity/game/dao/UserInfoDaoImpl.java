@@ -36,9 +36,4 @@ public class UserInfoDaoImpl implements UserInfoDao {
 
     }
 
-    @Override
-    public void setChatLong(HashMap<String, Object> map) {
-        userInfoMapper.setChatLong(map);
-
-    }
 }

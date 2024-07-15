@@ -62,13 +62,4 @@ public class UserInfoController {
        userInfoService.setDstate(dstats);
     }
 
-    @PostMapping("/log")
-    private void SetChatLong(@RequestParam String pid, @RequestParam String userment, @RequestParam String gptment){
-      HashMap<String,Object> map = new HashMap<>();
-      map.put("pid",pid);
-      map.put("userment",userment);
-      map.put("gptment",gptment);
-        userInfoService.setChatLong(map);
-
-    }
 }

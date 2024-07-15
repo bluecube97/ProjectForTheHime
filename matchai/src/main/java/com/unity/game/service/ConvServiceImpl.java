@@ -20,4 +20,21 @@ public class ConvServiceImpl implements ConvService {
         String jsonPath = servletContext.getRealPath("/resource/json/game/conversation.json");
         return convDao.getConv(scriptPath, userConv, jsonPath);
     }
+
+    @Override
+    public String loadGame(String pid) {
+        String scriptPath = servletContext.getRealPath("/resource/python/game/load.py");
+        String dstatusjson = servletContext.getRealPath("/resource/json/game/conversation.json");
+        String chatjson = servletContext.getRealPath("/resource/json/game/conversation.json");
+
+        return convDao.loadGame(scriptPath, pid,dstatusjson,chatjson);
+
+    }
+
+    @Override
+    public String saveGame(String pid) {
+        String scriptPath = servletContext.getRealPath("/resource/python/game/save.py");
+        return convDao.saveGame(scriptPath,pid);
+
+    }
 }

@@ -12,6 +12,7 @@ namespace Script.UI.System
         public GameObject escMenuBackGround; // 설정 패널 오브젝트
         private bool _settingActive; // 설정 화면 활성화 여부
 
+        private SaveLoadDao sld;
         // 싱글톤 패턴을 사용하여 ESC 메뉴 인스턴스를 가져오는 속성
         public static EscMenuManager Instance
         {
@@ -42,6 +43,7 @@ namespace Script.UI.System
         {
             // 게임 시작 시 설정 패널을 비활성화
             escMenuBackGround.SetActive(false);
+            sld = GetComponent<SaveLoadDao>();
         }
 
         private void Update()
@@ -69,10 +71,17 @@ namespace Script.UI.System
         {
             Debug.Log("설정창 열림");
         }
+        public void OnClickSave()
+        {
+            Debug.Log("저장창 열림");
+            StartCoroutine(sld.SaveGame());
+
+        }
 
         public void OnClickLoad()
         {
             Debug.Log("로드씬 열림");
+            StartCoroutine(sld.LoadGame());
         }
 
         public void OnClickExitGame()

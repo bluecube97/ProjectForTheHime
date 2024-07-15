@@ -1,4 +1,5 @@
 using Script.UI.StartLevel.Dao;
+using Script.UI.System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -10,11 +11,15 @@ namespace Script.UI.StartLevel.Manager
     public class MainMenuManager : MonoBehaviour
     {
         private StartLevelDao _sld; // StartLevelDao를 사용하기 위한 변수
+        private SaveLoadDao sld;//SaveLoad를 사용하기 위한 변수
+
         private Dictionary<string, object> userinfo = new Dictionary<string, object>();
 
         public void Awake()
         {
             _sld = GetComponent<StartLevelDao>();
+            sld = GetComponent<SaveLoadDao>();
+
         }
         
         
@@ -29,6 +34,8 @@ namespace Script.UI.StartLevel.Manager
         public void OnClickLoadStart()
         {
             StartCoroutine(OnClickLoadStartCoroutine());
+            StartCoroutine(sld.LoadGame());
+
         }
         private IEnumerator  OnClickLoadStartCoroutine()
         {
