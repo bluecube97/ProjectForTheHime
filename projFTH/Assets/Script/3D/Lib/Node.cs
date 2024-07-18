@@ -19,6 +19,7 @@ namespace Script._3D.Lib
             PositionComponent = positionComponent;
             Distance = int.MaxValue;
             Visited = false;
+            Previous = null;
             Neighbors = new List<Node>();
         }
     }

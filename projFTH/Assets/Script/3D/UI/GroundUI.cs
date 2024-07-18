@@ -74,6 +74,9 @@ namespace Script._3D.UI
                 positionComponent.posZ = (i / linePlaceBtnCnt) - (linePlaceBtnCnt / 2);
                 Text placeBtnTxtComponent = placeBtnInstance.GetComponentInChildren<Text>();
                 placeBtnTxtComponent.text = positionComponent.posX + ", " + positionComponent.posZ;
+
+                // 노드에 PositionComponentVo 연결
+                _nodes[positionComponent.posX + linePlaceBtnCnt / 2, positionComponent.posZ + linePlaceBtnCnt / 2].PositionComponent = positionComponent;
             }
 
             placeBtn.SetActive(false);
@@ -202,7 +205,7 @@ namespace Script._3D.UI
 
                 foreach (Node neighbor in current.Neighbors)
                 {
-                    if (neighbor == null || neighbor.Visited) continue;
+                    if (neighbor == null || neighbor.Visited || (neighbor.PositionComponent != null && neighbor.PositionComponent.isBlock)) continue;
                     int tentativeDistance = current.Distance + 1; // Assuming each edge has weight 1
                     if (tentativeDistance >= neighbor.Distance) continue;
 

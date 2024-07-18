@@ -63,7 +63,7 @@ namespace Script._3D.Player
             for (int i = 1; i < _path.Count; i++) // 첫 번째 노드는 건너뜁니다.
             {
                 Node node = _path[i];
-                Vector3 targetPosition = new(node.Position.x * 5.5f, transform.position.y, node.Position.y * -5.5f);
+                Vector3 targetPosition = new Vector3(node.Position.x * 5.5f, transform.position.y, node.Position.y * -5.5f);
                 while (Vector3.Distance(transform.position, targetPosition) > 0.1f)
                 {
                     transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
@@ -72,8 +72,8 @@ namespace Script._3D.Player
             }
 
             // 위치 업데이트
-            _playerPositionComponent.posX = _path[^1].Position.x;
-            _playerPositionComponent.posZ = _path[^1].Position.y;
+            _playerPositionComponent.posX = _path[_path.Count - 1].Position.x;
+            _playerPositionComponent.posZ = _path[_path.Count - 1].Position.y;
 
             isMoving = false;
             _path = null; // 경로 초기화
