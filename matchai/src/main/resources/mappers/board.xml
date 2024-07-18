@@ -6,10 +6,9 @@
 <mapper namespace="com.matchai.board.mapper.BoardMapper">
 	<!-- kbo 당일 경기 개수 확인 -->
 	<select id="kboCnt" resultType="Integer">
-		SELECT COUNT(tkt.DATE) 
-		FROM TBL_KBOSCHEDULE_TTP tkt
-		<!-- WHERE tkt.DATE = '2024-07-02'; 데이터 없어서 날자 지정해놓음, 수정되면 아래 줄로 수정 -->
-		WHERE tkt.DATE = CURDATE();<!-- -->
+		SELECT COUNT(tkt.game_date) 
+		  FROM tbl_kboschedule_ttp tkt
+		 WHERE tkt.game_date = current_date::text;
 	</select>
 	
 	<!-- mlb 당일 경기 개수 확인 -->
