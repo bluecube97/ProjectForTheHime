@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
@@ -69,6 +70,7 @@ public class BoardController {
 		return "game";
 	}
 
+	// modal에서 페이지 이동으로 수정해서 틀만 많들어놔서 쓰지 않았음
     @PostMapping("/fetchGameData")
     @ResponseBody
     public HashMap<String, Object> fetchGameData(@RequestBody HashMap<String, String> request) {
@@ -85,7 +87,42 @@ public class BoardController {
         
         return gameData;
     }
-    
+
+	@GetMapping("/gameanalysis")
+	public ModelAndView gameAnalysis(HttpServletRequest req, ModelAndView mv, @RequestParam(name = "team1") String team1Code,
+            @RequestParam(name = "team2") String team2Code) {
+		
+	    // team1과 team2 파라미터 값 확인
+	    System.out.println("Team1: " + team1Code);
+	    System.out.println("Team2: " + team2Code);
+	    
+	    // 게임 데이터 조회
+	    HashMap<String, Object> gameData = boardsvc.fetchGameData(team1Code, team2Code);
+	    System.out.println("GameData: " + gameData);
+
+	    // 게임 데이터가 없을 경우 404 에러 처리
+	    if (gameData == null || gameData.isEmpty()) {
+	        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game data not found");
+	    }
+	    
+	    /*
+	     * 아직 차트에 데이터 넣기는 실패..
+	     * */
+	    
+		// KBO 경기 목록 들고오기
+		List<HashMap<String, Object>> kboList = boardsvc.kboMatchList();
+
+		// MLB 경기 목록 들고오기
+		List<HashMap<String, Object>> mlbList = boardsvc.mlbMatchList();
+		
+	    // gameAnalysis.jsp에 데이터 전달
+		mv.addObject("klist", kboList);
+		mv.addObject("mlist", mlbList);
+		mv.setViewName("gameanalysis");
+
+		return mv;
+	}
+
 	@GetMapping("/resource/Build/UnityBuilder.framework.js.gz")
 	@ResponseBody
 	public ResponseEntity<ClassPathResource> getCompressedFile() throws IOException {
