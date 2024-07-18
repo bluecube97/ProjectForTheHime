@@ -79,6 +79,3 @@ crashlytics-build.properties
 matchai/src/main/webapp/resource/Build/
 matchai/src/main/webapp/resource/TemplateData/
 
-# ignore pom.xml
-matchai/pom.xml
-
