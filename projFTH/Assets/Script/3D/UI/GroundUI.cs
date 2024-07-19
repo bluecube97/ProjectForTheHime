@@ -1,5 +1,6 @@
 using Script._3D.Lib;
 using Script._3D.Player;
+using Script.Library;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -146,13 +147,12 @@ namespace Script._3D.UI
             }
 
             start.Distance = 0;
-            List<Node> queue = new List<Node> { start };
+            PriorityQueue<Node> queue = new PriorityQueue<Node>();
+            queue.Enqueue(start, start.Distance);
 
             while (queue.Count > 0)
             {
-                queue.Sort((node1, node2) => node1.Distance.CompareTo(node2.Distance));
-                Node current = queue[0];
-                queue.RemoveAt(0);
+                Node current = queue.Dequeue();
                 current.Visited = true;
 
                 if (current == target)
@@ -168,7 +168,7 @@ namespace Script._3D.UI
                     {
                         neighbor.Distance = tentativeDistance;
                         neighbor.Previous = current;
-                        if (!queue.Contains(neighbor)) queue.Add(neighbor);
+                        queue.Enqueue(neighbor, neighbor.Distance);
                     }
                 }
             }
@@ -229,13 +229,12 @@ namespace Script._3D.UI
             }
 
             start.Distance = 0;
-            List<Node> queue = new List<Node> { start };
+            PriorityQueue<Node> queue = new PriorityQueue<Node>();
+            queue.Enqueue(start, start.Distance);
 
             while (queue.Count > 0)
             {
-                queue.Sort((node1, node2) => node1.Distance.CompareTo(node2.Distance));
-                Node current = queue[0];
-                queue.RemoveAt(0);
+                Node current = queue.Dequeue();
                 current.Visited = true;
 
                 Debug.Log("current: " + current.Position);
@@ -261,7 +260,7 @@ namespace Script._3D.UI
 
                     neighbor.Distance = tentativeDistance;
                     neighbor.Previous = current;
-                    if (!queue.Contains(neighbor)) queue.Add(neighbor);
+                    queue.Enqueue(neighbor, neighbor.Distance);
                 }
             }
 

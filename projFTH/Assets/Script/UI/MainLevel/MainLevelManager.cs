@@ -13,6 +13,8 @@ namespace Script.UI.MainLevel
         {
             // 토큰을 가져옵니다.
             GetToken();
+            // 게임의 전체 프레임 레이트를 설정
+            Application.targetFrameRate = 60; // 60 FPS로 설정
         }
 
         private void GetToken()
