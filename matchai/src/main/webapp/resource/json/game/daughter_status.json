@@ -1,7 +1,7 @@
 {
     "daughter": {
         "name": "세종이요",
-        "age": "10",
+        "age": 10,
         "sex": "female",
         "mbti": "INFP",
         "hp": 40,
