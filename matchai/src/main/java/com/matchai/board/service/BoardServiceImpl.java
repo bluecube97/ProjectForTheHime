@@ -50,5 +50,15 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.aiData(matchcode);
 	}
 
+	@Override
+	public int searchBoard(String matchcode) {
+		return boardDao.searchBoard(matchcode);
+	}
+
+	@Override
+	public void insertAiData(HashMap<String, Object> aiData) {
+		boardDao.insertAiData(aiData);
+	}
+
 
 }

@@ -91,4 +91,16 @@
 		ORDER BY tgt.team1 -- 여기서 원하는 컬럼으로 정렬
 		LIMIT 1;
 	</select>
+
+	<select id="searchBoard" parameterType="string" resultType="integer">
+		select count(*)
+		  from tbl_board_nt01 tbn
+		where tbn.match_code = #{matchcode}
+	</select>
+
+	<insert id="insertAiData" parameterType="hashmap">
+		insert into tbl_board_nt01 (brd_code, match_code, title, memo, brd_date, brd_user, last_date,last_user)
+		values(#{brdcode},#{matchcode} ,#{title} ,#{game_analysis},now() ,#{adduser} ,now() , #{adduser} )
+	</insert>
+
 </mapper>

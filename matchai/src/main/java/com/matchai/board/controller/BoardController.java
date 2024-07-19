@@ -6,6 +6,8 @@
 
 	import javax.servlet.http.HttpServletRequest;
 
+	import com.fasterxml.jackson.core.JsonProcessingException;
+	import com.fasterxml.jackson.databind.ObjectMapper;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.core.io.ClassPathResource;
 	import org.springframework.http.HttpHeaders;
@@ -60,30 +62,25 @@
 		}
 
 		@GetMapping("/gamedetail")
-		public ModelAndView gameAnalysis(HttpServletRequest req, ModelAndView mv,
-										 @RequestParam(name = "team1") String team1Code,
-										 @RequestParam(name = "team2") String team2Code,
-										 @RequestParam(name = "matchcode") String matchcode) {
-
+		public ModelAndView gameAnalysis(HttpServletRequest req, ModelAndView mv, @RequestParam(name = "matchcode") String matchcode) {
 			// team1과 team2 파라미터 값 확인
-			System.out.println("Team1: " + team1Code);
-			System.out.println("Team2: " + team2Code);
 			System.out.println("MatchCode: " + matchcode);
-
-
 			// 게임 데이터 조회
 			HashMap<String, Object> aiData = boardsvc.aiData(matchcode);
-			System.out.println("AiData: " + aiData);
+			//boardDB에 값이 있는지 여부 조회
+			int count = boardsvc.searchBoard(matchcode);
+			//없으면 board에 ai예측 데이터 넣기
+			if (count <= 0) {
+				String title = aiData.get("team1name").toString() +" VS "+ aiData.get("team2name").toString();
+				aiData.put("title",title);
+				aiData.put("brdcode","10");
+				aiData.put("adduser","admin");
+				aiData.put("matchcode",matchcode);
 
-			// 게임 데이터가 없을 경우 404 에러 처리
-			if (aiData == null || aiData.isEmpty()) {
-				aiData.put("game_analysis", "경기 분석에 실패하였습니다");
-				mv.addObject("aidata",aiData );
+				boardsvc.insertAiData(aiData);
+			}
 
-			}
-			else {
-				mv.addObject("aidata", aiData);
-			}
+			mv.addObject("aiData", aiData);
 			mv.setViewName("gamedetail");
 
 			return mv;
