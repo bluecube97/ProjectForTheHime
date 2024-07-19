@@ -20,4 +20,6 @@ public interface BoardMapper {
 	List<HashMap<String, Object>> mlbMatchList();
 
 	HashMap<String, Object> getGameData(HashMap<String, Object> params);
+
+	HashMap<String, Object> aiData(String matchcode);
 }

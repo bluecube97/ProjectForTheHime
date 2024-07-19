@@ -45,6 +45,10 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.getGameData(params);
 	}
 
+	@Override
+	public HashMap<String, Object> aiData(String matchcode) {
+		return boardDao.aiData(matchcode);
+	}
 
-	
+
 }

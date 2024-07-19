@@ -19,4 +19,6 @@ public interface BoardService {
 
 	// 게임예측 데이터
 	HashMap<String, Object> fetchGameData(String code1, String code2);
+
+	HashMap<String, Object> aiData(String matchcode);
 }
