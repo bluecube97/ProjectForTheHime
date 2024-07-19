@@ -28,7 +28,6 @@ namespace Script._3D.UI
         public Button diceBtn; // 주사위 버튼
         public Text diceValueTxt; // 주사위 값 텍스트
 
-        public int DiceValue { get; set; } // 주사위 값
         private int MoveDistance { get; set; } // 이동 거리
 
         private Node[,] _nodes;
@@ -102,14 +101,20 @@ namespace Script._3D.UI
 
         public void SetPlaceBtnDistance()
         {
+            int playerX = player.GetComponent<PositionComponentVo>().posX;
+            int playerZ = player.GetComponent<PositionComponentVo>().posZ;
+
+            // nodes 배열에서 올바른 노드를 참조하도록 인덱스 변환
+            Node start = _nodes[playerX + linePlaceBtnCnt / 2, playerZ + linePlaceBtnCnt / 2];
+
+            // 각 버튼에 대해 Dijkstra 알고리즘을 사용하여 이동 가능한 거리를 계산
             foreach (Transform child in placeBtnLayout.transform)
             {
                 PositionComponentVo positionComponent = child.GetComponent<PositionComponentVo>();
                 if (positionComponent == null) continue;
 
-                int distanceX = Mathf.Abs(positionComponent.posX - player.GetComponent<PositionComponentVo>().posX);
-                int distanceZ = Mathf.Abs(positionComponent.posZ - player.GetComponent<PositionComponentVo>().posZ);
-                int distance = distanceX + distanceZ;
+                Node target = _nodes[positionComponent.posX + linePlaceBtnCnt / 2, positionComponent.posZ + linePlaceBtnCnt / 2];
+                int distance = GetDistance(start, target);
 
                 Text childTxt = child.GetComponentInChildren<Text>();
                 if (distance <= _pm.MoveCnt && !positionComponent.isBlock)
@@ -123,6 +128,51 @@ namespace Script._3D.UI
                     childTxt.text = "";
                 }
             }
+        }
+
+        public int GetDistance(Node start, Node target)
+        {
+            if (start == target)
+                return 0;
+
+            // Dijkstra 알고리즘을 사용하여 start 노드에서 target 노드까지의 최단 거리를 계산
+            foreach (Node node in _nodes)
+            {
+                if (node == null) continue;
+                node.Distance = int.MaxValue;
+                node.Visited = false;
+                node.Previous = null;
+            }
+
+            start.Distance = 0;
+            List<Node> queue = new List<Node> { start };
+
+            while (queue.Count > 0)
+            {
+                queue.Sort((node1, node2) => node1.Distance.CompareTo(node2.Distance));
+                Node current = queue[0];
+                queue.RemoveAt(0);
+                current.Visited = true;
+
+                if (current == target)
+                {
+                    return current.Distance;
+                }
+
+                foreach (Node neighbor in current.Neighbors)
+                {
+                    if (neighbor == null || neighbor.Visited || (neighbor.PositionComponent != null && neighbor.PositionComponent.isBlock)) continue;
+                    int tentativeDistance = current.Distance + 1;
+                    if (tentativeDistance < neighbor.Distance)
+                    {
+                        neighbor.Distance = tentativeDistance;
+                        neighbor.Previous = current;
+                        if (!queue.Contains(neighbor)) queue.Add(neighbor);
+                    }
+                }
+            }
+
+            return int.MaxValue; // 도달할 수 없는 경우
         }
 
         public void OnClickPlaceBtn(Button button)
@@ -141,24 +191,23 @@ namespace Script._3D.UI
             Debug.Log("target: " + target.Position);
 
             // 이동 거리 계산
-            MoveDistance = Mathf.Abs(btnX - playerX) + Mathf.Abs(btnZ - playerZ);
-
-            if (_pm.MoveCnt < MoveDistance)
-            {
-                Debug.LogWarning("Not enough move points to reach the target");
-                return; // 이동 포인트가 부족할 경우 이동하지 않음
-            }
-
-            _pm.MoveCnt -= MoveDistance;
-            Debug.Log("MoveCnt: " + _pm.MoveCnt);
-
-            // 목표 위치를 positionComponentVo의 좌표로 설정
-            player.GetComponent<PlayerManager>().targetPosition = new Vector3(btnX * 5.5f, 1.1f, btnZ * -5.5f);
-
-            // 최단 경로 찾기 및 이동
             List<Node> path = Dijkstra(start, target);
             if (path != null)
             {
+                MoveDistance = path.Count - 1;
+
+                if (_pm.MoveCnt < MoveDistance)
+                {
+                    Debug.LogWarning("Not enough move points to reach the target");
+                    return; // 이동 포인트가 부족할 경우 이동하지 않음
+                }
+
+                _pm.MoveCnt -= MoveDistance;
+                Debug.Log("MoveCnt: " + _pm.MoveCnt);
+
+                // 목표 위치를 positionComponentVo의 좌표로 설정
+                player.GetComponent<PlayerManager>().targetPosition = new Vector3(btnX * 5.5f, 1.1f, btnZ * -5.5f);
+
                 _pm.SetPath(path);
             }
             else
@@ -233,7 +282,6 @@ namespace Script._3D.UI
 
         public void DicePhase()
         {
-            DiceValue = 1;
             EnableBlur();
             uiCanvas.SetActive(true);
             diceValueTxt.text = "";
@@ -255,14 +303,11 @@ namespace Script._3D.UI
             }
             else if (button.GetComponentInChildren<Text>().text == "굴리기!")
             {
-                StartCoroutine(SetDiceValue(0.2f, callback =>
-                {
-                    DiceValue = callback;
-                }));
+                StartCoroutine(SetDiceValue(0.2f));
             }
         }
 
-        private IEnumerator SetDiceValue(float time, Action<int> callback)
+        private IEnumerator SetDiceValue(float time)
         {
             diceBtn.interactable = false;
             diceValueTxt.text = "주사위를 굴리는 중.";
@@ -277,8 +322,6 @@ namespace Script._3D.UI
             _pm.MoveCnt = diceValue;
             diceBtn.interactable = true;
             diceBtn.GetComponentInChildren<Text>().text = "확인";
-
-            callback(diceValue);
         }
     }
 }
