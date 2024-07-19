@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface BoardMapper {
@@ -21,4 +20,6 @@ public interface BoardMapper {
 	List<HashMap<String, Object>> mlbMatchList();
 
 	HashMap<String, Object> getGameData(HashMap<String, Object> params);
+
+	HashMap<String, Object> aiData(String matchcode);
 }

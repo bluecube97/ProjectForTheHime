@@ -76,18 +76,23 @@
 							<c:when test="${not empty klist}">
 								<div class="games-row">
 									<c:forEach var="game" items="${klist}">
-									    <div class="game">
-									        <div class="teams">
-									            <div class="team team-a">
-									                ${game.team1}<img src="/resource/images/teamlogo/KBO/${game.code1}.png" alt="" class="team-logo">
-									            </div>
-									            <div class="versus">VS</div>
-									            <div class="team team-b">
-									                <img src="/resource/images/teamlogo/KBO/${game.code2}.png" alt="" class="team-logo">${game.team2}
-									            </div>
-									        </div>
-									        <button type="button" class="summary" id="summarybtn" data-team1="${game.code1}" data-team2="${game.code2}">경기 분석</button>
-									    </div>
+										<div class="game">
+											<div class="teams">
+												<div class="team team-a">
+														${game.team1}<img src="/resource/images/teamlogo/KBO/${game.code1}.png" alt="" class="team-logo">
+												</div>
+												<div class="versus">VS</div>
+												<div class="team team-b">
+													<img src="/resource/images/teamlogo/KBO/${game.code2}.png" alt="" class="team-logo">${game.team2}
+												</div>
+											</div>
+											<form action="/board/gamedetail" method="get">
+												<input type="hidden" name="team1" value="${game.code1}">
+												<input type="hidden" name="team2" value="${game.code2}">
+												<input type="hidden" name="matchcode" value="${game.matchcode}">
+												<button type="submit" class="summary">경기 분석</button>
+											</form>
+										</div>
 									</c:forEach>
 								</div>
 							</c:when>
@@ -102,18 +107,23 @@
 							<c:when test="${not empty mlist}">
 								<div class="games-row">
 									<c:forEach var="game" items="${mlist}">
-									    <div class="game">
-									        <div class="teams">
-									            <div class="team team-a">
-									                ${game.team1}<img src="/resource/images/teamlogo/MLB/${game.code1}.png" alt="" class="team-logo">
-									            </div>
-									            <div class="versus">VS</div>
-									            <div class="team team-b">
-									                <img src="/resource/images/teamlogo/MLB/${game.code2}.png" alt="" class="team-logo">${game.team2}
-									            </div>
-									        </div>
-									        <button type="button" class="summary" id="summarybtn" data-team1="${game.code1}" data-team2="${game.code2}">경기 분석</button>
-									    </div>
+										<div class="game">
+											<div class="teams">
+												<div class="team team-a">
+														${game.team1}<img src="/resource/images/teamlogo/KBO/${game.code1}.png" alt="" class="team-logo">
+												</div>
+												<div class="versus">VS</div>
+												<div class="team team-b">
+													<img src="/resource/images/teamlogo/KBO/${game.code2}.png" alt="" class="team-logo">${game.team2}
+												</div>
+											</div>
+											<form action="/board/gamedetail" method="get">
+												<input type="hidden" name="team1" value="${game.code1}">
+												<input type="hidden" name="team2" value="${game.code2}">
+												<input type="hidden" name="matchcode" value="${game.matchcode}">
+												<button type="submit" class="summary">경기 분석</button>
+											</form>
+										</div>
 									</c:forEach>
 								</div>
 							</c:when>
