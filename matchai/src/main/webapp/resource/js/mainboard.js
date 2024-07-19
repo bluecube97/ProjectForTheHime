@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', async function() {
             const team1 = this.getAttribute('data-team1');
             const team2 = this.getAttribute('data-team2');
+
             // console.log("Team1:", team1, "Team2:", team2); // team1과 team2가 제대로 출력되는지 확인합니다.
 
             if (!team1 || !team2) {
@@ -57,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return response.json();
             }) // 서버 응답을 JSON으로 변환
             .then(data => {
+
                 if (!data) {
                     throw new Error('No data returned from server');
                 }
@@ -73,11 +75,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 // 승률에서 %를 제거, 숫자 변환
-                const team1WinRate = parseFloat(data.TEAM1_WINRATE.replace('%', ''));
-                const team2WinRate = parseFloat(data.TEAM2_WINRATE.replace('%', ''));
+                const team1WinRate = parseFloat(data.team1_winrate.replace('%', ''));
+                const team2WinRate = parseFloat(data.team2_winrate.replace('%', ''));
                 // 점수에서 '점' 제거, 숫자 편환
-            	const team1Score = parseInt(data.TEAM1_SCORE.replace('점', ''));
-                const team2Score = parseInt(data.TEAM2_SCORE.replace('점', ''));
+            	const team1Score = parseInt(data.team1_score.replace('점', ''));
+                const team2Score = parseInt(data.team2_score.replace('점', ''));
 
                 // 차트를 생성합니다.
                 const ctx = document.getElementById('summaryChart').getContext('2d');
@@ -87,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         labels: ['예측 승률'],
                         datasets: [
                             {
-                                label: data.TEAM1NAME,
+                                label: data.team1name,
                                 data: [team1WinRate], // db에서 가져온 데이터 사용
                                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
                                 borderColor: 'rgba(255, 99, 132, 1)',
@@ -95,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 maxBarThickness: 70
                             },
                             {
-                                label: data.TEAM2NAME,
+                                label: data.team2name,
                                 data: [team2WinRate], // db에서 가져온 데이터 사용
                                 backgroundColor: 'rgba(54, 162, 235, 0.2)',
                                 borderColor: 'rgba(54, 162, 235, 1)',
@@ -126,8 +128,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 GPTMENT.innerText = data.GAME_ANALYSIS;
                 GPTMENT.scrollTop = 0;
                 
-				let team1Result = `${data.TEAM1NAME} : ${team1Score} 점`;
-                let team2Result = `${data.TEAM2NAME} : ${team2Score} 점`;
+				let team1Result = `${data.team1name} : ${team1Score} 점`;
+                let team2Result = `${data.team2name} : ${team2Score} 점`;
 
                 if (team1Score > team2Score) {
                     team1Result += ' 승리';
