@@ -110,11 +110,11 @@
 										<div class="game">
 											<div class="teams">
 												<div class="team team-a">
-														${game.team1}<img src="/resource/images/teamlogo/KBO/${game.code1}.png" alt="" class="team-logo">
+														${game.team1}<img src="/resource/images/teamlogo/MLB/${game.code1}.png" alt="" class="team-logo">
 												</div>
 												<div class="versus">VS</div>
 												<div class="team team-b">
-													<img src="/resource/images/teamlogo/KBO/${game.code2}.png" alt="" class="team-logo">${game.team2}
+													<img src="/resource/images/teamlogo/MLB/${game.code2}.png" alt="" class="team-logo">${game.team2}
 												</div>
 											</div>
 											<form action="/board/gamedetail" method="get">

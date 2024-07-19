@@ -21,4 +21,8 @@ public interface BoardService {
 	HashMap<String, Object> fetchGameData(String code1, String code2);
 
 	HashMap<String, Object> aiData(String matchcode);
+
+	int searchBoard(String matchcode);
+
+	void insertAiData(HashMap<String, Object> aiData);
 }

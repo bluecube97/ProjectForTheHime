@@ -10,12 +10,18 @@
 		<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 		<script src="/resource/js/gameanalysis.js?ver=1.0" defer></script>
-
 	</head>
 	<body>
-		<header>
+
+	<input type="hidden" id="team1name" name="team1name" value="${aiData.team1name}"/>
+	<input type="hidden" id="team2name" name="team2name" value="${aiData.team2name}"/>
+	<input type="hidden" id="team1_winrate" name="team1_winrate" value="${aiData.team1_winrate}"/>
+	<input type="hidden" id="team2_winrate" name="team2_winrate" value="${aiData.team2_winrate}"/>
+	<input type="hidden" id="game_analysis" name="game_analysis" value="${aiData.game_analysis}"/>
+
+	<header>
 			<div class="logo">
-				<button type="button" class="btn-logo" id="btn-logo">
+					<button type="button" class="btn-logo" id="btn-logo">
 					<img src="/resource/images/mainlogo/MATCHAIBoard.png" alt="로고" class="logo-img">
 				</button>
 			</div>

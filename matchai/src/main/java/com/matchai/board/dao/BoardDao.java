@@ -20,4 +20,8 @@ public interface BoardDao {
 	HashMap<String, Object> getGameData(HashMap<String, Object> params);
 
 	HashMap<String, Object> aiData(String matchcode);
+
+	int searchBoard(String matchcode);
+
+	void insertAiData(HashMap<String, Object> aiData);
 }
