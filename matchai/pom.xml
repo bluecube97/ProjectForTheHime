@@ -12,6 +12,7 @@
 	<artifactId>board</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>project</name>
+	<packaging>war</packaging>
 	<description>springbootboard</description>
 	<properties>
 		<java.version>11</java.version>
