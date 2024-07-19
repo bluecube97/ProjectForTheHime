@@ -34,6 +34,7 @@ namespace Script._3D.UI
 
         protected virtual void Awake()
         {
+            Time.timeScale = 1.0f;
             _nodes = new Node[linePlaceBtnCnt, linePlaceBtnCnt];
 
             // 노드 초기화
