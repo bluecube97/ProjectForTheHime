@@ -1,7 +1,9 @@
 package com.matchai.board.service;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public interface BoardService {
@@ -25,4 +27,10 @@ public interface BoardService {
 	int searchBoard(String matchcode);
 
 	void insertAiData(HashMap<String, Object> aiData);
+
+	void insertComment(HashMap<String,Object>map);
+
+    int getBoardNumber(String matchcode);
+
+	List<HashMap<String, Object>> getCommentList(String brdno);
 }
