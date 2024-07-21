@@ -91,4 +91,14 @@
 		ORDER BY tgt.team1 -- 여기서 원하는 컬럼으로 정렬
 		LIMIT 1;
 	</select>
+	
+	<select id="getCurResults" parameterType="hashmap" resultType="hashmap">
+ 		  select ttm1.teamname_kr as winteam, ttm2.teamname_kr as loseteam, 
+       			 tmn.winteam as winteamcode, tmn.loseteam as lostteamcode, 
+ 	   			 tmn.winscore as winscore, tmn.losescore as losescore, tmn.game_date 
+  			from ${leagueTbl} tmn 
+  		   inner join tbl_team_mt01 ttm1 on ttm1.team_code = tmn.winteam 
+  		   inner join tbl_team_mt01 ttm2 on ttm2.team_code = tmn.loseteam  
+ 		   where tmn.game_date like #{selym} 
+	</select>
 </mapper>

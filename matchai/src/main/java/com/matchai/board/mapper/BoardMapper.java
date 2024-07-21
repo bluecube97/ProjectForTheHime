@@ -22,4 +22,7 @@ public interface BoardMapper {
 	HashMap<String, Object> getGameData(HashMap<String, Object> params);
 
 	HashMap<String, Object> aiData(String matchcode);
+
+	// 예전 경기 기록
+	List<HashMap<String, Object>> getCurResults(HashMap<String, Object> params);
 }
