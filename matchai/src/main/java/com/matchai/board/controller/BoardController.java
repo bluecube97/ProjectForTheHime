@@ -1,10 +1,14 @@
 	package com.matchai.board.controller;
 
 	import java.io.IOException;
+	import java.time.LocalDate;
+	import java.time.format.DateTimeFormatter;
 	import java.util.HashMap;
 	import java.util.List;
+	import java.util.Map;
 
 	import javax.servlet.http.HttpServletRequest;
+	import javax.servlet.http.HttpSession;
 
 	import com.fasterxml.jackson.core.JsonProcessingException;
 	import com.fasterxml.jackson.databind.ObjectMapper;
@@ -61,14 +65,31 @@
 			return mv;
 		}
 
+		//경기예측 페이지
 		@GetMapping("/gamedetail")
-		public ModelAndView gameAnalysis(HttpServletRequest req, ModelAndView mv, @RequestParam(name = "matchcode") String matchcode) {
-			// team1과 team2 파라미터 값 확인
+		public ModelAndView gameAnalysis(HttpServletRequest req, ModelAndView mv,
+										 @RequestParam(name = "matchcode") String matchcode,
+										 @RequestParam(name = "team1") String team1,
+										 @RequestParam(name = "team2") String team2,
+										 HttpSession session) {
 			System.out.println("MatchCode: " + matchcode);
 			// 게임 데이터 조회
-			HashMap<String, Object> aiData = boardsvc.aiData(matchcode);
+			HashMap<String, Object> aiData  = boardsvc.aiData(matchcode);
+
+			//matchcode가 다르면
+			if (aiData == null){
+				LocalDate currentDate = LocalDate.now();
+				// 날짜 형식을 지정하여 출력
+				DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+				String formattedDate = currentDate.format(dateFormatter);
+				matchcode = formattedDate+team1+team2;
+				System.out.println("변경된 matchcode : "+ matchcode);
+				aiData = boardsvc.aiData(matchcode);
+			}
+
 			//boardDB에 값이 있는지 여부 조회
 			int count = boardsvc.searchBoard(matchcode);
+
 			//없으면 board에 ai예측 데이터 넣기
 			if (count <= 0) {
 				String title = aiData.get("team1name").toString() +" VS "+ aiData.get("team2name").toString();
@@ -80,10 +101,48 @@
 				boardsvc.insertAiData(aiData);
 			}
 
+			//댓글을 받아 오기 위한 brdno 조회
+			int brdno_ = boardsvc.getBoardNumber(matchcode);
+			String brdno = Integer.toString(brdno_);
+
+			//게시글 댓글 받아옴
+			List<HashMap<String,Object>> comment = boardsvc.getCommentList(brdno);
+
+			mv.addObject("comment", comment);
 			mv.addObject("aiData", aiData);
 			mv.setViewName("gamedetail");
 
 			return mv;
+		}
+		@PostMapping("/comment")
+		public String insertComment(@RequestBody Map<String, String> request, HttpSession session){
+			//작성한 댓글 받아옴 
+			String memo = request.get("memo");
+			if(memo == null ){
+				return "다시 입력 해 주세요";
+			}
+			//brdno를 특정 할 matchcode 받음
+			String matchcode = request.get("matchcode");
+
+			//작성자를 등록하기 위한 로그인 세션 값 받음
+			HashMap<String,Object> userinfo = (HashMap<String, Object>) session.getAttribute("userInfo");
+			String pid = userinfo.get("useremail").toString();
+			if(pid == null){
+				return "로그인 후 이용 해 주세요";
+			}
+
+			//댓글을 단 게시글 번호 특정
+			int brdno_ = boardsvc.getBoardNumber(matchcode);
+			//DB에 올리기 위한 형 변환
+			String brdno = Integer.toString(brdno_);
+
+			HashMap<String,Object> map = new HashMap<>();
+			map.put("pid", pid);
+			map.put("memo", memo);
+			map.put("brdno", brdno);
+			boardsvc.insertComment(map);
+
+			return "작성 완료 되었습니다";
 		}
 
 		@GetMapping("/unity")

@@ -25,5 +25,11 @@ public interface BoardMapper {
 
 	int searchBoard(String matchcode);
 
+	int getBoardNumber(String matchcode);
+
 	void insertAiData(HashMap<String, Object> aiData);
+
+    void insertComment(HashMap<String, Object> map);
+
+	List<HashMap<String, Object>> getCommentList(String brdno);
 }

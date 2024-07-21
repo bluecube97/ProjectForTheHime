@@ -9,7 +9,7 @@
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 		<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-		<script src="/resource/js/gameanalysis.js?ver=1.0" defer></script>
+		<script src="/resource/js/gameanalysis.js" defer></script>
 	</head>
 	<body>
 
@@ -18,6 +18,7 @@
 	<input type="hidden" id="team1_winrate" name="team1_winrate" value="${aiData.team1_winrate}"/>
 	<input type="hidden" id="team2_winrate" name="team2_winrate" value="${aiData.team2_winrate}"/>
 	<input type="hidden" id="game_analysis" name="game_analysis" value="${aiData.game_analysis}"/>
+	<input type="hidden" id="matchcode" name="matchcode" value="${aiData.matchcode}"/>
 
 	<header>
 			<div class="logo">
@@ -66,43 +67,7 @@
 		</aside>
 		<main class="anal">
 			<div class="allbox">
-				<!-- ***********이게 그 kbo 경기분석을 들어오면 kbo 경기만 뜨고, mlb꺼로 들어오면 mlb꺼만 들어오게 하고 싶은데 아직 파라미터가 안되서 못함.**********  -->
-				<c:choose>
-					<c:when test="${not empty klist}">
-						<div class="games-row">
-							<c:forEach var="game" items="${klist}">
-									<div class="teams">
-										<div class="team team-a">
-											<img src="/resource/images/teamlogo/KBO/${game.code1}.png"
-												alt="logo" class="team-logo">${game.team1}
-										</div>
-										<div class="team team-b">
-											<img src="/resource/images/teamlogo/KBO/${game.code2}.png"
-												alt="logo" class="team-logo">${game.team2}
-										</div>
-									</div>
-								</div>
-							</c:forEach>
-						</div>
-					</c:when>
-					<c:otherwise>
-						<div class="games-row">
-							<c:forEach var="game" items="${mlist}">
-									<div class="teams">
-										<div class="team team-a">
-											<img src="/resource/images/teamlogo/MLB/${game.code1}.png"
-												alt="logo" class="team-logo">${game.team1}
-										</div>
-										<div class="team team-b">
-											<img src="/resource/images/teamlogo/MLB/${game.code2}.png"
-												alt="logo" class="team-logo">${game.team2}
-										</div>
-									</div>
-								</div>
-							</c:forEach>
-						</div>
-					</c:otherwise>
-				</c:choose>
+
 				<div class="analbox">
 					<h2 class="analtitle" id="summaryanaltitle">경기 요약 분석</h2>
 					<div class="body_row">
@@ -119,15 +84,22 @@
 				<div class="replybox">
 					<h2 class="replytitle" id="replytitle">야구 TALK</h2>
 					<div class="reply" id="reply">
-						<div class="yoursamplereply">다른 사람들이 쓴 댓글이 보여지는 공간입니다.</div>
-						<div class="mysamplereply">내가 쓴 댓글이 보여지는 공간입니다. 글 길이가 길어지면 두 줄로 변환됩니다.</div>
-						<div class="yoursamplereply"></div>
-						<div class="yoursamplereply"></div>
-						<div class="yoursamplereply"></div>
+						<c:forEach var="cmt" items="${comment}">
+							<c:choose>
+								<c:when test="${cmt.user == sessionScope.userInfo.useremail}">
+									<!-- 내가 쓴 댓글 -->
+									<div class="mysamplereply"> ${cmt.memo} </div>
+								</c:when>
+								<c:otherwise>
+									<!-- 다른 사람들이 쓴 댓글 -->
+									<div class="yoursamplereply"> ${cmt.memo} </div>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
 					</div>
 					<div class="replyment">
-							<input type="text" class="contents" name="content" placeholder="내용을 입력하세요." required>
-							<button type="submit" class="contentsbtn">↑</button>
+							<input type="text" class="contents" id = "comment" name="content" placeholder="내용을 입력하세요." required>
+							<button type="button" class="contentsbtn" id="onclick_reply" onclick=addComment()>↑</button>
 					</div>
 				</div>
 			</div>

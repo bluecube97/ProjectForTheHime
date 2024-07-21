@@ -24,4 +24,10 @@ public interface BoardDao {
 	int searchBoard(String matchcode);
 
 	void insertAiData(HashMap<String, Object> aiData);
+
+	void insertComment(HashMap<String, Object> map);
+
+	int getBoardNumber(String matchcode);
+
+	List<HashMap<String, Object>> getCommentList(String brdno);
 }
