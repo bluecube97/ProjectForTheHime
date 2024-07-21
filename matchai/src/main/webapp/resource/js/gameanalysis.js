@@ -92,13 +92,17 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function addComment() {
+	// matchcode와 댓글 내용 가져오기
 	let matchcode = document.getElementById('matchcode').value;
 	const comment = document.getElementById('comment').value;
-	if(comment ==null ){
-		alert("댓글은 비워 둘 수 없습니다")
-		window.location.href =`board/gamedetail?matchcode=${matchcode}`
-	}else {
 
+	// 댓글 내용이 없거나 빈 문자열인 경우
+	if (comment == null || comment.trim() === '') {
+		alert("댓글은 비워 둘 수 없습니다");
+		return;
+	}
+
+	// 서버에 댓글 전송
 	fetch('/board/comment', {
 		method: 'POST',
 		headers: {
@@ -109,13 +113,18 @@ function addComment() {
 			memo: comment
 		})
 	})
-		.then(response => response.json())
+		.then(response => response.json()) // JSON 응답 처리
 		.then(data => {
-			console.log('파라미터 반환 값 :' + data)
-			alert(data);
+			// 응답 상태에 따라 메시지 표시
+			if (data.status === 'success') {
+				alert(data.message);
+			} else {
+				alert(`오류 발생: ${data.message}`);
+			}
 		})
 		.catch(error => {
 			console.error('Error:', error);
+			alert('서버와의 통신 중 오류가 발생했습니다.');
 		});
-	}
 }
+

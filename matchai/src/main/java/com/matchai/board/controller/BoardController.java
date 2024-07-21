@@ -115,34 +115,60 @@
 			return mv;
 		}
 		@PostMapping("/comment")
-		public String insertComment(@RequestBody Map<String, String> request, HttpSession session){
-			//작성한 댓글 받아옴 
+		@ResponseBody
+		public ResponseEntity<Map<String, String>> insertComment(@RequestBody Map<String, String> request, HttpSession session) {
+			Map<String, String> response = new HashMap<>();
+
+			// 요청에서 댓글 내용 가져오기
 			String memo = request.get("memo");
-			if(memo == null ){
-				return "다시 입력 해 주세요";
+			// 댓글 내용이 없거나 빈 문자열인 경우
+			if (memo == null || memo.trim().isEmpty()) {
+				response.put("status", "error");
+				response.put("message", "댓글은 비워 둘 수 없습니다.");
+				return ResponseEntity.badRequest().body(response);
 			}
-			//brdno를 특정 할 matchcode 받음
+
+			// 요청에서 matchcode 가져오기
 			String matchcode = request.get("matchcode");
-
-			//작성자를 등록하기 위한 로그인 세션 값 받음
-			HashMap<String,Object> userinfo = (HashMap<String, Object>) session.getAttribute("userInfo");
-			String pid = userinfo.get("useremail").toString();
-			if(pid == null){
-				return "로그인 후 이용 해 주세요";
+			// 세션에서 사용자 정보 가져오기
+			HashMap<String, Object> userinfo = (HashMap<String, Object>) session.getAttribute("userInfo");
+			String pid = userinfo != null ? (String) userinfo.get("useremail") : null;
+			// 로그인되지 않은 사용자
+			if (pid == null) {
+				response.put("status", "error");
+				response.put("message", "로그인 후 이용 해 주세요.");
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
 			}
 
-			//댓글을 단 게시글 번호 특정
-			int brdno_ = boardsvc.getBoardNumber(matchcode);
-			//DB에 올리기 위한 형 변환
+			// brdno 조회
+			int brdno_;
+			try {
+				brdno_ = boardsvc.getBoardNumber(matchcode);
+			} catch (Exception e) {
+				response.put("status", "error");
+				response.put("message", "게시글 번호 조회 중 오류가 발생했습니다.");
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+			}
 			String brdno = Integer.toString(brdno_);
 
-			HashMap<String,Object> map = new HashMap<>();
+			// 댓글 정보를 담을 맵 생성
+			HashMap<String, Object> map = new HashMap<>();
 			map.put("pid", pid);
 			map.put("memo", memo);
 			map.put("brdno", brdno);
-			boardsvc.insertComment(map);
+			// 댓글을 DB에 저장
+			try {
+				boardsvc.insertComment(map);
+			} catch (Exception e) {
+				response.put("status", "error");
+				response.put("message", "댓글 저장 중 오류가 발생했습니다.");
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+			}
 
-			return "작성 완료 되었습니다";
+			// 성공적인 응답 반환
+			response.put("status", "success");
+			response.put("message", "작성 완료 되었습니다.");
+			return ResponseEntity.ok(response);
 		}
 
 		@GetMapping("/unity")
