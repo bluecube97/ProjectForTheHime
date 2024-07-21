@@ -175,6 +175,10 @@ function startUnity(){
 	window.location.href = '/board/unity';
 }
 
+function openFreeBoard(){
+    window.location.href = '/board/freeboard';
+}
+
 function  loginPlz(){
 	alert("로그인 후 사용가능 합니다.")
 }

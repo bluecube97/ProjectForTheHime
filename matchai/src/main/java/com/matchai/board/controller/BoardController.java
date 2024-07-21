@@ -120,4 +120,9 @@
 			return new ResponseEntity<>(gzFile, headers, HttpStatus.OK);
 		}
 
+		@GetMapping("/freeboard")
+		public ModelAndView gotoFreeBoard(ModelAndView mv) {
+			mv.setViewName("freeboard");
+			return mv;
+		}
 	}
