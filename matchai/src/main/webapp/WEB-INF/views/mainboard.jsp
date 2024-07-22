@@ -3,13 +3,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>MATCHAI</title>
-<link rel="stylesheet" type="text/css" href="/resource/css/mainboard.css">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-<script src="/resource/js/mainboard.js" defer></script>
+	<meta charset="UTF-8">
+	<title>MATCHAI</title>
+	<link rel="stylesheet" type="text/css" href="/resource/css/mainboard.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js" defer></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+	<script src="/resource/js/mainboard.js" defer></script>
 </head>
 <body>
 	<header>
@@ -76,23 +76,18 @@
 							<c:when test="${not empty klist}">
 								<div class="games-row">
 									<c:forEach var="game" items="${klist}">
-										<div class="game">
-											<div class="teams">
-												<div class="team team-a">
-														${game.team1}<img src="/resource/images/teamlogo/KBO/${game.code1}.png" alt="" class="team-logo">
-												</div>
-												<div class="versus">VS</div>
-												<div class="team team-b">
-													<img src="/resource/images/teamlogo/KBO/${game.code2}.png" alt="" class="team-logo">${game.team2}
-												</div>
-											</div>
-											<form action="/board/gamedetail" method="get">
-												<input type="hidden" name="team1" value="${game.code1}">
-												<input type="hidden" name="team2" value="${game.code2}">
-												<input type="hidden" name="matchcode" value="${game.matchcode}">
-												<button type="submit" class="summary">경기 분석</button>
-											</form>
-										</div>
+									    <div class="game">
+									        <div class="teams">
+									            <div class="team team-a">
+									                ${game.team1}<img src="/resource/images/teamlogo/KBO/${game.code1}.png" alt="" class="team-logo">
+									            </div>
+									            <div class="versus">VS</div>
+									            <div class="team team-b">
+									                <img src="/resource/images/teamlogo/KBO/${game.code2}.png" alt="" class="team-logo">${game.team2}
+									            </div>
+									        </div>
+									        <button type="button" class="summary" id="summarybtn" onclick="window.location.href='/board/gameanalysis?team1=${game.code1}&team2=${game.code2}'" style="cursor: pointer;">경기 분석</button>
+									    </div>
 									</c:forEach>
 								</div>
 							</c:when>
@@ -107,23 +102,18 @@
 							<c:when test="${not empty mlist}">
 								<div class="games-row">
 									<c:forEach var="game" items="${mlist}">
-										<div class="game">
-											<div class="teams">
-												<div class="team team-a">
-														${game.team1}<img src="/resource/images/teamlogo/MLB/${game.code1}.png" alt="" class="team-logo">
-												</div>
-												<div class="versus">VS</div>
-												<div class="team team-b">
-													<img src="/resource/images/teamlogo/MLB/${game.code2}.png" alt="" class="team-logo">${game.team2}
-												</div>
-											</div>
-											<form action="/board/gamedetail" method="get">
-												<input type="hidden" name="team1" value="${game.code1}">
-												<input type="hidden" name="team2" value="${game.code2}">
-												<input type="hidden" name="matchcode" value="${game.matchcode}">
-												<button type="submit" class="summary">경기 분석</button>
-											</form>
-										</div>
+									    <div class="game">
+									        <div class="teams">
+									            <div class="team team-a">
+									                ${game.team1}<img src="/resource/images/teamlogo/MLB/${game.code1}.png" alt="" class="team-logo">
+									            </div>
+									            <div class="versus">VS</div>
+									            <div class="team team-b">
+									                <img src="/resource/images/teamlogo/MLB/${game.code2}.png" alt="" class="team-logo">${game.team2}
+									            </div>
+									        </div>
+									        <button type="button" class="summary" id="summarybtn" onclick="window.location.href='/board/gameanalysis?team1=${game.code1}&team2=${game.code2}'" style="cursor: pointer;">경기 분석</button>
+									    </div>
 									</c:forEach>
 								</div>
 							</c:when>

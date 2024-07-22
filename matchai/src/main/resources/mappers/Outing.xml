@@ -2,124 +2,123 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="com.unity.game.mapper.OutingMapper">
 
     <select id="getClothingList" resultType="map">
-        SELECT tr.recipe_id,
-               ti.item_id    as r_itemid,
-               ti.name       as r_name,
-               ti.desc       as r_desc,
-               tr.req_item   AS req_itemid,
-               ti1.name      AS req_name,
-               tr.r_item_cnt as req_itemcnt
-        FROM tbl_unt_item_mt01 ti
-                 INNER JOIN tbl_unt_recipe_nt01 tr
-                            ON ti.item_id = tr.item_id
-                 LEFT JOIN tbl_unt_item_mt01 ti1
-                           ON tr.req_item = ti1.item_id
-        WHERE ti.type_id = 1002
-        ORDER BY ti.item_id
+        SELECT tr.RECIPE_ID,
+               ti.ITEM_ID    as r_itemid,
+               ti.NAME       as r_name,
+               ti.`DESC`     as r_desc,
+               tr.REQ_ITEM   AS req_itemid,
+               ti1.NAME      AS req_name,
+               tr.R_ITEM_CNT as req_itemcnt
+        FROM TBL_UNT_ITEM_MT01 ti
+                 INNER JOIN TBL_UNT_RECIPE_NT01 tr
+                            ON ti.ITEM_ID = tr.ITEM_ID
+                 LEFT JOIN TBL_UNT_ITEM_MT01 ti1
+                           ON tr.REQ_ITEM = ti1.ITEM_ID
+        WHERE ti.TYPE_ID = 1002
+        ORDER BY ti.ITEM_ID
     </select>
 
     <select id="getClothingBuyList" resultType="map">
-        SELECT ti.item_id as itemid, ti.name as itemnm, ti.desc as itemdesc, ti.sell_pri, ti.buy_pri as buyprice
-        FROM tbl_unt_item_mt01 ti
-        WHERE ti.type_id = 3003
+        SELECT ti.ITEM_ID as itemid, ti.NAME as itemnm, ti.`DESC` as itemdesc, ti.SELL_PRI, ti.BUY_PRI as buyprice
+        FROM TBL_UNT_ITEM_MT01 ti
+        WHERE ti.TYPE_ID = 3003
     </select>
 
     <select id="getSmithyList" resultType="map">
-        SELECT tr.recipe_id AS recipe_id,
-               ti.item_id AS itemid,
-               ti.name AS itemnm,
-               ti.desc AS itemdesc,
-               tr.req_item AS req_item,
-               ti1.name AS req_name,
-               tr.r_item_cnt As req_itemcnt
-        FROM tbl_unt_item_mt01 ti
-                 INNER JOIN tbl_unt_recipe_nt01 tr
-                            ON ti.item_id = tr.item_id
-                 LEFT JOIN tbl_unt_item_mt01 ti1
-                           ON tr.req_item = ti1.item_id
-        WHERE ti.type_id = 1000
-           OR ti.type_id = 1001
-        ORDER BY ti.item_id
+        SELECT tr.RECIPE_ID AS recipe_id,
+               ti.ITEM_ID AS itemid,
+               ti.NAME AS itemnm,
+               ti.`DESC` AS itemdesc,
+               tr.REQ_ITEM AS req_item,
+               ti1.NAME AS req_name,
+               tr.R_ITEM_CNT As req_itemcnt
+          FROM TBL_UNT_ITEM_MT01 ti
+         INNER JOIN TBL_UNT_RECIPE_NT01 tr
+            ON ti.ITEM_ID = tr.ITEM_ID
+          LEFT JOIN TBL_UNT_ITEM_MT01 ti1
+            ON tr.REQ_ITEM = ti1.ITEM_ID
+        WHERE ti.TYPE_ID = 1000
+           OR ti.TYPE_ID = 1001
+        ORDER BY ti.ITEM_ID
     </select>
 
     <select id="getSmithyBuyList" resultType="map">
-        SELECT ti.item_id AS itemid,
-               ti.name AS itemnm,
-               ti.desc AS itemdesc,
-               ti.sell_pri AS sellprice,
-               ti.buy_pri AS buyprice
-        FROM tbl_unt_item_mt01 ti
-        WHERE ti.type_id = 3000
-           OR  ti.type_id = 3001
-           OR  ti.type_id = 3002
+        SELECT ti.ITEM_ID AS itemid,
+               ti.NAME AS itemnm,
+               ti.`DESC` AS itemdesc,
+               ti.SELL_PRI AS sellprice,
+               ti.BUY_PRI AS buyprice
+        FROM TBL_UNT_ITEM_MT01 ti
+        WHERE ti.TYPE_ID = 3000
+           OR  ti.TYPE_ID = 3001
+           OR  ti.TYPE_ID = 3002
     </select>
 
     <select id="gethospitalBuyList" resultType="map">
-        SELECT ti.item_id AS itemid,
-               ti.name AS itemnm,
-               ti.desc AS itemdesc,
-               ti.sell_pri AS sellprice,
-               ti.buy_pri AS buyprice
-        FROM tbl_unt_item_mt01 ti
-        WHERE type_id =3004
-           or type_id= 2002
+        SELECT ti.ITEM_ID AS itemid,
+               ti.NAME AS itemnm,
+               ti.`DESC` AS itemdesc,
+               ti.SELL_PRI AS sellprice,
+               ti.BUY_PRI AS buyprice
+          FROM TBL_UNT_ITEM_MT01 ti
+         WHERE TYPE_ID =3004
+            or TYPE_ID= 2002
     </select>
 
     <select id="getvarietyStoreList" resultType="map">
-        SELECT ti.item_id AS itemid,
-               ti.type_id AS typeid,
-               ti.name AS itemnm,
-               ti.desc AS itemdesc,
-               ti.sell_pri AS sellprice,
-               ti.buy_pri AS buyprice
-        FROM tbl_unt_item_mt01 ti
-        WHERE type_id =2001
-           or type_id= 3005
+        SELECT ti.ITEM_ID AS itemid,
+               ti.TYPE_ID AS typeid,
+               ti.NAME AS itemnm,
+               ti.`DESC` AS itemdesc,
+               ti.SELL_PRI AS sellprice,
+               ti.BUY_PRI AS buyprice
+          FROM TBL_UNT_ITEM_MT01 ti
+         WHERE TYPE_ID =2001
+            or TYPE_ID= 3005
     </select>
 
     <select id="getrestaurantList" resultType="map">
-        SELECT ti.item_id AS itemid,
-               ti.type_id AS typeid,
-               ti.name AS itemnm,
-               ti.desc AS itemdesc,
-               ti.sell_pri AS sellprice,
-               ti.buy_pri AS buyprice
-        FROM tbl_unt_item_mt01 ti
-        WHERE type_id = 2000
+        SELECT ti.ITEM_ID AS itemid,
+               ti.TYPE_ID AS typeid,
+               ti.NAME AS itemnm,
+               ti.`DESC` AS itemdesc,
+               ti.SELL_PRI AS sellprice,
+               ti.BUY_PRI AS buyprice
+          FROM TBL_UNT_ITEM_MT01 ti
+         WHERE TYPE_ID = 2000
     </select>
 
     <select id="getquestList" resultType="map">
-        SELECT gq.qno AS questno,
-               gq.qnm AS questnm,
-               gq.qmemo AS questmemo,
-               gq.q_obj AS qitemid ,
-               ti.name as qitemnm,
-               gq.q_ocnt AS qitemcnt,
-               gq.q_reward AS ritemid,
-               ti2.name as ritemnm,
-               gq.q_reward_cnt AS ritemcnt,
-               gq.sfalg AS submit,
-               gq.cflag AS complete
-        FROM tbl_unt_quest_nt01 gq
-                 INNER JOIN tbl_unt_item_mt01 ti
-                            ON ti.item_id = gq.q_obj
-                 INNER JOIN tbl_unt_item_mt01 ti2
-                            ON ti2.item_id = gq.q_reward
+        SELECT gq.QNO AS questno,
+               gq.QNM AS questnm,
+               gq.QMEMO AS questmemo,
+               gq.Q_OBJ AS qitemid ,
+               ti.NAME as qitemnm,
+               gq.Q_OCNT AS qitemcnt,
+               gq.Q_REWARD AS ritemid,
+               ti2.NAME as ritemnm,
+               gq.Q_REWARD_CNT AS ritemcnt,
+               gq.SFALG AS submit,
+               gq.CFLAG AS complete
+          FROM baseball.TBL_UNT_QUEST_NT01 gq
+         INNER JOIN TBL_UNT_ITEM_MT01 ti
+            ON ti.ITEM_ID = gq.Q_OBJ
+         INNER JOIN TBL_UNT_ITEM_MT01 ti2
+            ON ti2.ITEM_ID = gq.Q_REWARD
     </select>
     <update id="updatequestFlag" parameterType="map">
-        UPDATE tbl_unt_quest_nt01
-        SET cflag = #{cflag},
-            sfalg = #{sflag}
-        WHERE qno =  #{questno}
+        UPDATE baseball.TBL_UNT_QUEST_NT01
+           SET CFLAG = #{cflag},
+               SFALG = #{sflag}
+         WHERE QNO =  #{questno}
     </update>
     <update id="setafterHeal" parameterType="map">
-        UPDATE tbl_unt_userinfo_mt01
-        SET cash = #{payment},
-            chp = #{maxhp}
-        WHERE pid = #{pid}
+        update baseball.TBL_UNT_USERINFO_MT01
+           set CASH = #{payment},
+               CHP = #{maxhp}
+         where PID = #{pid}
     </update>
 </mapper>

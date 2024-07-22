@@ -1,128 +1,69 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.matchai.board.mapper.BoardMapper">
-
 	<!-- kbo 당일 경기 개수 확인 -->
 	<select id="kboCnt" resultType="Integer">
-		SELECT COUNT(tkt.game_date)
-		FROM tbl_kboschedule_ttp tkt
-		WHERE CAST(tkt.game_date AS DATE) = CURRENT_DATE;
+		SELECT COUNT(tkt.DATE) 
+		FROM TBL_KBOSCHEDULE_TTP tkt
+		 WHERE tkt.DATE = '2024-07-11'; <!--데이터 없어서 날자 지정해놓음, 수정되면 아래 줄로 수정 -->
+		<!--WHERE tkt.DATE = CURDATE(); -->
 	</select>
-
+	
 	<!-- mlb 당일 경기 개수 확인 -->
 	<select id="mlbCnt" resultType="Integer">
-		SELECT COUNT(tmt.game_date)
-		FROM tbl_mlbschedule_ttp tmt
-		WHERE CAST(tmt.game_date AS DATE) = CURRENT_DATE + INTERVAL '1 DAY';
+		SELECT COUNT(tmt.DATE) 
+		FROM TBL_MLBSCHEDULE_TTP tmt
+		 WHERE tmt.DATE = '2024-07-12'; <!--데이터 없어서 날자 지정해놓음, 수정되면 아래 줄로 수정 -->
+		<!--WHERE tmt.DATE = DATE_ADD(CURDATE(), INTERVAL 1 DAY);  -->
 	</select>
-
+	
 	<!-- kbo 당일 경기 목록 가져오기 -->
 	<select id="kboMatchList" resultType="hashmap">
-		SELECT
-			ttm1.teamname_kr AS team1,
-			ttm2.teamname_kr AS team2,
-			tkt.team1 AS code1,
-			tkt.team2 AS code2,
-			tkt.match_code AS matchcode
-		FROM
-			tbl_kboschedule_ttp tkt
-				JOIN
-			tbl_team_mt01 ttm1 ON tkt.team1 = ttm1.team_code
-				JOIN
-			tbl_team_mt01 ttm2 ON tkt.team2 = ttm2.team_code
-		WHERE
-			CAST(tkt.game_date AS DATE) = CURRENT_DATE;
+		SELECT 
+		    ttm1.TEAMNAME_KR AS team1,
+		    ttm2.TEAMNAME_KR AS team2,
+		    tkt.TEAM1 AS code1,
+		    tkt.TEAM2 AS code2
+		FROM 
+		    TBL_KBOSCHEDULE_TTP tkt
+		JOIN 
+		    TBL_TEAM_MT01 ttm1 ON tkt.TEAM1 = ttm1.TEAM_CODE
+		JOIN 
+		    TBL_TEAM_MT01 ttm2 ON tkt.TEAM2 = ttm2.TEAM_CODE
+		WHERE  
+		    tkt.DATE = '2024-07-11'; <!-- 데이터 없어서 날자 지정해놓음, 수정되면 아래 줄로 수정 -->
+		    <!--tkt.DATE = CURDATE();   -->
 	</select>
-
+	
 	<!-- mlb 당일 경기 목록 가져오기 -->
 	<select id="mlbMatchList" resultType="hashmap">
-		SELECT
-			ttm1.teamname_kr AS team1,
-			ttm2.teamname_kr AS team2,
-			tmt.team1 AS code1,
-			tmt.team2 AS code2,
-			tmt.match_code AS matchcode
-		FROM
-			tbl_mlbschedule_ttp tmt
-				JOIN
-			tbl_team_mt01 ttm1 ON tmt.team1 = ttm1.team_code
-				JOIN
-			tbl_team_mt01 ttm2 ON tmt.team2 = ttm2.team_code
-		WHERE
-			CAST(tmt.game_date AS DATE) = CURRENT_DATE + INTERVAL '1 DAY';
+		SELECT 
+		    ttm1.TEAMNAME_KR AS team1,
+		    ttm2.TEAMNAME_KR AS team2,
+		    tmt.TEAM1 AS code1,
+		    tmt.TEAM2 AS code2
+		FROM 
+		    TBL_MLBSCHEDULE_TTP tmt
+		JOIN 
+		    TBL_TEAM_MT01 ttm1 ON tmt.TEAM1 = ttm1.TEAM_CODE
+		JOIN 
+		    TBL_TEAM_MT01 ttm2 ON tmt.TEAM2 = ttm2.TEAM_CODE
+		WHERE   
+		   tmt.DATE = '2024-07-12'; <!-- 데이터 없어서 날자 지정해놓음, 수정되면 아래 줄로 수정 --> 
+		   <!-- tmt.DATE = DATE_ADD(CURDATE(), INTERVAL 1 DAY);   -->
 	</select>
-
+	
 	<select id="getGameData" parameterType="hashmap" resultType="hashmap">
-		SELECT tgt.team1,
-			   tgt.team2,
-			   ttm1.teamname_kr AS team1name,
-			   ttm2.teamname_kr as team2name,
-			   tgt.team1_winrate,
-			   tgt.team2_winrate,
-			   tgt.team1_score,
-			   tgt.team2_score,
-			   tgt.game_analysis,
-			   tgt.match_code AS matchcode
-		FROM tbl_gptexepect_ttp tgt
-				 INNER JOIN tbl_team_mt01 ttm1 ON tgt.team1 = ttm1.team_code
-				 INNER JOIN tbl_team_mt01 ttm2 ON tgt.team2 = ttm2.team_code
-		WHERE tgt.team1 = #{teamCode2}
-		  AND tgt.team2 = #{teamCode1}
-		LIMIT 1
+		SELECT tgt.TEAM1, tgt.TEAM2, ttm1.TEAMNAME_KR AS TEAM1NAME, ttm2.TEAMNAME_KR as TEAM2NAME,
+	       tgt.TEAM1_WINRATE, tgt.TEAM2_WINRATE, tgt.TEAM1_SCORE, tgt.TEAM2_SCORE, tgt.GAME_ANALYSIS 
+	  	  FROM TBL_GPTEXEPECT_TTP tgt 
+	     INNER JOIN TBL_TEAM_MT01 ttm1 on tgt.TEAM1 = ttm1.TEAM_CODE
+	     INNER JOIN TBL_TEAM_MT01 ttm2 on tgt.TEAM2 = ttm2.TEAM_CODE
+	     WHERE tgt.TEAM1 = #{teamCode2}
+	       AND tgt.TEAM2 = #{teamCode1}
+	     LIMIT 1
 	</select>
-
-	<select id="aiData" parameterType="string" resultType="hashmap">
-		SELECT tgt.team1,
-			   tgt.team2,
-			   ttm1.teamname_kr AS team1name,
-			   ttm2.teamname_kr AS team2name,
-			   tgt.team1_winrate,
-			   tgt.team2_winrate,
-			   tgt.team1_score,
-			   tgt.team2_score,
-			   tgt.game_analysis,
-			   tgt.match_code as matchcode
-		FROM tbl_gptexepect_ttp tgt
-				 INNER JOIN tbl_team_mt01 ttm1 ON tgt.team1 = ttm1.team_code
-				 INNER JOIN tbl_team_mt01 ttm2 ON tgt.team2 = ttm2.team_code
-		WHERE tgt.match_code = #{matchcode}
-		ORDER BY tgt.team1 -- 여기서 원하는 컬럼으로 정렬
-		LIMIT 1;
-	</select>
-
-	<select id="searchBoard" parameterType="string" resultType="integer">
-		select count(*)
-		  from tbl_board_nt01 tbn
-		where tbn.match_code = #{matchcode}
-	</select>
-
-	<select id="getBoardNumber" parameterType="string" resultType="integer">
-		select brdno
-		from tbl_board_nt01 tbn
-		where tbn.match_code = #{matchcode}
-	</select>
-
-	<select id="getCommentList" parameterType="string" resultType="hashmap">
-		select brdno ,cmt_memo as memo ,cmt_user as user
-		from tbl_commnet_nt01 tcn
-		where tcn.brdno = #{brdno}
-		  and del_flag ='N'
-		order by cmt_date asc
-	</select>
-
-	<insert id="insertComment" parameterType="hashmap">
-		insert into tbl_commnet_nt01 (brdno ,cmt_memo, cmt_date, cmt_user, last_date, last_user)
-		values (#{brdno}, #{memo}, now(), #{pid}, now(), #{pid});
-
-	</insert>
-
-
-	<insert id="insertAiData" parameterType="hashmap">
-		insert into tbl_board_nt01 (brd_code, match_code, title, memo, brd_date, brd_user, last_date,last_user)
-		values(#{brdcode},#{matchcode} ,#{title} ,#{game_analysis},now() ,#{adduser} ,now() , #{adduser} )
-	</insert>
-
 </mapper>

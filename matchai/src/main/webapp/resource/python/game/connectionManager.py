@@ -243,7 +243,7 @@ def ConnectionGpt(d_stat, set_d):
             {"role": "user", "content": "{} (parent): {}".format(parent_status['parent']['name'], user_request)})
         try:
             response = openai.ChatCompletion.create(
-                model='gpt-4o-mini',
+                model='gpt-3.5-turbo',
                 messages=messages,
                 max_tokens=300,  # gpt response의 최대값 갯수.
                 temperature=0.6

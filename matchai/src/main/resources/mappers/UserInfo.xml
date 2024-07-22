@@ -6,34 +6,35 @@
 
     <select id="searchUserInfo" parameterType="string" resultType="integer">
         SELECT COUNT(*)
-        FROM tbl_unt_userinfo_mt01 tuu
-        WHERE tuu.pid = #{param}
-          AND d_flag = 'N'
+        FROM TBL_UNT_USERINFO_MT01 tuu
+        WHERE tuu.PID = #{param}
+          AND D_FLAG = 'N'
     </select>
 
     <insert id="insertUserInfo" parameterType="map">
-        INSERT INTO tbl_unt_userinfo_mt01 (pid, pnm, psex)
-        VALUES (#{PID}, #{PNM}, #{PSEX})
+        INSERT INTO TBL_UNT_USERINFO_MT01 (PID,PNM,PSEX)
+        values (#{PID},#{PNM},#{PSEX})
     </insert>
 
     <select id="getUserInfo" parameterType="string" resultType="map">
-        SELECT tuu.pid AS pid,
-               tuu.pnm AS pnm,
-               tuu.psex AS psex,
-               tuu.cash AS cash,
-               tuu.plvl AS plvl,
-               tumn.maxhp AS maxhp,
-               tumn.chp AS chp
-        FROM tbl_unt_userinfo_mt01 tuu
-                 INNER JOIN tbl_unt_dstats_nt01 tumn
-                            ON tuu.pid = tumn.pid
-        WHERE tuu.pid = #{param}
-          AND tuu.d_flag = 'N';
+        SELECT tuu.PID AS pid,
+               tuu.PNM AS pnm,
+               tuu.PSEX AS psex,
+               tuu.CASH AS cash,
+               tuu.PLVL AS plvl,
+               tumn.MAXHP AS maxhp,
+               tumn.CHP AS chp
+        FROM TBL_UNT_USERINFO_MT01 tuu
+                 INNER JOIN TBL_UNT_DSTATS_NT01 tumn
+                         ON tuu.PID = tumn.PID
+        WHERE tuu.PID = 'user10@naver.com'
+          AND tuu.D_FLAG = 'N';
     </select>
 
     <insert id="setDstate" parameterType="map">
-        INSERT INTO tbl_unt_dstats_nt01 (pid, d_name, i, e, s, n, t, f, j, p, mood, stress, fatigue, age, mbti, sex)
-        VALUES (#{pid}, #{name}, #{I}, #{E}, #{S}, #{N}, #{T}, #{F}, #{J}, #{P}, #{mood}, #{stress}, #{fatigue}, #{age}, #{mbti}, #{sex})
+        INSERT INTO TBL_UNT_DSTATS_NT01 (PID, D_NAME, I, E, S, N, T, F, J, P, MOOD, STRESS, FATIGUE, AGE, MBTI, SEX)
+             VALUES(#{pid},#{name},#{I},#{E},#{S},#{N},#{T},#{F},#{J},#{P},#{mood} ,#{stress} ,#{fatigue}, #{age}, #{mbti}, #{sex})
     </insert>
+
 
 </mapper>
