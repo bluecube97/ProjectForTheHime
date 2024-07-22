@@ -7,6 +7,12 @@
 
 	<!-- kbo 당일 경기 개수 확인 -->
 	<select id="kboCnt" resultType="Integer">
+		SELECT COUNT(tkt.DATE) 
+		FROM TBL_KBOSCHEDULE_TTP tkt
+		<!-- WHERE tkt.DATE = '2024-07-02'; 데이터 없어서 날자 지정해놓음, 수정되면 아래 줄로 수정 -->
+		WHERE tkt.DATE = CURDATE();<!-- -->
+		 WHERE tkt.DATE = '2024-07-11'; <!--데이터 없어서 날자 지정해놓음, 수정되면 아래 줄로 수정 -->
+		<!--WHERE tkt.DATE = CURDATE(); -->
 		SELECT COUNT(tkt.game_date)
 		FROM tbl_kboschedule_ttp tkt
 		WHERE CAST(tkt.game_date AS DATE) = CURRENT_DATE;
@@ -14,6 +20,12 @@
 
 	<!-- mlb 당일 경기 개수 확인 -->
 	<select id="mlbCnt" resultType="Integer">
+		SELECT COUNT(tmt.DATE) 
+		FROM TBL_MLBSCHEDULE_TTP tmt
+		<!-- WHERE tmt.DATE = '2024-07-03'; 데이터 없어서 날자 지정해놓음, 수정되면 아래 줄로 수정 -->
+		WHERE tmt.DATE = DATE_ADD(CURDATE(), INTERVAL 1 DAY);<!--  -->
+		 WHERE tmt.DATE = '2024-07-12'; <!--데이터 없어서 날자 지정해놓음, 수정되면 아래 줄로 수정 -->
+		<!--WHERE tmt.DATE = DATE_ADD(CURDATE(), INTERVAL 1 DAY);  -->
 		SELECT COUNT(tmt.game_date)
 		FROM tbl_mlbschedule_ttp tmt
 		WHERE CAST(tmt.game_date AS DATE) = CURRENT_DATE + INTERVAL '1 DAY';
@@ -21,6 +33,22 @@
 
 	<!-- kbo 당일 경기 목록 가져오기 -->
 	<select id="kboMatchList" resultType="hashmap">
+		SELECT 
+		    ttm1.TEAMNAME_KR AS team1,
+		    ttm2.TEAMNAME_KR AS team2,
+		    tkt.TEAM1 AS code1,
+		    tkt.TEAM2 AS code2
+		FROM 
+		    TBL_KBOSCHEDULE_TTP tkt
+		JOIN 
+		    TBL_TEAM_MT01 ttm1 ON tkt.TEAM1 = ttm1.TEAM_CODE
+		JOIN 
+		    TBL_TEAM_MT01 ttm2 ON tkt.TEAM2 = ttm2.TEAM_CODE
+		WHERE  
+		    <!-- tkt.DATE = '2024-07-02';  데이터 없어서 날자 지정해놓음, 수정되면 아래 줄로 수정 -->
+		    tkt.DATE = CURDATE(); <!--  -->
+		    tkt.DATE = '2024-07-11'; <!-- 데이터 없어서 날자 지정해놓음, 수정되면 아래 줄로 수정 -->
+		    <!--tkt.DATE = CURDATE();   -->
 		SELECT
 			ttm1.teamname_kr AS team1,
 			ttm2.teamname_kr AS team2,
@@ -39,6 +67,22 @@
 
 	<!-- mlb 당일 경기 목록 가져오기 -->
 	<select id="mlbMatchList" resultType="hashmap">
+		SELECT 
+		    ttm1.TEAMNAME_KR AS team1,
+		    ttm2.TEAMNAME_KR AS team2,
+		    tmt.TEAM1 AS code1,
+		    tmt.TEAM2 AS code2
+		FROM 
+		    TBL_MLBSCHEDULE_TTP tmt
+		JOIN 
+		    TBL_TEAM_MT01 ttm1 ON tmt.TEAM1 = ttm1.TEAM_CODE
+		JOIN 
+		    TBL_TEAM_MT01 ttm2 ON tmt.TEAM2 = ttm2.TEAM_CODE
+		WHERE   
+		   <!-- tmt.DATE = '2024-07-03'; 데이터 없어서 날자 지정해놓음, 수정되면 아래 줄로 수정 --> 
+		   tmt.DATE = DATE_ADD(CURDATE(), INTERVAL 1 DAY); <!--  -->
+		   tmt.DATE = '2024-07-12'; <!-- 데이터 없어서 날자 지정해놓음, 수정되면 아래 줄로 수정 --> 
+		   <!-- tmt.DATE = DATE_ADD(CURDATE(), INTERVAL 1 DAY);   -->
 		SELECT
 			ttm1.teamname_kr AS team1,
 			ttm2.teamname_kr AS team2,
