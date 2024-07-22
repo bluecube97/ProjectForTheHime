@@ -388,83 +388,82 @@ header {
 }
 
 .yoursamplereply {
-    font-family: 'Pretendard-Regular';
-    font-size: 18px;
-    position: relative;
-    background: #ffcccc;
-    border-radius: 5px;
-    width: max-content;
-    max-width: 400px;
-    min-height: 50px;
-    margin-top: -15px;
-    margin-bottom: -15px;
-    padding: 0;
-    border-bottom: none;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    text-align: left;
-    padding: 10px;
-    white-space: pre-wrap;
-    /* 줄 바꿈을 허용 */
-    word-wrap: break-word;
-    /* 긴 단어를 잘라서 줄 바꿈 */
+	font-family: 'Pretendard-Regular';
+	font-size: 18px;
+	position: relative;
+	background: #ffcccc;
+	border-radius: 5px;
+	width: max-content;
+	max-width: 400px;
+	min-height: 50px;
+	margin-top: -5px;  /* Adjusted margin */
+	margin-bottom: -5px;  /* Adjusted margin */
+	padding: 0;
+	border-bottom: none;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	text-align: left;
+	padding: 10px;
+	white-space: pre-wrap;
+	/* Allow line breaks */
+	word-wrap: break-word;
+	/* Break long words */
 }
 
 .yoursamplereply:after {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    width: 0;
-    height: 0;
-    border: 8px solid transparent;
-    border-right-color: #ffcccc;
-    border-left: 0;
-    margin-top: -8px;
-    margin-left: -8px;
-
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 8px solid transparent;
+	border-right-color: #ffcccc;
+	border-left: 0;
+	margin-top: -8px;
+	margin-left: -8px;
 }
 
 .mysamplereply {
-    font-family: 'Pretendard-Regular';
-    font-size: 18px;
-    position: relative;
-    background: #cce5ff;
-    border-radius: 5px;
-    width: max-content;
-    max-width: 400px;
-    min-height: 50px;
-    margin-top: -15px;
-    margin-bottom: -15px;
-    padding: 0;
-    border-bottom: none;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    flex-direction: row-reverse;
-    text-align: left;
-    padding: 10px;
-    white-space: pre-wrap;
-    /* 줄 바꿈을 허용 */
-    word-wrap: break-word;
-    /* 긴 단어를 잘라서 줄 바꿈 */
-
+	font-family: 'Pretendard-Regular';
+	font-size: 18px;
+	position: relative;
+	background: #cce5ff;
+	border-radius: 5px;
+	width: max-content;
+	max-width: 400px;
+	min-height: 50px;
+	margin-top: -5px;  /* Adjusted margin */
+	margin-bottom: -5px;  /* Adjusted margin */
+	padding: 0;
+	border-bottom: none;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	flex-direction: row-reverse;
+	text-align: left;
+	padding: 10px;
+	white-space: pre-wrap;
+	/* Allow line breaks */
+	word-wrap: break-word;
+	/* Break long words */
 }
 
 .mysamplereply:after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 50%;
-    width: 0;
-    height: 0;
-    border: 8px solid transparent;
-    border-left-color: #cce5ff;
-    border-right: 0;
-    margin-top: -8px;
-    margin-right: -8px;
+	content: '';
+	position: absolute;
+	right: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 8px solid transparent;
+	border-left-color: #cce5ff;
+	border-right: 0;
+	margin-top: -8px;
+	margin-right: -8px;
 }
+
 
 .contents {
 	flex: 1;
