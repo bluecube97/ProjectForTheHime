@@ -1,0 +1,8 @@
+.column{
+    display: flex;
+    flex-direction: column;
+}
+.table-row {
+    display: flex;
+    justify-content: space-between;
+}

@@ -24,7 +24,7 @@
 					<li><button type="button" class="menu-btn" id="game-menu">경기</button></li>
 					<li><button type="button" class="menu-btn" id="data-menu">데이터센터</button></li>
 					<li><button type="button" class="menu-btn" id="aipick-menu">AI'sPick</button></li>
-					<li><button type="button" class="menu-btn" id="board-menu">게시판</button></li>
+					<li><button type="button" class="menu-btn" id="board-menu" onclick="openFreeBoard()">자유 게시판</button></li>
 					<c:choose>
 						<c:when test="${empty sessionScope.userInfo}">
 							<button type="button" class="menu-btn" id="minigame-menu" onclick="loginPlz()">미니게임</button>
@@ -32,7 +32,8 @@
 						<c:otherwise>
 							<button type="button" class="menu-btn" id="minigame-menu" onclick="startUnity()">미니게임</button>
 						</c:otherwise>
-					</c:choose>				</ul>
+					</c:choose>
+                </ul>
 			</div>
 		</nav>
 		<div class="auth-buttons">
@@ -267,7 +268,7 @@
 							<div id="teamScores">
                             	<div id="team1Score"></div>
                             	<div id="team2Score"></div>
-								<div id="exepect-warning">※저는 이때까지의 경기 결과로 분석을 해요! 제 추측은 빗나갈 수도 있어요!※</div>                            	
+								<div id="exepect-warning">※저는 이때까지의 경기 결과로 분석을 해요! 제 추측은 빗나갈 수도 있어요!※</div>
                         	</div>
 						</div>
 					</div>
