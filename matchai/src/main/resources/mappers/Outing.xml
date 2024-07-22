@@ -104,20 +104,20 @@
                gq.q_reward_cnt AS ritemcnt,
                gq.sfalg AS submit,
                gq.cflag AS complete
-        FROM tbl_unt_quest_nt01 gq
+        FROM baseball.tbl_unt_quest_nt01 gq
                  INNER JOIN tbl_unt_item_mt01 ti
                             ON ti.item_id = gq.q_obj
                  INNER JOIN tbl_unt_item_mt01 ti2
                             ON ti2.item_id = gq.q_reward
     </select>
     <update id="updatequestFlag" parameterType="map">
-        UPDATE tbl_unt_quest_nt01
+        UPDATE baseball.tbl_unt_quest_nt01
         SET cflag = #{cflag},
             sfalg = #{sflag}
         WHERE qno =  #{questno}
     </update>
     <update id="setafterHeal" parameterType="map">
-        UPDATE tbl_unt_userinfo_mt01
+        UPDATE baseball.tbl_unt_userinfo_mt01
         SET cash = #{payment},
             chp = #{maxhp}
         WHERE pid = #{pid}

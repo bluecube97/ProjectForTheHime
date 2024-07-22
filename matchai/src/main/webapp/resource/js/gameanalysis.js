@@ -94,7 +94,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	gptmentElement.innerText = gptment;
 
 });
-=======
 document.addEventListener('DOMContentLoaded', function () {
 	try {
 		// 로고 버튼 클릭 시
