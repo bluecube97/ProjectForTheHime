@@ -53,6 +53,10 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	@Override
+	public List<HashMap<String, Object>> getCurResults(HashMap<String, Object> params) {
+		return boardMapper.getCurResults(params);
+	}
+
 	public int searchBoard(String matchcode) {
 
 		return boardMapper.searchBoard(matchcode);

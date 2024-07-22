@@ -136,7 +136,18 @@
 		ORDER BY tgt.team1 -- 여기서 원하는 컬럼으로 정렬
 		LIMIT 1;
 	</select>
+	
+	<select id="getCurResults" parameterType="hashmap" resultType="hashmap">
+ 		  select distinct ttm1.teamname_kr as winteam, ttm2.teamname_kr as loseteam, 
+       			 tmn.winteam as winteamcode, tmn.loseteam as lostteamcode, 
+ 	   			 tmn.winscore as winscore, tmn.losescore as losescore, tmn.game_date 
+  			from ${leagueTbl} tmn 
+  		   inner join tbl_team_mt01 ttm1 on ttm1.team_code = tmn.winteam 
+  		   inner join tbl_team_mt01 ttm2 on ttm2.team_code = tmn.loseteam  
+ 		   where tmn.game_date like #{selym} 
+	</select>
 
+  
 	<select id="searchBoard" parameterType="string" resultType="integer">
 		select count(*)
 		  from tbl_board_nt01 tbn
@@ -160,9 +171,7 @@
 	<insert id="insertComment" parameterType="hashmap">
 		insert into tbl_commnet_nt01 (brdno ,cmt_memo, cmt_date, cmt_user, last_date, last_user)
 		values (#{brdno}, #{memo}, now(), #{pid}, now(), #{pid});
-
 	</insert>
-
 
 	<insert id="insertAiData" parameterType="hashmap">
 		insert into tbl_board_nt01 (brd_code, match_code, title, memo, brd_date, brd_user, last_date,last_user)

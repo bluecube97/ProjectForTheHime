@@ -18,14 +18,14 @@
                             ON ti.item_id = tr.item_id
                  LEFT JOIN tbl_unt_item_mt01 ti1
                            ON tr.req_item = ti1.item_id
-        WHERE ti.type_id = 1002
+        WHERE ti.type_id = '1002'
         ORDER BY ti.item_id
     </select>
 
     <select id="getClothingBuyList" resultType="map">
         SELECT ti.item_id as itemid, ti.name as itemnm, ti.desc as itemdesc, ti.sell_pri, ti.buy_pri as buyprice
         FROM tbl_unt_item_mt01 ti
-        WHERE ti.type_id = 3003
+        WHERE ti.type_id = '3003'
     </select>
 
     <select id="getSmithyList" resultType="map">
@@ -41,8 +41,8 @@
                             ON ti.item_id = tr.item_id
                  LEFT JOIN tbl_unt_item_mt01 ti1
                            ON tr.req_item = ti1.item_id
-        WHERE ti.type_id = 1000
-           OR ti.type_id = 1001
+        WHERE ti.type_id = '1000'
+           OR ti.type_id = '1001'
         ORDER BY ti.item_id
     </select>
 
@@ -53,9 +53,9 @@
                ti.sell_pri AS sellprice,
                ti.buy_pri AS buyprice
         FROM tbl_unt_item_mt01 ti
-        WHERE ti.type_id = 3000
-           OR  ti.type_id = 3001
-           OR  ti.type_id = 3002
+        WHERE ti.type_id = '3000'
+           OR  ti.type_id = '3001'
+           OR  ti.type_id = '3002'
     </select>
 
     <select id="gethospitalBuyList" resultType="map">
@@ -65,8 +65,8 @@
                ti.sell_pri AS sellprice,
                ti.buy_pri AS buyprice
         FROM tbl_unt_item_mt01 ti
-        WHERE type_id =3004
-           or type_id= 2002
+        WHERE type_id = '3004'
+           or type_id= '2002'
     </select>
 
     <select id="getvarietyStoreList" resultType="map">
@@ -77,8 +77,8 @@
                ti.sell_pri AS sellprice,
                ti.buy_pri AS buyprice
         FROM tbl_unt_item_mt01 ti
-        WHERE type_id =2001
-           or type_id= 3005
+        WHERE type_id = '2001'
+           or type_id= '3005'
     </select>
 
     <select id="getrestaurantList" resultType="map">
@@ -89,7 +89,7 @@
                ti.sell_pri AS sellprice,
                ti.buy_pri AS buyprice
         FROM tbl_unt_item_mt01 ti
-        WHERE type_id = 2000
+        WHERE type_id = '2000'
     </select>
 
     <select id="getquestList" resultType="map">

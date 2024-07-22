@@ -206,3 +206,26 @@
 		}
 
 	}
+
+
+	@GetMapping("/curresults")
+	public String curResults() {
+		return "curresults";
+	}
+	
+	@PostMapping("/getCurResults")
+	@ResponseBody
+	public List<HashMap<String, Object>> getCurResults(@RequestBody HashMap<String, Object> requests){
+		String selLeague = (String) requests.get("selLeague");
+		String selYear = (String) requests.get("selYear");
+		String selMonth = (String) requests.get("selMonth");
+		System.out.println(selLeague);
+		System.out.println(selYear);
+		System.out.println(selMonth);
+		
+		List<HashMap<String, Object>> curGamesResults = boardsvc.getCurResults(selLeague, selYear, selMonth);
+		System.out.println("컨트롤러 결과1 :" +curGamesResults);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		return curGamesResults;
+	}
+}

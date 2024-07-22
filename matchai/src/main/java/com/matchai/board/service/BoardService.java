@@ -23,6 +23,9 @@ public interface BoardService {
 	HashMap<String, Object> fetchGameData(String code1, String code2);
 
 	HashMap<String, Object> aiData(String matchcode);
+	
+	// 캘린더에 뿌려줄 데이터
+	List<HashMap<String, Object>> getCurResults(String selLeague, String selYear, String selMonth);
 
 	int searchBoard(String matchcode);
 
@@ -33,4 +36,5 @@ public interface BoardService {
     int getBoardNumber(String matchcode);
 
 	List<HashMap<String, Object>> getCommentList(String brdno);
+
 }
