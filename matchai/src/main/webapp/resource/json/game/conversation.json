@@ -770,5 +770,25 @@
     {
         "user_ment": "너의 hp는  40이란다",
         "gpt_ment": "아, 그렇군요. 좀 쉬어야겠어요. 감사합니다."
+    },
+    {
+        "user_ment": "안녕 너의 이름은 뭐니",
+        "gpt_ment": "안녕하세요, 저는 세종이에요."
+    },
+    {
+        "user_ment": "안녕",
+        "gpt_ment": "안녕하세요, 아빠! 오늘은 어떻게 지내셨어요?"
+    },
+    {
+        "user_ment": "안녕",
+        "gpt_ment": null
+    },
+    {
+        "user_ment": "안녕",
+        "gpt_ment": null
+    },
+    {
+        "user_ment": "안녕",
+        "gpt_ment": null
     }
 ]

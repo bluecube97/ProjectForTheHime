@@ -88,6 +88,23 @@
 									        </div>
 									        <button type="button" class="summary" id="summarybtn" onclick="window.location.href='/board/gameanalysis?team1=${game.code1}&team2=${game.code2}'" style="cursor: pointer;">경기 분석</button>
 									    </div>
+										<div class="game">
+											<div class="teams">
+												<div class="team team-a">
+														${game.team1}<img src="/resource/images/teamlogo/KBO/${game.code1}.png" alt="" class="team-logo">
+												</div>
+												<div class="versus">VS</div>
+												<div class="team team-b">
+													<img src="/resource/images/teamlogo/KBO/${game.code2}.png" alt="" class="team-logo">${game.team2}
+												</div>
+											</div>
+											<form action="/board/gamedetail" method="get">
+												<input type="hidden" name="team1" value="${game.code1}">
+												<input type="hidden" name="team2" value="${game.code2}">
+												<input type="hidden" name="matchcode" value="${game.matchcode}">
+												<button type="submit" class="summary">경기 분석</button>
+											</form>
+										</div>
 									</c:forEach>
 								</div>
 							</c:when>
@@ -114,6 +131,23 @@
 									        </div>
 									        <button type="button" class="summary" id="summarybtn" onclick="window.location.href='/board/gameanalysis?team1=${game.code1}&team2=${game.code2}'" style="cursor: pointer;">경기 분석</button>
 									    </div>
+										<div class="game">
+											<div class="teams">
+												<div class="team team-a">
+														${game.team1}<img src="/resource/images/teamlogo/MLB/${game.code1}.png" alt="" class="team-logo">
+												</div>
+												<div class="versus">VS</div>
+												<div class="team team-b">
+													<img src="/resource/images/teamlogo/MLB/${game.code2}.png" alt="" class="team-logo">${game.team2}
+												</div>
+											</div>
+											<form action="/board/gamedetail" method="get">
+												<input type="hidden" name="team1" value="${game.code1}">
+												<input type="hidden" name="team2" value="${game.code2}">
+												<input type="hidden" name="matchcode" value="${game.matchcode}">
+												<button type="submit" class="summary">경기 분석</button>
+											</form>
+										</div>
 									</c:forEach>
 								</div>
 							</c:when>

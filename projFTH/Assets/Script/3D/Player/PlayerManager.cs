@@ -1,7 +1,8 @@
+using Script._3D.Lib;
 using Script._3D.UI;
-using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Script._3D.Player
 {
@@ -10,6 +11,10 @@ namespace Script._3D.Player
         private GroundUI _groundUI;
 
         public float speed; // 이동속도
+        private Node _targetNode;
+        private List<Node> _path;
+        private Coroutine _moveCoroutine; // 이동 코루틴
+
         public Vector3 targetPosition; // 이동 할 목표 좌표
         public GameObject player;
         private PositionComponentVo _playerPositionComponent;
@@ -27,93 +32,58 @@ namespace Script._3D.Player
             _playerPositionComponent = player.GetComponent<PositionComponentVo>();
         }
 
-        private void Update()
+        public void SetPath(List<Node> newPath)
         {
-            // 플레이어 목표 좌표 설정
-            float targetX = targetPosition.x;
-            float targetZ = targetPosition.z;
-            // 플레이어 현재 위치 설정
-            float playerX = player.transform.position.x;
-            float playerZ = player.transform.position.z;
-            // 목표와 플레이어 사이의 거리 계산
-            float distanceX = Mathf.Abs(targetX - playerX);
-            float distanceZ = Mathf.Abs(targetZ - playerZ);
-            // 이동 방향 선언
-            Vector3 direction;
-            // X축 거리가 짧을 경우
-            if (distanceX <= distanceZ)
+            if (isMoving)
             {
-                // 목표에 도달하지 않았을 경우
-                if (!IsAtTargetPositionX() && !IsAtTargetPositionZ())
-                {
-                    direction = targetX > playerX ? Vector3.right.normalized : Vector3.left.normalized;
-                    transform.Translate(direction * (Time.deltaTime * speed), Space.World);
-                }
-                // X축만 목표에 도달했을 경우
-                else if (IsAtTargetPositionX() && !IsAtTargetPositionZ())
-                {
-                    direction = targetZ > playerZ ? Vector3.forward.normalized : Vector3.back.normalized;
-                    transform.Translate(direction * (Time.deltaTime * speed), Space.World);
-                }
-                // 목적지에 근접하면 이동을 멈추고, PositionComponentVo에 좌표 입력
-                if (IsAtTargetPositionX() && IsAtTargetPositionZ())
-                {
-                    _playerPositionComponent.posX = Convert.ToInt32(targetPosition.x / 5.5f);
-                    _playerPositionComponent.posZ = Convert.ToInt32(-targetPosition.z / 5.5f);
-
-                    _groundUI.SetPlaceBtnDistance();
-
-                    if (!isMoving) return; // 이동 중이었다면
-                    isMoving = false; // 이동 상태 업데이트
-                    if (MoveCnt == 0) _groundUI.DicePhase(); // MoveCnt가 0이면 DicePhase 호출
-                }
-                else
-                {
-                    isMoving = true;
-                }
+                Debug.Log("Already moving, cannot set new path");
+                return; // 이동 중이면 새로운 경로를 설정하지 않습니다.
             }
-            // Z축 거리가 짧을 경우
-            else
+
+            if (_moveCoroutine != null)
             {
-                // 목표에 도달하지 않았을 경우
-                if (!IsAtTargetPositionX() && !IsAtTargetPositionZ())
-                {
-                    direction = targetZ > playerZ ? Vector3.forward.normalized : Vector3.back.normalized;
-                    transform.Translate(direction * (Time.deltaTime * speed), Space.World);
-                }
-                // Z축만 목표에 도달했을 경우
-                else if (!IsAtTargetPositionX() && IsAtTargetPositionZ())
-                {
-                    direction = targetX > playerX ? Vector3.right.normalized : Vector3.left.normalized;
-                    transform.Translate(direction * (Time.deltaTime * speed), Space.World);
-                }
-                // 목적지에 근접하면 이동을 멈추고, PositionComponentVo에 좌표 입력
-                if (IsAtTargetPositionX() && IsAtTargetPositionZ())
-                {
-                    _playerPositionComponent.posX = Convert.ToInt32(targetPosition.x / 5.5f);
-                    _playerPositionComponent.posZ = Convert.ToInt32(-targetPosition.z / 5.5f);
-                    _groundUI.SetPlaceBtnDistance();
-
-                    if (!isMoving) return; // 이동 중이었다면
-                    isMoving = false; // 이동 상태 업데이트
-                    if (MoveCnt == 0) _groundUI.DicePhase(); // MoveCnt가 0이면 DicePhase 호출
-                }
-                else
-                {
-                    isMoving = true;
-                }
+                StopCoroutine(_moveCoroutine); // 기존 이동 코루틴 중단
+                _moveCoroutine = null; // 코루틴 참조 초기화
             }
+
+            _path = newPath;
+            _moveCoroutine = StartCoroutine(MoveAlongPath());
         }
 
-        // 목표 좌표의 X, Z축과의 거리가 각각 0.2f 이하인지 확인 (근접 여부)
-        private bool IsAtTargetPositionX()
+        private IEnumerator MoveAlongPath()
         {
-            return Mathf.Abs(transform.position.x - targetPosition.x) < 0.2f;
-        }
+            if (_path == null)
+            {
+                Debug.Log("Failed to find path");
+                yield break;
+            }
 
-        private bool IsAtTargetPositionZ()
-        {
-            return Mathf.Abs(transform.position.z - targetPosition.z) < 0.2f;
+            isMoving = true;
+
+            for (int i = 1; i < _path.Count; i++) // 첫 번째 노드는 건너뜁니다.
+            {
+                Node node = _path[i];
+                Vector3 targetPosition = new Vector3(node.Position.x * 5.5f, transform.position.y, node.Position.y * -5.5f);
+                while (Vector3.Distance(transform.position, targetPosition) > 0.1f)
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
+                    yield return null;
+                }
+            }
+
+            // 위치 업데이트
+            _playerPositionComponent.posX = _path[_path.Count - 1].Position.x;
+            _playerPositionComponent.posZ = _path[_path.Count - 1].Position.y;
+
+            isMoving = false;
+            _path = null; // 경로 초기화
+
+            _groundUI.SetPlaceBtnDistance();
+
+            if (MoveCnt == 0)
+            {
+                _groundUI.DicePhase();
+            }
         }
     }
 }
