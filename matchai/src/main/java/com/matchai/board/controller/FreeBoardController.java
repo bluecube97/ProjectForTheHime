@@ -19,6 +19,7 @@ public class FreeBoardController {
 
     @GetMapping("/main")
     public ModelAndView mainFreeBoard(ModelAndView mv) {
+        mv.setViewName("freeboard");
         List<Map<String, Object>> freeBoardList = freeboardsvc.getFreeBoardList();
 
         for(Map<String, Object> board : freeBoardList) {

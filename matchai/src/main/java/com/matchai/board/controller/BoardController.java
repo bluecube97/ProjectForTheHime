@@ -121,8 +121,7 @@
 		}
 
 		@GetMapping("/freeboard")
-		public ModelAndView gotoFreeBoard(ModelAndView mv) {
-			mv.setViewName("freeboard");
-			return mv;
+		public String gotoFreeBoard() {
+			return "redirect:/freeboard/main";
 		}
 	}
