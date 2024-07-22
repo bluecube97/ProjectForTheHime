@@ -9,7 +9,7 @@
         WHERE year = #{year} AND month = #{month}
     </select>
     <select id="getTodoList" parameterType="int" resultType="map">
-        SELECT todoname as "TODONAME", reward as "REWARD", losereward as "LOSEREWARD", statreward as "STATREWARD", todono as "TODONO"
+        SELECT todoname, reward, losereward, statreward, todono
         FROM tbl_unt_todolist_nt01
         WHERE todono = #{todono}
     </select>

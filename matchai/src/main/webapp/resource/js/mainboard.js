@@ -2,41 +2,36 @@ document.addEventListener('DOMContentLoaded', function() {
     const summaryButtons = document.querySelectorAll('.summary');
     let chart = null; // Chart 객체를 저장할 변수를 선언합니다.
 
-	// 로그인, 로그아웃, 회원가입 버튼 요소를 가져옴
-	const loginButton = document.getElementById('btn-login');
-	const logoutButton = document.getElementById('btn-logout');
-	const signupButton = document.getElementById('btn-signup');
+    // 로그인, 로그아웃, 회원가입 버튼 요소를 가져옴
+    const loginButton = document.getElementById('btn-login');
+    const logoutButton = document.getElementById('btn-logout');
+    const signupButton = document.getElementById('btn-signup');
 
-	// 로그인 버튼이 존재하면 클릭 이벤트 리스너 추가
-	if (loginButton) {
-		// 로그인 버튼 클릭 시, 로그인 주소로 이동
-		loginButton.addEventListener('click', function() {
-			window.location.href = '/user/login';
-		});
-	}
+    // 로그인 버튼이 존재하면 클릭 이벤트 리스너 추가
+    if (loginButton) {
+        loginButton.addEventListener('click', function() {
+            window.location.href = '/user/login';
+        });
+    }
 
-	// 로그아웃 버튼이 존재하면 클릭 이벤트 리스너 추가
-	if (logoutButton) {
-		// 로그아웃 버튼 클릭 시, 로그아웃 주소로 이동
-		logoutButton.addEventListener('click', function() {
-			window.location.href = '/user/logout';
-		});
-	}
+    // 로그아웃 버튼이 존재하면 클릭 이벤트 리스너 추가
+    if (logoutButton) {
+        logoutButton.addEventListener('click', function() {
+            window.location.href = '/user/logout';
+        });
+    }
 
-	// 회원가입 버튼이 존재하면 클릭 이벤트 리스너 추가
-	if (signupButton) {
-		// 회원가입 버튼 클릭 시, 회원가입 주소로 이동
-		signupButton.addEventListener('click', function() {
-			window.location.href = '/user/signup';
-		});
-	}
+    // 회원가입 버튼이 존재하면 클릭 이벤트 리스너 추가
+    if (signupButton) {
+        signupButton.addEventListener('click', function() {
+            window.location.href = '/user/signup';
+        });
+    }
 
     summaryButtons.forEach(function(button) {
         button.addEventListener('click', async function() {
             const team1 = this.getAttribute('data-team1');
             const team2 = this.getAttribute('data-team2');
-
-            // console.log("Team1:", team1, "Team2:", team2); // team1과 team2가 제대로 출력되는지 확인합니다.
 
             if (!team1 || !team2) {
                 console.error('team1 or team2 data attribute is missing');
@@ -58,12 +53,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 return response.json();
             }) // 서버 응답을 JSON으로 변환
             .then(data => {
-
                 if (!data) {
                     throw new Error('No data returned from server');
                 }
-
-                //console.log("Received data:", data);
 
                 // 모달 열기
                 const summaryModal = new bootstrap.Modal(document.getElementById('summaryModal'));
@@ -77,8 +69,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 승률에서 %를 제거, 숫자 변환
                 const team1WinRate = parseFloat(data.team1_winrate.replace('%', ''));
                 const team2WinRate = parseFloat(data.team2_winrate.replace('%', ''));
-                // 점수에서 '점' 제거, 숫자 편환
-            	const team1Score = parseInt(data.team1_score.replace('점', ''));
+                // 점수에서 '점' 제거, 숫자 변환
+                const team1Score = parseInt(data.team1_score.replace('점', ''));
                 const team2Score = parseInt(data.team2_score.replace('점', ''));
 
                 // 차트를 생성합니다.
@@ -106,7 +98,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
                         ]
                     },
-
                     options: {
                         responsive: false,
                         scales: {
@@ -128,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 GPTMENT.innerText = data.GAME_ANALYSIS;
                 GPTMENT.scrollTop = 0;
                 
-				let team1Result = `${data.team1name} : ${team1Score} 점`;
+                let team1Result = `${data.team1name} : ${team1Score} 점`;
                 let team2Result = `${data.team2name} : ${team2Score} 점`;
 
                 if (team1Score > team2Score) {
@@ -156,30 +147,28 @@ document.addEventListener('DOMContentLoaded', function() {
             chart = null;
         }
     });
-});
 
-document.addEventListener('DOMContentLoaded', function() {
-	// 오늘의 경기 KBO 클릭 시, KBO컨텐츠 ON, MLB컨텐츠 OFF
-	document.getElementById('kbo-tab').addEventListener('click', function() {
-		document.getElementById('kbo-content').style.display = 'block';
-		document.getElementById('mlb-content').style.display = 'none';
-	});
-	// 오늘의 경기 MLB 클릭 시, MLBO컨텐츠 ON, KBO컨텐츠 OFF
-	document.getElementById('mlb-tab').addEventListener('click', function() {
-		document.getElementById('kbo-content').style.display = 'none';
-		document.getElementById('mlb-content').style.display = 'block';
-	});
+    // 오늘의 경기 KBO 클릭 시, KBO컨텐츠 ON, MLB컨텐츠 OFF
+    document.getElementById('kbo-tab').addEventListener('click', function() {
+        document.getElementById('kbo-content').style.display = 'block';
+        document.getElementById('mlb-content').style.display = 'none';
+    });
+
+    // 오늘의 경기 MLB 클릭 시, MLB컨텐츠 ON, KBO컨텐츠 OFF
+    document.getElementById('mlb-tab').addEventListener('click', function() {
+        document.getElementById('kbo-content').style.display = 'none';
+        document.getElementById('mlb-content').style.display = 'block';
+    });
 });
 
 function startUnity(){
-	window.location.href = '/board/unity';
+    window.location.href = '/board/unity';
 }
 
 function openFreeBoard(){
     window.location.href = '/board/freeboard';
 }
 
-function  loginPlz(){
-	alert("로그인 후 사용가능 합니다.")
+function loginPlz(){
+    alert("로그인 후 사용가능 합니다.");
 }
-
