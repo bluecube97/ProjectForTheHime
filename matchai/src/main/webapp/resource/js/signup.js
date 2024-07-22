@@ -275,8 +275,8 @@ function getTeams(league) {
 
 				// 각 팀을 선택할 수 있는 옵션 요소를 생성합니다.
 				let option = document.createElement('option');
-				option.value = team.TEAM_CODE; // 값은 팀 코드입니다.
-				option.text = team.TEAMNAME_KR; // 텍스트는 팀 이름입니다.
+				option.value = team.team_code; // 값은 팀 코드입니다.
+				option.text = team.teamname_kr; // 텍스트는 팀 이름입니다.
 
 				// 팀 목록을 표시할 DOM 요소에 옵션을 추가합니다.
 				listleagues.appendChild(option);
