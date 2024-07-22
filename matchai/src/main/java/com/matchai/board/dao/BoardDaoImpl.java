@@ -48,6 +48,7 @@ public class BoardDaoImpl implements BoardDao {
 
 	@Override
 	public HashMap<String, Object> aiData(String matchcode) {
+
 		return boardMapper.aiData(matchcode);
 	}
 
@@ -56,5 +57,32 @@ public class BoardDaoImpl implements BoardDao {
 		return boardMapper.getCurResults(params);
 	}
 
+	public int searchBoard(String matchcode) {
+
+		return boardMapper.searchBoard(matchcode);
+	}
+
+	@Override
+	public void insertAiData(HashMap<String, Object> aiData) {
+
+		boardMapper.insertAiData(aiData);
+	}
+
+	@Override
+	public void insertComment(HashMap<String, Object> map) {
+		boardMapper.insertComment(map);
+
+	}
+
+	@Override
+	public int getBoardNumber(String matchcode) {
+		return boardMapper.getBoardNumber(matchcode);
+
+	}
+
+	@Override
+	public List<HashMap<String, Object>> getCommentList(String brdno) {
+		return boardMapper.getCommentList(brdno);
+	}
 
 }

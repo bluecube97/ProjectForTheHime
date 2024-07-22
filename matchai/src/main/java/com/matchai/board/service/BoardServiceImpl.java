@@ -4,11 +4,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.matchai.board.dao.BoardDao;
+
+import javax.servlet.http.HttpSession;
+
 @Service
 public class BoardServiceImpl implements BoardService {
 	@Autowired
@@ -49,10 +53,12 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public HashMap<String, Object> aiData(String matchcode) {
+
 		return boardDao.aiData(matchcode);
 	}
 
 	@Override
+
 	public List<HashMap<String, Object>> getCurResults(String selLeague, String selYear, String selMonth) {
 		HashMap<String, Object> params = new HashMap<>();
 		System.out.println("서비스 임플 :" + selLeague + selYear + selMonth);
@@ -83,4 +89,35 @@ public class BoardServiceImpl implements BoardService {
 		
 		return result;
 	}
+
+	public int searchBoard(String matchcode) {
+
+		return boardDao.searchBoard(matchcode);
+	}
+
+	@Override
+	public void insertAiData(HashMap<String, Object> aiData) {
+
+		boardDao.insertAiData(aiData);
+	}
+
+	@Override
+	public void insertComment(HashMap<String,Object>map ) {
+			boardDao.insertComment(map);
+
+
+	}
+
+	@Override
+	public int getBoardNumber(String matchcode) {
+
+		return boardDao.getBoardNumber(matchcode);
+	}
+
+	@Override
+	public List<HashMap<String, Object>> getCommentList(String brdno) {
+		return boardDao.getCommentList(brdno);
+	}
+
+
 }

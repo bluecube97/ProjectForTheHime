@@ -23,4 +23,15 @@ public interface BoardDao {
 
 	//예전 경기 기록 Fetch통신으로
 	List<HashMap<String, Object>> getCurResults(HashMap<String, Object> params);
+  
+	int searchBoard(String matchcode);
+
+	void insertAiData(HashMap<String, Object> aiData);
+
+	void insertComment(HashMap<String, Object> map);
+
+	int getBoardNumber(String matchcode);
+
+	List<HashMap<String, Object>> getCommentList(String brdno);
+
 }
