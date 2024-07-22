@@ -4,71 +4,71 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.unity.game.mapper.InventoryMapper">
 
-    <select id="GetSellThing" parameterType="map">
-        update TBL_UNT_INVEN_NT01
-        set CNT = #{itemcnt}
-        where PID = #{pid}
-          AND ITEM_ID = #{itemid}
-    </select>
+    <update id="GetSellThing" parameterType="map">
+        UPDATE tbl_unt_inven_nt01
+        SET cnt = #{itemcnt}
+        WHERE pid = #{pid}
+          AND item_id = #{itemid}
+    </update>
 
     <select id="GetUserInfoFromDB" parameterType="string" resultType="map">
-        SELECT CASH AS cash, CHP as chp, MAXHP as maxhp
-        FROM TBL_UNT_USERINFO_MT01
-        where PID = #{param}
+        SELECT cash AS cash, chp AS chp, maxhp AS maxhp
+        FROM tbl_unt_userinfo_mt01
+        WHERE pid = #{param}
     </select>
 
     <select id="GetInventoryList" parameterType="string" resultType="map">
-        SELECT i.ITEM_ID AS itemid,
-               i.NAME AS itemnm,
-               i.DESC AS itemdesc,
-               inv.CNT AS itemcnt,
-               i.SELL_PRI as sellprice
-        FROM TBL_UNT_INVEN_NT01 AS inv
-                 INNER JOIN TBL_UNT_ITEM_MT01 AS i
-                            ON inv.ITEM_ID = i.ITEM_ID
-                                AND inv.CNT != '0'
-                                AND inv.PID = #{param}
+        SELECT i.item_id AS itemid,
+               i.name AS itemnm,
+               i.desc AS itemdesc,
+               inv.cnt AS itemcnt,
+               i.sell_pri AS sellprice
+        FROM tbl_unt_inven_nt01 inv
+                 INNER JOIN tbl_unt_item_mt01 i
+                            ON inv.item_id = i.item_id
+        WHERE inv.cnt != '0'
+          AND inv.pid = #{param}
     </select>
 
     <insert id="SetpurchaseInsert" parameterType="map">
-        INSERT INTO TBL_UNT_INVEN_NT01 (PID, ITEM_ID , CNT, USBL,USBL_SLOT)
-        values (#{pid}, #{itemid}, #{cnt}, #{usbl}, #{slot})
+        INSERT INTO tbl_unt_inven_nt01 (pid, item_id, cnt, usbl, usbl_slot)
+        VALUES (#{pid}, #{itemid}, #{cnt}, #{usbl}, #{slot})
     </insert>
 
     <update id="SetpurchaseUpdate" parameterType="map">
-        update TBL_UNT_INVEN_NT01
-        set CNT = #{bitem}
-        where PID = #{pid}
-          AND ITEM_ID = #{itemid}
+        UPDATE tbl_unt_inven_nt01
+        SET cnt = #{bitem}
+        WHERE pid = #{pid}
+          AND item_id = #{itemid}
     </update>
 
     <update id="Setpayment" parameterType="map">
-        update TBL_UNT_USERINFO_MT01
-        set CASH = #{payment}
-        where PID = #{pid}
+        UPDATE tbl_unt_userinfo_mt01
+        SET cash = #{payment}
+        WHERE pid = #{pid}
     </update>
 
     <update id="SetCreatePayment" parameterType="map">
-        update TBL_UNT_INVEN_NT01
-        set CNT = #{itemcnt}
-        where PID = #{pid}
-          AND ITEM_ID = #{itemid}
+        UPDATE tbl_unt_inven_nt01
+        SET cnt = #{itemcnt}
+        WHERE pid = #{pid}
+          AND item_id = #{itemid}
     </update>
 
     <update id="SetCreateUpdate" parameterType="map">
-        update TBL_UNT_INVEN_NT01
-        set CNT = #{itemcnt}
-        where PID = #{pid}
-          AND ITEM_ID = #{itemid}
+        UPDATE tbl_unt_inven_nt01
+        SET cnt = #{itemcnt}
+        WHERE pid = #{pid}
+          AND item_id = #{itemid}
     </update>
 
     <insert id="SetCreateInsert" parameterType="map">
-        INSERT INTO TBL_UNT_INVEN_NT01 (PID, ITEM_ID , CNT, USBL,USBL_SLOT)
-        values (#{pid}, #{itemid}, #{itemcnt}, (select USBL from TBL_UNT_ITEM_MT01 where TBL_UNT_ITEM_MT01.ITEM_ID =  #{itemid}),
-                (SELECT tit.TYPE_NM
-                 FROM TBL_UNT_ITEM_MT01 ti
-                          INNER JOIN TBL_UNT_ITEM_TYPE_NT01 tit
-                                     ON tit.TYPE_ID = ti.TYPE_ID
-                 WHERE ti.ITEM_ID = #{itemid}));
+        INSERT INTO tbl_unt_inven_nt01 (pid, item_id, cnt, usbl, usbl_slot)
+        VALUES (#{pid}, #{itemid}, #{itemcnt},
+                (SELECT usbl FROM tbl_unt_item_mt01 WHERE tbl_unt_item_mt01.item_id = #{itemid}),
+                (SELECT tit.type_nm
+                 FROM tbl_unt_item_mt01 ti
+                          INNER JOIN tbl_unt_item_type_nt01 tit ON tit.type_id = ti.type_id
+                 WHERE ti.item_id = #{itemid}))
     </insert>
 </mapper>

@@ -3,14 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.unity.game.mapper.LifeTimeMapper">
-    <select id="getTodoNo" parameterType="int" resultType="int">
-        SELECT DISTINCT TODONO
-        FROM TBL_UNT_TODODATE_NT02
-        WHERE YEAR = #{year} AND MONTH = #{month}
+    <select id="getTodoNo" parameterType="map" resultType="int">
+        SELECT DISTINCT todono
+        FROM tbl_unt_tododate_nt02
+        WHERE year = #{year} AND month = #{month}
     </select>
     <select id="getTodoList" parameterType="int" resultType="map">
-        SELECT TODONAME, REWARD, LOSEREWARD, STATREWARD, TODONO
-        FROM TBL_UNT_TODOLIST_NT01
-        WHERE TODONO = #{todono}
+        SELECT todoname as "TODONAME", reward as "REWARD", losereward as "LOSEREWARD", statreward as "STATREWARD", todono as "TODONO"
+        FROM tbl_unt_todolist_nt01
+        WHERE todono = #{todono}
     </select>
 </mapper>
