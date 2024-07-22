@@ -127,7 +127,8 @@ public class BoardController {
 	}
 	
 	@PostMapping("/getCurResults")
-	public List<HashMap<String, Object>>getCurResults(@RequestBody HashMap<String, Object> requests){
+	@ResponseBody
+	public List<HashMap<String, Object>> getCurResults(@RequestBody HashMap<String, Object> requests){
 		String selLeague = (String) requests.get("selLeague");
 		String selYear = (String) requests.get("selYear");
 		String selMonth = (String) requests.get("selMonth");
@@ -136,7 +137,8 @@ public class BoardController {
 		System.out.println(selMonth);
 		
 		List<HashMap<String, Object>> curGamesResults = boardsvc.getCurResults(selLeague, selYear, selMonth);
-		System.out.println("컨트롤러 결과 :" +curGamesResults);
+		System.out.println("컨트롤러 결과1 :" +curGamesResults);
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		return curGamesResults;
 	}
 }

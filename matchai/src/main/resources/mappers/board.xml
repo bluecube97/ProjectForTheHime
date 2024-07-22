@@ -93,7 +93,7 @@
 	</select>
 	
 	<select id="getCurResults" parameterType="hashmap" resultType="hashmap">
- 		  select ttm1.teamname_kr as winteam, ttm2.teamname_kr as loseteam, 
+ 		  select distinct ttm1.teamname_kr as winteam, ttm2.teamname_kr as loseteam, 
        			 tmn.winteam as winteamcode, tmn.loseteam as lostteamcode, 
  	   			 tmn.winscore as winscore, tmn.losescore as losescore, tmn.game_date 
   			from ${leagueTbl} tmn 

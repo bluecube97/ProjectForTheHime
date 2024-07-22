@@ -21,17 +21,20 @@ function populateYearOptions() {
 
 function selectLeague(league) {
     selectedLeague = league;
+    console.log("selectLeague : ", selectedLeague);
     updateCalendar();
 }
 
 function selectMonth(month) {
     const monthNames = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
     document.getElementById('month-header').innerText = monthNames[month - 1];
+    console.log("selectMonth : ", month);
     populateCalendar(month);
 }
 
 function updateCalendar() {
-    const selectedMonth = document.getElementById('month-header').innerText.replace('월', '');
+    const selectedMonth = document.getElementById('month-header').innerText.replace('월', '').trim();
+    console.log("updateCalendar : ", selectedMonth);
     selectMonth(parseInt(selectedMonth));
 }
 
@@ -57,7 +60,6 @@ function populateCalendar(month) {
             }
         }
         calendarBody += '</tr>';
-        if (dayCount > daysInMonth) break;
     }
 
     document.getElementById('calendar-body').innerHTML = calendarBody;
@@ -65,14 +67,14 @@ function populateCalendar(month) {
 }
 
 function fetchGameResults(year, month) {
-    const url = '/board/getCurResults'; // 절대 경로로 설정
     const data = {
         selLeague: selectedLeague,
         selYear: String(year),
         selMonth: month < 10 ? '0' + month : String(month) // Ensure month is a string
     };
 
-    fetch(url, {
+    console.log("컨트롤러에 보내는 data : ", data);
+    fetch('/board/getCurResults', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -83,7 +85,7 @@ function fetchGameResults(year, month) {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response.json();
+        return response.json(); // 응답을 JSON으로 파싱
     })
     .then(results => {
         console.log('Fetched game results:', results);
@@ -92,16 +94,15 @@ function fetchGameResults(year, month) {
     .catch(error => console.error('Error fetching game results:', error));
 }
 
-
 function updateCalendarWithResults(results) {
     const year = document.getElementById('year').value;
     const month = document.getElementById('month-header').innerText.replace('월', '').trim();
     const days = document.querySelectorAll('.day');
-    
+
     days.forEach(dayElement => {
         const day = dayElement.innerText;
         const date = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
-        
+
         results.forEach(game => {
             if (game.game_date === date) {
                 const inner = dayElement.nextElementSibling.querySelector('.inner ul');
