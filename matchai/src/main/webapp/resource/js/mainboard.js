@@ -56,7 +56,6 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.href = '/user/signup';
         });
     }
-
 });
 
 function startUnity() {
