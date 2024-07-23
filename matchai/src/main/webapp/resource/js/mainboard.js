@@ -56,14 +56,12 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.href = '/user/signup';
         });
     }
-
-
-    function startUnity() {
-        window.location.href = '/board/unity';
-    }
-
-    function loginPlz() {
-        alert("로그인 후 사용가능 합니다.")
-    }
-
 });
+
+function startUnity() {
+    window.location.href = '/board/unity';
+}
+
+function loginPlz() {
+    alert("로그인 후 사용가능 합니다.")
+}
