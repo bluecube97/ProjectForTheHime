@@ -64,7 +64,8 @@
 			   tgt.team2_winrate,
 			   tgt.team1_score,
 			   tgt.team2_score,
-			   tgt.game_analysis
+			   tgt.game_analysis,
+				tgt.match_code as matchcode
 		FROM tbl_gptexepect_ttp tgt
 				 INNER JOIN tbl_team_mt01 ttm1 ON tgt.team1 = ttm1.team_code
 				 INNER JOIN tbl_team_mt01 ttm2 ON tgt.team2 = ttm2.team_code
@@ -93,7 +94,7 @@
 		   tgt.team1_score,
 		   tgt.team2_score,
 		   tgt.game_analysis,
-		   tgt.match_code AS matchcode
+		   tgt.match_code as matchcode
 		FROM tbl_gptexepect_ttp tgt
 		 INNER JOIN tbl_team_mt01 ttm1 ON tgt.team1 = ttm1.team_code
 		 INNER JOIN tbl_team_mt01 ttm2 ON tgt.team2 = ttm2.team_code
