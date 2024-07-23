@@ -46,8 +46,8 @@ public class UserInfoController {
     }
 
     @PostMapping("/info")
-    public Map<String,Object> GetUserInfo(@RequestParam String PID){
-        return userInfoService.getUserInfo(PID);
+    public Map<String,Object> GetUserInfo(@RequestParam String pid){
+        return userInfoService.getUserInfo(pid);
 
     }
     @PostMapping("/dstats")

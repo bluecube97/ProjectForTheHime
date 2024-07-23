@@ -17,7 +17,44 @@ namespace Script.UI.Outing.Hospital
         {
             _connDB = new ConnDB();
         }
+        
+        public IEnumerator GetBuyLists(Action<List<Dictionary<string, object>>> callback)
+        {
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/outing/hospital/buy");
+            yield return request.SendWebRequest();
 
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string json = request.downloadHandler.text;
+                List<Dictionary<string, object>> buylist = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
+                callback(buylist);
+            }
+            else
+            {
+                Debug.LogError("Error: " + request.error);
+            }
+        }
+        public IEnumerator SetAfterHeals(string pid, string payCash, string userMaxHP)
+        {
+            string url = "http://localhost:8080/api/outing/hospital/heal";
+
+            // WWWForm 생성
+            WWWForm form = new WWWForm();
+            form.AddField("pid", pid);
+            form.AddField("payment", payCash);
+            form.AddField("maxhp", userMaxHP);
+
+            using (UnityWebRequest request = UnityWebRequest.Post(url, form))
+            {
+                yield return request.SendWebRequest();
+
+                if (request.result != UnityWebRequest.Result.Success)
+                {
+                    Debug.LogError("Error: " + request.error);
+                }
+            }
+        }
+        
         /*
         //구매 아이템 목록을 담음
         public List<Dictionary<string, object>> getBuyList()
@@ -167,42 +204,5 @@ namespace Script.UI.Outing.Hospital
             }
         }
         */
-
-        public IEnumerator GetBuyLists(Action<List<Dictionary<string, object>>> callback)
-        {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/outing/hospital/buy");
-            yield return request.SendWebRequest();
-
-            if (request.result == UnityWebRequest.Result.Success)
-            {
-                string json = request.downloadHandler.text;
-                List<Dictionary<string, object>> buylist = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
-                callback(buylist);
-            }
-            else
-            {
-                Debug.LogError("Error: " + request.error);
-            }
-        }
-        public IEnumerator SetAfterHeals(string pid, string payCash, string userMaxHP)
-        {
-            string url = "http://localhost:8080/api/outing/hospital/heal";
-
-            // WWWForm 생성
-            WWWForm form = new WWWForm();
-            form.AddField("pid", pid);
-            form.AddField("payment", payCash);
-            form.AddField("maxhp", userMaxHP);
-
-            using (UnityWebRequest request = UnityWebRequest.Post(url, form))
-            {
-                yield return request.SendWebRequest();
-
-                if (request.result != UnityWebRequest.Result.Success)
-                {
-                    Debug.LogError("Error: " + request.error);
-                }
-            }
-        }
     }
 }

@@ -142,7 +142,7 @@ namespace Script.UI.StartLevel.Dao
         {
             string url = "http://localhost:8080/api/user/info";
             WWWForm form = new WWWForm();
-            form.AddField("PID", userEmail);
+            form.AddField("pid", userEmail);
 
             using (UnityWebRequest request = UnityWebRequest.Post(url, form))
             {

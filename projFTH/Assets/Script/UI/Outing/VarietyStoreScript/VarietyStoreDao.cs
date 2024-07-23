@@ -17,7 +17,24 @@ namespace Script.UI.Outing.VarietyStoreScript
         {
             _connDB = new ConnDB();
         }
-        public List<ItemListVO> LoadData()
+       
+        public IEnumerator GetBuyList(Action<List<Dictionary<string, object>>> callback)
+        {
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/outing/varstory/buy");
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string json = request.downloadHandler.text;
+                List<Dictionary<string, object>> buylist = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
+                callback(buylist);
+            }
+            else
+            {
+                Debug.LogError("Error: " + request.error);
+            }
+        }
+         /*public List<ItemListVO> LoadData()
         {
             List<ItemListVO> itemList = new List<ItemListVO>();
             var sql = "SELECT ti.ITEM_ID, TYPE_ID, ti.NAME, ti.`DESC`, ti.SELL_PRI, ti.BUY_PRI " +
@@ -93,23 +110,7 @@ namespace Script.UI.Outing.VarietyStoreScript
                     cmd.ExecuteNonQuery();
                 }
             }
-        }
+        }*/
 
-        public IEnumerator GetBuyList(Action<List<Dictionary<string, object>>> callback)
-        {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/outing/varstory/buy");
-            yield return request.SendWebRequest();
-
-            if (request.result == UnityWebRequest.Result.Success)
-            {
-                string json = request.downloadHandler.text;
-                List<Dictionary<string, object>> buylist = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
-                callback(buylist);
-            }
-            else
-            {
-                Debug.LogError("Error: " + request.error);
-            }
-        }
     }
 }
