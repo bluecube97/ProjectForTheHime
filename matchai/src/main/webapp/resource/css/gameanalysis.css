@@ -4,7 +4,8 @@
 @font-face {
 	font-family: 'HSSanTokki20-Regular';
 	src:
-		url('https://fastly.jsdelivr.net/gh/projectnoonnu/2405@1.0/HSSanTokki20-Regular.woff2') format('woff2');
+		url('https://fastly.jsdelivr.net/gh/projectnoonnu/2405@1.0/HSSanTokki20-Regular.woff2')
+		format('woff2');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -12,7 +13,8 @@
 @font-face {
 	font-family: 'yg-jalnan';
 	src:
-		url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+		url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff')
+		format('woff');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -20,7 +22,8 @@
 @font-face {
 	font-family: 'SDSamliphopangche_Outline';
 	src:
-		url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/SDSamliphopangche_Outline.woff') format('woff');
+		url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/SDSamliphopangche_Outline.woff')
+		format('woff');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -28,7 +31,8 @@
 @font-face {
 	font-family: 'WavvePADO-Regular';
 	src:
-		url('https://fastly.jsdelivr.net/gh/projectnoonnu/2404@1.0/WavvePADO-Regular.woff2') format('woff2');
+		url('https://fastly.jsdelivr.net/gh/projectnoonnu/2404@1.0/WavvePADO-Regular.woff2')
+		format('woff2');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -36,7 +40,8 @@
 @font-face {
 	font-family: 'Pretendard-Regular';
 	src:
-		url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+		url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+		format('woff');
 	font-weight: 300;
 	font-style: normal;
 }
@@ -44,18 +49,31 @@
 @font-face {
 	font-family: 'KBO-Dia-Gothic_bold';
 	src:
-		url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/KBO-Dia-Gothic_bold.woff') format('woff');
+		url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/KBO-Dia-Gothic_bold.woff')
+		format('woff');
 	font-weight: 300;
 	font-style: normal;
 }
 
+html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
 /* 기본 body 스타일 설정 */
 body {
+	height: 100%;
 	font-family: Arial, sans-serif;
 	background-color: #cce5ff !important;
 	/* 원하는 배경색 설정 */
 	margin: 0;
 	padding: 0;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 /* Header 스타일 설정 */
@@ -225,31 +243,44 @@ header {
 	margin-bottom: 10px;
 }
 
-/* 푸터 스타일 설정 */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+    background-image: url('/resource/images/footer/footer.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 200px;
+    width: 100%;
+    position: relative;
+    bottom: 0;
+    z-index: 1000;
+}
+
 .footer-items a {
-	color: white;
-	font-size: 20px;
-	font-weight: bold;
-	text-decoration: none;
-	text-shadow: 2px 2px 4px black;
-	font-family: 'Pretendard-Regular';
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    text-shadow: 2px 2px 4px black;
+    font-family: 'Pretendard-Regular';
 }
 
 .footer-items {
-	display: flex;
-	width: 100%;
-	margin-left: 100px;
-	margin-right: 100px;
-	justify-content: space-between;
-	align-items: center;
-	padding: 18px;
+    display: flex;
+    width: 100%;
+    margin-left: 100px;
+    margin-right: 100px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px;
 }
 
 .footer-items>div {
-	flex: 1;
-	text-align: center;
+    flex: 1;
+    text-align: center;
 }
-
 .anal {
 	flex-grow: 1;
 	margin-left: 250px;
@@ -257,7 +288,6 @@ header {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-
 }
 
 .analbox {
@@ -271,7 +301,6 @@ header {
 	border-radius: 10px;
 	background-color: #ffffff;
 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-
 }
 
 .analtitle {
@@ -343,20 +372,18 @@ header {
 }
 
 .reply {
-    padding-left: 20px;
-    padding-right: 20px;
-    font-family: 'Pretendard-Regular';
-    max-width: 100%;
-    /* 부모 요소의 너비를 초과하지 않도록 설정 */
-    white-space: pre-wrap;
-    /* 줄 바꿈을 허용 */
-    word-wrap: break-word;
-    /* 긴 단어를 잘라서 줄 바꿈 */
-    overflow-y: auto;
-    /* 모달 창 밖으로 벗어나는 텍스트를 숨김 */
-    max-height: 350px;
-    margin-left: 30px;
-    margin-top: -10px;
+	padding-left: 20px;
+	padding-right: 20px;
+	font-family: 'Pretendard-Regular';
+	max-width: 100%;
+	white-space: pre-wrap;
+	word-wrap: break-word;
+	overflow-y: auto;
+	min-height: 350px;
+	max-height: 350px;
+	margin-left: 0; /* 마진을 제거하여 왼쪽 여백 없앰 */
+	margin-top: 0; /* 상단 마진을 제거 */
+	padding-top: -10px; /* 상단 패딩을 추가하여 여백 조정 */
 }
 
 .replyment {
@@ -365,85 +392,84 @@ header {
 	margin-top: 20px;
 	display: flex;
 	align-items: center;
+	justify-content: absolute;
 }
 
 .yoursamplereply {
-    font-family: 'Pretendard-Regular';
-    font-size: 18px;
-    position: relative;
-    background: #ffcccc;
-    border-radius: 5px;
-    width: max-content;
-    max-width: 400px;
-    min-height: 50px;
-    margin-top: -15px;
-    margin-bottom: -15px;
-    padding: 0;
-    border-bottom: none;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    text-align: left;
-    padding: 10px;
-    white-space: pre-wrap;
-    /* 줄 바꿈을 허용 */
-    word-wrap: break-word;
-    /* 긴 단어를 잘라서 줄 바꿈 */
+	font-family: 'Pretendard-Regular';
+	font-size: 18px;
+	position: relative;
+	background: #ffcccc;
+	border-radius: 5px;
+	width: max-content;
+	max-width: 400px;
+	min-height: 50px;
+	margin-top: -130px;
+	margin-bottom: -50px;
+	padding: 0;
+	border-bottom: none;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	text-align: left;
+	padding: 10px;
+	white-space: pre-wrap;
+	/* 줄 바꿈을 허용 */
+	word-wrap: break-word;
+	/* 긴 단어를 잘라서 줄 바꿈 */
 }
 
 .yoursamplereply:after {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    width: 0;
-    height: 0;
-    border: 8px solid transparent;
-    border-right-color: #ffcccc;
-    border-left: 0;
-    margin-top: -8px;
-    margin-left: -8px;
-
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 8px solid transparent;
+	border-right-color: #ffcccc;
+	border-left: 0;
+	margin-top: -8px;
+	margin-left: -8px;
 }
 
 .mysamplereply {
-    font-family: 'Pretendard-Regular';
-    font-size: 18px;
-    position: relative;
-    background: #cce5ff;
-    border-radius: 5px;
-    width: max-content;
-    max-width: 400px;
-    min-height: 50px;
-    margin-top: -15px;
-    margin-bottom: -15px;
-    padding: 0;
-    border-bottom: none;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    flex-direction: row-reverse;
-    text-align: left;
-    padding: 10px;
-    white-space: pre-wrap;
-    /* 줄 바꿈을 허용 */
-    word-wrap: break-word;
-    /* 긴 단어를 잘라서 줄 바꿈 */
-
+	font-family: 'Pretendard-Regular';
+	font-size: 18px;
+	position: relative;
+	background: #cce5ff;
+	border-radius: 5px;
+	width: max-content;
+	max-width: 400px;
+	min-height: 50px;
+	margin-top: -15px;
+	margin-bottom: -15px;
+	padding: 0;
+	border-bottom: none;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	flex-direction: row-reverse;
+	text-align: left;
+	padding: 10px;
+	white-space: pre-wrap;
+	/* 줄 바꿈을 허용 */
+	word-wrap: break-word;
+	/* 긴 단어를 잘라서 줄 바꿈 */
 }
 
 .mysamplereply:after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 50%;
-    width: 0;
-    height: 0;
-    border: 8px solid transparent;
-    border-left-color: #cce5ff;
-    border-right: 0;
-    margin-top: -8px;
-    margin-right: -8px;
+	content: '';
+	position: absolute;
+	right: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 8px solid transparent;
+	border-left-color: #cce5ff;
+	border-right: 0;
+	margin-top: -8px;
+	margin-right: -8px;
 }
 
 .contents {
@@ -456,33 +482,34 @@ header {
 }
 
 .contentsbtn {
-    font-family: 'RixInooAriDuriR';
-    font-weight: bold;
-    width: 50px;
-    height: 50px;
-    margin-left: 10px;
-    border-radius: 10px;
-    background-color: #002851;
-    font-size: 30px;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgba(0, 0, 0, 0.21);
-    border-bottom-color: rgba(0, 0, 0, 0.34);
-    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.34) inset,
-        0 2px 0 -1px rgba(0, 0, 0, 0.13),
-        0 3px 0 -1px rgba(0, 0, 0, 0.08),
-        0 3px 13px -1px rgba(0, 0, 0, 0.21);
+	font-family: 'RixInooAriDuriR';
+	font-weight: bold;
+	width: 50px;
+	height: 50px;
+	margin-left: 10px;
+	border-radius: 10px;
+	background-color: #002851;
+	font-size: 30px;
+	color: white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid rgba(0, 0, 0, 0.21);
+	border-bottom-color: rgba(0, 0, 0, 0.34);
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.34) inset, 0 2px 0 -1px
+		rgba(0, 0, 0, 0.13), 0 3px 0 -1px rgba(0, 0, 0, 0.08), 0 3px 13px -1px
+		rgba(0, 0, 0, 0.21);
 }
 
 .contentsbtn:active {
-    top: 1px;
-    border-color: rgba(0, 0, 0, 0.34) rgba(0, 0, 0, 0.21) rgba(0, 0, 0, 0.21);
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.89), 0 1px rgba(0, 0, 0, 0.05) inset;
-    position: relative;
-    text-align: center;
+	top: 1px;
+	border-color: rgba(0, 0, 0, 0.34) rgba(0, 0, 0, 0.21)
+		rgba(0, 0, 0, 0.21);
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.89), 0 1px rgba(0, 0, 0, 0.05)
+		inset;
+	position: relative;
+	text-align: center;
 }
 
 .replytitle {
@@ -497,37 +524,34 @@ header {
 	margin-bottom: 5px;
 }
 
-.games-row{
+.games-row {
 	margin-top: 110px;
 	margin-bottom: 30px;
 	margin-right: 50px;
 }
 
-
 .teams {
-    display: flex;
-    flex-direction: column; /* 세로 정렬을 위해 컬럼 방향으로 설정 */
-    align-items: flex-start; /* 왼쪽 정렬 */
-    margin-bottom: 10px;
-    font-family: 'KBO-Dia-Gothic_bold';
-    font-weight: 300;
-    background-color: #ffffff;
-    border-radius: 10px;
-    white-space: nowrap; /* 글자 길이만큼 박스를 만들기 위해 */
-
+	display: flex;
+	flex-direction: column; /* 세로 정렬을 위해 컬럼 방향으로 설정 */
+	align-items: flex-start; /* 왼쪽 정렬 */
+	margin-bottom: 10px;
+	font-family: 'KBO-Dia-Gothic_bold';
+	font-weight: 300;
+	background-color: #ffffff;
+	border-radius: 10px;
+	white-space: nowrap; /* 글자 길이만큼 박스를 만들기 위해 */
 }
 
 .team {
-    font-size: 15px;
-    padding: 5px 10px;
-    display: inline-flex; /* 팀 로고와 텍스트를 가로로 정렬하기 위해 */
-    align-items: center; /* 가운데 정렬 */
+	font-size: 15px;
+	padding: 5px 10px;
+	display: inline-flex; /* 팀 로고와 텍스트를 가로로 정렬하기 위해 */
+	align-items: center; /* 가운데 정렬 */
 }
 
 .team-logo {
-    width: 30px;
-    height: 30px;
-    margin-left: 5px;
-    margin-right: 5px;
+	width: 30px;
+	height: 30px;
+	margin-left: 5px;
+	margin-right: 5px;
 }
-
