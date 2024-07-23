@@ -67,9 +67,11 @@ public class BoardController {
 
 	// 경기예측 페이지
 	@GetMapping("/gamedetail")
-	public ModelAndView gameAnalysis(HttpServletRequest req, ModelAndView mv,
-			@RequestParam(name = "matchcode") String matchcode, @RequestParam(name = "team1") String team1,
-			@RequestParam(name = "team2") String team2, HttpSession session) {
+	public ModelAndView gameAnalysis(HttpServletRequest req, ModelAndView mv, HttpSession session,
+			@RequestParam(name = "matchcode") String matchcode,
+			@RequestParam(name = "team1") String team1,
+			@RequestParam(name = "team2") String team2) {
+		
 		System.out.println("MatchCode: " + matchcode);
 		// 게임 데이터 조회
 		HashMap<String, Object> aiData = boardsvc.aiData(matchcode);
@@ -105,7 +107,17 @@ public class BoardController {
 
 		// 게시글 댓글 받아옴
 		List<HashMap<String, Object>> comment = boardsvc.getCommentList(brdno);
+		
+		// KBO 경기 목록 들고오기
+		List<HashMap<String, Object>> kboList = boardsvc.kboMatchList();
 
+		// MLB 경기 목록 들고오기
+		List<HashMap<String, Object>> mlbList = boardsvc.mlbMatchList();
+		
+		mv.addObject("team1", team1);
+		mv.addObject("team2", team2);
+		mv.addObject("klist", kboList);
+		mv.addObject("mlist", mlbList);
 		mv.addObject("comment", comment);
 		mv.addObject("aiData", aiData);
 		mv.setViewName("gamedetail");
