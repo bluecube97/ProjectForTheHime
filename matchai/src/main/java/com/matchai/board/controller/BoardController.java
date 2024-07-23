@@ -190,11 +190,13 @@ public class BoardController {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game data not found");
 		}
 
-		@GetMapping("/freeboard")
-		public String gotoFreeBoard() {
-			return "redirect:/freeboard/main";
-		}
+
 		return gameData;
+	}
+
+	@GetMapping("/freeboard")
+	public String gotoFreeBoard() {
+		return "redirect:/freeboard/main";
 	}
 
 	@GetMapping("/resource/Build/UnityBuilder.framework.js.gz")
