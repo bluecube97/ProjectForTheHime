@@ -226,26 +226,6 @@ header {
 }
 
 /* 푸터 스타일 설정 */
-.analfooter {
-	display: flex;
-	justify-content: space-between;
-	padding: 0;
-	/* Padding 제거 */
-	margin-top: 29px;
-	background-image: url('/resource/images/footer/footer.jpg');
-	background-size: cover;
-	/* 이미지가 푸터 영역을 덮도록 설정 */
-	background-position: center;
-	background-repeat: no-repeat;
-	height: 200px;
-	/* 이미지 높이에 맞춰 조정 */
-	width: 100%;
-	/* 사이드바를 제외한 넓이로 설정 */
-	position: relative;
-	z-index: 1000;
-	/* sidebar보다 위에 오도록 설정 */
-}
-
 .footer-items a {
 	color: white;
 	font-size: 20px;
