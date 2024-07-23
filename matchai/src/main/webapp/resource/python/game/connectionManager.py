@@ -43,7 +43,7 @@ def read_comm_file(question, response):
 # gpt응답에서 순수 대답 분리.
 def get_origin_ment(daughter_reply):
     gpt_str = None  # gpt_str에 기본값 할당
-    if "GPT (Daughter): " in daughter_reply:
+    if "GPT (Daughter): " or "GPT (딸): " in daughter_reply:
         start_gpt = daughter_reply.find("GPT (Daughter): ") + len("GPT (Daughter): ")
         end_gpt = daughter_reply.find("**", start_gpt)
         gpt_str = daughter_reply[start_gpt:end_gpt].strip()
