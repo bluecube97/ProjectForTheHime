@@ -1,0 +1,81 @@
+.column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.kbobat, .mlbbat {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 2fr;
+    grid-gap: 1px;
+    background-color: #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    max-width: 1500px;
+}
+
+.kbopit, .mlbpit {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 2fr;
+    grid-gap: 1px;
+    background-color: #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    max-width: 1500px;
+}
+
+.kbobat-content, .kbopit-content, .mlbbat-content, .mlbpit-content {
+    width: 100%;
+    max-width: 1500px;
+}
+
+.kbobat-row, .mlbbat-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 2fr;
+    grid-gap: 1px;
+    background-color: #fff;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.kbopit-row, .mlbpit-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 2fr;
+    grid-gap: 1px;
+    background-color: #fff;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.kbobat div, .kbopit div, .mlbbat div, .mlbpit div {
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+}
+
+.kbobat-row div, .kbopit-row div, .mlbbat-row div, .mlbpit-row div {
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.kbobat div:first-child, .kbopit div:first-child, .mlbbat div:first-child, .mlbpit div:first-child {
+    background-color: #e9e9e9;
+    font-weight: bold;
+}
+
+.kbobat-row div:first-child, .kbopit-row div:first-child, .mlbbat-row div:first-child, .mlbpit-row div:first-child {
+    background-color: #f1f1f1;
+    font-weight: normal;
+}
+
+.kbobat-row:nth-child(even), .kbopit-row:nth-child(even), .mlbbat-row:nth-child(even), .mlbpit-row:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.kbobat-row:nth-child(odd), .kbopit-row:nth-child(odd), .mlbbat-row:nth-child(odd), .mlbpit-row:nth-child(odd) {
+    background-color: #fff;
+}

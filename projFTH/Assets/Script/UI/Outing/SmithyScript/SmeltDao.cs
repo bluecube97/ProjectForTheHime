@@ -18,7 +18,41 @@ namespace Script.UI.Outing.SmithyScript
             _connDB = new ConnDB();
         }
 
-        //구매 리스트 받아오기
+        
+        public IEnumerator GetBuyLists(Action<List<Dictionary<string, object>>> callback)
+        {
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/outing/smithy/buy");
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string json = request.downloadHandler.text;
+                List<Dictionary<string, object>> buylist = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
+                callback(buylist);
+            }
+            else
+            {
+                Debug.LogError("Error: " + request.error);
+            }
+        }
+        public IEnumerator GetSmeltLists(Action<List<Dictionary<string, object>>> callback)
+        {
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/outing/smithy/list");
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string json = request.downloadHandler.text;
+                List<Dictionary<string, object>> smeltList = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
+                callback(smeltList);
+            }
+            else
+            {
+                Debug.LogError("Error: " + request.error);
+            }
+        }
+       
+        /*//구매 리스트 받아오기
         public List<Dictionary<string, object>> GetBuyList()
         {
             List<Dictionary<string, object>> BuyList = new List<Dictionary<string, object>>();
@@ -54,40 +88,6 @@ namespace Script.UI.Outing.SmithyScript
             }
             return BuyList;
         }
-        
-        public IEnumerator GetBuyLists(Action<List<Dictionary<string, object>>> callback)
-        {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/outing/smithy/buy");
-            yield return request.SendWebRequest();
-
-            if (request.result == UnityWebRequest.Result.Success)
-            {
-                string json = request.downloadHandler.text;
-                List<Dictionary<string, object>> buylist = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
-                callback(buylist);
-            }
-            else
-            {
-                Debug.LogError("Error: " + request.error);
-            }
-        }
-        public IEnumerator GetSmeltLists(Action<List<Dictionary<string, object>>> callback)
-        {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/outing/smithy/list");
-            yield return request.SendWebRequest();
-
-            if (request.result == UnityWebRequest.Result.Success)
-            {
-                string json = request.downloadHandler.text;
-                List<Dictionary<string, object>> smeltList = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
-                callback(smeltList);
-            }
-            else
-            {
-                Debug.LogError("Error: " + request.error);
-            }
-        }
-       
         //재련 LIST 받아오기
         public List<Dictionary<string, object>> GetSmeltList()
         {
@@ -179,7 +179,7 @@ namespace Script.UI.Outing.SmithyScript
                     cmd.ExecuteNonQuery();
                 }
             }
-        }
+        }*/
 
     }
 }

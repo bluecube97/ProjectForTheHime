@@ -22,7 +22,7 @@
 			<div class="main_menu">
 				<ul>
 					<li><button type="button" class="menu-btn" id="game-menu">경기</button></li>
-					<li><button type="button" class="menu-btn" id="data-menu">데이터센터</button></li>
+					<li><button type="button" class="menu-btn" id="data-menu" onclick="openDataCenter()">데이터센터</button></li>
 					<li><button type="button" class="menu-btn" id="aipick-menu">AI'sPick</button></li>
 					<li><button type="button" class="menu-btn" id="board-menu" onclick="openFreeBoard()">자유 게시판</button></li>
 					<c:choose>
@@ -212,10 +212,10 @@
 			</div>
 			<div>
 				<div>
-					<a href="https://www.google.com">google.com</a>
+					<a href="https://github.com/bluecube97/ProjectForTheHime">깃허브</a>
 				</div>
 				<div>
-					<a href="https://www.google.com">google.com</a>
+					<a href="https://github.com/bluecube97/ProjectForTheHime">깃허브</a>
 				</div>
 				<div>
 					<a href="https://www.google.com">google.com</a>
@@ -226,35 +226,5 @@
 			</div>
 		</div>
 	</footer>
-	<!-- 모달 추가 -->
-	<div class="modal fade" id="summaryModal" tabindex="-1"
-		aria-labelledby="summaryModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="summaryModalLabel">경기 요약 분석</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<div class="modal-body_row">
-						<div class="col-md-6">
-							<canvas id="summaryChart" width="300" height="350"></canvas>
-						</div>
-						<div class="col-md-6">
-							<img src="/resource/images/modal/modaltop.jpg" alt="모달" class="modal_top">
-							<div id="summaryText"></div>
-							<div id="teamScores">
-                            	<div id="team1Score"></div>
-                            	<div id="team2Score"></div>
-								<div id="exepect-warning">※저는 이때까지의 경기 결과로 분석을 해요! 제 추측은 빗나갈 수도 있어요!※</div>
-                        	</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- 모달 끝 -->
 </body>
 </html>

@@ -19,8 +19,23 @@ namespace Script.UI.Outing.RestaurantScript
             restaurantManager = GetComponent<RestaurantManager>(); // 현재 게임 오브젝트에 붙어 있는 RestaurantFoodList 스크립트를 가져옴
             _connDB = new ConnDB();
         }
-        
-        //음식 정보 받아옴
+        public IEnumerator GetFoodList(Action<List<Dictionary<string, object>>> callback)
+        {
+            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/outing/restaurant/list");
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string json = request.downloadHandler.text;
+                List<Dictionary<string, object>> foodlist = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
+                callback(foodlist);
+            }
+            else
+            {
+                Debug.LogError("Error: " + request.error);
+            }
+        }
+        /*//음식 정보 받아옴
         public List<FoodListVO> GetFoodListFromDB()
         {
             List<FoodListVO> FoodList = new List<FoodListVO> ();
@@ -94,23 +109,8 @@ namespace Script.UI.Outing.RestaurantScript
                 }
             }
 
-        }
-        public IEnumerator GetFoodList(Action<List<Dictionary<string, object>>> callback)
-        {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/outing/restaurant/list");
-            yield return request.SendWebRequest();
-
-            if (request.result == UnityWebRequest.Result.Success)
-            {
-                string json = request.downloadHandler.text;
-                List<Dictionary<string, object>> foodlist = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
-                callback(foodlist);
-            }
-            else
-            {
-                Debug.LogError("Error: " + request.error);
-            }
-        }
+        }*/
+      
 
         
     }

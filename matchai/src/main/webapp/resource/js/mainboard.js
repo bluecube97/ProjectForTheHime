@@ -69,3 +69,7 @@ function loginPlz() {
 function openFreeBoard(){
     window.location.href = '/board/freeboard';
 }
+
+function openDataCenter(){
+    window.location.href = '/board/datacenter';
+}
