@@ -11,7 +11,7 @@
 			   usernm,
 			   usernickname,
 			   userage
-		FROM tbl_user_nt_01
+		FROM baseball.tbl_user_nt_01
 		WHERE useremail = #{smail}
 		  AND userpw = encode(digest(#{spass}, 'sha256'), 'hex')
 		  AND formflag = 'N'
@@ -20,47 +20,47 @@
 	<!-- 아이디 존재 유무 확인 -->
 	<select id="UserCheck" parameterType="hashmap" resultType="integer">
 		SELECT COUNT(useremail)
-		FROM tbl_user_nt_01
+		FROM baseball.baseball.tbl_user_nt_01
 		WHERE useremail = #{smail}
 	</select>
 
 	<!-- 아이디 중복 확인 -->
 	<select id="emailCheck" parameterType="string" resultType="integer">
 		SELECT COUNT(*)
-		FROM tbl_user_nt_01
+		FROM baseball.tbl_user_nt_01
 		WHERE useremail = #{param}
 		  AND deleteflag = 'N'
 	</select>
 
 	<!-- 회원가입 정보 저장 -->
 	<insert id="signUp" parameterType="hashmap">
-		INSERT INTO tbl_user_nt_01 (useremail, userpw, usernm, usernickname, userage, deleteflag, formflag)
+		INSERT INTO baseball.tbl_user_nt_01 (useremail, userpw, usernm, usernickname, userage, deleteflag, formflag)
 		VALUES (#{smail}, encode(digest(#{spass}, 'sha256'), 'hex'), #{sname}, #{snick}, #{sage}, 'N', 'N')
 	</insert>
 
 	<!--  팀정보 가져오기 -->
 	<select id="getTeams" parameterType="string" resultType="hashmap">
 		SELECT team_code, teamname_kr
-		FROM tbl_team_mt01
+		FROM baseball.tbl_team_mt01
 		WHERE league_code = #{league}
 	</select>
 
 	<!-- 사용자별 선호하는 팀 저장-->
 	<insert id="saveUserTeam" parameterType="map" useGeneratedKeys="true" keyProperty="seq">
-		INSERT INTO tbl_user_nt_02 (useremail, league_code, team_code, teamname_kr)
+		INSERT INTO baseball.tbl_user_nt_02 (useremail, league_code, team_code, teamname_kr)
 		VALUES (#{smail}, #{league}, #{teamCode}, #{teamName})
 	</insert>
 
 	<!-- 구글 아이디 존재 유무 확인 -->
 	<select id="GoogleUserCheck" parameterType="hashmap" resultType="integer">
 		SELECT COUNT(useremail)
-		FROM tbl_user_nt_01
+		FROM baseball.tbl_user_nt_01
 		WHERE useremail = #{smail}
 	</select>
 
 	<!-- 구글 사용자 정보 저장 -->
 	<insert id="saveGoogleUser" parameterType="hashmap">
-		INSERT INTO tbl_user_nt_01 (useremail, userpw, usernm, usernickname, userage, deleteflag, formflag)
+		INSERT INTO baseball.tbl_user_nt_01 (useremail, userpw, usernm, usernickname, userage, deleteflag, formflag)
 		VALUES (#{useremail}, encode(digest(#{useremail}, 'sha256'), 'hex'), #{usernm}, #{usernickname}, #{userage}, 'N', 'G')
 	</insert>
 

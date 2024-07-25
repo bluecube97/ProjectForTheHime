@@ -13,10 +13,10 @@
                tr.req_item   AS req_itemid,
                ti1.name      AS req_name,
                tr.r_item_cnt as req_itemcnt
-        FROM tbl_unt_item_mt01 ti
-                 INNER JOIN tbl_unt_recipe_nt01 tr
+        FROM baseball.tbl_unt_item_mt01 ti
+                 INNER JOIN baseball.tbl_unt_recipe_nt01 tr
                             ON ti.item_id = tr.item_id
-                 LEFT JOIN tbl_unt_item_mt01 ti1
+                 LEFT JOIN baseball.tbl_unt_item_mt01 ti1
                            ON tr.req_item = ti1.item_id
         WHERE ti.type_id = '1002'
         ORDER BY ti.item_id
@@ -24,7 +24,7 @@
 
     <select id="getClothingBuyList" resultType="map">
         SELECT ti.item_id as itemid, ti.name as itemnm, ti.desc as itemdesc, ti.sell_pri, ti.buy_pri as buyprice
-        FROM tbl_unt_item_mt01 ti
+        FROM baseball.tbl_unt_item_mt01 ti
         WHERE ti.type_id = '3003'
     </select>
 
@@ -36,10 +36,10 @@
                tr.req_item AS req_item,
                ti1.name AS req_name,
                tr.r_item_cnt As req_itemcnt
-        FROM tbl_unt_item_mt01 ti
-                 INNER JOIN tbl_unt_recipe_nt01 tr
+        FROM baseball.tbl_unt_item_mt01 ti
+                 INNER JOIN baseball.tbl_unt_recipe_nt01 tr
                             ON ti.item_id = tr.item_id
-                 LEFT JOIN tbl_unt_item_mt01 ti1
+                 LEFT JOIN baseball.tbl_unt_item_mt01 ti1
                            ON tr.req_item = ti1.item_id
         WHERE ti.type_id = '1000'
            OR ti.type_id = '1001'
@@ -52,7 +52,7 @@
                ti.desc AS itemdesc,
                ti.sell_pri AS sellprice,
                ti.buy_pri AS buyprice
-        FROM tbl_unt_item_mt01 ti
+        FROM baseball.tbl_unt_item_mt01 ti
         WHERE ti.type_id = '3000'
            OR  ti.type_id = '3001'
            OR  ti.type_id = '3002'
@@ -64,7 +64,7 @@
                ti.desc AS itemdesc,
                ti.sell_pri AS sellprice,
                ti.buy_pri AS buyprice
-        FROM tbl_unt_item_mt01 ti
+        FROM baseball.tbl_unt_item_mt01 ti
         WHERE type_id = '3004'
            or type_id= '2002'
     </select>
@@ -76,7 +76,7 @@
                ti.desc AS itemdesc,
                ti.sell_pri AS sellprice,
                ti.buy_pri AS buyprice
-        FROM tbl_unt_item_mt01 ti
+        FROM baseball.tbl_unt_item_mt01 ti
         WHERE type_id = '2001'
            or type_id= '3005'
     </select>
@@ -88,7 +88,7 @@
                ti.desc AS itemdesc,
                ti.sell_pri AS sellprice,
                ti.buy_pri AS buyprice
-        FROM tbl_unt_item_mt01 ti
+        FROM baseball.tbl_unt_item_mt01 ti
         WHERE type_id = '2000'
     </select>
 
@@ -105,9 +105,9 @@
                gq.sfalg AS submit,
                gq.cflag AS complete
         FROM baseball.tbl_unt_quest_nt01 gq
-                 INNER JOIN tbl_unt_item_mt01 ti
+                 INNER JOIN baseball.tbl_unt_item_mt01 ti
                             ON ti.item_id = gq.q_obj
-                 INNER JOIN tbl_unt_item_mt01 ti2
+                 INNER JOIN baseball.tbl_unt_item_mt01 ti2
                             ON ti2.item_id = gq.q_reward
     </select>
     <update id="updatequestFlag" parameterType="map">

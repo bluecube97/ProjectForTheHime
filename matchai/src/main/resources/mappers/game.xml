@@ -13,7 +13,7 @@
                tbn.memo,
                tbn.brd_date,
                tbn.brd_user
-        from tbl_board_nt01 tbn
+        from baseball.tbl_board_nt01 tbn
     </select>
 
 </mapper>

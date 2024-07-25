@@ -8,14 +8,14 @@
 	<!-- kbo 당일 경기 개수 확인 -->
 	<select id="kboCnt" resultType="Integer">
 		SELECT COUNT(tkt.game_date)
-		FROM tbl_kboschedule_ttp tkt
+ 		FROM baseball.tbl_kboschedule_ttp tkt
 		WHERE CAST(tkt.game_date AS DATE) = CURRENT_DATE;
 	</select>
 
 	<!-- mlb 당일 경기 개수 확인 -->
 	<select id="mlbCnt" resultType="Integer">
 		SELECT COUNT(tmt.game_date)
-		FROM tbl_mlbschedule_ttp tmt
+		FROM baseball.tbl_mlbschedule_ttp tmt
 		WHERE CAST(tmt.game_date AS DATE) = CURRENT_DATE + INTERVAL '1 DAY';
 	</select>
 
@@ -28,11 +28,11 @@
 			tkt.team2 AS code2,
 			tkt.match_code AS matchcode
 		FROM
-			tbl_kboschedule_ttp tkt
+			baseball.tbl_kboschedule_ttp tkt
 				JOIN
-			tbl_team_mt01 ttm1 ON tkt.team1 = ttm1.team_code
+			baseball.tbl_team_mt01 ttm1 ON tkt.team1 = ttm1.team_code
 				JOIN
-			tbl_team_mt01 ttm2 ON tkt.team2 = ttm2.team_code
+			baseball.tbl_team_mt01 ttm2 ON tkt.team2 = ttm2.team_code
 		WHERE
 			CAST(tkt.game_date AS DATE) = CURRENT_DATE;
 	</select>
@@ -46,11 +46,11 @@
 			tmt.team2 AS code2,
 			tmt.match_code AS matchcode
 		FROM
-			tbl_mlbschedule_ttp tmt
+			baseball.tbl_mlbschedule_ttp tmt
 				JOIN
-			tbl_team_mt01 ttm1 ON tmt.team1 = ttm1.team_code
+			baseball.tbl_team_mt01 ttm1 ON tmt.team1 = ttm1.team_code
 				JOIN
-			tbl_team_mt01 ttm2 ON tmt.team2 = ttm2.team_code
+			baseball.tbl_team_mt01 ttm2 ON tmt.team2 = ttm2.team_code
 		WHERE
 			CAST(tmt.game_date AS DATE) = CURRENT_DATE + INTERVAL '1 DAY';
 	</select>
@@ -66,9 +66,9 @@
 			   tgt.team2_score,
 			   tgt.game_analysis,
 				tgt.match_code as matchcode
-		FROM tbl_gptexepect_ttp tgt
-				 INNER JOIN tbl_team_mt01 ttm1 ON tgt.team1 = ttm1.team_code
-				 INNER JOIN tbl_team_mt01 ttm2 ON tgt.team2 = ttm2.team_code
+		FROM baseball.tbl_gptexepect_ttp tgt
+				 INNER JOIN baseball.tbl_team_mt01 ttm1 ON tgt.team1 = ttm1.team_code
+				 INNER JOIN baseball.tbl_team_mt01 ttm2 ON tgt.team2 = ttm2.team_code
 		WHERE tgt.match_code = #{matchcode}
 		ORDER BY tgt.team1 -- 여기서 원하는 컬럼으로 정렬
 		LIMIT 1;
@@ -79,8 +79,8 @@
        			 tmn.winteam as winteamcode, tmn.loseteam as lostteamcode, 
  	   			 tmn.winscore as winscore, tmn.losescore as losescore, tmn.game_date 
   			from ${leagueTbl} tmn 
-  		   inner join tbl_team_mt01 ttm1 on ttm1.team_code = tmn.winteam 
-  		   inner join tbl_team_mt01 ttm2 on ttm2.team_code = tmn.loseteam  
+  		   inner join baseball.tbl_team_mt01 ttm1 on ttm1.team_code = tmn.winteam
+  		   inner join baseball.tbl_team_mt01 ttm2 on ttm2.team_code = tmn.loseteam
  		   where tmn.game_date like #{selym} 
 	</select>
 	
@@ -95,9 +95,9 @@
 		   tgt.team2_score,
 		   tgt.game_analysis,
 		   tgt.match_code as matchcode
-		FROM tbl_gptexepect_ttp tgt
-		 INNER JOIN tbl_team_mt01 ttm1 ON tgt.team1 = ttm1.team_code
-		 INNER JOIN tbl_team_mt01 ttm2 ON tgt.team2 = ttm2.team_code
+		FROM baseball.tbl_gptexepect_ttp tgt
+		 INNER JOIN baseball.tbl_team_mt01 ttm1 ON tgt.team1 = ttm1.team_code
+		 INNER JOIN baseball.tbl_team_mt01 ttm2 ON tgt.team2 = ttm2.team_code
 		WHERE tgt.team1 = #{teamCode2}
 		  AND tgt.team2 = #{teamCode1}
 		LIMIT 1
@@ -106,33 +106,33 @@
 		
 	<select id="searchBoard" parameterType="string" resultType="integer">
 		select count(*)
-		  from tbl_board_nt01 tbn
+		  from baseball.tbl_board_nt01 tbn
 		where tbn.match_code = #{matchcode}
 	</select>
 		
 	<select id="getBoardNumber" parameterType="string" resultType="integer">
 		select brdno
-		from tbl_board_nt01 tbn
+		from baseball.tbl_board_nt01 tbn
 		where tbn.match_code = #{matchcode}
 	</select>
 		
 	<select id="getCommentList" parameterType="string" resultType="hashmap">
-		select brdno ,cmt_memo as memo ,cmt_user as user
-		from tbl_commnet_nt01 tcn
+		select tcn. brdno, cmt_memo as memo ,cmt_user as user
+		from baseball.tbl_comment_nt01 tcn
 		where tcn.brdno = #{brdno}
 		  and del_flag ='N'
 		order by cmt_date asc
 	</select>
 		
 	<insert id="insertComment" parameterType="hashmap">
-		insert into tbl_commnet_nt01 (brdno ,cmt_memo, cmt_date, cmt_user, last_date, last_user)
+		insert into baseball.tbl_comment_nt01 (brdno ,cmt_memo, cmt_date, cmt_user, last_date, last_user)
 		values (#{brdno}, #{memo}, now(), #{pid}, now(), #{pid});
-		
+
 	</insert>
 		
 		
 	<insert id="insertAiData" parameterType="hashmap">
-		insert into tbl_board_nt01 (brd_code, match_code, title, memo, brd_date, brd_user, last_date,last_user)
+		insert into baseball.tbl_board_nt01 (brd_code, match_code, title, memo, brd_date, brd_user, last_date,last_user)
 		values(#{brdcode},#{matchcode} ,#{title} ,#{game_analysis},now() ,#{adduser} ,now() , #{adduser} )
 	</insert>
 </mapper>

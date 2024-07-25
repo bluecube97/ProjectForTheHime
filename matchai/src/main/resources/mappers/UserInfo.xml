@@ -6,13 +6,13 @@
 
     <select id="searchUserInfo" parameterType="string" resultType="integer">
         SELECT COUNT(*)
-        FROM tbl_unt_userinfo_mt01 tuu
+        FROM baseball.tbl_unt_userinfo_mt01 tuu
         WHERE tuu.pid = #{param}
           AND d_flag = 'N'
     </select>
 
     <insert id="insertUserInfo" parameterType="map">
-        INSERT INTO tbl_unt_userinfo_mt01 (pid, pnm, psex)
+        INSERT INTO baseball.tbl_unt_userinfo_mt01 (pid, pnm, psex)
         VALUES (#{PID}, #{PNM}, #{PSEX})
     </insert>
 
@@ -24,15 +24,15 @@
                tuu.plvl AS plvl,
                tumn.maxhp AS maxhp,
                tumn.chp AS chp
-        FROM tbl_unt_userinfo_mt01 tuu
-                 INNER JOIN tbl_unt_dstats_nt01 tumn
+        FROM baseball.tbl_unt_userinfo_mt01 tuu
+                 INNER JOIN baseball.tbl_unt_dstats_nt01 tumn
                             ON tuu.pid = tumn.pid
         WHERE tuu.pid = #{param}
           AND tuu.d_flag = 'N';
     </select>
 
     <insert id="setDstate" parameterType="map">
-        INSERT INTO tbl_unt_dstats_nt01 (pid, d_name, i, e, s, n, t, f, j, p, mood, stress, fatigue, age, mbti, sex)
+        INSERT INTO baseball.tbl_unt_dstats_nt01 (pid, d_name, i, e, s, n, t, f, j, p, mood, stress, fatigue, age, mbti, sex)
         VALUES (#{pid}, #{name}, #{I}, #{E}, #{S}, #{N}, #{T}, #{F}, #{J}, #{P}, #{mood}, #{stress}, #{fatigue}, #{age}, #{mbti}, #{sex})
     </insert>
 
