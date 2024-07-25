@@ -7,7 +7,7 @@
 
 <select id="getFreeBoardList" resultType="hashmap">
         SELECT brdno, title, username, hitcount, del_flag
-        FROM tbl_freeboard
+        FROM baseball.tbl_freeboard
         ORDER BY brdno
 </select>
 

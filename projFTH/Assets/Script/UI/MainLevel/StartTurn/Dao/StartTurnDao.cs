@@ -12,32 +12,15 @@ namespace Script.UI.MainLevel.StartTurn.Dao
 {
     public class StartTurnDao : MonoBehaviour
     {
-        // db 연결 정보
-        private ConnDB _connDB;
-
-        private void Awake()
-        {
-            _connDB = new ConnDB();
-        }
-
         // 현재 날짜의 연, 월을 입력받아 해당하는 TodoNO를 반환하여 리스트에 저장
         public IEnumerator GetTodoNo(int year, int month, Action<List<int>> callback)
         {
             UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/lifetime/todono/" + year + "/" + month);
             yield return request.SendWebRequest();
-
-
-            Debug.Log("IEnumerator: " + year + " " +month);
-
-
-            //request.SetRequestHeader("Autorization", "Bearer " + PlayerPrefs.GetString("token"));
             if (request.result == UnityWebRequest.Result.Success)
             {
-                Debug.Log("11111");
                 string json = request.downloadHandler.text;
-                Debug.Log("json: " + json);
                 List<int> todoNoList = JsonConvert.DeserializeObject<List<int>>(json);
-                Debug.Log("IEnumerator todoNoList: " + todoNoList.Count);
                 callback(todoNoList);
             }
             else

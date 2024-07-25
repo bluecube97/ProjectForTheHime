@@ -71,5 +71,6 @@ function openFreeBoard(){
 }
 function openAIpick(){
     window.location.href = '/board/aibaseball';
-
+function openDataCenter(){
+    window.location.href = '/board/datacenter';
 }

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.matchai.board.mapper.DataCenterMapper">
+
+    <select id="getKboBatList" resultType="hashmap">
+        select year, teamcode, ab, r, h, twob, threeb, hr, rbi, sb, cs, bb, so, avg, obp, slg, league_code, teamname_kr
+        from tbl_kbobat_nt02 as bat
+        inner join tbl_team_mt01 as team on bat.teamcode = team.team_code
+    </select>
+    <select id="getKboPitList" resultType="hashmap">
+        select year, teamcode, gs, cg, sho, s, ip, er, r, hr, bb, hp, so, league_code, teamname_kr
+        from tbl_kbopit_nt01 as pit
+        inner join tbl_team_mt01 as team on pit.teamcode = team.team_code
+    </select>
+    <select id="getMlbBatList" resultType="hashmap">
+        select year, teamcode, ab, r, h, twob, threeb, hr, rbi, sb, cs, bb, so, avg, obp, slg, league_code, teamname_kr
+        from tbl_mlbbat_nt02 as bat
+        inner join tbl_team_mt01 as team on bat.teamcode = team.team_code
+    </select>
+    <select id="getMlbPitList" resultType="hashmap">
+        select year, teamcode, gs, cg, sho, s, ip, er, r, hr, bb, hp, so, league_code, teamname_kr
+        from tbl_mlbpit_nt01 as pit
+        inner join tbl_team_mt01 as team on pit.teamcode = team.team_code
+    </select>
+
+</mapper>

@@ -5,7 +5,7 @@
 <mapper namespace="com.unity.game.mapper.InventoryMapper">
 
     <update id="GetSellThing" parameterType="map">
-        UPDATE tbl_unt_inven_nt01
+        UPDATE baseball.tbl_unt_inven_nt01
         SET cnt = #{itemcnt}
         WHERE pid = #{pid}
           AND item_id = #{itemid}
@@ -13,7 +13,7 @@
 
     <select id="GetUserInfoFromDB" parameterType="string" resultType="map">
         SELECT cash AS cash, chp AS chp, maxhp AS maxhp
-        FROM tbl_unt_userinfo_mt01
+        FROM baseball.tbl_unt_userinfo_mt01
         WHERE pid = #{param}
     </select>
 
@@ -23,52 +23,52 @@
                i.desc AS itemdesc,
                inv.cnt AS itemcnt,
                i.sell_pri AS sellprice
-        FROM tbl_unt_inven_nt01 inv
-                 INNER JOIN tbl_unt_item_mt01 i
+        FROM baseball.tbl_unt_inven_nt01 inv
+                 INNER JOIN baseball.tbl_unt_item_mt01 i
                             ON inv.item_id = i.item_id
         WHERE inv.cnt != '0'
           AND inv.pid = #{param}
     </select>
 
     <insert id="SetpurchaseInsert" parameterType="map">
-        INSERT INTO tbl_unt_inven_nt01 (pid, item_id, cnt, usbl, usbl_slot)
+        INSERT INTO baseball.tbl_unt_inven_nt01 (pid, item_id, cnt, usbl, usbl_slot)
         VALUES (#{pid}, #{itemid}, #{cnt}, #{usbl}, #{slot})
     </insert>
 
     <update id="SetpurchaseUpdate" parameterType="map">
-        UPDATE tbl_unt_inven_nt01
+        UPDATE baseball.tbl_unt_inven_nt01
         SET cnt = #{bitem}
         WHERE pid = #{pid}
           AND item_id = #{itemid}
     </update>
 
     <update id="Setpayment" parameterType="map">
-        UPDATE tbl_unt_userinfo_mt01
+        UPDATE baseball.tbl_unt_userinfo_mt01
         SET cash = #{payment}
         WHERE pid = #{pid}
     </update>
 
     <update id="SetCreatePayment" parameterType="map">
-        UPDATE tbl_unt_inven_nt01
+        UPDATE baseball.tbl_unt_inven_nt01
         SET cnt = #{itemcnt}
         WHERE pid = #{pid}
           AND item_id = #{itemid}
     </update>
 
     <update id="SetCreateUpdate" parameterType="map">
-        UPDATE tbl_unt_inven_nt01
+        UPDATE baseball.tbl_unt_inven_nt01
         SET cnt = #{itemcnt}
         WHERE pid = #{pid}
           AND item_id = #{itemid}
     </update>
 
     <insert id="SetCreateInsert" parameterType="map">
-        INSERT INTO tbl_unt_inven_nt01 (pid, item_id, cnt, usbl, usbl_slot)
+        INSERT INTO baseball.tbl_unt_inven_nt01 (pid, item_id, cnt, usbl, usbl_slot)
         VALUES (#{pid}, #{itemid}, #{itemcnt},
-                (SELECT usbl FROM tbl_unt_item_mt01 WHERE tbl_unt_item_mt01.item_id = #{itemid}),
+                (SELECT usbl FROM baseball.tbl_unt_item_mt01 WHERE baseball.tbl_unt_item_mt01.item_id = #{itemid}),
                 (SELECT tit.type_nm
-                 FROM tbl_unt_item_mt01 ti
-                          INNER JOIN tbl_unt_item_type_nt01 tit ON tit.type_id = ti.type_id
+                 FROM baseball.tbl_unt_item_mt01 ti
+                          INNER JOIN baseball.tbl_unt_item_type_nt01 tit ON tit.type_id = ti.type_id
                  WHERE ti.item_id = #{itemid}))
     </insert>
 </mapper>
