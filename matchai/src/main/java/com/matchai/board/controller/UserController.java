@@ -103,6 +103,10 @@ public class UserController {
 		String smail = (String) param.get("smail");
 		String spass = (String) param.get("spass");
 
+		System.out.println("유저 이메일 : " + smail);
+		System.out.println("유저 비번 : " + spass);
+
+
 		// 아이디와 비밀번호로 로그인 체크 메서드를 거쳐 사용자 정보를 map에 가져옴
 		HashMap<String, Object> map = usersvc.LoginCheck(param);
 

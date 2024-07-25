@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.matchai.board.mapper.BaseballMapper">
+
+    <select id="getAIList" parameterType="integer" resultType="hashmap">
+        SELECT DISTINCT
+            tbn.brdno,
+            tbn.brd_code,
+            tbn.match_code AS matchcode,
+            tbn.title,
+            tbn.memo,
+            TO_CHAR(tbn.brd_date, 'YYYY-MM-DD') AS brd_date,
+            tbn.brd_user
+        FROM baseball.tbl_board_nt01 tbn
+        where tbn.brd_code = '10'
+        ORDER BY brd_date DESC
+    </select>
+
+    <select id="getGameList" parameterType="integer" resultType="hashmap">
+        SELECT DISTINCT
+        tbn.brdno,
+        tbn.brd_code,
+        tbn.match_code AS matchcode,
+        tbn.title,
+        tbn.memo,
+        TO_CHAR(tbn.brd_date, 'YYYY-MM-DD') AS brd_date,
+        tbn.brd_user
+        FROM baseball.tbl_board_nt01 tbn
+        where tbn.brd_code = '11'
+        ORDER BY brd_date DESC
+    </select>
+
+    <select id="getCountForAI" resultType="int">
+        SELECT COUNT(*)
+        FROM baseball.tbl_board_nt01 tbn
+                 INNER JOIN baseball.tbl_gptexepect_nt01 tgn ON tgn.match_code = tbn.match_code
+        WHERE tbn.brd_code = '10';
+    </select>
+
+    <select id="geCountForAct" resultType="int">
+        SELECT COUNT(*)
+        FROM baseball.tbl_board_nt01 tbn
+                 INNER JOIN baseball.tbl_gptexepect_nt01 tgn ON tgn.match_code = tbn.match_code
+        WHERE tbn.brd_code = '11';
+    </select>
+</mapper>
