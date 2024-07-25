@@ -40,7 +40,7 @@ public class DBConfig {
 	public SqlSessionFactory session() throws Exception {
 		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
 		sqlSessionFactoryBean.setDataSource(dataSource()); // DataSource 설정
-		sqlSessionFactoryBean.setMapperLocations(context.getResources("classpath:/mappers/*.xml")); // 매퍼 파일 위치 설정
+		sqlSessionFactoryBean.setMapperLocations(context.getResources("classpath:/mappers/**/*.xml"));
 		return sqlSessionFactoryBean.getObject(); // SqlSessionFactory 객체 반환
 	}
 
