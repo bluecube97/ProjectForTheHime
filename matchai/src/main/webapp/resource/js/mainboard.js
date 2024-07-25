@@ -69,3 +69,7 @@ function loginPlz() {
 function openFreeBoard(){
     window.location.href = '/board/freeboard';
 }
+function openAIpick(){
+    window.location.href = '/board/aibaseball';
+
+}

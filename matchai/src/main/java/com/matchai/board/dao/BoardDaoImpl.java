@@ -85,4 +85,15 @@ public class BoardDaoImpl implements BoardDao {
 		return boardMapper.getCommentList(brdno);
 	}
 
+	@Override
+	public HashMap<String, Object> actData(String matchcode) {
+		return boardMapper.actData(matchcode);
+	}
+
+	@Override
+	public void insertactData(HashMap<String, Object> actData) {
+		 boardMapper.insertactData(actData);
+
+	}
+
 }

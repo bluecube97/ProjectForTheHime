@@ -34,4 +34,7 @@ public interface BoardDao {
 
 	List<HashMap<String, Object>> getCommentList(String brdno);
 
+	HashMap<String, Object> actData(String matchcode);
+
+	void insertactData(HashMap<String, Object> actData);
 }
