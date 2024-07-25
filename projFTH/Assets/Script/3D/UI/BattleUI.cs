@@ -1,3 +1,4 @@
+using Script._3D.Dao;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ namespace Script._3D.UI
     public class BattleUI : MonoBehaviour
     {
         private GroundUI _groundUI;
+        private BattleDao _battleDao;
 
         public GameObject battleCanvas;
         public GameObject behaviorInstance;
@@ -17,6 +19,7 @@ namespace Script._3D.UI
         private void Awake()
         {
             _groundUI = FindObjectOfType<GroundUI>();
+            _battleDao = FindObjectOfType<BattleDao>();
         }
 
         public void StartBattle()
@@ -24,7 +27,15 @@ namespace Script._3D.UI
             Debug.Log("Battle Start");
             battleCanvas.SetActive(true);
             SetBehavior("Attack");
-            List<int> appearMobList = _groundUI.appearMobList;
+
+            StartCoroutine(BattleDao.GetMobList(_groundUI.appearMobList, list =>
+            {
+                foreach (Dictionary<string, object> mob in list)
+                {
+                    Debug.Log("Mob: " + mob["mobno"]);
+                    Debug.Log("MobName: " + mob["mobname"]);
+                }
+            }));
         }
 
         private void SetBehavior(string action)
