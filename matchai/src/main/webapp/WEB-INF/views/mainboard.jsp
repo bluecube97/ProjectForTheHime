@@ -22,8 +22,8 @@
 			<div class="main_menu">
 				<ul>
 					<li><button type="button" class="menu-btn" id="game-menu">경기</button></li>
+					<li><button type="button" class="menu-btn" id="aipick-menu" onclick="openAIpick()">AI'sPick</button></li>
 					<li><button type="button" class="menu-btn" id="data-menu" onclick="openDataCenter()">데이터센터</button></li>
-					<li><button type="button" class="menu-btn" id="aipick-menu">AI'sPick</button></li>
 					<li><button type="button" class="menu-btn" id="board-menu" onclick="openFreeBoard()">자유 게시판</button></li>
 					<c:choose>
 						<c:when test="${empty sessionScope.userInfo}">

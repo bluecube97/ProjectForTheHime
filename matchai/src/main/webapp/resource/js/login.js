@@ -13,9 +13,11 @@ document.getElementById('btn-signup').addEventListener('click', function() {
 
 // 로그인 정보 확인 함수
 function idcheck() {
-	let smail = document.querySelector('#smail').value; // 입력된 이메일 값 가져오기
-	let spass = document.querySelector('#spass').value; // 입력된 비밀번호 값 가져오기
+	let smail = document.getElementById('smail').value; // 입력된 이메일 값 가져오기
+	let spass = document.getElementById('spass').value; // 입력된 비밀번호 값 가져오기
 	const modalBody = document.querySelector('#modalBody'); // 모달의 입력할 본문 값 가져오기
+console.log(smail)
+	console.log(smail)
 
 	// 입력된 이메일과 비밀번호를 JSON 문자열로 변환하여 콘솔에 출력
 	console.log(JSON.stringify({ smail: smail, spass: spass }));

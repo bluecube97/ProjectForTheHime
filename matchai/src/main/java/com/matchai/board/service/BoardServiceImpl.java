@@ -119,5 +119,16 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.getCommentList(brdno);
 	}
 
+	@Override
+	public HashMap<String, Object> actData(String matchcode) {
+		return boardDao.actData(matchcode);
+	}
+
+	@Override
+	public void insertactData(HashMap<String, Object> actData) {
+		 boardDao.insertactData(actData);
+
+	}
+
 
 }
