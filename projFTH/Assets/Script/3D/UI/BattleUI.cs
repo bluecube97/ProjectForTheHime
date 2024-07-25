@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,15 +7,24 @@ namespace Script._3D.UI
 {
     public class BattleUI : MonoBehaviour
     {
+        private GroundUI _groundUI;
+
         public GameObject battleCanvas;
         public GameObject behaviorInstance;
         public GameObject behaviorPrefab;
         public GameObject behaviorLayout;
+
+        private void Awake()
+        {
+            _groundUI = FindObjectOfType<GroundUI>();
+        }
+
         public void StartBattle()
         {
             Debug.Log("Battle Start");
             battleCanvas.SetActive(true);
             SetBehavior("Attack");
+            List<int> appearMobList = _groundUI.appearMobList;
         }
 
         private void SetBehavior(string action)

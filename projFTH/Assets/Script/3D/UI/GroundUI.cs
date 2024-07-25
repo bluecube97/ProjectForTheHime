@@ -34,6 +34,8 @@ namespace Script._3D.UI
 
         private Node[,] _nodes; // 노드 배열
 
+        public List<int> appearMobList = new();
+
         protected virtual void Awake()
         {
             // 시간 스케일을 1로 설정 (모든 환경에서 동일한 이동속도를 구현하기 위함)
