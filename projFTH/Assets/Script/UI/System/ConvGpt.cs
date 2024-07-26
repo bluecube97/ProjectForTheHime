@@ -21,13 +21,6 @@ namespace Script.UI.System
         private Dictionary<string, object> userinfo = new();//chatLog를 DB에 올리기 위한 userinfo를 담음
         private Dictionary<string, object> chatlog = new();//채팅로그를 담음
 
-        private static WebRequestManager _wrm;
-
-        private void Awake()
-        {
-            _wrm = FindObjectOfType<WebRequestManager>();
-        }
-
         private void Start()
         {
             StartCoroutine(_sld.GetUserEmail(info =>
@@ -72,7 +65,7 @@ namespace Script.UI.System
 
         IEnumerator GetConv(string userConv, Action<string> callback)
         {
-            string absoluteUrl = _wrm.GetAbsoluteUrl("api/conv/get");
+            string absoluteUrl = WebRequestManager.GetAbsoluteUrl("api/conv/get");
             string jsonBody = JsonConvert.SerializeObject(userConv);
             byte[] jsonToSend = Encoding.UTF8.GetBytes(jsonBody);
 

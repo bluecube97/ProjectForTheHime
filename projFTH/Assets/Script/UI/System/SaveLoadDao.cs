@@ -9,16 +9,9 @@ namespace Script.UI.System
 {
     public class SaveLoadDao : MonoBehaviour
     {
-        private static WebRequestManager _wrm;
-
-        private void Awake()
-        {
-            _wrm = FindObjectOfType<WebRequestManager>();
-        }
-
         public IEnumerator SaveGame()
         {
-            string absoluteUrl = _wrm.GetAbsoluteUrl("api/conv/save");
+            string absoluteUrl = WebRequestManager.GetAbsoluteUrl("api/conv/save");
             UnityWebRequest request = UnityWebRequest.Get(absoluteUrl);
             yield return request.SendWebRequest();
 
@@ -34,7 +27,8 @@ namespace Script.UI.System
 
         public IEnumerator LoadGame()
         {
-            string absoluteUrl = _wrm.GetAbsoluteUrl("api/conv/load");
+            string absoluteUrl = WebRequestManager.GetAbsoluteUrl("api/conv/load");
+            Debug.Log("url: " + absoluteUrl);
             UnityWebRequest request = UnityWebRequest.Get(absoluteUrl);
             yield return request.SendWebRequest();
 

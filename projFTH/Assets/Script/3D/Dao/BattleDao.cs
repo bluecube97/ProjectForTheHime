@@ -11,16 +11,9 @@ namespace Script._3D.Dao
 {
     public class BattleDao : MonoBehaviour
     {
-        private static WebRequestManager _wrm;
-
-        private void Awake()
-        {
-            _wrm = FindObjectOfType<WebRequestManager>();
-        }
-
         public static IEnumerator GetMobList(List<int> appearMobList, Action<List<Dictionary<string, object>>> callback)
         {
-            string absoluteUrl = _wrm.GetAbsoluteUrl("api/battle/moblist");
+            string absoluteUrl = WebRequestManager.GetAbsoluteUrl("api/battle/moblist");
             string jsonBody = JsonConvert.SerializeObject(appearMobList);
 
             byte[] jsonToSend = Encoding.UTF8.GetBytes(jsonBody);

@@ -1,5 +1,6 @@
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
+using Script.ApiLibrary;
 using Script.UI.System;
 using System;
 using System.Collections;
@@ -13,7 +14,8 @@ namespace Script.UI.Outing.Hospital
     {
         public IEnumerator GetBuyLists(Action<List<Dictionary<string, object>>> callback)
         {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/outing/hospital/buy");
+            string absoluteUrl = WebRequestManager.GetAbsoluteUrl("api/outing/hospital/buy");
+            UnityWebRequest request = UnityWebRequest.Get(absoluteUrl);
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)
@@ -29,7 +31,7 @@ namespace Script.UI.Outing.Hospital
         }
         public IEnumerator SetAfterHeals(string pid, string payCash, string userMaxHP)
         {
-            string url = "http://localhost:8080/api/outing/hospital/heal";
+            string absoluteUrl = WebRequestManager.GetAbsoluteUrl("api/outing/hospital/heal");
 
             // WWWForm 생성
             WWWForm form = new WWWForm();
@@ -37,7 +39,7 @@ namespace Script.UI.Outing.Hospital
             form.AddField("payment", payCash);
             form.AddField("maxhp", userMaxHP);
 
-            using (UnityWebRequest request = UnityWebRequest.Post(url, form))
+            using (UnityWebRequest request = UnityWebRequest.Post(absoluteUrl, form))
             {
                 yield return request.SendWebRequest();
 

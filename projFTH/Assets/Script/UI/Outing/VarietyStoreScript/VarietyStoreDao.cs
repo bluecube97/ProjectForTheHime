@@ -12,15 +12,9 @@ namespace Script.UI.Outing.VarietyStoreScript
 {
     public class VarietyStoreDao : MonoBehaviour
     {
-        private static WebRequestManager _wrm;
-
-        private void Awake()
-        {
-            _wrm = FindObjectOfType<WebRequestManager>();
-        }
         public IEnumerator GetBuyList(Action<List<Dictionary<string, object>>> callback)
         {
-            string absoluteUrl = _wrm.GetAbsoluteUrl("api/outing/varstory/buy");
+            string absoluteUrl = WebRequestManager.GetAbsoluteUrl("api/outing/varstory/buy");
             UnityWebRequest request = UnityWebRequest.Get(absoluteUrl);
             yield return request.SendWebRequest();
 

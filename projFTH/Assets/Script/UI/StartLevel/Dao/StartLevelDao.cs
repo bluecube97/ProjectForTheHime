@@ -13,12 +13,6 @@ namespace Script.UI.StartLevel.Dao
 {
     public class StartLevelDao : MonoBehaviour
     {
-        private static WebRequestManager _wrm;
-
-        private void Awake()
-        {
-            _wrm = FindObjectOfType<WebRequestManager>();
-        }
         /*public static void SetUserInfo(string name, string gender)
         {
             const string sql = " INSERT INTO tbl_test (USERNAME, USERSEX) " +
@@ -65,7 +59,7 @@ namespace Script.UI.StartLevel.Dao
         // Spring에서 세션 값을 가져오는 메서드
         public IEnumerator GetUserEmail(Action<Dictionary<string, object>> callback)
         {
-            string absoluteUrl = _wrm.GetAbsoluteUrl("api/user/login");
+            string absoluteUrl = WebRequestManager.GetAbsoluteUrl("api/user/login");
             UnityWebRequest request = UnityWebRequest.Get(absoluteUrl);
             yield return request.SendWebRequest();
 
@@ -87,7 +81,7 @@ namespace Script.UI.StartLevel.Dao
         // 세션 값이 DB에 저장되어 있는지 확인하는 메서드
         public IEnumerator SearchUserInfo(string email, Action<int> callback)
         {
-            string absoluteUrl = _wrm.GetAbsoluteUrl("api/user/search");
+            string absoluteUrl = WebRequestManager.GetAbsoluteUrl("api/user/search");
             WWWForm form = new WWWForm();
             form.AddField("email", email);
 
@@ -121,7 +115,7 @@ namespace Script.UI.StartLevel.Dao
         // 세션 값이 없으면 DB에 값을 추가하는 메서드
         public IEnumerator InsertUserInfo(string userEmail, string userName, string userSex)
         {
-            string absoluteUrl = _wrm.GetAbsoluteUrl("api/user/insert");
+            string absoluteUrl = WebRequestManager.GetAbsoluteUrl("api/user/insert");
             WWWForm form = new WWWForm();
             form.AddField("PID", userEmail);
             form.AddField("PNM", userName);
@@ -140,7 +134,7 @@ namespace Script.UI.StartLevel.Dao
         // DB에 저장된 사용자 정보를 가져오는 메서드
         public IEnumerator GetUser(string userEmail, Action<Dictionary<string, object>> callback)
         {
-            string absoluteUrl = _wrm.GetAbsoluteUrl("api/user/info");
+            string absoluteUrl = WebRequestManager.GetAbsoluteUrl("api/user/info");
             WWWForm form = new WWWForm();
             form.AddField("pid", userEmail);
 
@@ -174,7 +168,7 @@ namespace Script.UI.StartLevel.Dao
         // 사용자 상태를 설정하는 메서드
         public IEnumerator SetDstats(string pid, string jsontext)
         {
-            string absoluteUrl = _wrm.GetAbsoluteUrl("api/user/dstats?pid=" + pid);
+            string absoluteUrl = WebRequestManager.GetAbsoluteUrl("api/user/dstats?pid=" + pid);
 
             // JSON 데이터를 바이트 배열로 변환
             byte[] jsonToSend = Encoding.UTF8.GetBytes(jsontext);

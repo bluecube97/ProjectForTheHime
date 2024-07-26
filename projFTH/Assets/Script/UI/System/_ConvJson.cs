@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Script.ApiLibrary;
 using Script.UI.StartLevel.Dao;
 using System;
 using System.Collections;
@@ -126,7 +127,8 @@ namespace Script.UI.System
 
         private IEnumerator GetPythonPath(Action<string> callback)
         {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/conv/pythonPath");
+            string absoluteUrl = WebRequestManager.GetAbsoluteUrl("api/conv/pythonPath");
+            UnityWebRequest request = UnityWebRequest.Get(absoluteUrl);
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)
@@ -143,7 +145,8 @@ namespace Script.UI.System
 
         private IEnumerator GetPythonWorkSpace(Action<string> callback)
         {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/conv/pythonWorkSpace");
+            string absoluteUrl = WebRequestManager.GetAbsoluteUrl("api/conv/pythonWorkSpace");
+            UnityWebRequest request = UnityWebRequest.Get(absoluteUrl);
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)

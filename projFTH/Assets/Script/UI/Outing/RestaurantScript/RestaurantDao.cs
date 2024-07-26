@@ -1,5 +1,6 @@
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
+using Script.ApiLibrary;
 using Script.UI.System;
 using System;
 using System.Collections;
@@ -13,7 +14,8 @@ namespace Script.UI.Outing.RestaurantScript
     {
         public IEnumerator GetFoodList(Action<List<Dictionary<string, object>>> callback)
         {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/outing/restaurant/list");
+            string absoluteUrl = WebRequestManager.GetAbsoluteUrl("api/outing/restaurant/list");
+            UnityWebRequest request = UnityWebRequest.Get(absoluteUrl);
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)

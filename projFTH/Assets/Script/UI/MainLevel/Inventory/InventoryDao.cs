@@ -12,15 +12,9 @@ namespace Script.UI.MainLevel.Inventory
 {
     public class InventoryDao : MonoBehaviour
     {
-        private static WebRequestManager _wrm;
-
-        private void Awake()
-        {
-            _wrm = FindObjectOfType<WebRequestManager>();
-        }
         public IEnumerator GetInventoryList(string pid, Action<List<Dictionary<string, object>>> callback)
         {
-            string absoluteUrl = _wrm.GetAbsoluteUrl("api/inven/list?pid=" + pid);
+            string absoluteUrl = WebRequestManager.GetAbsoluteUrl("api/inven/list?pid=" + pid);
             UnityWebRequest request = UnityWebRequest.Get(absoluteUrl); // GET 요청 생성
 
             Debug.Log("인벤 리스트 출력 아이디 : " + pid);
@@ -41,7 +35,7 @@ namespace Script.UI.MainLevel.Inventory
 
       public IEnumerator ItemCraftInserts(string pid, string itemid, string itemcnt)
         {
-            string absoluteUrl = _wrm.GetAbsoluteUrl("api/inven/create/insert");
+            string absoluteUrl = WebRequestManager.GetAbsoluteUrl("api/inven/create/insert");
 
             WWWForm form = new WWWForm();
             form.AddField("pid", pid);
@@ -61,7 +55,7 @@ namespace Script.UI.MainLevel.Inventory
 
         public IEnumerator ItemCraftUpdates(string pid, string itemid, string itemcnt)
         {
-            string absoluteUrl = _wrm.GetAbsoluteUrl("api/inven/create/update");
+            string absoluteUrl = WebRequestManager.GetAbsoluteUrl("api/inven/create/update");
 
             WWWForm form = new WWWForm();
             form.AddField("pid", pid);
@@ -81,7 +75,7 @@ namespace Script.UI.MainLevel.Inventory
 
         public IEnumerator ItemCraftPayments(string pid, string itemid, string itemcnt)
         {
-            string absoluteUrl = _wrm.GetAbsoluteUrl("api/inven/create/payment");
+            string absoluteUrl = WebRequestManager.GetAbsoluteUrl("api/inven/create/payment");
 
             WWWForm form = new WWWForm();
             form.AddField("pid", pid);
@@ -101,7 +95,7 @@ namespace Script.UI.MainLevel.Inventory
 
         public IEnumerator UpdateUserCashs(string pid, string payment)
         {
-            string absoluteUrl = _wrm.GetAbsoluteUrl("api/inven/purchase/payment");
+            string absoluteUrl = WebRequestManager.GetAbsoluteUrl("api/inven/purchase/payment");
 
             WWWForm form = new WWWForm();
             form.AddField("pid", pid);
@@ -144,7 +138,7 @@ namespace Script.UI.MainLevel.Inventory
             form.AddField("itemid", itemid);
             form.AddField("pid", pid);
 
-            string absoluteUrl = _wrm.GetAbsoluteUrl("api/inven/sell");
+            string absoluteUrl = WebRequestManager.GetAbsoluteUrl("api/inven/sell");
 
             using (UnityWebRequest request = UnityWebRequest.Post(absoluteUrl, form)) // POST 요청 생성
             {
@@ -164,7 +158,7 @@ namespace Script.UI.MainLevel.Inventory
             form.AddField("itemid", itemid);
             form.AddField("pid", pid);
 
-            string absoluteUrl = _wrm.GetAbsoluteUrl("api/inven/purchase/update");
+            string absoluteUrl = WebRequestManager.GetAbsoluteUrl("api/inven/purchase/update");
 
             using (UnityWebRequest request = UnityWebRequest.Post(absoluteUrl, form)) // POST 요청 생성
             {
@@ -179,7 +173,7 @@ namespace Script.UI.MainLevel.Inventory
 
         public IEnumerator InsertBuyThings(string itemid, string cnt, string pid)
         {
-            string absoluteUrl = _wrm.GetAbsoluteUrl("api/inven/purchase/insert");
+            string absoluteUrl = WebRequestManager.GetAbsoluteUrl("api/inven/purchase/insert");
 
             WWWForm form = new WWWForm();
             form.AddField("pid", pid);

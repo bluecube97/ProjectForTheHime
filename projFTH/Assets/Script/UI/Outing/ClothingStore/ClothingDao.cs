@@ -11,17 +11,10 @@ namespace Script.UI.Outing.ClothingStore
 {
     public class ClothingDao : MonoBehaviour
     {
-        private static WebRequestManager _wrm;
-
-        private void Awake()
-        {
-            _wrm = FindObjectOfType<WebRequestManager>();
-        }
-
         // 옷 목록을 가져오는 코루틴
         public IEnumerator GetClothingList(Action<List<Dictionary<string, object>>> callback)
         {
-            string absoluteUrl = _wrm.GetAbsoluteUrl("api/outing/clothing/list");
+            string absoluteUrl = WebRequestManager.GetAbsoluteUrl("api/outing/clothing/list");
             // HTTP GET 요청 생성
             UnityWebRequest request = UnityWebRequest.Get(absoluteUrl);
             // 요청 전송 및 응답 대기
@@ -47,7 +40,7 @@ namespace Script.UI.Outing.ClothingStore
         // 옷 구매하가 버튼 클릭시 담을 목록을 가져오는 코루틴
         public IEnumerator GetClothingBuyList(Action<List<Dictionary<string, object>>> callback)
         {
-            string absoluteUrl = _wrm.GetAbsoluteUrl("api/outing/clothing/buy");
+            string absoluteUrl = WebRequestManager.GetAbsoluteUrl("api/outing/clothing/buy");
             // HTTP GET 요청 생성
             UnityWebRequest request = UnityWebRequest.Get(absoluteUrl);
             // 요청 전송 및 응답 대기

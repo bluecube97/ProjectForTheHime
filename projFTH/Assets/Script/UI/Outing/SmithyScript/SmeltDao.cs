@@ -12,15 +12,9 @@ namespace Script.UI.Outing.SmithyScript
 {
     public class SmeltDao : MonoBehaviour
     {
-        private static WebRequestManager _wrm;
-
-        private void Awake()
-        {
-            _wrm = FindObjectOfType<WebRequestManager>();
-        }
         public IEnumerator GetBuyLists(Action<List<Dictionary<string, object>>> callback)
         {
-            string absoluteUrl = _wrm.GetAbsoluteUrl("api/outing/smithy/buy");
+            string absoluteUrl = WebRequestManager.GetAbsoluteUrl("api/outing/smithy/buy");
             UnityWebRequest request = UnityWebRequest.Get(absoluteUrl);
             yield return request.SendWebRequest();
 
@@ -37,7 +31,7 @@ namespace Script.UI.Outing.SmithyScript
         }
         public IEnumerator GetSmeltLists(Action<List<Dictionary<string, object>>> callback)
         {
-            string absoluteUrl = _wrm.GetAbsoluteUrl("api/outing/smithy/list");
+            string absoluteUrl = WebRequestManager.GetAbsoluteUrl("api/outing/smithy/list");
             UnityWebRequest request = UnityWebRequest.Get(absoluteUrl);
             yield return request.SendWebRequest();
 

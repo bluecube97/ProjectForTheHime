@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/UI/StartLevel/MainMenuScene.unity
     guid: 144664b4ebfd2ed4682f3808b6027626
   - enabled: 1
+    path: Assets/Scenes/UI/MainLevel/StartTurn/LifeTimeScene.unity
+    guid: c987f07d4b645724b8faeb0acd653087
+  - enabled: 1
     path: Assets/Scenes/UI/MainLevel/MainLevelScene.unity
     guid: 8cfbb720134d8904d8db889a3c2bdb8b
   - enabled: 1
@@ -44,9 +47,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/UI/MainLevel/StartTurn/BattleScene.unity
     guid: b060a030709846c428fc846d9fa5377b
-  - enabled: 1
-    path: Assets/Scenes/UI/MainLevel/StartTurn/LifeTimeScene.unity
-    guid: c987f07d4b645724b8faeb0acd653087
   - enabled: 1
     path: Assets/Scenes/UI/MainLevel/StartTurn/StartTurnScene.unity
     guid: 60855720d5fd79743a235a78968720dd

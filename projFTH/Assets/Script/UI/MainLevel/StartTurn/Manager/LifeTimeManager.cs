@@ -1,3 +1,4 @@
+using Script.ApiLibrary;
 using Script.UI.MainLevel.StartTurn.Dao;
 using Script.UI.MainLevel.StartTurn.VO;
 using System;
@@ -18,6 +19,7 @@ namespace Script.UI.MainLevel.StartTurn.Manager
 
         public void Start()
         {
+            Debug.Log("absolutePath" + WebRequestManager.GetAbsoluteUrl("api/lifetime/todono/"));
             // LifeTimeVo 생성
             _ltvo = new LifeTimeVo();
             _ltgo = new LifeTimeGo();
@@ -149,6 +151,7 @@ namespace Script.UI.MainLevel.StartTurn.Manager
         // TODOList 세팅
         private void InitTodoList()
         {
+            Debug.Log("InitTodoList Start");
             _ltgo.StartTurn.SetActive(false);
             _ltgo.TodoList.SetActive(true);
 
@@ -220,6 +223,7 @@ namespace Script.UI.MainLevel.StartTurn.Manager
                     SetOutline(GameObject.Find(_ltvo.IsSelectDate));
                 }));
             }));
+            Debug.Log("End Coroutine");
         }
 
         private void SetOutline(GameObject obj)

@@ -1,5 +1,6 @@
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
+using Script.ApiLibrary;
 using Script.UI.System;
 using System;
 using System.Collections;
@@ -122,7 +123,8 @@ namespace Script.UI.Outing.QuestBoard
 
         public IEnumerator GetQuestBoardLists(Action<List<Dictionary<string, object>>> callback)
         {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/outing/quest/list");
+            string absoluteUrl = WebRequestManager.GetAbsoluteUrl("api/outing/quest/list");
+            UnityWebRequest request = UnityWebRequest.Get(absoluteUrl);
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)
@@ -138,7 +140,7 @@ namespace Script.UI.Outing.QuestBoard
         }
         public IEnumerator UpdateFlag(string pid,string sflag, string cflag, int questno)
         {
-            string url = "http://localhost:8080/api/outing/quest/flag";
+            string absoluteUrl = WebRequestManager.GetAbsoluteUrl("api/outing/quest/flag");
 
             // WWWForm 생성
             WWWForm form = new WWWForm();
@@ -147,7 +149,7 @@ namespace Script.UI.Outing.QuestBoard
             form.AddField("cflag", cflag);
             form.AddField("questno", questno);
 
-            using (UnityWebRequest request = UnityWebRequest.Post(url, form))
+            using (UnityWebRequest request = UnityWebRequest.Post(absoluteUrl, form))
             {
                 yield return request.SendWebRequest();
 
