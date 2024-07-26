@@ -1,5 +1,6 @@
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
+using Script.ApiLibrary;
 using Script.UI.System;
 using System;
 using System.Text;
@@ -12,10 +13,17 @@ namespace Script.UI.MainLevel.StartTurn.Dao
 {
     public class StartTurnDao : MonoBehaviour
     {
+        private static WebRequestManager _wrm;
+
+        private void Awake()
+        {
+            _wrm = FindObjectOfType<WebRequestManager>();
+        }
         // 현재 날짜의 연, 월을 입력받아 해당하는 TodoNO를 반환하여 리스트에 저장
         public IEnumerator GetTodoNo(int year, int month, Action<List<int>> callback)
         {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/lifetime/todono/" + year + "/" + month);
+            string absoluteUrl = _wrm.GetAbsoluteUrl("api/lifetime/todono/");
+            UnityWebRequest request = UnityWebRequest.Get(absoluteUrl + year + "/" + month);
             yield return request.SendWebRequest();
             if (request.result == UnityWebRequest.Result.Success)
             {
@@ -32,14 +40,14 @@ namespace Script.UI.MainLevel.StartTurn.Dao
         // TodoNO를 이용하여 TodoList를 가져와 리스트에 저장
         public IEnumerator GetTodoList(List<int> list, Action<List<Dictionary<string, object>>> callback)
         {
-            const string url = "http://localhost:8080/api/lifetime/todolist";
+            string absoluteUrl = _wrm.GetAbsoluteUrl("api/lifetime/todolist");
             string jsonBody = JsonConvert.SerializeObject(list);
 
             // JSON 데이터를 바이트 배열로 변환
             byte[] jsonToSend = Encoding.UTF8.GetBytes(jsonBody);
 
             // UnityWebRequest를 사용하여 POST 요청 생성
-            UnityWebRequest request = new(url, "POST")
+            UnityWebRequest request = new(absoluteUrl, "POST")
             {
                 uploadHandler = new UploadHandlerRaw(jsonToSend),
                 downloadHandler = new DownloadHandlerBuffer()

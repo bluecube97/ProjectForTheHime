@@ -11,14 +11,6 @@ namespace Script.UI.Outing.RestaurantScript
 {
     public class RestaurantDao : MonoBehaviour
     {
-        private RestaurantManager restaurantManager;
-        private ConnDB _connDB;
-
-        public void Awake()
-        {
-            restaurantManager = GetComponent<RestaurantManager>(); // 현재 게임 오브젝트에 붙어 있는 RestaurantFoodList 스크립트를 가져옴
-            _connDB = new ConnDB();
-        }
         public IEnumerator GetFoodList(Action<List<Dictionary<string, object>>> callback)
         {
             UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/outing/restaurant/list");

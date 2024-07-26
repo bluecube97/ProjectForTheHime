@@ -19,6 +19,8 @@ public class BattleController {
 
     @GetMapping("/moblist")
     public List<Map<String, Object>> GetMobList(@RequestBody List<Integer> list){
+        System.out.println("GetMobList");
+        for (int i : list) System.out.println("mobnum: " + i);
         return battleService.GetMobList(list);
     }
 }

@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Script.ApiLibrary;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,14 +11,21 @@ namespace Script._3D.Dao
 {
     public class BattleDao : MonoBehaviour
     {
+        private static WebRequestManager _wrm;
+
+        private void Awake()
+        {
+            _wrm = FindObjectOfType<WebRequestManager>();
+        }
+
         public static IEnumerator GetMobList(List<int> appearMobList, Action<List<Dictionary<string, object>>> callback)
         {
-            const string url = "http://localhost:8080/api/battle/moblist";
+            string absoluteUrl = _wrm.GetAbsoluteUrl("api/battle/moblist");
             string jsonBody = JsonConvert.SerializeObject(appearMobList);
 
             byte[] jsonToSend = Encoding.UTF8.GetBytes(jsonBody);
 
-            UnityWebRequest request = new(url, "POST")
+            UnityWebRequest request = new(absoluteUrl, "POST")
             {
                 uploadHandler = new UploadHandlerRaw(jsonToSend),
                 downloadHandler = new DownloadHandlerBuffer()

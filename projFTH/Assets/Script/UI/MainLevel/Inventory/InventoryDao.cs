@@ -1,5 +1,6 @@
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
+using Script.ApiLibrary;
 using Script.UI.System;
 using System;
 using System.Collections;
@@ -11,20 +12,19 @@ namespace Script.UI.MainLevel.Inventory
 {
     public class InventoryDao : MonoBehaviour
     {
-        private ConnDB _connDB; // 데이터베이스 연결을 위한 변수
+        private static WebRequestManager _wrm;
 
         private void Awake()
         {
-            _connDB = new ConnDB(); // ConnDB 인스턴스 생성
+            _wrm = FindObjectOfType<WebRequestManager>();
         }
-
         public IEnumerator GetInventoryList(string pid, Action<List<Dictionary<string, object>>> callback)
         {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/inven/list?pid=" + pid); // GET 요청 생성
+            string absoluteUrl = _wrm.GetAbsoluteUrl("api/inven/list?pid=" + pid);
+            UnityWebRequest request = UnityWebRequest.Get(absoluteUrl); // GET 요청 생성
 
             Debug.Log("인벤 리스트 출력 아이디 : " + pid);
             yield return request.SendWebRequest(); // 요청 전송
-            Debug.Log("12341234");
 
             if (request.result == UnityWebRequest.Result.Success)
             {
@@ -41,14 +41,14 @@ namespace Script.UI.MainLevel.Inventory
 
       public IEnumerator ItemCraftInserts(string pid, string itemid, string itemcnt)
         {
-            string url = "http://localhost:8080/api/inven/create/insert"; // 서버 URL
+            string absoluteUrl = _wrm.GetAbsoluteUrl("api/inven/create/insert");
 
             WWWForm form = new WWWForm();
             form.AddField("pid", pid);
             form.AddField("itemid", itemid);
             form.AddField("itemcnt", itemcnt);
 
-            using (UnityWebRequest request = UnityWebRequest.Post(url, form)) // POST 요청 생성
+            using (UnityWebRequest request = UnityWebRequest.Post(absoluteUrl, form)) // POST 요청 생성
             {
                 yield return request.SendWebRequest(); // 요청 전송
 
@@ -61,14 +61,14 @@ namespace Script.UI.MainLevel.Inventory
 
         public IEnumerator ItemCraftUpdates(string pid, string itemid, string itemcnt)
         {
-            string url = "http://localhost:8080/api/inven/create/update"; // 서버 URL
+            string absoluteUrl = _wrm.GetAbsoluteUrl("api/inven/create/update");
 
             WWWForm form = new WWWForm();
             form.AddField("pid", pid);
             form.AddField("itemid", itemid);
             form.AddField("itemcnt", itemcnt);
 
-            using (UnityWebRequest request = UnityWebRequest.Post(url, form)) // POST 요청 생성
+            using (UnityWebRequest request = UnityWebRequest.Post(absoluteUrl, form)) // POST 요청 생성
             {
                 yield return request.SendWebRequest(); // 요청 전송
 
@@ -81,14 +81,14 @@ namespace Script.UI.MainLevel.Inventory
 
         public IEnumerator ItemCraftPayments(string pid, string itemid, string itemcnt)
         {
-            string url = "http://localhost:8080/api/inven/create/payment"; // 서버 URL
+            string absoluteUrl = _wrm.GetAbsoluteUrl("api/inven/create/payment");
 
             WWWForm form = new WWWForm();
             form.AddField("pid", pid);
             form.AddField("itemid", itemid);
             form.AddField("itemcnt", itemcnt);
 
-            using (UnityWebRequest request = UnityWebRequest.Post(url, form)) // POST 요청 생성
+            using (UnityWebRequest request = UnityWebRequest.Post(absoluteUrl, form)) // POST 요청 생성
             {
                 yield return request.SendWebRequest(); // 요청 전송
 
@@ -101,13 +101,13 @@ namespace Script.UI.MainLevel.Inventory
 
         public IEnumerator UpdateUserCashs(string pid, string payment)
         {
-            string url = "http://localhost:8080/api/inven/purchase/payment"; // 서버 URL
+            string absoluteUrl = _wrm.GetAbsoluteUrl("api/inven/purchase/payment");
 
             WWWForm form = new WWWForm();
             form.AddField("pid", pid);
             form.AddField("payment", payment);
 
-            using (UnityWebRequest request = UnityWebRequest.Post(url, form)) // POST 요청 생성
+            using (UnityWebRequest request = UnityWebRequest.Post(absoluteUrl, form)) // POST 요청 생성
             {
                 yield return request.SendWebRequest(); // 요청 전송
 
@@ -144,7 +144,9 @@ namespace Script.UI.MainLevel.Inventory
             form.AddField("itemid", itemid);
             form.AddField("pid", pid);
 
-            using (UnityWebRequest request = UnityWebRequest.Post("http://localhost:8080/api/inven/sell", form)) // POST 요청 생성
+            string absoluteUrl = _wrm.GetAbsoluteUrl("api/inven/sell");
+
+            using (UnityWebRequest request = UnityWebRequest.Post(absoluteUrl, form)) // POST 요청 생성
             {
                 yield return request.SendWebRequest(); // 요청 전송
 
@@ -162,7 +164,9 @@ namespace Script.UI.MainLevel.Inventory
             form.AddField("itemid", itemid);
             form.AddField("pid", pid);
 
-            using (UnityWebRequest request = UnityWebRequest.Post("http://localhost:8080/api/inven/purchase/update", form)) // POST 요청 생성
+            string absoluteUrl = _wrm.GetAbsoluteUrl("api/inven/purchase/update");
+
+            using (UnityWebRequest request = UnityWebRequest.Post(absoluteUrl, form)) // POST 요청 생성
             {
                 yield return request.SendWebRequest(); // 요청 전송
 
@@ -175,7 +179,7 @@ namespace Script.UI.MainLevel.Inventory
 
         public IEnumerator InsertBuyThings(string itemid, string cnt, string pid)
         {
-            string url = "http://localhost:8080/api/inven/purchase/insert"; // 서버 URL
+            string absoluteUrl = _wrm.GetAbsoluteUrl("api/inven/purchase/insert");
 
             WWWForm form = new WWWForm();
             form.AddField("pid", pid);
@@ -184,7 +188,7 @@ namespace Script.UI.MainLevel.Inventory
             form.AddField("usbl", "0");
             form.AddField("slot", "");
 
-            using (UnityWebRequest request = UnityWebRequest.Post(url, form)) // POST 요청 생성
+            using (UnityWebRequest request = UnityWebRequest.Post(absoluteUrl, form)) // POST 요청 생성
             {
                 yield return request.SendWebRequest(); // 요청 전송
 

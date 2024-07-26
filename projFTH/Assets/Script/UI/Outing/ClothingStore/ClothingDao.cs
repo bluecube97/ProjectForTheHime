@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Script.ApiLibrary;
 using Script.UI.System;
 using System;
 using System.Collections;
@@ -10,21 +11,19 @@ namespace Script.UI.Outing.ClothingStore
 {
     public class ClothingDao : MonoBehaviour
     {
-        // 데이터베이스 연결을 위한 클래스 인스턴스
-        private ConnDB _connDB;
+        private static WebRequestManager _wrm;
 
-        // Awake 메서드는 스크립트가 활성화될 때 호출됩니다
         private void Awake()
         {
-            // 데이터베이스 연결 인스턴스 초기화
-            _connDB = new ConnDB();
+            _wrm = FindObjectOfType<WebRequestManager>();
         }
 
         // 옷 목록을 가져오는 코루틴
         public IEnumerator GetClothingList(Action<List<Dictionary<string, object>>> callback)
         {
+            string absoluteUrl = _wrm.GetAbsoluteUrl("api/outing/clothing/list");
             // HTTP GET 요청 생성
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/outing/clothing/list");
+            UnityWebRequest request = UnityWebRequest.Get(absoluteUrl);
             // 요청 전송 및 응답 대기
             yield return request.SendWebRequest();
 
@@ -48,8 +47,9 @@ namespace Script.UI.Outing.ClothingStore
         // 옷 구매하가 버튼 클릭시 담을 목록을 가져오는 코루틴
         public IEnumerator GetClothingBuyList(Action<List<Dictionary<string, object>>> callback)
         {
+            string absoluteUrl = _wrm.GetAbsoluteUrl("api/outing/clothing/buy");
             // HTTP GET 요청 생성
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/outing/clothing/buy");
+            UnityWebRequest request = UnityWebRequest.Get(absoluteUrl);
             // 요청 전송 및 응답 대기
             yield return request.SendWebRequest();
 

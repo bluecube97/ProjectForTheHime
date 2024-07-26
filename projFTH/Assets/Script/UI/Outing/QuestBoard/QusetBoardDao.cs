@@ -11,13 +11,6 @@ namespace Script.UI.Outing.QuestBoard
 {
     public class QusetBoardDao : MonoBehaviour
     {
-        private ConnDB _connDB;
-
-        private void Awake()
-        {
-            _connDB = new ConnDB();
-        }
-
         /*//퀘스트 정보 불러옴
         public List<QuestBoardVO> GetQuestBoardList()
         {
@@ -86,7 +79,7 @@ namespace Script.UI.Outing.QuestBoard
 
         }
 
-        //수락한 퀘스트 거절 시 
+        //수락한 퀘스트 거절 시
         public void RefuseSubmitQuest(int questNo)
         {
             string sql = "UPDATE TBL_QUEST " +
@@ -105,7 +98,7 @@ namespace Script.UI.Outing.QuestBoard
             }
         }
 
-        //퀘스트 완료 시 
+        //퀘스트 완료 시
         public void CompleteQuest(int questNo)
         {
             string sql = "UPDATE TBL_QUEST " +
@@ -126,7 +119,7 @@ namespace Script.UI.Outing.QuestBoard
 
         }*/
 
-       
+
         public IEnumerator GetQuestBoardLists(Action<List<Dictionary<string, object>>> callback)
         {
             UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/outing/quest/list");

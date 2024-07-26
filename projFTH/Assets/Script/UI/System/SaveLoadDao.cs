@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Script.ApiLibrary;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,39 +7,40 @@ using UnityEngine.Networking;
 
 namespace Script.UI.System
 {
-    public class SaveLoadDao
+    public class SaveLoadDao : MonoBehaviour
     {
-        private ConnDB _connDB;
+        private static WebRequestManager _wrm;
 
-        // 객체가 초기화될 때 호출되는 메서드
         private void Awake()
         {
-            _connDB = new ConnDB(); // 데이터베이스 연결 객체 생성
+            _wrm = FindObjectOfType<WebRequestManager>();
         }
+
         public IEnumerator SaveGame()
         {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/conv/save");
+            string absoluteUrl = _wrm.GetAbsoluteUrl("api/conv/save");
+            UnityWebRequest request = UnityWebRequest.Get(absoluteUrl);
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)
             {
-             Debug.Log("저장 되었습니다");
-                
+                Debug.Log("저장 되었습니다");
             }
             else
             {
                 Debug.LogError("Error: " + request.error); // 오류 로그 출력
             }
         }
-        
+
         public IEnumerator LoadGame()
         {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/conv/load");
+            string absoluteUrl = _wrm.GetAbsoluteUrl("api/conv/load");
+            UnityWebRequest request = UnityWebRequest.Get(absoluteUrl);
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)
             {
-                Debug.Log("불러오기 완료 되었습니다.");                
+                Debug.Log("불러오기 완료 되었습니다.");
             }
             else
             {

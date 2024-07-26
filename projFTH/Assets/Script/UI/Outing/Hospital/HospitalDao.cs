@@ -11,13 +11,6 @@ namespace Script.UI.Outing.Hospital
 {
     public class HospitalDao : MonoBehaviour
     {
-        private ConnDB _connDB;
-
-        private void Awake()
-        {
-            _connDB = new ConnDB();
-        }
-        
         public IEnumerator GetBuyLists(Action<List<Dictionary<string, object>>> callback)
         {
             UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/outing/hospital/buy");

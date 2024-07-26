@@ -1,5 +1,6 @@
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
+using Script.ApiLibrary;
 using Script.UI.System;
 using System;
 using System.Collections;
@@ -11,16 +12,16 @@ namespace Script.UI.Outing.VarietyStoreScript
 {
     public class VarietyStoreDao : MonoBehaviour
     {
-        private ConnDB _connDB;
+        private static WebRequestManager _wrm;
 
         private void Awake()
         {
-            _connDB = new ConnDB();
+            _wrm = FindObjectOfType<WebRequestManager>();
         }
-       
         public IEnumerator GetBuyList(Action<List<Dictionary<string, object>>> callback)
         {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/outing/varstory/buy");
+            string absoluteUrl = _wrm.GetAbsoluteUrl("api/outing/varstory/buy");
+            UnityWebRequest request = UnityWebRequest.Get(absoluteUrl);
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)

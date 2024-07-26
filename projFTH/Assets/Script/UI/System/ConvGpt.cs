@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Script.ApiLibrary;
 using Script.UI.StartLevel.Dao;
 using System;
 using System.Collections;
@@ -19,6 +20,13 @@ namespace Script.UI.System
         private StartLevelDao _sld; // StartLevelDao를 사용하기 위한 변수
         private Dictionary<string, object> userinfo = new();//chatLog를 DB에 올리기 위한 userinfo를 담음
         private Dictionary<string, object> chatlog = new();//채팅로그를 담음
+
+        private static WebRequestManager _wrm;
+
+        private void Awake()
+        {
+            _wrm = FindObjectOfType<WebRequestManager>();
+        }
 
         private void Start()
         {
@@ -64,11 +72,11 @@ namespace Script.UI.System
 
         IEnumerator GetConv(string userConv, Action<string> callback)
         {
-            const string url = "http://localhost:8080/api/conv/get";
+            string absoluteUrl = _wrm.GetAbsoluteUrl("api/conv/get");
             string jsonBody = JsonConvert.SerializeObject(userConv);
             byte[] jsonToSend = Encoding.UTF8.GetBytes(jsonBody);
 
-            UnityWebRequest request = new(url, "POST")
+            UnityWebRequest request = new(absoluteUrl, "POST")
             {
                 uploadHandler = new UploadHandlerRaw(jsonToSend),
                 downloadHandler = new DownloadHandlerBuffer()

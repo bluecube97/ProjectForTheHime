@@ -1,5 +1,6 @@
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
+using Script.ApiLibrary;
 using Script.UI.System;
 using System;
 using System.Collections;
@@ -11,17 +12,16 @@ namespace Script.UI.Outing.SmithyScript
 {
     public class SmeltDao : MonoBehaviour
     {
-        private ConnDB _connDB;
+        private static WebRequestManager _wrm;
 
         private void Awake()
         {
-            _connDB = new ConnDB();
+            _wrm = FindObjectOfType<WebRequestManager>();
         }
-
-        
         public IEnumerator GetBuyLists(Action<List<Dictionary<string, object>>> callback)
         {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/outing/smithy/buy");
+            string absoluteUrl = _wrm.GetAbsoluteUrl("api/outing/smithy/buy");
+            UnityWebRequest request = UnityWebRequest.Get(absoluteUrl);
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)
@@ -37,7 +37,8 @@ namespace Script.UI.Outing.SmithyScript
         }
         public IEnumerator GetSmeltLists(Action<List<Dictionary<string, object>>> callback)
         {
-            UnityWebRequest request = UnityWebRequest.Get("http://localhost:8080/api/outing/smithy/list");
+            string absoluteUrl = _wrm.GetAbsoluteUrl("api/outing/smithy/list");
+            UnityWebRequest request = UnityWebRequest.Get(absoluteUrl);
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)
