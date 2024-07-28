@@ -13,13 +13,22 @@ namespace Script.UI.StartLevel.Manager
         private StartLevelDao _sld; // StartLevelDao를 사용하기 위한 변수
         private SaveLoadDao sld;//SaveLoad를 사용하기 위한 변수
 
-        private Dictionary<string, object> userinfo = new Dictionary<string, object>();
+        private Dictionary<string, object> userinfo = new();
 
         public void Awake()
         {
-            _sld = GetComponent<StartLevelDao>();
-            sld = GetComponent<SaveLoadDao>();
+            _sld = FindObjectOfType<StartLevelDao>();
+            sld = FindObjectOfType<SaveLoadDao>();
 
+            if (_sld == null)
+            {
+                Debug.LogError("StartLevelDao component is missing.");
+            }
+
+            if (sld == null)
+            {
+                Debug.LogError("SaveLoadDao component is missing.");
+            }
         }
         
         
@@ -49,6 +58,12 @@ namespace Script.UI.StartLevel.Manager
             }));
             yield return new WaitUntil(() => userInfoFetched);
 
+            if (!userinfo.ContainsKey("useremail"))
+            {
+                Debug.LogError("User email not found in userinfo dictionary.");
+                yield break;
+            }
+
             string userEmail = userinfo["useremail"].ToString();
             //session값 있는지 확인
             StartCoroutine(_sld.SearchUserInfo(userEmail, count =>
@@ -57,8 +72,6 @@ namespace Script.UI.StartLevel.Manager
                 if (count <= 0 )
                 {                    
                     SceneManager.LoadScene("InitUserScene");
-
-
                 }
                 else
                 {
