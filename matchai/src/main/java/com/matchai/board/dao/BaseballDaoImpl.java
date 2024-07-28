@@ -30,4 +30,6 @@ public class BaseballDaoImpl implements BaseballDao {
     public int getCountForAI() {
         return gamemapper.getCountForAI();
     }
+
+
 }

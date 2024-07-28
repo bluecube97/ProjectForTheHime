@@ -32,6 +32,7 @@
         ORDER BY brd_date DESC
     </select>
 
+
     <select id="getCountForAI" resultType="int">
         SELECT COUNT(*)
         FROM baseball.tbl_board_nt01 tbn

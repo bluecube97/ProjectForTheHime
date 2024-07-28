@@ -66,13 +66,15 @@ public class BoardController {
 	}
 
 	// 경기예측 페이지
-	@GetMapping("/gamedetail")
+	@GetMapping("/aidetail")
 	public ModelAndView gameAnalysis(HttpServletRequest req, ModelAndView mv, HttpSession session,
 			@RequestParam(name = "matchcode") String matchcode,
 			@RequestParam(name = "team1") String team1,
 			@RequestParam(name = "team2") String team2) {
-		
+
 		System.out.println("MatchCode: " + matchcode);
+		System.out.println(team1);
+		System.out.println(team2);
 		// 게임 데이터 조회
 		HashMap<String, Object> aiData = boardsvc.aiData(matchcode);
 
@@ -102,29 +104,74 @@ public class BoardController {
 		}
 
 		// 댓글을 받아 오기 위한 brdno 조회
-		int brdno_ = boardsvc.getBoardNumber(matchcode);
-		String brdno = Integer.toString(brdno_);
+		int brdno = boardsvc.getBoardNumber(matchcode);
 
 		// 게시글 댓글 받아옴
 		List<HashMap<String, Object>> comment = boardsvc.getCommentList(brdno);
-		
-		// KBO 경기 목록 들고오기
-		List<HashMap<String, Object>> kboList = boardsvc.kboMatchList();
 
-		// MLB 경기 목록 들고오기
-		List<HashMap<String, Object>> mlbList = boardsvc.mlbMatchList();
-		
+
 		mv.addObject("team1", team1);
 		mv.addObject("team2", team2);
-		mv.addObject("klist", kboList);
-		mv.addObject("mlist", mlbList);
 		mv.addObject("comment", comment);
 		mv.addObject("aiData", aiData);
-		mv.setViewName("gamedetail");
+		mv.setViewName("aidetail");
 
 		return mv;
 	}
+	@GetMapping("/actdetail")
+	public ModelAndView actGameLog(HttpServletRequest req, ModelAndView mv, HttpSession session,
+									 @RequestParam(name = "matchcode") String matchcode,
+									 @RequestParam(name = "team1") String team1,
+									 @RequestParam(name = "team2") String team2) {
 
+		System.out.println("MatchCode: " + matchcode);
+		System.out.println(team1);
+		System.out.println(team2);
+		// 게임 데이터 조회
+		HashMap<String, Object> actData = boardsvc.actData(matchcode);
+
+		// matchcode가 다르면
+		if (actData == null) {
+			LocalDate currentDate = LocalDate.now();
+			// 날짜 형식을 지정하여 출력
+			DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+			String formattedDate = currentDate.format(dateFormatter);
+			matchcode = formattedDate + team1 + team2;
+			System.out.println("변경된 matchcode : " + matchcode);
+			actData = boardsvc.actData(matchcode);
+		}
+
+		// boardDB에 값이 있는지 여부 조회
+		int count = boardsvc.searchBoard(matchcode);
+
+		// 없으면 board에 ai예측 데이터 넣기
+		if (count <= 0) {
+			String title = actData.get("team1name").toString() + " VS " + actData.get("team2name").toString();
+			actData.put("title", title);
+			actData.put("brdcode", "10");
+			actData.put("adduser", "admin");
+			actData.put("matchcode", matchcode);
+
+			boardsvc.insertactData(actData);
+		}
+
+		// 댓글을 받아 오기 위한 brdno 조회
+		int brdno = boardsvc.getBoardNumber(matchcode);
+
+		// 게시글 댓글 받아옴
+		List<HashMap<String, Object>> comment = boardsvc.getCommentList(brdno);
+
+		// KBO 경기 목록 들고오기
+
+
+		mv.addObject("team1", team1);
+		mv.addObject("team2", team2);
+		mv.addObject("comment", comment);
+		mv.addObject("actData", actData);
+		mv.setViewName("actdetail");
+
+		return mv;
+	}
 	@PostMapping("/comment")
 	@ResponseBody
 	public ResponseEntity<Map<String, String>> insertComment(@RequestBody Map<String, String> request,
@@ -153,15 +200,14 @@ public class BoardController {
 		}
 
 		// brdno 조회
-		int brdno_;
+		int brdno;
 		try {
-			brdno_ = boardsvc.getBoardNumber(matchcode);
+			brdno = boardsvc.getBoardNumber(matchcode);
 		} catch (Exception e) {
 			response.put("status", "error");
 			response.put("message", "게시글 번호 조회 중 오류가 발생했습니다.");
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
-		String brdno = Integer.toString(brdno_);
 
 		// 댓글 정보를 담을 맵 생성
 		HashMap<String, Object> map = new HashMap<>();

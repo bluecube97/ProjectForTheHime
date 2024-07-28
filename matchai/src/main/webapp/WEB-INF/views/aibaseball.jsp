@@ -42,7 +42,7 @@
                                 <input type="hidden" name="team2" value="${game.team2}">
                                 <input type="hidden" name="matchcode" value="${game.matchcode}">
                                 <button type="button" class="summary" id="summarybtn"
-                                        onclick="window.location.href='/board/aibaseball?matchcode=${game.matchcode}&team1=${game.team1}&team2=${game.team2}'"
+                                        onclick="window.location.href='/board/aidetail?matchcode=${game.matchcode}&team1=${game.team1}&team2=${game.team2}'"
                                         style="cursor: pointer;">${game.brd_date} ${game.title}
                                 </button>
                             </form>

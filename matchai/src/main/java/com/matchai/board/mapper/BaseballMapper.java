@@ -13,4 +13,5 @@ public interface BaseballMapper {
     int geCountForAct();
 
     int getCountForAI();
+
 }

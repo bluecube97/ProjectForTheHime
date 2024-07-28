@@ -35,7 +35,7 @@ public interface BoardService {
 
     int getBoardNumber(String matchcode);
 
-	List<HashMap<String, Object>> getCommentList(String brdno);
+	List<HashMap<String, Object>> getCommentList(int brdno);
 
 	HashMap<String, Object> actData(String matchcode);
 

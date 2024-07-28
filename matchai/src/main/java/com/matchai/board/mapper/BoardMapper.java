@@ -21,7 +21,6 @@ public interface BoardMapper {
 
     HashMap<String, Object> getGameData(HashMap<String, Object> params);
 
-    HashMap<String, Object> aiData(String matchcode);
 
     // 예전 경기 기록
     List<HashMap<String, Object>> getCurResults(HashMap<String, Object> params);
@@ -30,11 +29,15 @@ public interface BoardMapper {
 
     int getBoardNumber(String matchcode);
 
-    void insertAiData(HashMap<String, Object> aiData);
+    List<HashMap<String, Object>> getCommentList(int brdno);
 
     void insertComment(HashMap<String, Object> map);
 
-    List<HashMap<String, Object>> getCommentList(String brdno);
+
+    HashMap<String, Object> aiData(String matchcode);
+
+    void insertAiData(HashMap<String, Object> aiData);
+
 
     HashMap<String, Object> actData(String matchcode);
 

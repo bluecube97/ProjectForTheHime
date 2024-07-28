@@ -13,4 +13,5 @@ public interface BaseballDao {
     int geCountForAct();
 
     int getCountForAI();
+
 }

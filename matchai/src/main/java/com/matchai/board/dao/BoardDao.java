@@ -19,22 +19,26 @@ public interface BoardDao {
 	// 
 	HashMap<String, Object> getGameData(HashMap<String, Object> params);
 
-	HashMap<String, Object> aiData(String matchcode);
 
 	//예전 경기 기록 Fetch통신으로
 	List<HashMap<String, Object>> getCurResults(HashMap<String, Object> params);
-  
+
 	int searchBoard(String matchcode);
 
-	void insertAiData(HashMap<String, Object> aiData);
-
-	void insertComment(HashMap<String, Object> map);
 
 	int getBoardNumber(String matchcode);
 
-	List<HashMap<String, Object>> getCommentList(String brdno);
+	List<HashMap<String, Object>> getCommentList(int brdno);
+
+	void insertComment(HashMap<String, Object> map);
 
 	HashMap<String, Object> actData(String matchcode);
 
 	void insertactData(HashMap<String, Object> actData);
+
+	HashMap<String, Object> aiData(String matchcode);
+
+
+	void insertAiData(HashMap<String, Object> aiData);
+
 }
