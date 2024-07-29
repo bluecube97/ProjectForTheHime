@@ -12,7 +12,7 @@ public class ConvDaoImpl implements ConvDao {
 
     @Override
     public String getConv(String scriptPath, String userConv, String jsonPath) {
-        ProcessBuilder processBuilder = new ProcessBuilder("python", scriptPath, userConv);
+        ProcessBuilder processBuilder = new ProcessBuilder("/home/webserver/venv/bin/python3.12", scriptPath, userConv);
         String result = "";
 
         try {
@@ -30,7 +30,25 @@ public class ConvDaoImpl implements ConvDao {
     @Override
     public String loadGame(String scriptPath, String email, String dstatusjson, String chatjson) {
         System.out.println("loadGame Method to Python " + email);
-        ProcessBuilder processBuilder = new ProcessBuilder("python", scriptPath, email);
+
+        if (scriptPath == null) {
+            Logger.getGlobal().severe("Script path is null, cannot start process.");
+            return "Script path is null, cannot start process.";
+        }
+        if (email == null) {
+            Logger.getGlobal().severe("Email is null, cannot start process.");
+            return "Email is null, cannot start process.";
+        }
+        if (dstatusjson == null) {
+            Logger.getGlobal().severe("Dstatus json path is null, cannot start process.");
+            return "Dstatus json path is null, cannot start process.";
+        }
+        if (chatjson == null) {
+            Logger.getGlobal().severe("Chat json path is null, cannot start process.");
+            return "Chat json path is null, cannot start process.";
+        }
+
+        ProcessBuilder processBuilder = new ProcessBuilder("/home/webserver/venv/bin/python3.12", scriptPath, email);
         String result = "";
 
         try {
@@ -62,7 +80,7 @@ public class ConvDaoImpl implements ConvDao {
 
     @Override
     public String saveGame(String scriptPath, String pid) {
-        ProcessBuilder processBuilder = new ProcessBuilder("python", scriptPath, pid);
+        ProcessBuilder processBuilder = new ProcessBuilder("/home/webserver/venv/bin/python3.12", scriptPath, pid);
         String result = "";
 
         try {

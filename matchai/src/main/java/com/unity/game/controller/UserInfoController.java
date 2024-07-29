@@ -3,6 +3,8 @@ package com.unity.game.controller;
 import com.unity.game.service.UserInfoService;
 
 import org.apache.ibatis.javassist.compiler.Parser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,8 @@ import java.util.Map;
 public class UserInfoController {
     @Autowired
     private UserInfoService userInfoService;
+
+    private static final Logger logger = LoggerFactory.getLogger(ConvController.class);
 
     @GetMapping("/login")
     public Map<String,Object> GetUserEmail(HttpSession session){
@@ -34,6 +38,8 @@ public class UserInfoController {
     }
     @PostMapping("/search")
     public int SearchUserInfo(@RequestParam String email){
+        logger.info("email : " + email);
+        logger.info("searchUserInfo : " + userInfoService.searchUserInfo(email));
         return userInfoService.searchUserInfo(email);
     }
     @PostMapping("/insert")

@@ -1,20 +1,22 @@
 import json
 import os
-import pymysql
+import psycopg2
 import sys
 from statusVO import Daughter, load_daughter_status
+from psycopg2.extras import DictCursor
 
 # 데이터베이스 연결 설정 함수
 def get_db_connection():
     """
     데이터베이스 연결을 설정하는 함수.
     """
-    return pymysql.connect(
-        host='192.168.0.78',  # DB 서버 호스트
-        user='studyuser',  # DB 사용자 이름
+    return psycopg2.connect(
+        host='13.125.238.85',  # DB 서버 호스트
+        user='baseball',  # DB 사용자 이름
         password='1111',  # DB 비밀번호
         database='baseball'  # 데이터베이스 이름
     )
+
 
 # Java에서 PID 입력 프롬프트 받아오기
 def get_pid_java():
@@ -39,7 +41,7 @@ def get_d_stats(pid):
     """
     connection = get_db_connection()
     try:
-        with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+        with connection.cursor(cursor_factory=DictCursor) as cursor:
             sql = """
                 SELECT D_NAME AS name,
                        AGE AS age, 
@@ -76,7 +78,7 @@ def get_d_stats(pid):
 def get_chatLog(pid):
     connection = get_db_connection()
     try:
-        with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+        with connection.cursor(cursor_factory=DictCursor) as cursor:
             sql = """
              SELECT CHAT_LOG
             FROM TBL_UNT_GPTLOG_NT01
