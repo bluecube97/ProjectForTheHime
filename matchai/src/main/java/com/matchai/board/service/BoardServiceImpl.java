@@ -51,11 +51,7 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.getGameData(params);
 	}
 
-	@Override
-	public HashMap<String, Object> aiData(String matchcode) {
 
-		return boardDao.aiData(matchcode);
-	}
 
 	@Override
 
@@ -96,16 +92,14 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
+	public HashMap<String, Object> aiData(String matchcode) {
+
+		return boardDao.aiData(matchcode);
+	}
+	@Override
 	public void insertAiData(HashMap<String, Object> aiData) {
 
 		boardDao.insertAiData(aiData);
-	}
-
-	@Override
-	public void insertComment(HashMap<String,Object>map ) {
-			boardDao.insertComment(map);
-
-
 	}
 
 	@Override
@@ -115,8 +109,13 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<HashMap<String, Object>> getCommentList(String brdno) {
+	public List<HashMap<String, Object>> getCommentList(int brdno) {
 		return boardDao.getCommentList(brdno);
+	}
+
+	@Override
+	public void insertComment(HashMap<String,Object>map ) {
+		boardDao.insertComment(map);
 	}
 
 	@Override

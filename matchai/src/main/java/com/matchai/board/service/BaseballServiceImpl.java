@@ -31,4 +31,6 @@ public class BaseballServiceImpl implements BaseballService {
         return gamedao.geCountForAct();
     }
 
+
+
 }

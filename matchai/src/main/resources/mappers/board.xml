@@ -55,24 +55,7 @@
 			CAST(tmt.game_date AS DATE) = CURRENT_DATE + INTERVAL '1 DAY';
 	</select>
 
-	<select id="aiData" parameterType="string" resultType="hashmap">
-		SELECT tgt.team1,
-			   tgt.team2,
-			   ttm1.teamname_kr AS team1name,
-			   ttm2.teamname_kr AS team2name,
-			   tgt.team1_winrate,
-			   tgt.team2_winrate,
-			   tgt.team1_score,
-			   tgt.team2_score,
-			   tgt.game_analysis,
-				tgt.match_code as matchcode
-		FROM baseball.tbl_gptexepect_ttp tgt
-				 INNER JOIN baseball.tbl_team_mt01 ttm1 ON tgt.team1 = ttm1.team_code
-				 INNER JOIN baseball.tbl_team_mt01 ttm2 ON tgt.team2 = ttm2.team_code
-		WHERE tgt.match_code = #{matchcode}
-		ORDER BY tgt.team1 -- 여기서 원하는 컬럼으로 정렬
-		LIMIT 1;
-	</select>
+
 	
 	<select id="getCurResults" parameterType="hashmap" resultType="hashmap">
  		  select distinct ttm1.teamname_kr as winteam, ttm2.teamname_kr as loseteam, 
@@ -116,7 +99,7 @@
 		where tbn.match_code = #{matchcode}
 	</select>
 		
-	<select id="getCommentList" parameterType="string" resultType="hashmap">
+	<select id="getCommentList" parameterType="integer" resultType="hashmap">
 		select tcn. brdno, cmt_memo as memo ,cmt_user as user
 		from baseball.tbl_comment_nt01 tcn
 		where tcn.brdno = #{brdno}
@@ -129,9 +112,48 @@
 		values (#{brdno}, #{memo}, now(), #{pid}, now(), #{pid});
 
 	</insert>
-		
+
+	<select id="aiData" parameterType="string" resultType="hashmap">
+		SELECT tgt.team1,
+			   tgt.team2,
+			   ttm1.teamname_kr AS team1name,
+			   ttm2.teamname_kr AS team2name,
+			   tgt.team1_winrate,
+			   tgt.team2_winrate,
+			   tgt.team1_score,
+			   tgt.team2_score,
+			   tgt.game_analysis,
+			   tgt.match_code as matchcode
+		FROM baseball.tbl_gptexepect_nt01 tgt
+				 INNER JOIN baseball.tbl_team_mt01 ttm1 ON tgt.team1 = ttm1.team_code
+				 INNER JOIN baseball.tbl_team_mt01 ttm2 ON tgt.team2 = ttm2.team_code
+		WHERE tgt.match_code = #{matchcode}
+		ORDER BY tgt.team1 -- 여기서 원하는 컬럼으로 정렬
+			LIMIT 1;
+	</select>
 		
 	<insert id="insertAiData" parameterType="hashmap">
+		insert into baseball.tbl_board_nt01 (brd_code, match_code, title, memo, brd_date, brd_user, last_date,last_user)
+		values(#{brdcode},#{matchcode} ,#{title} ,#{game_analysis},now() ,#{adduser} ,now() , #{adduser} )
+	</insert>
+
+	<select id="actData" parameterType="string" resultType="hashmap">
+		SELECT tgt.winteam as team1,
+			   tgt.loseteam as team2,
+			   ttm1.teamname_kr AS team1name,
+			   ttm2.teamname_kr AS team2name,
+			   tgt.winscore as team1score,
+			   tgt.losescore as team2score,
+			   tgt.match_code as matchcode
+		FROM baseball.tbl_kborslt_nt03 tgt
+				 INNER JOIN baseball.tbl_team_mt01 ttm1 ON tgt.winteam = ttm1.team_code
+				 INNER JOIN baseball.tbl_team_mt01 ttm2 ON tgt.loseteam = ttm2.team_code
+		WHERE tgt.match_code = #{matchcode}
+		ORDER BY tgt.winteam -- 여기서 원하는 컬럼으로 정렬
+			LIMIT 1;
+	</select>
+
+	<insert id="insertactData" parameterType="hashmap">
 		insert into baseball.tbl_board_nt01 (brd_code, match_code, title, memo, brd_date, brd_user, last_date,last_user)
 		values(#{brdcode},#{matchcode} ,#{title} ,#{game_analysis},now() ,#{adduser} ,now() , #{adduser} )
 	</insert>

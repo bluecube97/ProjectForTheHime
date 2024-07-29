@@ -27,7 +27,6 @@ public class BaseballController {
         System.out.println(ailist);
 
         int totalRecords = gamesvc.getCountForAI();
-
         mv.addObject("ailist", ailist);
         mv.addObject("totalRecords", totalRecords);
         mv.addObject("pageSize", pageSize);

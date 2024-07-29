@@ -91,7 +91,7 @@
 												<input type="hidden" name="team1" value="${game.code1}">
 												<input type="hidden" name="team2" value="${game.code2}">
 												<input type="hidden" name="matchcode" value="${game.matchcode}">
-												<button type="button" class="summary" id="summarybtn" onclick="window.location.href='/board/gamedetail?matchcode=${game.matchcode}&team1=${game.code1}&team2=${game.code2}'" style="cursor: pointer;">경기 분석</button>
+												<button type="button" class="summary" id="summarybtn" onclick="window.location.href='/board/aidetail?matchcode=${game.matchcode}&team1=${game.code1}&team2=${game.code2}'" style="cursor: pointer;">경기 분석</button>
 											</form>
 									    </div>
 									</c:forEach>
@@ -122,7 +122,7 @@
 												<input type="hidden" name="team1" value="${game.code1}">
 												<input type="hidden" name="team2" value="${game.code2}">
 												<input type="hidden" name="matchcode" value="${game.matchcode}">
-												<button type="button" class="summary" id="summarybtn" onclick="window.location.href='/board/gamedetail?matchcode=${game.matchcode}&team1=${game.code1}&team2=${game.code2}'"
+												<button type="button" class="summary" id="summarybtn" onclick="window.location.href='/board/aidetail?matchcode=${game.matchcode}&team1=${game.code1}&team2=${game.code2}'"
 														style="cursor: pointer;">경기 분석
 												</button>
 											</form>
