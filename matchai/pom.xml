@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.matchai</groupId>
 	<artifactId>board</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.3-SNAPSHOT</version>
 	<name>project</name>
 	<packaging>war</packaging>
 	<description>springbootboard</description>

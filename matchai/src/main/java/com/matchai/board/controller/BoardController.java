@@ -10,15 +10,22 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -296,4 +303,57 @@ public class BoardController {
 		return curGamesResults;
 	}
 
+	@GetMapping("/refreshScheduleData")
+	@CrossOrigin(origins = "http://13.125.238.85:8080")
+	public ResponseEntity<String> refreshScheduleData() {
+	    RestTemplate restTemplate = new RestTemplate();
+
+	    // HTTP 헤더 설정 (필요한 경우)
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.add("Content-Type", "application/json");
+
+	    // 필요한 데이터가 있을 경우
+	    String requestBody = "{}"; // 필요한 경우 JSON 요청 본문을 작성
+
+	    // HttpEntity 생성 (요청 헤더 및 본문 포함)
+	    HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
+
+	    // 외부 API로 POST 요청 보내기
+	    String apiUrl = "http://13.125.238.85:8080/api/v1/schedule/process";
+	    ResponseEntity<String> response = restTemplate.exchange(apiUrl, HttpMethod.POST, entity, String.class);
+
+	    // 응답 처리
+	    if (response.getStatusCode() == HttpStatus.OK) {
+	        return ResponseEntity.ok("스케줄 데이터가 성공적으로 갱신되었습니다.");
+	    } else {
+	        return ResponseEntity.status(response.getStatusCode()).body("스케줄 데이터 갱신에 실패했습니다.");
+	    }
+	}
+
+	@GetMapping("/refreshResultsData")
+	@CrossOrigin(origins = "http://13.125.238.85:8080")
+	public ResponseEntity<String> refreshResultsData() {
+	    RestTemplate restTemplate = new RestTemplate();
+
+	    // HTTP 헤더 설정 (필요한 경우)
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.add("Content-Type", "application/json");
+
+	    // 필요한 데이터가 있을 경우
+	    String requestBody = "{}"; // 필요한 경우 JSON 요청 본문을 작성
+
+	    // HttpEntity 생성 (요청 헤더 및 본문 포함)
+	    HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
+
+	    // 외부 API로 POST 요청 보내기
+	    String apiUrl = "http://13.125.238.85:8080/api/v1/results/process";
+	    ResponseEntity<String> response = restTemplate.exchange(apiUrl, HttpMethod.POST, entity, String.class);
+
+	    // 응답 처리
+	    if (response.getStatusCode() == HttpStatus.OK) {
+	        return ResponseEntity.ok("결과 데이터가 성공적으로 갱신되었습니다.");
+	    } else {
+	        return ResponseEntity.status(response.getStatusCode()).body("결과 데이터 갱신에 실패했습니다.");
+	    }
+	}
 }
