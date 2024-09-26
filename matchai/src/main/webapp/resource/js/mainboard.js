@@ -75,3 +75,58 @@ function openAIpick() {
 function openDataCenter(){
     window.location.href = '/board/datacenter';
 }
+// 모달창 표시 함수
+function showModal() {
+    document.getElementById("loadingModal").style.display = "block";
+}
+
+// 모달창 숨기기 함수
+function hideModal() {
+    document.getElementById("loadingModal").style.display = "none";
+}
+
+// 데이터 새로고침 함수
+function refreshData() {
+    showModal();
+
+    // 스케줄 갱신 API 호출
+    fetch('/board/refreshScheduleData', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.text();
+        } else {
+            throw new Error('스케줄 갱신 실패');
+        }
+    })
+    .then(data => {
+        // 결과 갱신 API 호출
+        return fetch('/board/refreshResultsData', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.text();
+        } else {
+            throw new Error('결과 갱신 실패');
+        }
+    })
+    .then(data => {
+        hideModal();
+        alert("데이터가 성공적으로 갱신되었습니다.");
+    })
+    .catch(error => {
+        hideModal();
+        console.error("API 호출 중 오류 발생:", error);
+        alert("데이터 갱신에 실패했습니다.");
+    });
+}
+

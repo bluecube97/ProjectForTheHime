@@ -49,6 +49,12 @@
 				<button type="button" id="btn-login">로그인</button>
 				<button type="button" id="btn-signup">회원가입</button>
 			</c:if>
+		<button type="button" id="btn-refresh" onclick="refreshData()">새로고침</button>
+		</div>
+		<div id="loadingModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 1000;">
+		    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 8px; text-align: center;">
+		        <img src="/resource/images/modal/loading.gif" alt="로딩 중" width="256" height="256">
+		    </div>
 		</div>
 	</header>
 	<div class="content">
